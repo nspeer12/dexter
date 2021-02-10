@@ -5,9 +5,11 @@ from gtts import gTTS
 import datetime
 import warnings
 import wikipedia
+from skills import *
+import time
 
 MIC_SOURCE = 2
-WAKE_WORD = "Dexter"
+WAKE_WORDS = ["Dexter", "hey Dexter", "ok computer", "Okay computer" "hey computer"]
 
 def get_voices():
 	voices = engine.getProperty('voices')
@@ -24,31 +26,31 @@ def listen_for_wake():
 
 	while sleep:
 		with sr.Microphone(MIC_SOURCE) as source:
-			print("Adjusting noise ")
-			recognizer.adjust_for_ambient_noise(source, duration=1)
 			print("Waiting for wake word")
-			recorded_audio = recognizer.listen(source)
-			print("Done recording")
+			recorded_audio = recognizer.listen(source, timeout=3)
 		try:
-			print("Recognizing the text")
+			
+			print("Recognizing")
+			start = time.time()
 			text = recognizer.recognize_google(
 					recorded_audio, 
 					language="en-US"
 				)
+			print("Detection time: {}".format((time.time() - start)))
 			print("Decoded Text : {}".format(text))
 
-			if WAKE_WORD in text:
-				print("AWOKEN")
-				speak("how can I help you")
-				sleep = False
+			for word in WAKE_WORDS:
+				if word.lower() in text.lower():
+					print("AWOKEN")
+					handle_query(text)
+					break
 
 		except Exception as ex:
 			print(ex)
 
+
 def recordAudio():
 	with sr.Microphone(MIC_SOURCE) as source:
-		print("Adjusting noise ")
-		recognizer.adjust_for_ambient_noise(source, duration=1)
 		print("Recording for 4 seconds")
 		recorded_audio = recognizer.listen(source, timeout=4)
 		print("Done recording")
@@ -69,13 +71,23 @@ def speak(text:str):
 	engine.runAndWait()
 
 
+def handle_query(query:str):
+	print(query)
+
+	# call function based on query
+	keys = skills_map.keys()
+	for key in keys:
+		if key in query:
+			reply = skills_map[key]()
+			engine.say(reply)
+			engine.runAndWait()
+
+
 if __name__ == '__main__':
 	engine = pyttsx3.init()
 	recognizer = sr.Recognizer()
 
-	engine.say("hello world")
-
-	engine.say("My name is Dexter")
+	engine.say("Hey, my name is Dexter. How can I help?")
 	engine.runAndWait()
 
 	listen_for_wake()
