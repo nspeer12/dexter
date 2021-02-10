@@ -2,6 +2,8 @@ import time
 import datetime
 from mouse import *
 from track import object_tracker
+from keyboard import *
+
 
 # functions for each skill
 def weather():
@@ -45,4 +47,14 @@ skills_map = {'weather': weather,
 		  'quit': quit_app,
 		  'mouse': mouse_mode,
 		  'track': object_tracker,
+		  'menu': open_windows_menu,
+		  'file explorer': open_file_explorer,
+		  'settings': open_settings,
+		  'minimize': minimize,
+		  'restore': restore_windows,
+		  'task view': task_view,
+		  'maximize': maximize_current_window,
+		  'search': search,
+		  'pause': playpause,
+		  'play': playpause,
 		 }

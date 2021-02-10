@@ -25,29 +25,28 @@ def get_voices():
 def listen_for_wake():
 	sleep = True
 
-	while sleep:
-		with sr.Microphone(MIC_SOURCE) as source:
-			print("Waiting for wake word")
-			recorded_audio = recognizer.listen(source, timeout=3)
-		try:
-			
-			print("Recognizing")
-			start = time.time()
-			text = recognizer.recognize_google(
-					recorded_audio, 
-					language="en-US"
-				)
-			print("Detection time: {}".format((time.time() - start)))
-			print("Decoded Text : {}".format(text))
+	with sr.Microphone(MIC_SOURCE) as source:
+		while sleep:
+			try:
+				print("Waiting for wake word")
+				recorded_audio = recognizer.listen(source, timeout=3)
+				print("Recognizing")
+				start = time.time()
+
+				text = recognizer.recognize_google(
+						recorded_audio, 
+						language="en-US"
+					)
+				print("Detection time: {}".format((time.time() - start)))
+				print("Decoded Text : {}".format(text))
+			except Exception as ex:
+				print(ex)
+				continue
 
 			for word in WAKE_WORDS:
 				if word.lower() in text.lower():
-					print("AWOKEN")
 					handle_query(text)
 					break
-
-		except Exception as ex:
-			print(ex)
 
 
 def recordAudio():
@@ -89,7 +88,7 @@ if __name__ == '__main__':
 	engine = pyttsx3.init()
 	recognizer = sr.Recognizer()
 
-	engine.say("Hey, my name is Dexter. How can I help?")
+	engine.say("Howdy, my name is Dexter. How can I help.")
 	engine.runAndWait()
 
 	listen_for_wake()
