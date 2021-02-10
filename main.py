@@ -7,6 +7,7 @@ import warnings
 import wikipedia
 from skills import *
 import time
+from multiprocessing import Process
 
 MIC_SOURCE = 2
 WAKE_WORDS = ["Dexter", "hey Dexter", "ok computer", "Okay computer" "hey computer"]
@@ -77,7 +78,8 @@ def handle_query(query:str):
 	# call function based on query
 	keys = skills_map.keys()
 	for key in keys:
-		if key in query:
+		if key in query.lower():
+			print(key)
 			reply = skills_map[key]()
 			engine.say(reply)
 			engine.runAndWait()

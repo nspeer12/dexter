@@ -1,5 +1,7 @@
 import time
 import datetime
+from mouse import *
+from track import object_tracker
 
 # functions for each skill
 def weather():
@@ -8,6 +10,7 @@ def weather():
 def get_date():
 	t = datetime.datetime.now()
 	day = t.strftime("%A")
+
 	date = t.strftime("%d")
 	month = t.strftime("%B")
 	year = t.strftime("%Y")
@@ -31,9 +34,15 @@ def get_day():
 def quit_app():
 	quit()
 
+def mouse_mode():
+	mouse_control()
+
+
 skills_map = {'weather': weather,
 		  'time': get_time,
 		  'date': get_date,
 		  'day': get_day,
 		  'quit': quit_app,
+		  'mouse': mouse_mode,
+		  'track': object_tracker,
 		 }
