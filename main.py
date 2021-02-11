@@ -8,6 +8,8 @@ import wikipedia
 from skills import *
 import time
 from multiprocessing import Process
+from replica import *
+
 
 MIC_SOURCE = 2
 WAKE_WORDS = ["Dexter", "hey Dexter", "ok computer", "Okay computer" "hey computer"]
@@ -26,10 +28,11 @@ def listen_for_wake():
 	sleep = True
 
 	with sr.Microphone(MIC_SOURCE) as source:
+		recognizer.adjust_for_ambient_noise(source, duration=2)
 		while sleep:
 			try:
 				print("Waiting for wake word")
-				recorded_audio = recognizer.listen(source, timeout=3)
+				recorded_audio = recognizer.listen(source, timeout=1)
 				print("Recognizing")
 				start = time.time()
 
@@ -80,15 +83,13 @@ def handle_query(query:str):
 		if key in query.lower():
 			print(key)
 			reply = skills_map[key]()
-			engine.say(reply)
-			engine.runAndWait()
-
+			speak(reply)
 
 if __name__ == '__main__':
 	engine = pyttsx3.init()
 	recognizer = sr.Recognizer()
 
-	engine.say("Howdy, my name is Dexter. How can I help.")
+	#engine.say("Howdy, my name is Dexter. How can I help.")
 	engine.runAndWait()
 
 	listen_for_wake()
