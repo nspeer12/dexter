@@ -10,9 +10,11 @@ import time
 from multiprocessing import Process
 from replica import *
 
+# test comment
+
 
 MIC_SOURCE = 2
-WAKE_WORDS = ["Dexter", "hey Dexter", "ok computer", "Okay computer" "hey computer"]
+WAKE_WORDS = ["Dexter", "hey Dexter", "ok computer", "Okay computer" "hey computer", "dex"]
 
 def get_voices():
 	voices = engine.getProperty('voices')
@@ -83,13 +85,14 @@ def handle_query(query:str):
 		if key in query.lower():
 			print(key)
 			reply = skills_map[key]()
-			speak(reply)
+			voice(reply)
+
 
 if __name__ == '__main__':
 	engine = pyttsx3.init()
 	recognizer = sr.Recognizer()
-
+	#voice("Hello Renay, how are you doing my darling. My name is Dexter, it is a pleasure to meet you.")
 	#engine.say("Howdy, my name is Dexter. How can I help.")
-	engine.runAndWait()
+	
 
 	listen_for_wake()
