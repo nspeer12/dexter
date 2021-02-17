@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Voice Assistant", "VoiceAssistant\Voice Assistant.pyproj", "{A4BDC91C-AC3F-4472-9266-4B1AF58DEB69}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Gesture Engine", "Gesture Engine\Gesture Engine.pyproj", "{9DB7F9BB-6B18-4C8F-A8AB-AECBC7274F84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dashboard", "Dashboard\Dashboard.csproj", "{2170FDA7-19E3-4F17-94E9-5C616F09FE37}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A4BDC91C-AC3F-4472-9266-4B1AF58DEB69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4BDC91C-AC3F-4472-9266-4B1AF58DEB69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DB7F9BB-6B18-4C8F-A8AB-AECBC7274F84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DB7F9BB-6B18-4C8F-A8AB-AECBC7274F84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2170FDA7-19E3-4F17-94E9-5C616F09FE37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2170FDA7-19E3-4F17-94E9-5C616F09FE37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2170FDA7-19E3-4F17-94E9-5C616F09FE37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2170FDA7-19E3-4F17-94E9-5C616F09FE37}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {99ACE604-B6A5-42D4-982E-DC6DEE89B78F}
+	EndGlobalSection
+EndGlobal
