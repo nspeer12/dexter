@@ -8,3 +8,4 @@ requests
 playsound
 sounddevice
 scipy
+socket

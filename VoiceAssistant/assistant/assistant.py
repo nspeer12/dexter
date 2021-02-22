@@ -1,16 +1,14 @@
 import pyttsx3
-import pyaudio
 import speech_recognition as sr
-from gtts import gTTS
 import datetime
-import warnings
-import wikipedia
 from skills import *
 import time
 from multiprocessing import Process
 from replica import *
 
-# test comment
+import sounddevice as sd
+from scipy.io.wavfile import write
+
 
 
 MIC_SOURCE = 2
@@ -91,8 +89,13 @@ def handle_query(query:str):
 if __name__ == '__main__':
 	engine = pyttsx3.init()
 	recognizer = sr.Recognizer()
-	#voice("Hello Renay, how are you doing my darling. My name is Dexter, it is a pleasure to meet you.")
+	voice("Hello sir, my name is Dexter, you're new virtual assistant. It's great to meet you")
 	#engine.say("Howdy, my name is Dexter. How can I help.")
-	
+	#listen_for_wake()
 
-	listen_for_wake()
+	fs = 44100  # Sample rate
+	seconds = 3  # Duration of recording
+
+	myrecording = sd.rec(int(seconds * fs), samplerate=fs, channels=2)
+	sd.wait()  # Wait until recording is finished
+	write('output.wav', fs, myrecording)  # Save as WAV file 

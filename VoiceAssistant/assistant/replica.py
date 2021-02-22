@@ -43,3 +43,7 @@ def voice(text:str):
 
 	print(time.time() - start)
 	playsound("tmp.wav")
+
+
+if __name__=="__main__":
+        voice("Hodl Hodl Hodl Hodl Hodl Hodl Hodl")
