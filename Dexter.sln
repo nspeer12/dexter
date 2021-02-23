@@ -9,6 +9,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Gesture Engine", "Gesture E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dashboard", "Dashboard\Dashboard.csproj", "{2170FDA7-19E3-4F17-94E9-5C616F09FE37}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Core", "Core\Core.pyproj", "{029008F5-A938-4DA7-AD9D-59202214B48B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,8 @@ Global
 		{2170FDA7-19E3-4F17-94E9-5C616F09FE37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2170FDA7-19E3-4F17-94E9-5C616F09FE37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2170FDA7-19E3-4F17-94E9-5C616F09FE37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{029008F5-A938-4DA7-AD9D-59202214B48B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{029008F5-A938-4DA7-AD9D-59202214B48B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

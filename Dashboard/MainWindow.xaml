@@ -5,8 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dashboard"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        WindowStyle="None" WindowState="Normal" WindowStartupLocation="CenterOwner" AllowsTransparency="True" Height="450" Width="800" >
+    <Window.Background>
+        <SolidColorBrush Opacity=".3" Color="Gray"/>
+    </Window.Background>
     <Grid>
-        
+        <DockPanel Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+            <TextBox Name="ConsoleTxt" Height="145" TextWrapping="Wrap" DockPanel.Dock="Top" IsReadOnly="True"/>
+            <TextBox x:Name="InputTxt" Padding="5" DockPanel.Dock="Bottom" KeyUp="InputTxt_KeyPressed"/>
+        </DockPanel>
+
     </Grid>
 </Window>
