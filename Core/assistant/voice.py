@@ -52,9 +52,10 @@ def voice(text:str):
 
 	res = r.json()
 
+	print(res)
+	
 	url = res['url']
 
-	print(url)
 
 	# download file
 	cwd = os.getcwd()
@@ -77,5 +78,6 @@ def voice(text:str):
 
 
 if __name__=="__main__":
-	voice("Hello Sir, my name is Dexter. How can I help you today")
+	get_voices()
+	#voice("Hello Sir, my name is Dexter. How can I help you today")
 

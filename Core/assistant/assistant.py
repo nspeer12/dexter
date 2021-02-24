@@ -4,11 +4,13 @@ import datetime
 from skills import *
 import time
 from multiprocessing import Process
-from replica import *
-
+from voice import *
+from _wikipedia_api import *
+from _wolfram_api import *
+from nlp import *
 import sounddevice as sd
 from scipy.io.wavfile import write
-
+from nlp import *
 
 
 MIC_SOURCE = 2
@@ -52,10 +54,11 @@ def listen_for_wake():
 					break
 
 
-def recordAudio():
+def record_audio():
 	with sr.Microphone(MIC_SOURCE) as source:
 		print("Recording for 4 seconds")
 		recorded_audio = recognizer.listen(source, timeout=4)
+		print(recorded_audio)
 		print("Done recording")
 	try:
 		print("Recognizing the text")
@@ -68,14 +71,13 @@ def recordAudio():
 	except Exception as ex:
 		print(ex)
 
-
 def speak(text:str):
 	engine.say(text)
 	engine.runAndWait()
 
 
 def handle_query(query:str):
-	print(query)
+	query = clean_query(query)
 
 	# call function based on query
 	keys = skills_map.keys()
@@ -83,19 +85,21 @@ def handle_query(query:str):
 		if key in query.lower():
 			print(key)
 			reply = skills_map[key]()
-			voice(reply)
+			if reply != '':
+				voice(reply)
+			return
+	
+	# not a skill, ask wikipedia or wolfram
+	voice(ask_wolfram(query))
 
 
 if __name__ == '__main__':
 	engine = pyttsx3.init()
 	recognizer = sr.Recognizer()
-	voice("Hello sir, my name is Dexter, you're new virtual assistant. It's great to meet you")
+	voice("Hello sir, my name is Dexter, you're virtual assistant. How can I help you.")
+	listen_for_wake()
+
 	#engine.say("Howdy, my name is Dexter. How can I help.")
 	#listen_for_wake()
 
-	fs = 44100  # Sample rate
-	seconds = 3  # Duration of recording
-
-	myrecording = sd.rec(int(seconds * fs), samplerate=fs, channels=2)
-	sd.wait()  # Wait until recording is finished
-	write('output.wav', fs, myrecording)  # Save as WAV file 
+	
