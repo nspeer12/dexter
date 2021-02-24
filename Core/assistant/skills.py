@@ -39,8 +39,11 @@ def quit_app():
 def mouse_mode():
 	mouse_control()
 
+def introduction():
+	return 'Hello sir, my name is Dexter, your intelligent assistant. Its nice to meet you. How can I help you today.'
 
-skills_map = {'weather': weather,
+skills_map = {
+		  'introduce': introduction,
 		  'time': get_time,
 		  'date': get_date,
 		  'day': get_day,
