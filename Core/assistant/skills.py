@@ -3,7 +3,7 @@ import datetime
 from mouse import *
 from track import object_tracker
 from keyboard import *
-
+from intro import intro
 
 # functions for each skill
 def weather():
@@ -29,6 +29,7 @@ def get_time():
 
 	return 'its {} {} {}'.format(hour, minute, ampm)
 
+
 def get_day():
 	return 'its taco tuesday'
 
@@ -40,10 +41,18 @@ def mouse_mode():
 	mouse_control()
 
 def introduction():
-	return 'Hello sir, my name is Dexter, your intelligent assistant. Its nice to meet you. How can I help you today.'
+	intro()
+	return 'Hello, my name is Dexter, your intelligent assistant.'
 
+def are_u_up():
+	return 'For you sir, always.'
+
+
+def bye():
+	return 'see you later, bitches'
 skills_map = {
 		  'introduce': introduction,
+		  'are you up': are_u_up, 
 		  'time': get_time,
 		  'date': get_date,
 		  'day': get_day,
@@ -60,4 +69,6 @@ skills_map = {
 		  'search': search,
 		  'pause': playpause,
 		  'play': playpause,
+		  'bye': bye,
+		  'by': bye,
 		 }

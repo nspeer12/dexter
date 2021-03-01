@@ -11,10 +11,13 @@ from nlp import *
 import sounddevice as sd
 from scipy.io.wavfile import write
 from nlp import *
-
+from intro import intro
 
 MIC_SOURCE = 2
-WAKE_WORDS = ["Dexter", "hey Dexter", "ok computer", "Okay computer" "hey computer", "dex"]
+WAKE_WORDS = ["Dexter", "hey Dexter", "texture", "computer", "Okay computer" "hey computer", "dex"]
+
+
+
 
 def get_voices():
 	voices = engine.getProperty('voices')
@@ -27,11 +30,12 @@ def get_voices():
 
 
 def listen_for_wake():
-	sleep = True
+	wait = True
 
 	with sr.Microphone(MIC_SOURCE) as source:
 		recognizer.adjust_for_ambient_noise(source, duration=2)
-		while sleep:
+		
+		while wait:
 			try:
 				print("Waiting for wake word")
 				recorded_audio = recognizer.listen(source, timeout=1)
@@ -39,8 +43,8 @@ def listen_for_wake():
 				start = time.time()
 
 				text = recognizer.recognize_google(
-						recorded_audio, 
-						language="en-US"
+						recorded_audio,
+						language='en-US'
 					)
 				print("Detection time: {}".format((time.time() - start)))
 				print("Decoded Text : {}".format(text))
@@ -71,35 +75,22 @@ def record_audio():
 	except Exception as ex:
 		print(ex)
 
+
 def speak(text:str):
 	engine.say(text)
 	engine.runAndWait()
 
 
-def handle_query(query:str):
-	query = clean_query(query)
 
-	# call function based on query
-	keys = skills_map.keys()
-	for key in keys:
-		if key in query.lower():
-			print(key)
-			reply = skills_map[key]()
-			if reply != '':
-				voice(reply)
-			return
-	
-	# not a skill, ask wikipedia or wolfram
-	voice(ask_wolfram(query))
 
 
 if __name__ == '__main__':
-	engine = pyttsx3.init()
 	recognizer = sr.Recognizer()
-	voice("Hello sir, my name is Dexter, you're virtual assistant. How can I help you.")
+	intro()
+	#voice("Hello sir, my name is Dexter, you're virtual assistant. How can I help you.")
 	listen_for_wake()
 
-	#engine.say("Howdy, my name is Dexter. How can I help.")
+	
 	#listen_for_wake()
 
 	

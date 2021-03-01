@@ -3,6 +3,7 @@ import os
 from playsound import playsound
 import time
 import random
+import pyttsx3
 
 def get_voices():
 	root_url = 'https://api.replicastudios.com'
@@ -27,54 +28,74 @@ def get_voices():
 	return voices
 
 
-def voice(text:str):
+def voice_replica(text:str):
 	start = time.time()
 
-	# get auth
-	headers = {
-	  'Content-Type': 'application/x-www-form-urlencoded'
-	}
-	payload = 'client_id=nspeer252@gmail.com&secret=t%G$blDdSgBeD7E0nQeQ'
+	try:
 
-	r = requests.post('https://api.replicastudios.com/auth', headers=headers, data=payload)
+		# get auth
+		headers = {
+		  'Content-Type': 'application/x-www-form-urlencoded'
+		}
+		payload = 'client_id=nspeer252@gmail.com&secret=t%G$blDdSgBeD7E0nQeQ'
 
-	token = r.json()['access_token']
+		r = requests.post('https://api.replicastudios.com/auth', headers=headers, data=payload)
 
-
-	# get voice
-	headers = {
-	  'Authorization': 'Bearer {}'.format(token)
-	}
-
-	r = requests.get('https://api.replicastudios.com/speech', params={
-	  'txt': text,  'speaker_id': '53be3ead-fb29-457f-b67c-aad9e9fb28f1'
-	}, headers = headers)
-
-	res = r.json()
-
-	print(res)
-	
-	url = res['url']
+		token = r.json()['access_token']
 
 
-	# download file
-	cwd = os.getcwd()
+		# get voice
+		headers = {
+		  'Authorization': 'Bearer {}'.format(token)
+		}
+		
+		# transform to ssml and (optionally, change pitch)
+		text = '<speak><prosody pitch="0%" rate="medium" volume="soft">' + text + '</prosody></speak>'
 
-	# use random file name
-	filename = "tmp/tmp{}.wav".format(random.randint(0,10000))
+		r = requests.get('https://api.replicastudios.com/speech', params={
+		  'txt': text,  'speaker_id': '53be3ead-fb29-457f-b67c-aad9e9fb28f1', 'quality': 'low'
+		}, headers = headers)
 
-	output_path = os.path.join(cwd, filename)
-	print(output_path)
-	data = requests.get(url).content
+		res = r.json()
+		
+		url = res['url']
 
-	
-	with open(output_path, "wb") as f:
-		f.write(data)
-	
-	f.close()
-	
-	print(time.time() - start)
+
+		# download file
+		cwd = os.getcwd()
+
+		# use random file name
+		filename = "tmp/tmp{}.wav".format(random.randint(0,10000))
+
+		output_path = os.path.join(cwd, filename)
+		print(output_path)
+		data = requests.get(url).content
+
+		
+		with open(output_path, "wb") as f:
+			f.write(data)
+		
+		f.close()
+
+	except():
+		voice(text)
+
+
+	print('Response took:{}', time.time() - start)
+
 	playsound(output_path)
+
+def voice_engine(text:str):
+	engine = pyttsx3.init()
+	engine.say(text)
+	engine.runAndWait()
+
+
+def voice(text:str, quality='high'):
+	if quality == 'high':
+		voice_replica(text)
+	else:
+		voice_engine(text)
 
 
 if __name__=="__main__":

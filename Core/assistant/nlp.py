@@ -1,6 +1,9 @@
 import spacy
 from string import punctuation
 import re
+from skills import *
+from voice import *
+from _wolfram_api import *
 
 # download with python -m spacy download en_core_web_sm
 nlp = spacy.load("en_core_web_sm")
@@ -12,8 +15,6 @@ def parse_query(query:str):
 	# 'Who was Leonardo da Vinci'
 	# should return
 	# 'leonardo da vinci'
-	
-
 	
 	
 	doc = nlp(clean_query(query))
@@ -52,17 +53,43 @@ def parse_query(query:str):
 	return max_res
 
 
-def clean_query(query:str):
+def clean_text(query:str):
 	query = query.replace('Dexter ', '')
 	query = query.replace('dexter ', '')
 	return query.lower()
 
 
-def clean_response(text:str):
-	# TODO: clean up text responses
-	#text = re.sub("\[[a-zA-Z]*\[|(*)", "", text)
-	#print()
-	#print('CLEAN')
-	#print(text)
-	#print()
-	return text
+def handle_query(query:str):
+	query = clean_text(query)
+	
+
+	# call function based on query
+	keys = skills_map.keys()
+	for key in keys:
+		if key in query.lower():
+			print(key)
+			reply = skills_map[key]()
+			if reply != '':
+				voice(reply)
+			return
+
+	if is_math_equation(query):
+		return
+	else:
+		voice('I do not have an answer for you sir.')
+		return
+
+
+def is_math_equation(query:str):
+	
+	words = query.split()
+	print(words)
+
+	# check every 
+	for w in words:
+		print(w)
+		if w.isnumeric():
+			voice(ask_wolfram(query))
+			return True
+
+	return False
