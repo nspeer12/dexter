@@ -29,6 +29,7 @@ def get_time():
 
 	return 'its {} {} {}'.format(hour, minute, ampm)
 
+
 def get_day():
 	return 'its taco tuesday'
 
@@ -46,6 +47,9 @@ def introduction():
 def are_u_up():
 	return 'For you sir, always.'
 
+
+def bye():
+	return 'see you later, bitches'
 skills_map = {
 		  'introduce': introduction,
 		  'are you up': are_u_up, 
@@ -65,4 +69,6 @@ skills_map = {
 		  'search': search,
 		  'pause': playpause,
 		  'play': playpause,
+		  'bye': bye,
+		  'by': bye,
 		 }

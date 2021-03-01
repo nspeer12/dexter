@@ -48,9 +48,12 @@ def voice_replica(text:str):
 		headers = {
 		  'Authorization': 'Bearer {}'.format(token)
 		}
-	
+		
+		# transform to ssml and (optionally, change pitch)
+		text = '<speak><prosody pitch="0%" rate="medium" volume="soft">' + text + '</prosody></speak>'
+
 		r = requests.get('https://api.replicastudios.com/speech', params={
-		  'txt': text,  'speaker_id': '53be3ead-fb29-457f-b67c-aad9e9fb28f1'
+		  'txt': text,  'speaker_id': '53be3ead-fb29-457f-b67c-aad9e9fb28f1', 'quality': 'low'
 		}, headers = headers)
 
 		res = r.json()
@@ -78,14 +81,22 @@ def voice_replica(text:str):
 		voice(text)
 
 
-	print('Response took:{}').format(time.time() - start)
+	print('Response took:{}', time.time() - start)
 
 	playsound(output_path)
 
-def voice(text:str):
+def voice_engine(text:str):
 	engine = pyttsx3.init()
 	engine.say(text)
 	engine.runAndWait()
+
+
+def voice(text:str, quality='high'):
+	if quality == 'high':
+		voice_replica(text)
+	else:
+		voice_engine(text)
+
 
 if __name__=="__main__":
 	get_voices()

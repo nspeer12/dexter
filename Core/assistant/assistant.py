@@ -16,6 +16,9 @@ from intro import intro
 MIC_SOURCE = 2
 WAKE_WORDS = ["Dexter", "hey Dexter", "texture", "computer", "Okay computer" "hey computer", "dex"]
 
+
+
+
 def get_voices():
 	voices = engine.getProperty('voices')
 	for voice in voices:
@@ -27,20 +30,21 @@ def get_voices():
 
 
 def listen_for_wake():
-	sleep = True
+	wait = True
 
 	with sr.Microphone(MIC_SOURCE) as source:
 		recognizer.adjust_for_ambient_noise(source, duration=2)
-		while sleep:
+		
+		while wait:
 			try:
 				print("Waiting for wake word")
-				recorded_audio = recognizer.listen(source, timeout=3)
+				recorded_audio = recognizer.listen(source, timeout=1)
 				print("Recognizing")
 				start = time.time()
 
 				text = recognizer.recognize_google(
-						recorded_audio, 
-						language="en-US"
+						recorded_audio,
+						language='en-US'
 					)
 				print("Detection time: {}".format((time.time() - start)))
 				print("Decoded Text : {}".format(text))
