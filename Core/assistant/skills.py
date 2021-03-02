@@ -6,10 +6,10 @@ from keyboard import *
 from intro import intro
 
 # functions for each skill
-def weather():
+def weather(*args):
 	return 'the weather today is sunny with a high of 69 degrees'
 
-def get_date():
+def get_date(*args):
 	t = datetime.datetime.now()
 	day = t.strftime("%A")
 
@@ -19,7 +19,7 @@ def get_date():
 
 	return 'its {}, {} {}, {}'.format(day, month, date, year)
 
-def get_time():
+def get_time(*args):
 	t = datetime.datetime.now()
 	hour = t.strftime("%H")
 	minute = t.strftime("%M")
@@ -30,26 +30,27 @@ def get_time():
 	return 'its {} {} {}'.format(hour, minute, ampm)
 
 
-def get_day():
+def get_day(*args):
 	return 'its taco tuesday'
 
 
-def quit_app():
+def quit_app(*args):
 	quit()
 
-def mouse_mode():
+def mouse_mode(*args):
 	mouse_control()
 
-def introduction():
+def introduction(*args):
 	intro()
 	return 'Hello, my name is Dexter, your intelligent assistant.'
 
-def are_u_up():
+def are_u_up(*args):
 	return 'For you sir, always.'
 
 
-def bye():
+def bye(*args):
 	return 'see you later, bitches'
+
 skills_map = {
 		  'introduce': introduction,
 		  'are you up': are_u_up, 
@@ -71,4 +72,9 @@ skills_map = {
 		  'play': playpause,
 		  'bye': bye,
 		  'by': bye,
+		  'sleep': sleep,
+		  'shutdown': shutdown,
+		  'reset': reset,
+		  'type': type_mode,
+		  'new line': newline,
 		 }

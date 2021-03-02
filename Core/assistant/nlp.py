@@ -68,7 +68,11 @@ def handle_query(query:str):
 	for key in keys:
 		if key in query.lower():
 			print(key)
-			reply = skills_map[key]()
+			if skills_map[key] == type_mode:
+				skills_map[key](query)
+			else:
+				reply = skills_map[key](query)
+
 			if reply != '':
 				voice(reply)
 			return
