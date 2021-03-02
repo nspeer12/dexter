@@ -1,5 +1,5 @@
 import pyautogui
-
+import time
 
 def open_windows_menu():
 	pyautogui.press('win')
@@ -41,3 +41,37 @@ def playpause():
 	pyautogui.press('playpause')
 	return ''
 
+def sleep():
+	pyautogui.hotkey('win', 'x')
+	time.sleep(1)
+	pyautogui.press('u')
+	time.sleep(1)
+	pyautogui.press('s')
+	return 'good night sir'
+
+
+def shutdown():
+	pyautogui.hotkey('win', 'x')
+	time.sleep(1)
+	pyautogui.press('u')
+	time.sleep(1)
+	pyautogui.press('u')
+	return 'good night sir'
+
+
+def reset():
+	pyautogui.hotkey('win', 'x')
+	time.sleep(1)
+	pyautogui.press('u')
+	time.sleep(1)
+	pyautogui.press('r')
+	return 'good night sir'
+
+
+def hibernate():
+	pyautogui.hotkey('win', 'x')
+	time.sleep(1)
+	pyautogui.press('u')
+	time.sleep(1)
+	pyautogui.press('h')
+	return 'good night sir'
