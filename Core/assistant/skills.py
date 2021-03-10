@@ -41,8 +41,10 @@ def mouse_mode(*args):
 	mouse_control()
 
 def introduction(*args):
-	intro()
-	return 'Hello, my name is Dexter, your intelligent assistant.'
+	return '''
+			Hello, my name is Dexter. It sure is great to meet you.
+			I am your intelligent assistant, and I am here to help you.
+			'''
 
 def are_u_up(*args):
 	return 'For you sir, always.'
@@ -73,7 +75,7 @@ skills_map = {
 		  'bye': bye,
 		  'by': bye,
 		  'sleep': sleep,
-		  'shutdown': shutdown,
+		  'shut down': shutdown,
 		  'reset': reset,
 		  'type': type_mode,
 		  'new line': newline,

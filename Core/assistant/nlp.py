@@ -56,6 +56,7 @@ def parse_query(query:str):
 def clean_text(query:str):
 	query = query.replace('Dexter ', '')
 	query = query.replace('dexter ', '')
+	query = query.replace('texture ', '')
 	return query.lower()
 
 
