@@ -3,6 +3,7 @@ import sys
 import struct
 import threading
 import win32pipe, win32com, win32file
+from assistant.voice import voice
 
 #Thread polls the named pipe for available input, printing it out if found
 def ListenThread(pipe):
@@ -25,7 +26,8 @@ def ListenThread(pipe):
             
             #Decode string and print it
             print(recieveMsg.decode('ascii'))
-        
+            voice(recieveMsg.decode('ascii'))
+            
         except Exception as e:
             print(e)
             break
