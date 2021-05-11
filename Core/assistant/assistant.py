@@ -1,4 +1,3 @@
-import pyttsx3
 import speech_recognition as sr
 import datetime
 from skills import *
@@ -12,8 +11,10 @@ import sounddevice as sd
 from scipy.io.wavfile import write
 from nlp import *
 from intro import intro
+from gpt3 import *
 
-MIC_SOURCE = 2
+
+MIC_SOURCE = 1
 WAKE_WORDS = ["Dexter", "hey Dexter", "texture", "computer", "Okay computer" "hey computer", "dex"]
 
 
@@ -32,7 +33,7 @@ def get_voices():
 def listen_for_wake():
 	wait = True
 
-	with sr.Microphone(MIC_SOURCE) as source:
+	with sr.Microphone() as source:
 		recognizer.adjust_for_ambient_noise(source, duration=2)
 		
 		while wait:
