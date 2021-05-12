@@ -9,7 +9,7 @@ openai.api_key = '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'
 #print(openai.Engine.list())
 
 
-def gpt3_answer(question:str, max_tokens=15, model='curie'):
+def gpt3_answer(question:str, max_tokens=256, model='curie'):
 	# required parameters
 	examples = [["What is human life expectancy in the United States?","78 years."]]
 	examples_context = "In 2017, U.S. life expectancy was 78.6 years."

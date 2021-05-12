@@ -3,7 +3,6 @@ import os
 from playsound import playsound
 import time
 import random
-import pyttsx3
 
 def get_voices():
 	root_url = 'https://api.replicastudios.com'

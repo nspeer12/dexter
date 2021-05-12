@@ -13,7 +13,6 @@ from nlp import *
 from intro import intro
 from gpt3 import *
 
-
 MIC_SOURCE = 1
 WAKE_WORDS = ["Dexter", "hey Dexter", "texture", "computer", "Okay computer" "hey computer", "dex"]
 
@@ -30,6 +29,9 @@ def get_voices():
 		engine.stop()
 
 
+def hotword_callback():
+	print('hotword detected')
+
 def listen_for_wake():
 	wait = True
 
@@ -39,14 +41,14 @@ def listen_for_wake():
 		while wait:
 			try:
 				print("Waiting for wake word")
-				recorded_audio = recognizer.listen(source, timeout=1)
+				recorded_audio = recognizer.listen(source, timeout=0.3)
 				print("Recognizing")
 				start = time.time()
 
 				text = recognizer.recognize_google(
 						recorded_audio,
-						language='en-US'
-					)
+						language='en-US')
+
 				print("Detection time: {}".format((time.time() - start)))
 				print("Decoded Text : {}".format(text))
 			except Exception as ex:
@@ -86,12 +88,10 @@ def speak(text:str):
 
 
 if __name__ == '__main__':
-	recognizer = sr.Recognizer()
 	intro()
 	#voice("Hello sir, my name is Dexter, you're virtual assistant. How can I help you.")
+	recognizer = sr.Recognizer()
 	listen_for_wake()
 
-	
-	#listen_for_wake()
 
 	
