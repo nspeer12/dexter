@@ -33,12 +33,11 @@ def hotword_callback():
 	print('hotword detected')
 
 def listen_for_wake():
-	response_log = open('logs/total-response-time.txt', 'a')
 
 	wait = True
     
 	with sr.Microphone() as source:
-		recognizer.adjust_for_ambient_noise(source, duration=1)
+		
 		
     
 		while wait:
@@ -46,7 +45,10 @@ def listen_for_wake():
 
 			try:
 				print("Waiting for wake word")
-				recorded_audio = recognizer.listen(source, timeout=0.1)
+
+				recognizer.adjust_for_ambient_noise(source, duration=0.5)
+				recorded_audio = recognizer.listen(source, timeout=0.5)
+				
 				print("Recognizing")
 				start = time.time()
 
@@ -75,7 +77,7 @@ def listen_for_wake():
 					with open('logs/total-response-time.txt', 'a') as trt:
 						trt.write("{}\n".format(time.time() - start))
 						trt.close()
-						
+
 					break
 
 		
