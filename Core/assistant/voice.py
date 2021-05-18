@@ -3,7 +3,6 @@ import os
 from playsound import playsound
 import time
 import random
-import pyttsx3
 
 def get_voices():
 	root_url = 'https://api.replicastudios.com'
@@ -58,7 +57,12 @@ def voice_replica(text:str):
 
 		res = r.json()
 		
-		url = res['url']
+		if 'url' in res:
+			url = res['url']
+		else:
+			print('Replica Error')
+			print(res)
+			return 0
 
 
 		# download file
@@ -74,8 +78,12 @@ def voice_replica(text:str):
 		
 		with open(output_path, "wb") as f:
 			f.write(data)
-		
-		f.close()
+			f.close()
+
+		with open('logs/replcia-time.txt', 'a') as f:
+			f.write("{}\n".format(time.time() - start))
+			f.close()
+
 
 	except():
 		voice(text)
@@ -84,6 +92,7 @@ def voice_replica(text:str):
 	print('Response took:{}', time.time() - start)
 
 	playsound(output_path)
+
 
 def voice_engine(text:str):
 	engine = pyttsx3.init()

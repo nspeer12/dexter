@@ -4,6 +4,7 @@ import re
 from skills import *
 from voice import *
 from _wolfram_api import *
+from gpt3 import *
 
 # download with python -m spacy download en_core_web_sm
 nlp = spacy.load("en_core_web_sm")
@@ -78,10 +79,17 @@ def handle_query(query:str):
 				voice(reply)
 			return
 
+	# need to improve question handling
+	print('here')
+
 	if is_math_equation(query):
 		return
+
 	else:
-		voice('I do not have an answer for you sir.')
+		res = gpt3_answer(query)
+		#res = ask_wikipedia(query)
+		print(res)
+		voice(res)
 		return
 
 

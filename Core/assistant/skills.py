@@ -73,7 +73,6 @@ skills_map = {
 		  'pause': playpause,
 		  'play': playpause,
 		  'bye': bye,
-		  'by': bye,
 		  'sleep': sleep,
 		  'shut down': shutdown,
 		  'reset': reset,
