@@ -57,7 +57,12 @@ def voice_replica(text:str):
 
 		res = r.json()
 		
-		url = res['url']
+		if 'url' in res:
+			url = res['url']
+		else:
+			print('Replica Error')
+			print(res)
+			return 0
 
 
 		# download file
