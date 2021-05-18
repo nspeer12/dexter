@@ -33,15 +33,20 @@ def hotword_callback():
 	print('hotword detected')
 
 def listen_for_wake():
-	wait = True
+	response_log = open('logs/total-response-time.txt', 'a')
 
+	wait = True
+    
 	with sr.Microphone() as source:
-		recognizer.adjust_for_ambient_noise(source, duration=2)
+		recognizer.adjust_for_ambient_noise(source, duration=1)
 		
+    
 		while wait:
+			
+
 			try:
 				print("Waiting for wake word")
-				recorded_audio = recognizer.listen(source, timeout=0.3)
+				recorded_audio = recognizer.listen(source, timeout=0.1)
 				print("Recognizing")
 				start = time.time()
 
@@ -49,8 +54,16 @@ def listen_for_wake():
 						recorded_audio,
 						language='en-US')
 
-				print("Detection time: {}".format((time.time() - start)))
+				decode_time = time.time() - start
+				print("Detection time: {}".format(decode_time))
+
+				with open('logs/decode-time.txt', 'a') as decode:
+					decode.write("{}\n".format(decode_time))
+					decode.close()
+
 				print("Decoded Text : {}".format(text))
+
+
 			except Exception as ex:
 				print(ex)
 				continue
@@ -58,7 +71,16 @@ def listen_for_wake():
 			for word in WAKE_WORDS:
 				if word.lower() in text.lower():
 					handle_query(text)
+
+					with open('logs/total-response-time.txt', 'a') as trt:
+						trt.write("{}\n".format(time.time() - start))
+						trt.close()
+						
 					break
+
+		
+
+		
 
 
 def record_audio():
