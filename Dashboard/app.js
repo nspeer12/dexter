@@ -1,10 +1,12 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
-const ipc = require('node-ipc')
 const { countReset } = require('console')
+const zmq = require("zeromq")
+
 
 function createWindow() {
+    
     // Create the browser window.
     const mainWindow = new BrowserWindow({
         fullscreen: true,
@@ -17,45 +19,24 @@ function createWindow() {
         }
     })
 
-    function openSocket() {
-        ipc.config.id = 'dexter';
-        ipc.config.retry = 1500;
-
-        ipc.connectTo(
-            'core',
-            function() {
-                ipc.of.world.on(
-                    'connect',
-                    function() {
-                        ipc.log('## connected to world ##'.rainbow, ipc.config.delay);
-                        ipc.of.world.emit(
-                            'message', //any event or message type your server listens for
-                            'hello'
-                        )
-                    }
-                );
-                ipc.of.world.on(
-                    'disconnect',
-                    function() {
-                        ipc.log('disconnected from world'.notice);
-                    }
-                );
-                ipc.of.world.on(
-                    'message', //any event or message type your server listens for
-                    function(data) {
-                        ipc.log('got a message from world : '.debug, data);
-                    }
-                );
-            }
-        );
-    }
-
     // and load the index.html of the app.
     mainWindow.loadURL('file://' + __dirname + '/index.html');
-
-    //mainWindow.setOpacity(.7);
-    // Open the DevTools.
     //mainWindow.webContents.openDevTools()
+    
+    
+    async function ipc_test() 
+    {
+        const sock = new zmq.Request
+      
+        sock.connect("tcp://127.0.0.1:5555")
+        console.log("Client bound to port 5555\nSending 'Hello'...")
+      
+        await sock.send("Hello")
+        const [result] = await sock.receive()
+      
+        console.log("Got response: " + result.toString('ascii'))
+      }
+
 }
 
 // This method will be called when Electron has finished
