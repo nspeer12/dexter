@@ -1,3 +1,4 @@
+import torch
 import cv2 as cv
 import numpy as np
 import mediapipe as mp
@@ -10,216 +11,241 @@ from collections import deque
 import torch
 import torch.nn as nn
 from model.gesture.gestureModel import NeuralNetG
-from model.motion.motionModel import NeuralNetM
+# from model.motion.motionModel import NeuralNetM
 
-def main():
-    # Camera Params
-    cap_device = 0
-    cap_width = 1280
-    cap_height = 720
+class handDetection():
+    def __init__(self):
+        # Camera Params
+        cap_device = 0
+        cap_width = 1280
+        cap_height = 720
 
-    # Hand Model
-    use_static_image_mode = False
-    min_detection_confidence = 0.8
-    min_tracking_confidence = 0.5
+        # Hand Model
+        use_static_image_mode = False
+        min_detection_confidence = 0.8
+        min_tracking_confidence = 0.5
 
-    # FPS Time counter
-    pTime = 0
-    cTime = 0
-    setFPS = 30
+        # FPS Time counter
+        self.pTime = 0
+        self.cTime = 0
+        setFPS = 30
 
-    # Varaibles to keep track of points
-    point_history = deque(maxlen=4)
-    point_counter = 0
-    gesture_history = deque(maxlen=8)
-    gesture_cords = []
+        # Varaibles to keep track of points
+        # self.point_history = deque(maxlen=4)
+        self.point_counter = 0
+        # self.motion_history = deque(maxlen=4)
+        self.gesture_history = deque(maxlen=4)
+        self.gesture_cords = []
+        self.hand_exit = True
 
-    # Define CSV paths
-    gesture_label_csv_path = 'csv/gesture_label.csv'
-    gesture_csv_path = 'csv/gesture.csv'
+        # Define CSV paths
+        gesture_label_csv_path = 'csv/gesture_label.csv'
+        self.gesture_csv_path = 'csv/gesture.csv'
 
-    motion_label_csv_path = 'csv/motion_label.csv'
-    motion_csv_path = 'csv/motion.csv'
+        # motion_label_csv_path = 'csv/motion_label.csv'
+        # self.motion_csv_path = 'csv/motion.csv'
 
-    # Read in csv
-    with open(gesture_label_csv_path) as f:
-        reader = csv.reader(f)
-        gesture_labels = [row[0] for row in reader]
-    
-    num_classes = len(gesture_labels)
+        # Read in csv
+        with open(gesture_label_csv_path) as f:
+            reader = csv.reader(f)
+            self.gesture_labels = [row[0] for row in reader]
+        
+        self.num_classes = len(self.gesture_labels)
 
-    with open(motion_label_csv_path) as f:
-        reader = csv.reader(f)
-        motion_labels = [row[0] for row in reader]
+        # with open(motion_label_csv_path) as f:
+        #     reader = csv.reader(f)
+        #     self.motion_labels = [row[0] for row in reader]
 
-    num_classes2 = len(motion_labels)
+        # self.num_classes2 = len(self.motion_labels)
 
-    print("read csv")
-    current_gesture_to_record = 0
-    current_motion_to_record = 0
+        print("read csv")
+        self.current_gesture_to_record = 0
+        # self.current_motion_to_record = 0
 
-    # Load Camera
-    cap = cv.VideoCapture(cap_device)
-    # cap = cv.VideoCapture(cap_device,cv.CAP_DSHOW)
-    cap.set(cv.CAP_PROP_FPS,setFPS) 
-    cap.set(cv.CAP_PROP_FRAME_WIDTH, cap_width)
-    cap.set(cv.CAP_PROP_FRAME_HEIGHT, cap_height)
-    print("got camera")
+        # Load Hand Model
+        self.mpHands = mp.solutions.hands
+        self.hands = self.mpHands.Hands(
+            static_image_mode=use_static_image_mode,
+            max_num_hands=1,
+            min_detection_confidence=min_detection_confidence,
+            min_tracking_confidence=min_tracking_confidence,
+        )
+        self.mpDraw = mp.solutions.drawing_utils
+        print("loaded hand model")
 
-    # Load Hand Model
-    mpHands = mp.solutions.hands
-    hands = mpHands.Hands(
-        static_image_mode=use_static_image_mode,
-        max_num_hands=1,
-        min_detection_confidence=min_detection_confidence,
-        min_tracking_confidence=min_tracking_confidence,
-    )
-    mpDraw = mp.solutions.drawing_utils
-    print("loaded hand model")
+        # Define Model Paths
+        GESTURE_PATH = "model/gesture/GestureModel.pth"
+        # MOTION_PATH = "model/motion/MotionModel.pth"
 
-    # Define Model Paths
-    GESTURE_PATH = "model/gesture/GestureModel.pth"
-    MOTION_PATH = "model/motion/MotionModel.pth"
+        # Load Gesture Model
+        self.model = NeuralNetG(self.num_classes)
+        self.model.load_state_dict(torch.load(GESTURE_PATH))
+        self.model.eval()
+        print("loaded gesture model")
 
-    # Load Gesture Model
-    model = NeuralNetG(num_classes)
-    model.load_state_dict(torch.load(GESTURE_PATH))
-    model.eval()
-    print("loaded gesture model")
+        # Load Motion Detector
+        # self.model2 = NeuralNetM(self.num_classes2)
+        # self.model2.load_state_dict(torch.load(MOTION_PATH))
+        # self.model2.eval()
+        # print("loaded motion model")
 
-    # Load Motion Detector
-    model2 = NeuralNetM(num_classes2)
-    model2.load_state_dict(torch.load(MOTION_PATH))
-    model2.eval()
-    print("loaded motion model")
+        # Load Camera
+        self.cap = cv.VideoCapture(cap_device)
+        # self.cap = cv.VideoCapture(cap_device,cv.CAP_DSHOW)
+        self.cap.set(cv.CAP_PROP_FPS,setFPS) 
+        self.cap.set(cv.CAP_PROP_FRAME_WIDTH, cap_width)
+        self.cap.set(cv.CAP_PROP_FRAME_HEIGHT, cap_height)
+        print("got camera")
 
-    while True:
-        # Get Camera input
-        success, image = cap.read()
-        if not success:
-            break
+    def loop(self):
+        while True:
+            # Get Camera input
+            success, image = self.cap.read()
+            if not success:
+                break
 
-        # Flip Camera on the y-axis
-        image = cv.flip(image, 1)
+            # Flip Camera on the y-axis
+            image = cv.flip(image, 1)
 
-        # Create a copy
-        debug_image = copy.deepcopy(image)
+            # Create a copy
+            debug_image = copy.deepcopy(image)
 
-        # Detection implementation
-        image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
-        results = hands.process(image)
+            # Detection implementation
+            image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+            results = self.hands.process(image)
 
-        # Draw Landmarks
-        gesture_cords = []
-        if results.multi_hand_landmarks is not None:
-            for hand_landmarks, handedness in zip(results.multi_hand_landmarks,results.multi_handedness):
-                left_or_right = handedness.classification[0].index
-                mpDraw.draw_landmarks(debug_image, hand_landmarks, mpHands.HAND_CONNECTIONS)
-                for index, lm in enumerate(hand_landmarks.landmark):
-                    gesture_cords.append([lm.x,lm.y,lm.z])
+            # Draw Landmarks
+            gesture_cords = []
+            if results.multi_hand_landmarks is not None:
+                for hand_landmarks, handedness in zip(results.multi_hand_landmarks,results.multi_handedness):
+                    left_or_right = handedness.classification[0].index
+                    self.mpDraw.draw_landmarks(debug_image, hand_landmarks, self.mpHands.HAND_CONNECTIONS)
+                    for index, lm in enumerate(hand_landmarks.landmark):
+                        gesture_cords.append([lm.x,lm.y,lm.z])
 
-        # Relative Coorindates and nomalize data
-        if (len(gesture_cords) > 0):
+            # Relative Coorindates and nomalize data
+            if (len(gesture_cords) > 0):
+                if (self.hand_exit == True):
+                    self.hand_exit = False
+                    self.prev_point = np.array(gesture_cords[9])
+                    current_predict_motion = ""
+                    self.point_counter = 6
+                # Add to coordinate history
+                self.point_counter += 1
+                if (self.point_counter == 7):
+                    self.point_counter = 0
+                    # self.point_history.append(np.array(gesture_cords).flatten())
+                    # distance = (self.prev_point - np.average(gesture_cords,axis=0)) * 100
+                    distance = (self.prev_point - np.array(gesture_cords[9])) * 100
+                    # self.prev_point = np.average(gesture_cords,axis=0)
+                    self.prev_point = gesture_cords[9]
 
-            # Add to coordinate history
-            point_counter += 1
-            if (point_counter == 7):
-                point_counter = 0
-                point_history.append(np.array(gesture_cords).flatten())
+                    if (np.abs(distance[0]) > 9):
+                        if (distance[0] > 0):
+                            current_predict_motion = "left"
+                        else:
+                            current_predict_motion = "right"
+                    elif (np.abs(distance[1]) > 9):
+                        if (distance[1] > 0):
+                            current_predict_motion = "up"
+                        else:
+                            current_predict_motion = "down"
+                    else:
+                        current_predict_motion = "no motion"
 
-            # Relative
-            normalized_points = np.array(gesture_cords) - gesture_cords[9]
-            
-            # Flatten
-            normalized_points = normalized_points.flatten()
-            fully_flat = np.array(point_history).flatten()
+                # Relative
+                normalized_points = np.array(gesture_cords) - gesture_cords[9]
+                
+                # Flatten
+                normalized_points = normalized_points.flatten()
+                # fully_flat = np.array(self.point_history).flatten()
 
-            # Normalize
-            max_value = np.max(normalized_points)
-            normalized_points = normalized_points / max_value
-            
-            output = model.forward(torch.from_numpy(np.append([left_or_right], normalized_points)).float())
-            gesture_history.append(torch.argmax(output))
-            current_predict_gesture = gesture_labels[Counter(gesture_history).most_common()[0][0]]
+                # Normalize
+                max_value = np.max(normalized_points)
+                normalized_points = normalized_points / max_value
+                
+                output = self.model.forward(torch.from_numpy(np.append([left_or_right], normalized_points)).float())
+                self.gesture_history.append(torch.argmax(output))
+                current_predict_gesture = self.gesture_labels[Counter(self.gesture_history).most_common()[0][0]]
 
-            if (len(point_history) == 4):
-                output2 = model2.forward(torch.from_numpy(np.append([left_or_right], fully_flat)).float())
-                current_predict_motion = motion_labels[torch.argmax(output2)]
-        else:
-            point_history.clear()
-            current_predict_gesture = "none"
-            current_predict_motion = "none"
+                # if (len(self.point_history) == 4):
+                #     output2 = self.model2.forward(torch.from_numpy(np.append([left_or_right], fully_flat)).float())
+                #     self.motion_history.append(torch.argmax(output2))
+                #     current_predict_motion = self.motion_labels[Counter(self.motion_history).most_common()[0][0]]
+            else:
+                current_predict_gesture = "no hand detected"
+                current_predict_motion = "no hand detected"
+                self.hand_exit = True
 
+            # Move Mouse
+            # if (len(gesture_cords) > 0):
+                # win32api.SetCursorPos((max(0,min(1920,int(gesture_cords[8][0]*1920*1.2))),max(0,min(1080,int(gesture_cords[8][1]*1080*1.4)))))
 
+            # Calculate FPS
+            self.cTime = time.time()
+            fps = 1 / (self.cTime - self.pTime)
+            self.pTime = self.cTime
 
-        # Move Mouse
-        # if (len(gesture_cords) > 0):
-            # win32api.SetCursorPos((max(0,min(1920,int(gesture_cords[8][0]*1920*1.2))),max(0,min(1080,int(gesture_cords[8][1]*1080*1.4)))))
+            # Press esc to exit
+            key = cv.waitKey(10)
 
-        # Calculate FPS
-        cTime = time.time()
-        fps = 1 / (cTime - pTime)
-        pTime = cTime
+            if key != -1:
+                # decrease current gesture to record counter
+                if (key == 49): # 1 key
+                    self.current_gesture_to_record = self.current_gesture_to_record - 1
+                    if (self.current_gesture_to_record < 0):
+                        self.current_gesture_to_record = len(self.gesture_labels) - 1
 
-        # Press esc to exit
-        key = cv.waitKey(10)
+                # increase current gesture to record counter
+                if (key == 50): # 2 key
+                    self.current_gesture_to_record = self.current_gesture_to_record + 1
+                    if (self.current_gesture_to_record >= len(self.gesture_labels)):
+                        self.current_gesture_to_record = 0
 
-        if key != -1:
-            # decrease current gesture to record counter
-            if (key == 49): # 1 key
-                current_gesture_to_record = current_gesture_to_record - 1
-                if (current_gesture_to_record < 0):
-                    current_gesture_to_record = len(gesture_labels) - 1
+                # record current gesture to csv
+                if (key == 51): # 3 key
+                    with open(self.gesture_csv_path, 'a', newline="") as f:
+                        writer = csv.writer(f)
+                        writer.writerow(np.append([self.current_gesture_to_record,left_or_right], normalized_points))
 
-            # increase current gesture to record counter
-            if (key == 50): # 2 key
-                current_gesture_to_record = current_gesture_to_record + 1
-                if (current_gesture_to_record >= len(gesture_labels)):
-                    current_gesture_to_record = 0
+                # # decrease current motion to record counter
+                # if (key == 52): # 4 key
+                #     self.current_motion_to_record = self.current_motion_to_record - 1
+                #     if (self.current_motion_to_record < 0):
+                #         self.current_motion_to_record = len(self.motion_labels) - 1
 
-            # record current gesture to csv
-            if (key == 51): # 3 key
-                with open(gesture_csv_path, 'a', newline="") as f:
-                    writer = csv.writer(f)
-                    writer.writerow(np.append([current_gesture_to_record,left_or_right], normalized_points))
+                # # increase current motion to record counter
+                # if (key == 53): # 5 key
+                #     self.current_motion_to_record = self.current_motion_to_record + 1
+                #     if (self.current_motion_to_record >= len(self.motion_labels)):
+                #         self.current_motion_to_record = 0
 
-            # decrease current motion to record counter
-            if (key == 52): # 4 key
-                current_motion_to_record = current_motion_to_record - 1
-                if (current_motion_to_record < 0):
-                    current_motion_to_record = len(motion_labels) - 1
+                # # record current motion to csv
+                # if (key == 54): # 6 key
+                #     with open(self.motion_csv_path, 'a', newline="") as f:
+                #         writer = csv.writer(f)
+                #         writer.writerow(np.append([self.current_motion_to_record,left_or_right], np.array(self.point_history).flatten()))
 
-            # increase current motion to record counter
-            if (key == 53): # 5 key
-                current_motion_to_record = current_motion_to_record + 1
-                if (current_motion_to_record >= len(motion_labels)):
-                    current_motion_to_record = 0
+                
 
-            # record current motion to csv
-            if (key == 54): # 6 key
-                with open(motion_csv_path, 'a', newline="") as f:
-                    writer = csv.writer(f)
-                    writer.writerow(np.append([current_motion_to_record,left_or_right], np.array(point_history).flatten()))
+            if key == 27:  # ESC key
+                break
 
-            
+            # Display Image
+            cv.putText(debug_image, "fps: " + str(int(fps)), (10, 700), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # bot left
 
-        if key == 27:  # ESC key
-            break
+            cv.putText(debug_image, "Predicted Gesture: " + current_predict_gesture, (10, 30), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
+            cv.putText(debug_image, "Record Gesture: " + self.gesture_labels[self.current_gesture_to_record], (10, 60), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
 
-        # Display Image
-        cv.putText(debug_image, "fps: " + str(int(fps)), (10, 700), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # bot left
+            cv.putText(debug_image, "Predicted Motion: " + current_predict_motion, (10, 90), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
+            # cv.putText(debug_image, "Record Motion: " + self.motion_labels[self.current_motion_to_record], (10, 120), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
 
-        cv.putText(debug_image, "Predicted Gesture: " + current_predict_gesture, (10, 30), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
-        cv.putText(debug_image, "Record Gesture: " + gesture_labels[current_gesture_to_record], (10, 60), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
+            cv.imshow('Hand Gesture Recognition', debug_image)
 
-        cv.putText(debug_image, "Predicted Motion: " + current_predict_motion, (10, 90), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
-        cv.putText(debug_image, "Record Motion: " + motion_labels[current_motion_to_record], (10, 120), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
-
-        cv.imshow('Hand Gesture Recognition', debug_image)
-
-    cap.release()
-    cv.destroyAllWindows()
+        self.cap.release()
+        cv.destroyAllWindows()
 
 
 if __name__ == '__main__':
-    main()
+    hand = handDetection()
+    hand.loop()
