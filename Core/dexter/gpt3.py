@@ -1,7 +1,7 @@
 import openai
 
 openai.organization = "org-fEhf9cVXO5Gy5N7wHGEu4RjT"
-openai.api_key = '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'
+openai.api_key = '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'
 
 #response = openai.Completion.create(engine="davinci", prompt="This is a test", max_tokens=5)
 #print(response)

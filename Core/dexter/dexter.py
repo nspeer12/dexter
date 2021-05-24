@@ -12,110 +12,94 @@ from scipy.io.wavfile import write
 from nlp import *
 from intro import intro
 from gpt3 import *
+from precise_runner import PreciseEngine, PreciseRunner
+from playsound import playsound
+
 
 MIC_SOURCE = 1
 WAKE_WORDS = ["Dexter", "hey Dexter", "texture", "computer", "Okay computer" "hey computer", "dex"]
 
 
 
-
-def get_voices():
-	voices = engine.getProperty('voices')
-	for voice in voices:
-		print(voice, voice.id)
-		engine.setProperty('voice', voice.id)
-		engine.say("Hello World!")
-		engine.runAndWait()
-		engine.stop()
+recognizer = sr.Recognizer()
 
 
-def hotword_callback():
-	print('hotword detected')
+class Dexter:
 
-def listen_for_wake():
+	def __init__(self):
+		self.startup = time.time()
+		
+		
 
-	wait = True
-    
+
+def boing():
+	playsound('sounds/boing.wav')
+
+
+def listen():
+	
+	playsound('sounds/boing.wav')
+
 	with sr.Microphone() as source:
-		
-		
-    
-		while wait:
 			
+		try:
+			#print("Waiting for wake word")
 
-			try:
-				print("Waiting for wake word")
+			#recognizer.adjust_for_ambient_noise(source, duration=0.5)
+			recorded_audio = recognizer.listen(source, timeout=0.5)
+			
+			print("Recognizing")
+			start = time.time()
 
-				recognizer.adjust_for_ambient_noise(source, duration=0.5)
-				recorded_audio = recognizer.listen(source, timeout=0.5)
-				
-				print("Recognizing")
-				start = time.time()
+			text = recognizer.recognize_google(
+					recorded_audio,
+					language='en-US')
 
-				text = recognizer.recognize_google(
-						recorded_audio,
-						language='en-US')
+			decode_time = time.time() - start
+			print("Detection time: {}".format(decode_time))
 
-				decode_time = time.time() - start
-				print("Detection time: {}".format(decode_time))
+			with open('logs/decode-time.txt', 'a') as decode:
+				decode.write("{}\n".format(decode_time))
+				decode.close()
 
-				with open('logs/decode-time.txt', 'a') as decode:
-					decode.write("{}\n".format(decode_time))
-					decode.close()
+			print("Decoded Text : {}".format(text))
 
-				print("Decoded Text : {}".format(text))
+			handle_query(text)
 
+			with open('logs/total-response-time.txt', 'a') as trt:
+				trt.write("{}\n".format(time.time() - start))
+				trt.close()
 
-			except Exception as ex:
-				print(ex)
-				continue
+			return
 
-			for word in WAKE_WORDS:
-				if word.lower() in text.lower():
-					handle_query(text)
+		except Exception as ex:
+			print(ex)
 
-					with open('logs/total-response-time.txt', 'a') as trt:
-						trt.write("{}\n".format(time.time() - start))
-						trt.close()
+		'''
+		for word in WAKE_WORDS:
+			if word.lower() in text.lower():
+				handle_query(text)
 
-					break
-
-		
-
-		
-
-
-def record_audio():
-	with sr.Microphone(MIC_SOURCE) as source:
-		print("Recording for 4 seconds")
-		recorded_audio = recognizer.listen(source, timeout=4)
-		print(recorded_audio)
-		print("Done recording")
-	try:
-		print("Recognizing the text")
-		text = recognizer.recognize_google(
-				recorded_audio, 
-				language="en-US"
-			)
-		print("Decoded Text : {}".format(text))
-
-	except Exception as ex:
-		print(ex)
-
-
-def speak(text:str):
-	engine.say(text)
-	engine.runAndWait()
-
-
-
+				with open('logs/total-response-time.txt', 'a') as trt:
+					trt.write("{}\n".format(time.time() - start))
+					trt.close()
+		'''
 
 
 if __name__ == '__main__':
-	intro()
+	dex = Dexter()
+
+	engine = PreciseEngine('hotword/precise-engine/precise-engine', 'hotword/computer-en.pb')
+	runner = PreciseRunner(engine, on_activation=listen)
+	runner.start()
+
+	while True:
+		time.sleep(2)
+
+	#intro()
 	#voice("Hello sir, my name is Dexter, you're virtual assistant. How can I help you.")
-	recognizer = sr.Recognizer()
-	listen_for_wake()
+	
+	#listen_for_wake()
 
 
 	
