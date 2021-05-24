@@ -14,21 +14,101 @@ from intro import intro
 from gpt3 import *
 from precise_runner import PreciseEngine, PreciseRunner
 from playsound import playsound
+import csv
+import torch
+import torch.nn as nn
+from model.assistantModel import NeuralNet
+import speech_recognition
+import pyttsx3 as tts
+import nltk
+from nltk.stem import WordNetLemmatizer
 
 
 MIC_SOURCE = 1
 WAKE_WORDS = ["Dexter", "hey Dexter", "texture", "computer", "Okay computer" "hey computer", "dex"]
 
-
-
-
-
-
 class Dexter:
 
 	def __init__(self):
 		self.startup = time.time()
-	
+
+		ASSISTANT_PATH = "model/AssistantModel.pth"
+		# read in csv for num features and classes
+		with open("model/Assistant_features.csv") as f:
+			reader = csv.reader(f)
+			Assistant_features = [row[0] for row in reader]
+		self.num_features = len(Assistant_features)
+
+		self.feature_dict = {}
+		for i in range(self.num_features):
+			self.feature_dict[Assistant_features[i]] = i
+
+		with open("model/Assistant_labels.csv") as f:
+			reader = csv.reader(f)
+			self.Assistant_labels = [row[0] for row in reader]
+		self.num_classes = len(self.Assistant_labels)
+
+		self.model = NeuralNet(self.num_features,self.num_classes)
+		self.model.load_state_dict(torch.load(ASSISTANT_PATH))
+		self.model.eval()
+		print("loaded assistant model")
+
+		self.recognizer = speech_recognition.Recognizer()
+		self.speaker = tts.init()
+		self.speaker.setProperty('rate', 150)
+
+		self.mappings = {
+			'greeting' : greeting,
+			'introduction' : introduction,
+			'goodbye' : goodbye,
+			'wiki' : wiki,
+			'math' : math,
+			'news' : news,
+			'play' : play,
+			'resume' : resume,
+			'pause' : pause,
+			'increaseVolume' : increaseVolume,
+			'decreaseVolume' : decreaseVolume,
+			'mute' : mute,
+			'unmute' : unmute,
+			'reset' : reset,
+			'shutdown' : shutdown,
+			'sleep' : sleep,
+			'minimize' : minimize,
+			'maximize' : maximize,
+			'restore' : restore,
+			'switchApplications' : switchApplications,
+			'switchDesktop' : switchDesktop,
+			'openApplication' : openApplication,
+			'openFile' : openFile,
+			'date' : date,
+			'time' : time,
+			'day' : day,
+		}
+
+	def wake_word(self):
+		# loop until wake word is detected
+		pass
+
+	def get_input(self):
+		# get input from microphone -> google api -> text
+		pass
+
+	def process_input(self, message):
+		bag = [0] * self.num_features
+		words = nltk.word_tokenize(message)
+		for word in words:
+			if word.lower() in self.feature_dict:
+				bag[self.feature_dict[word.lower()]] += 1
+
+		bag = torch.from_numpy(np.array(bag))
+		# print(bag)
+		output = self.model.forward(bag.float())
+		prediction = self.Assistant_labels[torch.argmax(output)]
+		print(prediction)
+
+		if prediction in self.mappings.keys():
+			self.mappings[prediction](self)
 
 def boing():
 	playsound('sounds/boing.wav')
@@ -91,25 +171,27 @@ def listen():
 
 
 if __name__ == '__main__':
-	debug = True
+	# debug = True
 
-	engine = PreciseEngine('hotword\\precise-engine\\precise-engine.exe', 'hotword\\computer-en.pb')
-	runner = PreciseRunner(engine, on_activation=listen)
-	runner.start()
+	# engine = PreciseEngine('hotword\\precise-engine\\precise-engine.exe', 'hotword\\computer-en.pb')
+	# runner = PreciseRunner(engine, on_activation=listen)
+	# runner.start()
 
-	intro()
+	# intro()
 
 
-	dex = Dexter()
+	# dex = Dexter()
 
 	
-	run = True
-	while run:
-		time.sleep(2)
+	# run = True
+	# while run:
+	# 	time.sleep(2)
 
 	#voice("Hello sir, my name is Dexter, you're virtual assistant. How can I help you.")
 	
 	#listen_for_wake()
-
+	ai = Dexter()
+	s = "hello"
+	ai.process_input(s)
 
 	
