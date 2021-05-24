@@ -41,7 +41,6 @@ def parse_query(query:str):
 			result.append(token.text)
 
 	res = list(set(result))
-	print(res)
 
 	# take max len object from extracted text
 	# ex: ['new', 'york', 'city', 'new york city'] -> 'new york city'
@@ -70,6 +69,7 @@ def handle_query(query:str):
 	for key in keys:
 		if key in query.lower():
 			print(key)
+
 			if skills_map[key] == type_mode:
 				skills_map[key](query)
 			else:
@@ -78,9 +78,6 @@ def handle_query(query:str):
 			if reply != '':
 				voice(reply)
 			return
-
-	# need to improve question handling
-	print('here')
 
 	if is_math_equation(query):
 		return
@@ -96,11 +93,11 @@ def handle_query(query:str):
 def is_math_equation(query:str):
 	
 	words = query.split()
-	print(words)
+	#print(words)
 
 	# check every 
 	for w in words:
-		print(w)
+		#print(w)
 		if w.isnumeric():
 			voice(ask_wolfram(query))
 			return True
