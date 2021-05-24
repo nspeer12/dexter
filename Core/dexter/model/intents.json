@@ -1,0 +1,109 @@
+{
+    "intents":
+    [
+        {"tag": "greeting",
+        "patterns": ["Hi", "How are you", "Is anyone there?", "Hello", "Good day", "Whats up", "Hey", "greetings"],
+        "responses": ["Hello!", "Good to see you again!", "Hi there, how can I help?"]
+        },
+        {"tag": "introduction",
+        "patterns": ["who are you","What is your name?","name","what are you"],
+        "responses": ["I am Dexter"]
+        },
+        {"tag": "goodbye",
+        "patterns": ["cya", "See you later", "Goodbye", "I am Leaving", "Have a Good day", "bye", "see ya"],
+        "responses": ["Sad to see you go :(", "Talk to you later", "Goodbye!"]
+        },
+        {"tag": "wiki",
+            "patterns": ["who is","what is","who are","what are"],
+            "responses": []
+        },
+        {"tag": "math",
+            "patterns": ["1 + 2", "3 / 4", "5 * 6", "7 - 8", "9 % 0","what is 1 + 2", "what is 3 / 4", "what is 5 * 6", "what is 7 - 8", "what is 9 % 0"],
+            "responses": []
+        },
+        {"tag": "news",
+            "patterns": ["what is the news", "news"],
+            "responses": []
+        },
+        {"tag": "play",
+            "patterns": ["play"],
+            "responses": []
+        },
+        {"tag": "resume",
+            "patterns": ["resume","continue"],
+            "responses": []
+        },
+        {"tag": "pause",
+            "patterns": ["pause"],
+            "responses": []
+        },
+        {"tag": "increaseVolume",
+            "patterns": ["increase volume", "increase sound"],
+            "responses": []
+        },
+        {"tag": "decreaseVolume",
+            "patterns": ["decrease volume", "decrease sound"],
+            "responses": []
+        },
+        {"tag": "mute",
+            "patterns": ["mute","sound off"],
+            "responses": []
+        },
+        {"tag": "unmute",
+            "patterns": ["unmute","sound on"],
+            "responses": []
+        },
+        {"tag": "restart",
+            "patterns": ["reset", "restart"],
+            "responses": []
+        },
+        {"tag": "shutDown",
+            "patterns": ["shut down", "turn off"],
+            "responses": []
+        },
+        {"tag": "sleep",
+            "patterns": ["sleep"],
+            "responses": []
+        },
+        {"tag": "minimize",
+            "patterns": ["minimize"],
+            "responses": []
+        },
+        {"tag": "maximize",
+            "patterns": ["maximize"],
+            "responses": []
+        },
+        {"tag": "restore",
+            "patterns": ["restore"],
+            "responses": []
+        },
+        {"tag": "switchApplications",
+            "patterns": ["switch applications", "switch app"],
+            "responses": []
+        },
+        {"tag": "switchDesktop",
+            "patterns": ["switch desktop"],
+            "responses": []
+        },
+        {"tag": "openApplication",
+            "patterns": ["open application named"],
+            "responses": []
+        },
+        {"tag": "openFile",
+            "patterns": ["open file named"],
+            "responses": []
+        },
+        {"tag": "date",
+            "patterns": ["what date is today?"],
+            "responses": []
+        },
+        {"tag": "time",
+            "patterns": ["what is the time?"],
+            "responses": []
+        },
+        {"tag": "day",
+            "patterns": ["what is day today?"],
+            "responses": []
+        }
+    ]
+}
