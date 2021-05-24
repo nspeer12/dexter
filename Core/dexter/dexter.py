@@ -89,7 +89,7 @@ def listen():
 if __name__ == '__main__':
 	dex = Dexter()
 
-	engine = PreciseEngine('hotword/precise-engine/precise-engine', 'hotword/computer-en.pb')
+	engine = PreciseEngine('hotword\\precise-engine\\precise-engine.exe', 'hotword\\computer-en.pb')
 	runner = PreciseRunner(engine, on_activation=listen)
 	runner.start()
 

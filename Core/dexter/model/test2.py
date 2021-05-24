@@ -224,7 +224,7 @@ while True:
             bag[feature_dict[word.lower()]] += 1
 
     bag = torch.from_numpy(np.array(bag))
-    print(bag)
+    # print(bag)
     output = model.forward(bag.float())
     prediction = Assistant_labels[torch.argmax(output)]
     print(prediction)

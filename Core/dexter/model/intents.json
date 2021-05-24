@@ -98,7 +98,7 @@
             "responses": []
         },
         {"tag": "time",
-            "patterns": ["what is the time?"],
+            "patterns": ["what is the time?", "what time is it?"],
             "responses": []
         },
         {"tag": "day",
