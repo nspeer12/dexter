@@ -1,0 +1,225 @@
+.modal.show
+	.shade
+	.container
+		header.main-header
+			h2 Templates
+			img.close(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/close.svg")
+		.left-bar
+			.search
+				input(type="text" placeholder="Search templates")
+				img.search-icon(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/serach.svg")
+			.triangle
+			ul
+				li.main.selected
+					img.star(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/star.svg")
+					img.star-dark(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/star-dark.svg")
+					| Popular
+				li 
+					a.trigger(href="#no-templates") All templates
+				li 
+					a.trigger(href="#no-templates") My templates
+				li 
+					a.trigger(href="#no-templates") Team templates
+				li.parent 
+					a.trigger(href="#no-templates") Standard
+				li.parent 
+					a.trigger(href="#no-templates") Software
+				li.parent 
+					a.trigger(href="#no-templates") Business
+				li.parent 
+					a.trigger(href="#no-templates") Networking
+				li.parent 
+					a.trigger(href="#no-templates") Other
+				
+				
+				
+				
+		.main-list
+			header
+				h2 Popular Templates
+				ul
+					li
+						a.trigger(href="#org-chart")
+							.wrapper
+								img(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/org-chart-dark.png")
+							h4 Org Chart
+					li
+						a.trigger(href="#flowchart")
+							.wrapper
+								img(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/flow-standard3.png")
+							h4 Basic Flowchart
+					li
+						a.trigger(href="#sipoc")
+							.wrapper
+								img(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/sipoc-blue.png")
+							h4 SIPOC Diagram
+					li
+						a.trigger(href="#value-stream")
+							.wrapper
+								img(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/value-stream-standard2.png")
+							h4 Value Stream Mapping
+					li
+						a.trigger(href="#erd")
+							.wrapper
+								img(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/erd-sand.png")
+							h4 Standard ERD
+							
+							
+							
+							
+							
+							
+							
+						
+		#back-button
+			img(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/chevron.svg")
+			| Back
+			
+			
+			
+			
+		#org-chart.template-detail
+			header
+				h2 Org Chart
+			.content
+				.themes
+					.swatch.blank(data-theme="blank" data-url="https://christine.office.lucidchart.com/documents/editNew/752019e1-59b8-4bc4-ab91-6ed6e802d6ea?compiled=1")
+						span
+					.swatch.sandstorm(data-theme="sandstorm" data-url="https://christine.office.lucidchart.com/documents/editNew/ffd17024-e2c2-429d-8e34-dcaa37763477?compiled=1")
+						span
+					.swatch.blue(data-theme="blue" data-url="https://christine.office.lucidchart.com/documents/editNew/3b874c57-b262-4ab8-8e77-65bc2b3ebdd8?compiled=1")
+						span
+					.swatch.dark.selected.default(data-theme="dark" data-url="https://christine.office.lucidchart.com/documents/editNew/6b06ed61-56f8-41ea-8b3e-65a3945a7f50?compiled=1")
+						span
+				.preview
+					img.blank(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/org-chart-standard.png")
+					img.sandstorm(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/org-chart-sandstorm2.png")
+					img.blue(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/blue.png")
+					img.dark(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/org-chart-dark.png")
+				p Maecenas sed diam eget risus varius blandit sit amet non magna. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo.
+			footer
+				button.grey.close Cancel
+				a.blue(href="http://www.lucidchart.com" target="blank") Create new
+				
+				
+				
+				
+				
+				
+				
+		#value-stream.template-detail
+			header
+				h2 Value Stream Mapping
+			.content
+				.themes
+					.swatch.blank.selected.default(data-theme="blank" data-url="https://christine.office.lucidchart.com/documents/editNew/763d6569-286d-4873-a78e-144087b7ee69?compiled=1")
+						span
+					.swatch.sandstorm(data-theme="sandstorm" data-url="https://christine.office.lucidchart.com/documents/editNew/ebf2815a-1788-4377-a46b-0f3569df92ac?compiled=1")
+						span
+					.swatch.blue(data-theme="blue" data-url="https://christine.office.lucidchart.com/documents/editNew/3d9eb7aa-fc2c-43de-8970-322f594f7e5b?compiled=1")
+						span
+					.swatch.dark(data-theme="dark" data-url="https://christine.office.lucidchart.com/documents/editNew/5ec53333-9a95-47b5-9952-2bee2e610737?compiled=1")
+						span
+				.preview
+					img.blank(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/value-stream-standard2.png")
+					img.sandstorm(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/value-stream-sandstorm3.png")
+					img.blue(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/value-stream-blue.png")
+					img.dark(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/value-stream-dark.png")
+				p Maecenas sed diam eget risus varius blandit sit amet non magna. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo.
+			footer
+				button.grey.close Cancel
+				a.blue(href="http://www.lucidchart.com" target="blank") Create new
+				
+				
+				
+				
+				
+				
+				
+		#sipoc.template-detail
+			header
+				h2 Value Stream Mapping
+			.content
+				.themes
+					.swatch.blank(data-theme="blank" data-url="https://christine.office.lucidchart.com/documents/editNew/2a1dcc8f-a7b1-4f9b-8d5a-fdaddfdb3082?compiled=1")
+						span
+					.swatch.sandstorm(data-theme="sandstorm" data-url="https://christine.office.lucidchart.com/documents/editNew/83c9391b-485e-49ab-8625-533552f78a6b?compiled=1")
+						span
+					.swatch.blue.selected.default(data-theme="blue" data-url="https://christine.office.lucidchart.com/documents/editNew/498a8c70-bd8d-47e0-8a8d-4663286cdb09?compiled=1")
+						span
+					.swatch.dark(data-theme="dark" data-url="https://christine.office.lucidchart.com/documents/editNew/8e374cac-52d9-40e5-abb3-9d58ece3325e?compiled=1")
+						span
+				.preview
+					img.blank(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/sipoc-standard.png")
+					img.sandstorm(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/sipoc-sand.png")
+					img.blue(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/sipoc-blue.png")
+					img.dark(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/sipoc-dark.png")
+				p Maecenas sed diam eget risus varius blandit sit amet non magna. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo.
+			footer
+				button.grey.close Cancel
+				a.blue(href="http://www.lucidchart.com" target="blank") Create new
+				
+				
+				
+				
+				
+				
+				
+		#flowchart.template-detail
+			header
+				h2 Basic Flowchart
+			.content
+				.themes
+					.swatch.blank.selected.default(data-theme="blank" data-url="https://christine.office.lucidchart.com/documents/editNew/9b75d50a-acef-4041-9d33-5b92e29ec8d3?compiled=1")
+						span
+					.swatch.sandstorm(data-theme="sandstorm" data-url="https://christine.office.lucidchart.com/documents/editNew/9727c5a5-c774-452c-98ab-e0684c6bc6b6?compiled=1")
+						span
+					.swatch.blue(data-theme="blue" data-url="https://christine.office.lucidchart.com/documents/editNew/6b5f26ca-8d42-4558-820a-ee576e10250b?compiled=1")
+						span
+					.swatch.dark(data-theme="dark" data-url="https://christine.office.lucidchart.com/documents/editNew/2b54ac81-eea2-47dc-8566-f94ad925abb6?compiled=1")
+						span
+				.preview
+					img.blank(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/flow-standard3.png")
+					img.sandstorm(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/flow-sandstorm.png")
+					img.blue(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/flow-blue.png")
+					img.dark(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/flow-dark.png")
+				p Maecenas sed diam eget risus varius blandit sit amet non magna. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo.
+			footer
+				button.grey.close Cancel
+				a.blue(href="http://www.lucidchart.com" target="blank") Create new
+				
+				
+				
+				
+				
+				
+				
+		#erd.template-detail
+			header
+				h2 Standard ERD
+			.content
+				.themes
+					.swatch.blank(data-theme="blank" data-url="https://christine.office.lucidchart.com/documents/editNew/e37afaef-5209-4858-9507-aa28bde22c03?compiled=1")
+						span
+					.swatch.sandstorm.selected.default(data-theme="sandstorm" data-url="https://christine.office.lucidchart.com/documents/editNew/42cc6aa6-00ea-4517-8e1c-678c6a5576cc?compiled=1")
+						span
+					.swatch.blue(data-theme="blue" data-url="https://christine.office.lucidchart.com/documents/editNew/fdef2d1c-ba8b-4f78-8183-3c002caab4f6?compiled=1")
+						span
+					.swatch.dark(data-theme="dark" data-url="https://christine.office.lucidchart.com/documents/editNew/85c87b9b-e228-4f94-a09e-f57eb6c39b4d?compiled=1")
+						span
+				.preview
+					img.blank(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/erd-standard.png")
+					img.sandstorm(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/erd-sand.png")
+					img.blue(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/erd-blue.png")
+					img.dark(src="https://d2slcw3kip6qmk.cloudfront.net/ux-assets/random/erd-dark2.png")
+				p Maecenas sed diam eget risus varius blandit sit amet non magna. Maecenas sed diam eget risus varius blandit sit amet non magna. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo.
+			footer
+				button.grey.close Cancel
+				a.blue(href="http://www.lucidchart.com" target="blank") Create new
+				
+				
+				
+		#no-templates.template-detail
+			h3 Oops! There are no templates here.
+				br
+				| You should probably just hit the "back" button...

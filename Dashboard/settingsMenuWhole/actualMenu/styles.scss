@@ -1,0 +1,2435 @@
+@import 'https://fonts.googleapis.com/css?family=Anton';
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%; 
+}
+
+body {
+  height: 100vh;
+  background-color: #071432;
+}
+
+// For demo purposes
+.skew-button {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
+// Skew button
+// ==========================================================================
+.skew-button {
+  cursor: pointer;
+  outline: none;
+  transform: translate3d(-50%, -50%, 0);
+  backface-visibility: hidden;
+  position: relative;
+  display: inline-block;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  font: 1.3rem 'Anton', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #fff;
+  
+  // Text
+  span {
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 20px 50px;
+    z-index: 3;
+  }
+  
+  // Border
+  &:before,
+  span:before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) skewX(-20deg);
+    width: 100%;
+    height: 50px;
+    border: 1px solid #0e3876;
+    z-index: 2;
+  }
+  
+  span:before {
+    display: block;
+    transform: translate(-50%, -50%) skew(-20deg);
+    transform-origin: center center;
+    z-indeX: -1;
+  }
+  
+  // Fill
+  &:after {
+    transition: all 100ms ease-out;
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: skewX(-20deg) scaleX(0);
+    width: 100%;
+    height: 100%;
+    background-color: #0e3876;
+    border: 1px solid transparent;
+    z-index: 1;
+  }
+  
+  // Hover
+  &:hover {
+    span:before {
+      animation: fill .5s ease-out;
+      animation-fill-mode: forwards;
+    }
+    
+    &:after {
+      animation: swoosh .7s ease-in;
+    }
+  }
+  
+  // Active
+  &:active {
+    &:before {
+      background-color: darken(#0e3876, 20%);
+    }
+  }
+}
+
+// Animation
+// ==========================================================================
+@keyframes swoosh {
+  0% {
+    transform-origin: left center;
+  }
+  
+  20% {
+    transform: skewX(-20deg) scaleX(1);
+    transform-origin: left center;
+  }
+  
+  21% {
+    transform-origin: right center;
+  }
+  
+  50% {
+    transform: skewX(-20deg) scaleX(0);
+    transform-origin: right center;
+  }
+}
+
+@keyframes fill {
+  0% {
+    background-color: rgba(#0e3876, 0);
+  }
+  
+  20% {
+    opacity: .5;
+    border-width: 15px;
+    border-color: darken(#0e3876, 10%);
+  }
+  
+  100% {
+    opacity: .5;
+    border-width: 1px;
+    background-color: rgba(#0e3876, 0.5);
+  }
+}
+.link
+ {
+    color:aqua;
+    text-decoration: none; 
+    background-color: none;
+ }
+ 
+ /* 1. Enable smooth scrolling */
+ html {
+     scroll-behavior: smooth;
+ }
+ 
+ /* 2. Make nav sticky */
+ main > nav {
+     position: sticky;
+     top: 2rem;
+     align-self: start;
+ }
+ 
+ /* 3. ScrollSpy active styles (see JS tab for activation) */
+ .section-nav li.active > a {
+     color: #333;
+     font-weight: 500;
+ }
+ 
+ /* Sidebar Navigation */
+ .section-nav {
+     padding-left: 0;
+     border-left: 1px solid #efefef;
+ }
+ 
+ .section-nav a {
+     text-decoration: none;
+     display: block;
+     padding: .125rem 0;
+     color: #ccc;
+     transition: all 50ms ease-in-out; /* 💡 This small transition makes setting of the active state smooth */
+ }
+ 
+ .section-nav a:hover,
+ .section-nav a:focus {
+     color: #666;
+ }
+ 
+ /** Poor man's reset **/
+ * {
+     box-sizing: border-box;
+ }
+ 
+ html, body {
+     background: #fff;
+ }
+ 
+ body {
+     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+ }
+ 
+ ul, ol {
+     list-style: none;
+     margin: 0;
+     padding: 0;
+ }
+ li {
+     margin-left: 1rem;
+ }
+ 
+ h1 {
+     font-weight: 300;
+ }
+ 
+ /** page layout **/
+ main {
+     display: grid;
+     grid-template-columns: 1fr 15em;
+     max-width: 100em;
+     width: 90%;
+     margin: 0 auto;
+ }
+ 
+ /** enlarge the sections for this demo, so that we have a long scrollable page **/
+ section {
+     padding-bottom: 20rem;
+ }
+
+
+
+ HTML SCSS JS 
+
+ Result
+ Skip Results Iframe
+
+$color-main: #121212;   // App-main-color
+$color-2nd: #212121;    // Content-sections
+$color-3rd: #2d2d2d;    // Box-headings, chart-borders ect.
+$color-blu: #2c97de;    // Section-headers, chart-lines etc.
+$color-trq: #2dbda8;    // Back-buttons, close-buttons
+$color-txt: #DDD;       // Main text-color
+$color-txt2: #666;
+$color-txt-d: #434343;
+
+$font-main: 'Roboto', "Helvetica Neue", Helvetica, sans-serif;
+$font-value: 'Electrolize', "Helvetica Neue", Helvetica, sans-serif;
+
+@mixin border-radius($radius) {
+-webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+   -ms-border-radius: $radius;
+       border-radius: $radius;
+}
+/*.box { @include border-radius(10px); }*/
+
+
+@mixin box-shadow($top, $left, $blur, $size, $color, $inset: false) {
+ @if $inset {
+     -webkit-box-shadow:inset $top $left $blur $size $color;
+     -moz-box-shadow:inset $top $left $blur $size $color;
+     box-shadow:inset $top $left $blur $size $color;
+ } @else {
+     -webkit-box-shadow: $top $left $blur $size $color;
+     -moz-box-shadow: $top $left $blur $size $color;
+     box-shadow: $top $left $blur $size $color;
+ }
+}
+/*@include box-shadow(0,10px,10px,10px, #FF0000, false);*/
+
+
+
+
+
+html {
+ margin: 0;
+ padding: 0;
+ height: 100%;
+ font-size: 16px;
+ background: #28282e;
+ font-family: $font-main;
+}
+body {
+ min-height: 100vh;
+ background: #28282e;
+}
+* {
+ box-sizing: border-box;
+}
+a {
+ text-decoration: none;
+}
+#wip {
+ margin: 0;
+ font-size: 0.9rem;
+ text-align: center;
+ color: $color-txt2;
+ padding-top: 10px;
+}
+#app {
+ width: 90%;
+ max-width: 1000px;
+ height: 100%;
+ margin: 15px auto 30px auto;
+ padding: 5px 15px 15px 15px;
+ background-color: $color-main;
+ @include border-radius(7px);
+ @include box-shadow(0, 0px, 6px, 4px, #222, false);
+}
+
+
+
+/*----- THE 4 MAIN SECTIONS -----*/
+.section-main {
+ width: 100%;
+ display: block;
+ // overflow: auto;
+ position: relative;
+ background-color: $color-2nd;
+ @include border-radius(5px);
+ 
+ .section-main-header {
+     text-align: left;
+     width: 100%;
+     height: 30px;
+     padding: 5px 5px 5px 12px;
+
+     h3 {
+         font-size: 0.85rem;
+         color: $color-blu;
+         text-transform: uppercase;
+         font-family: $font-value;
+         font-weight: 700;
+         letter-spacing: 1px;
+         display: inline-block;
+         margin: 0;
+     }
+     
+     /* ICONS */
+     //i {
+         //margin-right: 0px;
+         //color: $color-txt2;
+     //}
+     
+     .options-wrapper {
+         float: right;
+         position: relative;
+         //display: inline-block;
+
+         &:hover .options-btn {
+             background-color: $color-txt-d;
+             color: $color-txt;
+         }
+         &:hover .options-content {
+             display: block;
+         }
+         
+         .options-btn {
+             background: $color-2nd;
+             height: 22px;
+             width: 22px;
+             color: $color-txt2;
+             text-align: center;
+             padding: 0;
+             font-size: 0.9em;
+             border: 0;
+             //border: solid 1px $color-txt-d;
+             cursor: pointer;
+             @include border-radius(4px);
+             transition: background 0.1s;
+         }
+         
+         .options-content {
+             display: none;
+             position: absolute;
+             right: 0; 
+             background-color: $color-3rd;
+             min-width: 160px;
+             border: solid 2px $color-txt-d;
+             //@include border-radius(8px);
+             @include box-shadow(0,8px,16px,0px, $color-main, false);
+             overflow: auto;
+             z-index: 1;
+
+             a {
+                 font-family: $font-main;
+                 font-size: 0.8em;
+                 color: $color-txt;
+                 padding: 8px 12px;
+                 text-decoration: none;
+                 display: block;
+                 letter-spacing: 1px;
+                 transition: background 0.08s;
+                 
+                 i {
+                     margin-right: 5px;
+                 }
+
+                 &:hover {
+                     background-color: $color-2nd;
+                 }
+             }
+
+         }
+     }
+
+ }   // section-main-header
+ 
+ 
+ &.section-expanded,
+ &.section-single {
+     .section-main-header {
+         padding: 6px 5px 5px 12px;
+     }
+ }
+ 
+}   // Section-main
+
+
+
+
+.section-main-content {
+ width: 100%;
+ color: $color-txt;
+ 
+ .content-block {
+     float: left;
+     overflow: auto;
+     color: $color-txt;
+     opacity: 0.8;
+     transition: opacity 0.08s, background 0.08s;
+
+     &:hover {
+         opacity: 1;
+         text-decoration: none;
+         color: inherit;
+         background-color: rgba(200, 200, 255, 0.025);
+ 
+         .freq-blockchart {
+             background-color: $color-3rd;
+             border: solid $color-txt-d 2px;
+         }
+     }
+ }
+}
+
+
+.blocktitle {
+ font-weight: 500;
+ font-size: 0.8em;
+ color: $color-txt2;
+}
+.blockvalue {        /* 3800.0 */
+ font-size: 1.15em;
+ font-family: $font-value;
+}
+.blockvalue span {   /* UNITS, MHz, V, rpm */
+ font-size: 0.7em;
+ font-family: $font-main;
+}
+
+
+
+
+/*----- BACK-BUTTON -----*/
+.btn-back {
+ color: $color-trq;
+ border: solid 0px $color-trq;
+ display: inline-block;
+ transition: 0.08s;
+ height: 26px;
+ min-width: 40px;
+ font-size: 0.875rem;
+ font-weight: 700;
+ text-align: center;
+ letter-spacing: 0.05rem;
+ margin: 0 10px 0 0;
+ padding: 0 10px 0 10px;
+ background-color: $color-3rd;
+ @include border-radius(15px);
+
+ i {
+     color: $color-trq;
+     transition: 0.08s;
+ }
+
+ &:hover {
+     //color: $color-2nd;
+     background-color: $color-txt-d;
+
+     // i {
+     //     color: $color-2nd;
+     // }
+ }
+}
+
+
+
+
+
+#section-topbar {
+ width: 100%;
+ height: auto;
+ padding: 0;
+ display: grid;
+ padding: 3px 0;
+ margin: 0 0 5px 0;
+ text-align: left;
+ grid-template-columns: 60% 40%;
+
+ #topheader {
+     height: 100%;
+     padding: 0;
+     
+     #top-pic {
+         width: 64px;
+         float: left;
+         overflow: auto;
+         margin: 0 15px 0 5px;
+         padding: 5px 0 0 0;
+     }
+     #top-pic img {
+         width: 100%;
+         height: 100%;
+     }
+     #topheading {
+         width: 75%;
+         height: 100%;
+         float: left;
+         overflow: auto;
+         margin: 0;
+         padding: 0;
+
+         h1 {
+             font-family: $font-main;
+             color: $color-txt;
+             font-size: 2.35em;
+             letter-spacing: 3px;
+             margin: 0;
+             font-weight: 700;
+
+             span {
+                 color: $color-blu;
+                 font-weight: 400;
+             }
+         }
+         h2 {
+             font-size: 1.02rem;
+             margin: 0;
+             margin-top: -5px;
+             font-weight: 500;
+             color: $color-txt2;
+             letter-spacing: 0.03rem;
+             font-family: $font-main;
+         }
+     }
+ }
+ #date {
+     height: 100%;
+     text-align: right;
+     padding-top: 40px;
+     
+     #pvm {
+         margin: 0;
+         font-size: 0.92rem;
+         font-weight: 400;
+         letter-spacing: 0.02rem;
+         color: $color-txt2;
+     }
+ }
+
+
+ @media (max-width: 768px) {
+     width: 100%;
+     height: auto;
+     grid-template-columns: 100%;
+
+     #topheader {
+         #top-pic {
+             width: 49px;
+             margin-left: 0;
+             margin-right: 10px;
+             padding: 3px 0 0 0;
+         }
+         #topheading {
+             width: 100%;
+             height: auto;
+             float: initial;
+             overflow: initial;
+             
+             h1 {
+                 font-size: 1.85em;
+             }
+             h2 {
+                 font-size: 0.82em;
+             }
+         }
+     }
+     #date {
+         text-align: left;
+         padding-top: 10px;
+     }
+ }
+
+} // section-topbar
+
+
+
+
+#section-frequency {
+ min-height: 140px;
+ margin: 5px auto 15px auto;
+
+ .frequency-content {
+     height: auto;
+     display: grid;
+     column-gap: 13px;
+     row-gap: 15px;
+     padding: 10px;
+     grid-template-columns: repeat(6, 1fr);
+     
+     .frequency-content-block {
+         //width: 135px;
+         height: auto;
+         float: none;
+         display: block;
+         position: relative;
+         //margin: 0 10px 0 15px;
+         text-align: center;
+     }
+     // .freq-blocktitle {
+     // }
+     .freq-blockchart1,
+     .freq-blockchart2 {
+         width: 100%;
+         height: 57px;
+         opacity: 0.7;
+         margin-top: 8px;
+         transition: 0.08s;
+         border: solid $color-3rd 2px;
+         background-size: cover;
+         background-position: center;
+         background-repeat: no-repeat;
+       }
+
+     .freq-blockchart1 {
+         background-image: url("https://raw.githubusercontent.com/Allu91/cpumeter/master/img/chart1.svg");
+       }
+     .freq-blockchart2 {
+         background-image: url("https://raw.githubusercontent.com/Allu91/cpumeter/master/img/chart2.svg");
+     }
+ }
+
+
+
+ @media (max-width: 1024px) {
+     .frequency-content {
+         grid-template-columns: repeat(4, 1fr);
+     }
+ }
+
+}  // Section-frequency
+
+
+
+
+
+
+
+
+
+// Left side (fan, cpu usage) & right-side (temperature)
+.section-splitter {
+ display: grid;
+ grid-gap: 15px;
+ row-gap: 15px;
+ grid-template-columns: 37% 1fr;
+ 
+ #left-side,
+ #right-side {
+     margin-top: 0;
+     vertical-align: top;
+ }
+}
+
+
+
+
+
+#section-fan {
+ width: 100%;
+ min-height: 140px;
+ margin: 0 0 15px 0;
+ 
+ .fan-content {
+     height: auto;
+     display: grid;
+     column-gap: 13px;
+     row-gap: 15px;
+     grid-template-columns: repeat(3, 1fr);
+     padding: 10px 10px 10px 10px;
+     
+     .fan-content-block {
+         height: auto;
+         text-align: center;
+         
+         .fan-image {
+             width: 35px;
+             height: 35px;
+             margin: 5px auto 5px auto;
+             opacity: 0.7;
+             background-image: url("https://raw.githubusercontent.com/Allu91/cpumeter/master/img/icon-fan.png");
+             background-size: 100% 100%;
+             background-repeat: none;
+         }
+
+         &:hover {
+             .fan-image {
+                 opacity: 1;
+             }
+         }
+         
+         // .blockvalue {
+         //     span {
+
+         //     }
+         // }
+     }
+ }
+
+
+
+ @media (max-width: 1024px) {
+     .fan-content {
+         .fan-content-block {
+             .blockvalue {
+                 span {
+                     margin-top: -3px;
+                     display: block;
+                 }
+             }
+         }
+     }
+ }
+ 
+} // Section-fan
+
+
+
+
+#section-usage {
+ width: 100%;
+ min-height: 225px;
+ margin: 0 0 0 0;
+ display: block;
+ //overflow: auto;
+ //float: left;
+ 
+ .usage-content {
+     // height: 190px;
+     padding: 10px 10px 5px 10px;
+     
+     .usage-overall {
+         width: 30%;
+         height: 100%;
+         padding: 20px 10px 0 5px;
+         margin: 0 -4px 0 0;
+         display: inline-block;
+         vertical-align: top;
+
+         .usage-overall-content-block {
+             width: 100%;
+             height: 70px;
+             margin: 0;
+             padding-top: 3px;
+             text-align: center;
+
+             // Average (time)
+             .blocktitle span {
+                 //font-size: 0.9rem;
+                 color: $color-blu;
+             }
+         }
+     }
+     
+     
+     .usage-cores {
+         width: 70%;
+         height: 100%;
+         margin: 0 -4px 0 0;
+         padding: 5px 0 10px 0;
+         font-size: 0.9em;
+         display: inline-grid;
+         vertical-align: top;
+         column-gap: 5%;
+         row-gap: 10px;
+         grid-template-columns: repeat(3, 1fr);
+
+         .usage-cores-content-block {
+             // height: 75px;
+             float: initial;
+             overflow: initial;
+             padding-top: 0px;
+             text-align: center;
+
+             .cores-circle {
+                 width: 60px;
+                 height: 60px;
+                 margin: 3px auto 0 auto;
+                 padding: 3px;
+                 border-radius: 50%;
+                 border: solid 2px $color-txt-d;
+
+                 .cores-circle-inner {
+                     display: grid;
+                     color: $color-txt;
+                     font-size: 0.7em;
+                     font-family: $font-value;
+                     width: 100%;
+                     height: 100%;
+                     border-radius: 50%;
+                     border: solid 2px $color-trq;
+
+                     p {
+                         margin: 0;
+                         place-self: center;
+                     }
+                 }
+             }
+         }
+     }
+ }
+
+
+
+ @media (max-width: 1024px) {
+     min-height: 295px;
+
+     .usage-content {
+         padding: 0px 10px 5px 10px;
+
+         .usage-overall {
+             width: 100%;
+             height: 100%;
+             padding: 0px 10px 0 5px;
+             margin: 0;
+             display: block;
+
+             .usage-overall-content-block {
+                 width: 50%;
+                 height: auto;
+                 padding: 15px 3px;
+                 margin: 0 -4px 0 0;
+                 display: inline-block;
+             }
+         }
+
+         .usage-cores {
+             width: 100%;
+             height: 100%;
+             padding: 15px 0 10px 0;
+         }
+     }
+ }
+
+}   // Section-usage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#section-temperature {
+ height: 386px;
+ margin: 0 0 0 0;
+ //display: inline-block;
+ //vertical-align: top;
+ 
+ .temperature-content {
+     display: grid;
+     height: 340px;
+     row-gap: 25px;
+     column-gap: 20px;
+     padding: 10px 15px 10px 15px;
+     grid-template-columns: 1fr 1fr;
+     
+     .temperature-content-block {
+         //width: 260px;
+         height: auto;
+         float: none;
+         display: block;
+         overflow: initial;
+         //margin: 10px 5px 20px 20px;
+         
+         .temperature-blocktitle,
+         .temperature-value{
+             margin-right: -4px;
+             display: inline-block;
+             position: relative;
+         }
+         // .temperature-blocktitle {
+         // }
+         .temperature-value {
+             text-align: right;
+             float: right;
+             margin-right: 0;
+         }
+         .temperature-image1,
+         .temperature-image2 {
+             width: 100%;
+             height: 107px;
+             border: solid 2px $color-3rd;
+             display: block;
+             position: relative;
+             background-image: url("https://raw.githubusercontent.com/Allu91/cpumeter/master/img/chart1.svg");
+             background-size: cover;
+             background-repeat: no-repeat;
+             // vertical-align: bottom;
+         }
+         .temperature-image1 {
+             background-image: url("https://raw.githubusercontent.com/Allu91/cpumeter/master/img/chart1.svg");
+         }
+         .temperature-image2 {
+             background-image: url("https://raw.githubusercontent.com/Allu91/cpumeter/master/img/chart2.svg");
+         }
+     }
+ }
+
+
+ @media (max-width: 1024px) {
+     height: 478px;
+
+     .temperature-content {
+         height: 427px;
+         
+         .temperature-content-block {
+             .temperature-image1,
+             .temperature-image2 {
+                 background-position: top;
+             }
+         }
+     }
+ }
+ 
+ @media (max-width: 768px) {
+     height: 340px;
+
+     .temperature-content {
+         height: 295px;
+     }
+ }
+
+} // section-temperature
+
+
+
+
+
+
+
+
+
+
+
+
+/*--- EXPANDED SECTIONS ---*/
+
+#section-expanded-frequency {
+ display: none;
+ min-height: 500px;
+ margin: 5px auto 0px auto;
+ 
+ .frequency-content {
+     float: initial;
+     overflow: initial;
+     display: grid;
+     row-gap: 20px;
+     column-gap: 20px;
+     padding: 30px 10px 10px 10px;
+     grid-template-columns: repeat(2, 1fr);
+     
+     .frequency-content-block {
+         height: auto;
+         float: initial;
+         text-align: center;
+         overflow: initial;
+         padding: 5px;
+         
+         .blocktitle {
+             font-size: 1em;
+             color: $color-txt;
+             float: left;
+         }
+         .blockvalue {
+             font-size: 1.2em;
+             float: right;
+         }
+         .freq-blockchart {
+             width: 100%;
+             height: 111px;
+             opacity: 1.0;
+             margin-top: 8px;
+             overflow: auto;
+             background-color: rgba(255, 255, 255, 0.05);
+             background-position: 50% 50%;
+             background-size: 140% 100%;
+             background-repeat: repeat-x;
+
+             &.freq-blockchart1 {
+                 // background-image: url("img/chart1.svg");
+                 background-image: url("https://raw.githubusercontent.com/Allu91/cpumeter/master/img/chart-long1.svg");
+             }
+             &.freq-blockchart2 {
+                 // background-image: url("img/chart2.svg");
+                 background-position: 150% 50%;
+                 background-image: url("https://raw.githubusercontent.com/Allu91/cpumeter/master/img/chart-long1.svg");
+             }
+         }
+
+         &:hover {
+             .freq-blockchart {
+                 border: 0;
+             }
+         }
+     }
+ }
+
+
+ @media (max-width: 768px) {
+     .frequency-content {
+         row-gap: 20px;
+         column-gap: 0;
+         padding: 30px 10px 10px 10px;
+         grid-template-columns: 100%;
+     }
+ }
+
+}   // section-expanded-frequency
+
+
+
+
+
+
+
+// .show1x1 {
+ 
+// }
+
+#section-single-frequency {
+ display: none;
+ min-height: 500px;
+ //margin: 5px auto 0px auto;
+
+ .frequency-content {
+     font-size: 1em;
+     font-weight: 500;
+     width: 100%;
+     padding: 25px 25px 10px 30px;
+     margin: 0 auto 0 auto;
+     overflow: auto;
+     
+     .frequency-single-subheader {
+         display: block;
+         width: 100%;
+         margin-bottom: 25px;
+         
+         h4 {
+             margin: 0;
+             font-size: 0.95rem;
+             font-weight: 500;
+             letter-spacing: 0.03rem;
+             font-family: $font-main;
+             color: $color-blu;
+         }
+     }
+     
+     
+     .frequency-single-content {
+         display: grid;
+         row-gap: 20px;
+         column-gap: 15px;
+         grid-template-columns: 120px 1fr;
+
+         .frequency-single-cores {
+             
+             .core-select {
+                 display: block;
+                 position: relative;
+                 padding-left: 35px;
+                 margin-bottom: 6px;
+                 cursor: pointer;
+                 -webkit-user-select: none;
+                 -moz-user-select: none;
+                 -ms-user-select: none;
+                 user-select: none;
+                 
+                 .select-title {
+                     margin: 0;
+                     font-size: 1.05rem;
+                     font-weight: 700;
+                     letter-spacing: 0.02rem;
+                     color: $color-txt2;
+                     font-family: $font-value;
+                 }
+                 
+                 /* Hide the browser's default checkbox */
+                 input {
+                     position: absolute;
+                     opacity: 0;
+                     cursor: pointer;
+                     height: 0;
+                     width: 0;
+                 }
+                 
+                 input:checked {
+                     color: $color-txt;
+                 }
+                 input:checked ~ .checkmark {
+                     background-color: #2196F3;
+                 }
+                 input:checked ~ .select-title {
+                     color: $color-txt;
+                 }
+                 
+                 .checkmark {
+                     position: absolute;
+                     top: 0px;
+                     left: 0;
+                     height: 18px;
+                     width: 18px;
+                     border-radius: 50%;
+                     border: 2px  solid;
+                 }
+                 
+                 &:nth-child(1) {
+                     .checkmark {border-color: $color-txt;}
+                     input:checked ~ .checkmark {background-color: $color-txt;}
+                 }
+                 &:nth-child(2) {
+                     .checkmark {border-color: $color-blu;}
+                     input:checked ~ .checkmark {background-color: $color-blu;}
+                 }
+                 &:nth-child(3) {
+                     .checkmark {border-color: #3cb878;}
+                     input:checked ~ .checkmark {background-color: #3cb878;}
+                 }
+                 &:nth-child(4) {
+                     .checkmark {border-color: #fff200;}
+                     input:checked ~ .checkmark {background-color: #fff200;}
+                 }
+                 &:nth-child(5) {
+                     .checkmark {border-color: #f7941d;}
+                     input:checked ~ .checkmark {background-color: #f7941d;}
+                 }
+                 &:nth-child(6) {
+                     .checkmark {border-color: #ed1c24;}
+                     input:checked ~ .checkmark {background-color: #ed1c24;}
+                 }
+                 &:nth-child(7) {
+                     .checkmark {border-color: #662d91;}
+                     input:checked ~ .checkmark {background-color: #662d91;}
+                 }
+                 
+ 
+                 &:hover input ~ .checkmark {
+                     background-color: $color-txt-d;
+                 }
+                 &:hover .select-title {
+                     color: $color-txt;
+                 }
+                 
+             }
+         }
+         
+         .frequency-single-histogram {
+             position: relative;
+             text-align: left;
+ 
+             .freq-blockchart {
+                 width: 100%;
+                 height: 220px;
+                 position: relative;
+                 display: block;
+                 background-color: $color-main;
+                 border-left: 1px $color-txt2 solid;
+                 border-bottom: 1px $color-txt2 solid;
+                 
+                 .freq-single-core-chart {
+                     opacity: 0;  // DO NOT DISPLAY UNTIL ACTIVE
+                     top: 0;
+                     left: 0;
+                     width: 100%;
+                     height: 100%;
+                     position: absolute;
+                     background-size: cover;
+                     background-position: 0 0;
+                     background-repeat: repeat-x;
+                     background-image: url(https://raw.githubusercontent.com/Allu91/cpumeter/master/img/chart-long1.svg);
+                     animation-duration: 24s;
+                     animation-timing-function: linear;
+                     animation-iteration-count: infinite;
+                     
+                     // DISPLAY WHEN ACTIVE
+                     &.active {
+                         opacity: 1;
+                     }
+                     
+                     &#freq-single-core-chart-core1 {
+                         animation-name: freq_chart_anim1;
+     
+                         @keyframes freq_chart_anim1 {
+                               0% {background-position: 0 0;}
+                             100% {background-position: -1705px 0;}
+                         }
+                     }
+                     &#freq-single-core-chart-core2 {
+                         filter: hue-rotate(-60deg);
+                         animation-name: freq_chart_anim2;
+     
+                         @keyframes freq_chart_anim2 {
+                               0% {background-position: -110px 0;}
+                             100% {background-position: -1815px 0;}
+                         }
+                     }
+                     &#freq-single-core-chart-core3 {
+                         filter: hue-rotate(205deg) saturate(2) contrast(1) brightness(1.5);
+                         animation-name: freq_chart_anim3;
+     
+                         @keyframes freq_chart_anim3 {
+                               0% {background-position: -250px 0;}
+                             100% {background-position: -1955px 0;}
+                         }
+                     }
+                     &#freq-single-core-chart-core4 {
+                         filter: hue-rotate(190deg);
+                         animation-name: freq_chart_anim4;
+     
+                         @keyframes freq_chart_anim4 {
+                               0% {background-position: -370px 0;}
+                             100% {background-position: -2075px 0;}
+                         }
+                     }
+                     &#freq-single-core-chart-core5 {
+                         filter: hue-rotate(150deg) saturate(2.0) contrast(1.5);
+                         animation-name: freq_chart_anim5;
+     
+                         @keyframes freq_chart_anim5 {
+                               0% {background-position: -490px 0;}
+                             100% {background-position: -2195px 0;}
+                         }
+                     }
+                     &#freq-single-core-chart-core6 {
+                         filter: hue-rotate(405deg) saturate(2) contrast(3) brightness(0.7);
+                         animation-name: freq_chart_anim6;
+     
+                         @keyframes freq_chart_anim6 {
+                               0% {background-position: -620px 0;}
+                             100% {background-position: -2325px 0;}
+                         }
+                     }
+                 }
+                 
+                 // .freq-blockchart-left {
+                 //     height: 100%;
+                 //     width: 70px;
+                 //     left: 0;
+                 //     top: 0;
+                 //     position: absolute;
+                 //     background-color: rgba(255, 0, 0, 0.3);
+                 // }
+                 
+                 img {
+                     width: 100%;
+                     height: 100%;
+                     opacity: 0.7;
+                     margin-top: 10px;
+                 }
+             }
+             
+             
+             .frequency-single-info {
+                 width: 100%;
+                 display: grid;
+                 row-gap: 20px;
+                 column-gap: 3%;
+                 margin-top: 30px;
+                 grid-template-columns: repeat(3, 1fr);
+             
+                 .full-txtBlock {
+                     padding: 10px;
+                     border-radius: 7px;
+                     background-color: $color-3rd;
+                     display: inline-block;
+                 }
+                 .blocktitle {
+                     font-size: 0.95em;
+                     text-align: center;
+                     color: $color-txt2;
+                 }
+                 .blockvalue {
+                     font-size: 1.5em;
+                     text-align: center;
+                 }
+             }
+         }
+     }
+ }
+
+
+
+ @media (max-width: 768px) {
+     .frequency-content {
+         .frequency-single-content {
+             column-gap: 0;
+             grid-template-columns: 100%;
+
+             .frequency-single-cores {
+                 .core-select {
+                     min-width: 90px;
+                     display: inline-block;
+                     padding-left: 25px;
+                     margin-bottom: 15px;
+                     margin-right: 20px;
+                 }
+             }
+
+             .frequency-single-histogram {
+                 .frequency-single-info {
+                     column-gap: 0;
+                     margin-top: 20px;
+                     grid-template-columns: 100%;
+                 }
+             }
+         }
+     }
+ }
+
+} // Section-single-frequency
+
+
+
+
+.show3x1fan {
+ // HIDDEN BY DEFAULT. REVEAL ON FAN-CLICK
+ display: none;
+
+ .section-full-fan {
+     width: 100%;
+     height: 100%;
+     min-height: 500px;
+     margin: 0px auto 0px auto;
+     font-weight: 500;
+     display: inline-block;
+
+     .full-fan-content-wrapper {
+         width: 100%;
+         height: 100%;
+         display: grid;
+         padding: 15px 10px 10px 10px;
+         margin: 0 auto 0 auto;
+         column-gap: 3.5%;
+         row-gap: 20px;
+         grid-template-columns: repeat(3, 1fr);
+
+         .full-fan-content-cube {
+             height: 100%;
+             // border-left: 2px solid $color-3rd;
+             
+             &:first-child {
+                 border-left: 0;
+             }
+
+
+             .full-blocktitle {
+                 font-weight: 700;
+                 letter-spacing: 1px;
+                 font-size: 1.2em;
+                 text-align: center;
+                 color: $color-txt;
+             }
+             .full-fan-circle {
+                 width: 75%;
+                 // height: 100%;
+                 min-height: 100px;
+                 opacity: 0.7;
+                 margin: 15px auto 0 auto;
+                 padding-top: 40px;
+                 background-position: center top;
+                 background-repeat: none;
+                 background-size: 100% 100%;
+ 
+                 &.circleimg1 {
+                     background-image: url("https://raw.githubusercontent.com/Allu91/cpumeter/master/img/chart-usage1.svg");
+                 }
+                 &.circleimg2 {
+                     background-image: url("https://raw.githubusercontent.com/Allu91/cpumeter/master/img/chart-usage2.svg");
+                 }
+                 &.circleimg3 {
+                     background-image: url("https://raw.githubusercontent.com/Allu91/cpumeter/master/img/chart-usage3.svg");
+                 }
+ 
+                 .full-percentagevalue {
+                     font-size: 1.1em;
+                     text-align: center;
+                     color: $color-blu;
+                     font-family: $font-value;
+                     margin-bottom: 0px;
+                 }
+                 .full-rpmvalue {
+                     font-size: 1.45em;
+                     text-align: center;
+                     font-family: $font-value;
+ 
+                     span {
+                         font-size: 0.65em;
+                         font-weight: 400;
+                         font-family: $font-main;
+                     }
+                 }
+             }
+ 
+             .full-fan-history {
+                 select {
+                     float: right;
+                     height: 100%;
+                     display: block;
+                     font-size: 0.85em;
+                     font-weight: 500;
+                     color: $color-txt-d;
+                     background-color: $color-2nd;
+                     border: none;
+                     margin-top: 20px;
+     
+                     &:hover {
+                         cursor: pointer;
+                         color: $color-txt2;
+                     }
+                 }
+                 .full-fan-history-chart {
+                     width: 100%;
+                     height: 100%;
+                     overflow: auto;
+                     min-height: 110px;
+                     background-color: rgba(255, 255, 255, 0.025);
+                     // border: 2px solid $color-3rd;
+                     // opacity: 0.99;
+                     margin-top: 0px;
+                     margin-bottom: 18px;
+                     background-position: center top;
+                     background-repeat: repeat-x;
+                     background-size: 150% 100%;
+                     background-image: url("https://raw.githubusercontent.com/Allu91/cpumeter/master/img/chart-long1.svg");
+                 }
+             }
+             
+             .full-fan-history-additional-info {
+                 .additional-info-block {
+                     font-size: 1em;
+                     font-weight: 400;
+                     color: $color-txt2;
+     
+                     span {
+                         float: right;
+                         font-size: 1em;
+                         font-weight: 500;
+                     }
+                 }
+             }
+         }
+     }
+ }
+
+
+
+ @media (max-width: 768px) {
+     .section-full-fan {
+         .full-fan-content-wrapper {
+             column-gap: 0;
+             grid-template-columns: 100%;
+
+             .full-fan-content-cube {
+                 padding-bottom: 20px;
+                 border-bottom: 2px solid $color-3rd;
+             }
+         }
+     }
+ }
+
+} /* show3x1fan */
+
+
+
+
+
+
+
+
+
+
+
+
+#section-footer {
+ display: grid;
+ width: 100%;
+ grid-template-columns: 50% 50%;
+ padding: 15px 0 0 5px;
+ font-family: $font-main;
+ 
+ .footer-left {
+     color: $color-txt2;
+     font-size: 1.0rem;
+     text-align: left;
+     
+     .switch {
+         position: relative;
+         display: inline-block;
+         width: 30px;
+         height: 17px;
+         margin: 0 0 0 5px;
+         top: 3px;
+     }
+
+     /* Hide default HTML checkbox */
+     .switch input {display:none;}
+
+     .feed-slider {
+         position: absolute;
+         cursor: pointer;
+         top: 0;
+         left: 0;
+         right: 0;
+         bottom: 0;
+         border-radius: 17px;
+         background-color: $color-txt2;
+         transition: .1s;
+         
+         &:before {
+             position: absolute;
+             content: "";
+             height: 13px;
+             width: 13px;
+             left: 2px;
+             bottom: 2px;
+             border-radius: 50%;
+             background-color: $color-main;
+             transition: .1s;
+         }
+     }
+     
+     input:checked + .feed-slider {
+         background-color: $color-blu;
+     }
+     input:focus + .feed-slider {
+         box-shadow: 0 0 1px $color-blu;
+     }
+     input:checked + .feed-slider:before {
+         transform: translateX(13px);
+     }
+ }
+ 
+ 
+ .footer-right {
+     display: block;
+     
+     .footer-button {
+         height: 30px;
+         min-width: 30px;
+         font-size: 1em;
+         font-weight: 600;
+         text-align: center;
+         color: $color-txt2;
+         float: right;
+         margin: 0 0 0 5px;
+         padding: 0 1px 0 1px;
+         background: $color-2nd;
+         border: 0;
+         transition: 0.08s;
+         //border: solid 2px $color-txt-d;
+         @include border-radius(15px);
+         
+         &#btn-help {
+             padding: 0 15px 0 15px;
+         }
+         
+         img {
+             height: 60%;
+             padding: 0;
+             margin: -2px 0 0 0;
+         }
+         &:hover {
+             color: $color-txt;
+             text-decoration: none;
+             background-color: $color-3rd;
+             cursor: pointer;
+         }
+         &:focus {
+             outline: 0;
+             opacity: 0.7;
+         }
+     }
+ }
+}
+
+
+
+
+/* The Modal (background) */
+.modal {
+ display: none;
+ position: fixed;
+ z-index: 1;
+ left: 0;
+ top: 0;
+ width: 100%;
+ height: 100%;
+ overflow: auto;
+ background-color: rgb(0,0,0);
+ background-color: rgba(0,0,0,0.5);
+ font-family: $font-main;
+ 
+ .modal-content {
+     width: 85%;
+     max-width: 850px;
+     position: relative;
+     background-color: $color-2nd;
+     margin: 120px auto 30px auto;
+     padding: 0;
+     border: 2px solid $color-txt-d;
+     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+     animation-name: animatetop;
+     animation-duration: 0.2s;
+     
+     h5 {
+         margin: 0;
+         font-size: 1.3rem;
+     }
+     p {
+         font-size: 1.0rem;
+     }
+     li {
+         font-size: 1.0em;
+     }
+     hr {
+         border: 1px solid $color-3rd;
+         margin: 5px 0 12px 0;
+     }
+     
+     
+     
+     .modal-header {
+         padding: 10px 15px 0 15px;
+         background-color: $color-3rd;
+         border: none;
+
+         h5 {
+             padding-bottom: 10px;
+             font-weight: 700;
+             font-size: 1.0rem;
+             color: $color-blu;
+             font-family: $font-value;
+             text-transform: uppercase;
+
+             i {
+                 font-size: 1.15rem;
+                 margin-right: 13px;
+             }
+         }
+     } // Modal header
+
+     .modal-body {
+         float: initial;
+         //text-align: justify;
+         color: $color-txt;
+         // overflow: auto;
+         max-height: 450px;
+         padding: 25px 50px 15px 50px;
+     }
+     .modal-footer {
+         padding: 2px 16px;
+         background-color: $color-2nd;
+         border: none;
+         display: block;
+         position: relative;
+         text-align: right;
+         border-top: solid 2px $color-3rd;
+
+         #close1, #close2 {
+             height: 30px;
+             font-size: 1em;
+             font-weight: 600;
+             text-align: center;
+             color: $color-trq;
+             text-shadow: none;
+             // float: right;
+             margin: 7px 0 7px 5px;
+             padding: 0 13px 0 13px;
+             background: $color-3rd;
+             border: 0;
+             transition: 0.08s;
+             //border: solid 2px $color-trq;
+             @include border-radius(15px);
+             
+             i {
+                 margin-right: 6px;
+             }
+             
+             &:hover,
+             &:focus {
+                 background-color: $color-txt-d;
+                 text-decoration: none;
+                 cursor: pointer;
+             }
+         }
+     }
+ }
+ 
+ @keyframes animatetop {
+     from {top: -100px; opacity: 0}
+     to {top: 0; opacity: 1}
+ }
+ 
+ @media (max-width: 1400px) {
+     .modal-content {
+         margin: 70px auto 30px auto;
+     }
+ }
+ 
+}
+
+
+
+
+
+
+
+/*----- Modal tabs -----*/
+.modal-tabs {
+ overflow: hidden;
+ background-color: $color-3rd;
+ 
+ button {
+     font-size: 0.9rem;
+     color: $color-blu;
+     letter-spacing: 1px;
+     font-family: $font-value;
+     font-weight: 700;
+     text-transform: uppercase;
+     background-color: $color-3rd;
+     float: left;
+     border: 0;
+     //border: 2px solid $color-2nd;
+     border-bottom: none;
+     border-radius: 5px 5px 0 0;
+     outline: none;
+     cursor: pointer;
+     padding: 7px 17px;
+     margin: 0 5px 0 0;
+     transition: 0.2s;
+     
+     
+     &.active {
+         //color: $color-txt2;
+         background-color: $color-2nd;
+         
+         &:hover {
+             background-color: $color-2nd;
+         }
+     }
+     
+     &:hover {
+         background-color: $color-txt-d;
+     }
+ }
+}
+
+.tabcontent {
+ display: none;
+ min-height: 200px;
+}
+#modal-info table {
+ min-width: 70%;
+ font-size: 0.9em;
+}
+
+
+
+
+
+
+
+
+
+// Custom scrollbar styling
+
+.scrollbar {
+float: left;
+overflow-y: scroll;
+ 
+ &.scroll-help {
+     &::-webkit-scrollbar-track {
+         box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+         border-radius: 10px;
+     }
+     &::-webkit-scrollbar {
+         width: 8px;
+     }
+     &::-webkit-scrollbar-thumb {
+         border-radius: 10px;
+         background-color: $color-main;
+     }
+ }
+ 
+ &.scroll-temp {
+     &::-webkit-scrollbar-track {
+         box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+         border-radius: 10px;
+     }
+     &::-webkit-scrollbar {
+         width: 8px;
+     }
+     &::-webkit-scrollbar-thumb {
+         border-radius: 10px;
+         background-color: $color-txt-d;
+     }
+ }
+
+ &.scroll-freq {
+     &::-webkit-scrollbar-track {
+         box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+         border-radius: 10px;
+     }
+     &::-webkit-scrollbar {
+         width: 8px;
+     }
+     &::-webkit-scrollbar-thumb {
+         border-radius: 10px;
+         background-color: $color-txt-d;
+     }
+ }
+} // Scrollbar
+
+
+
+
+
+
+
+
+
+
+
+#section-copyright {
+ color: $color-txt2;
+ font-family: $font-main;
+ text-align: center;
+ font-size: 0.8rem;
+ letter-spacing: 0.02rem;
+ margin: 0;
+ padding: 10px 0 30px 0;
+ right: 0;
+ bottom: 0;
+ left: 0;
+ //background-color: $color-2nd;
+
+ a {
+     &:hover {
+         text-decoration: underline;
+     }
+     &:visited {
+         color: $color-blu;
+     }
+ }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 768px) {
+ #section-frequency {
+     .frequency-content {
+         grid-template-columns: repeat(2, 1fr);
+     }
+ }
+ 
+ .section-splitter {
+     display: grid;
+     grid-gap: 0;
+     row-gap: 15px;
+     grid-template-columns: 100%;
+
+     #left-side,
+     #right-side {
+         margin-top: 0;
+         vertical-align: top;
+     }
+ }
+} // @media (max-width: 768px)
+
+
+
+
+
+@media (max-width: 576px) {
+ #section-temperature {
+     .temperature-content {
+         .temperature-content-block {
+             .temperature-blocktitle,
+             .temperature-value{
+                 margin-right: 0;
+                 display: block;
+                 position: relative;
+             }
+             // .temperature-blocktitle {
+             // }
+             .temperature-value {
+                 text-align: left;
+                 float: initial;
+             }
+         }
+     }
+ }
+} // @media (max-width: 576px)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+@media (max-width: 768px) {
+ #main {
+   width: 100%;
+   max-width: 620px;
+   height: 100%;
+   margin: 5px auto 5px auto;
+   padding: 5px 10px 10px 10px;
+   @include border-radius(7px);
+ }
+ .cube {
+   width: 100%;
+   @include border-radius(5px);
+ }
+ .head {
+   letter-spacing: 0px;
+   font-size: 0.9em;
+   height: 25px;
+   padding: 2px 3px 5px 10px;
+ }
+ .cubecontent {
+   width: 100%;
+ }
+ .blocktitle {
+   font-size: 0.7em;
+ }
+ .blockvalue {
+   font-size: 1.05em;
+ }
+ .blockvalue span {
+   font-size: 0.65em;
+ }
+
+
+
+ .freq-cube {
+   min-height: 140px;
+   margin: 5px auto 15px auto;
+
+       .freq-cubecontent {
+         height: 100%;
+         overflow: auto;
+         padding: 10px 0 10px 0;
+       }
+       .freq-content-block {
+         width: 40%;
+         max-width: 170px;
+         height: 100%;
+         margin: 0 1% 5px 6%;
+       }
+       .freq-blockchart1 {
+         width: 100%;
+         height: 57px;
+         opacity: 0.7;
+         margin-top: 0px;
+       }
+       .freq-blockchart2 {
+         width: 100%;
+         height: 57px;
+         opacity: 0.7;
+         margin-top: 0px;
+       }  
+  }
+
+
+ .fan-cube {
+   max-width: none;
+   min-height: 140px;
+   margin: 0 0 15px 0;
+ }
+ .fan-cubecontent {
+   height: 100%;
+   overflow: auto;
+   padding: 10px 10px 10px 10px;
+   text-align: center;
+ }
+ .fan-cubecontent-block {
+   width: 30%;
+   height: 100%;
+   overflow: auto;
+   margin: 0 1% 0 1%;
+   display: block;
+ }
+ .fan-blocktitle {
+   font-size: 0.75em;
+ }
+ .fan-blockvalue {
+   font-size: 1.05em;
+ }
+ .fan-blockchart {
+   width: 100%;
+   margin-top: 8px;
+ }
+ .fan-blockchart img {
+   width: 35%;
+   margin-bottom: 5px;
+   opacity: 0.7;
+ }
+
+
+
+ .use-cube {
+   max-width: none;
+   height: 100%;
+   min-height: 155px;
+   margin: 0 0 0 0;
+ }
+ .use-cubecontent {
+   height: 100%;
+   padding: 15px 15px 15px 10px;
+ }
+
+
+ .use-overall {
+   width: 30%;
+   height: 100%;
+   padding: 5px 10px 0 5px;
+   margin: 0 0 0 0;
+ }
+ .use-overall-cubecontent-block {
+   width: 100%;
+   height: 70px;
+   margin: 3px 0 8px 0;
+   padding-top: 3px;
+ }
+ .use-overall .blocktitle span {
+   font-size: 1em;
+   line-height: 20px;
+ }
+
+
+ .use-cores {
+   width: 70%;
+   height: 100%;
+   margin: 0 0 0 0;
+   padding: 5px 0 0 0;
+   font-size: 0.9em;
+ }
+ .cores-cubecontent-block {
+   width: 32%;
+   height: 75px;
+   margin: 2px 1px 5px 1px;
+   padding-top: 0px;
+ }
+ .cores-circle {
+   width: 45px;
+   height: 45px;
+   margin: 3px auto 0 auto;
+   padding: 2px;
+   border-radius: 50%;
+ }
+ .cores-circle-inner {
+   font-size: 0.65em;
+   padding-top: 10px;
+ }
+
+
+ .temp-cube {
+   height: 60vw;
+   min-height: 230px;
+   margin: 0 0 0 0;
+ }
+ .temp-cubecontent {
+   height: 50vw;
+   min-height: 220px;
+   padding: 10px 10px 10px 10px;
+ }
+ .temp-cubecontent-block {
+   width: 43%;
+   height: 23vw;
+   min-height: 60px;
+   margin: 5px 2% 1vw 4%;
+ }
+ .temp-blocktitle {
+   font-size: 3.2vw;
+ }
+ .temp-value {
+   font-size: 4vw;
+ }
+ .temp-image1 {
+   width: 100%;
+   height: 15vw;
+   max-height: 85px;
+   background-size: 100% 100%;
+ }
+ .temp-image2 {
+   width: 100%;
+   height: 15vw;
+   max-height: 85px;
+   background-size: 100% 100%;
+ }   
+
+
+
+ .settings-cube {
+   width: 100%;
+   padding: 15px 0 0 0;
+ }
+ .set-left {
+   width: 50%;
+   font-size: 0.9em;
+ }
+ .set-right {
+   width: 50%;
+ }
+ .set-button {
+   height: 25px;
+   min-width: 35px;
+   font-size: 0.8em;
+   margin: 0 0 0 3px;
+   padding: 0 10px 0 10px;
+   border: solid 2px $color-txt-d;
+   @include border-radius(15px);
+ }
+ .set-right img {
+   height: 60%;
+   padding: 0;
+   margin: -2px 0 0 0;
+ }
+
+
+
+
+ .modal {
+
+ }
+ #close1, #close2 {
+   height: 25px;
+   font-size: 0.9em;
+   margin: 5px 0 7px 5px;
+   padding: 0 10px 0 10px;
+ }
+ .modal-header {
+   padding: 5px 15px 0px 15px;
+   font-size: 0.9em;
+ }
+
+ .modal-body {
+   text-align: left;
+   height: 70vh;
+   max-height: 450px;
+   padding: 20px 20px 10px 25px;
+ }
+
+ .modal-footer {
+   padding: 2px 16px;
+ }
+
+ .modal-content {
+   margin: 20px auto 30px auto;
+   padding: 0;
+   width: 90%;
+   max-width: 500px;
+   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+ }
+ .modal-content h5 {
+   font-size: 1.2em;
+ }
+ .modal-content p {
+   font-size: 0.8em;
+ } 
+ .modal-content li {
+   font-size: 0.8em;
+ }
+
+
+
+
+
+ div.tab button {
+     font-size: 0.9em;
+     letter-spacing: 0px;
+     padding: 3px 12px;
+     margin: 0 2px 0 0;
+ }
+ .tabcontent {
+     display: none;
+     min-height: 200px;
+ }
+ #modal-info table {
+   width: 100%;
+   font-size: 0.8em;
+ }
+ #modal-info td {
+   height: 40px;
+   padding: 0 10px 5px 0;
+   vertical-align: top;
+   text-align: left;
+   border-bottom: 1px solid $color-3rd;
+ } 
+
+
+
+
+
+ .show3x2 {
+   display: none;
+ }
+ #backToMain1 {
+   margin: 0 5px 10px 10px;
+ }
+ .big-freq-cube {
+   height: 100%;
+   margin: 5px auto 0px auto;
+
+       .blocktitle {
+         font-size: 2.4vw;
+       }
+       .blockvalue {
+         font-size: 3.2vw;
+       }
+       .freq-cubecontent {
+         padding: 10px 0 10px 0;
+       }
+       .freq-content-block {
+         width: 45%;
+         height: 25vw;
+         margin: 1vw 0 1vw 3%;
+       }
+       .freq-blockchart1 {
+         width: 100%;
+         height: 17vw;
+         margin-top: 2px;
+       }
+       .freq-blockchart2 {
+         width: 100%;
+         height: 17vw;
+         margin-top: 2px;
+       }
+ }  
+
+
+ .show1x1 {
+   display: none;
+ }
+ #backToMain2 {
+   margin: 5px 5px 10px 10px;
+ }
+ .full-freq-cube {
+   height: 100%;
+   margin: 5px auto 0px auto;
+
+       .freq-cubecontent {
+         width: 100%;
+         padding: 5px 5px 10px 10px;
+         margin: 0 auto 0 auto;
+         overflow: auto;
+       }
+       .freq-blockchart {
+         width: 100%;
+         margin: 10px auto 10px auto;
+         display: block;
+         font-size: 0.75em;
+       }
+       .freq-blockchart img {
+         width: 100%;
+         max-width: 350px;
+         height: 100%;
+         opacity: 0.7;
+         margin-top: 5px;
+       }
+       .full-txtBlock {
+         width: 80%;
+         padding: 5px;
+         margin: 3px auto 0 auto;
+         border-radius: 7px;
+         display: block;
+         text-align: center;
+       }
+       .blocktitle {
+         font-size: 0.8em;
+         line-height: 18px;
+       }
+       .blockvalue {
+         font-size: 1.1em;
+         line-height: 18px;
+       }
+ }
+
+
+ .show3x1fan {
+
+     .head {
+       font-size: 1.1em;
+       height: 35px;
+       padding: 5px 3px 5px 10px;
+       letter-spacing: 0px;
+     }
+     #backToMain3 {
+       margin: 0 10px 0 0;
+       font-size: 0.7em;
+     }
+     .vertical-line {
+       border-right: none;
+       border-bottom: 1px solid $color-3rd;
+     }
+     .full-fan-cubecontent {
+       padding: 10px 0 10px 0;
+     }
+     .full-fan-cubecontent-block {
+       width: 95%;
+       max-width: 400px;
+       padding: 0 0 15px 0;
+       margin: 0 auto 15px auto;
+       float: none;
+     }
+     .full-fan-circle {
+       width: 90%;
+       min-height: 100px;
+       opacity: 0.7;
+       margin: 10px auto 10px auto;
+       padding-top: 35px;
+     }
+     .full-blocktitle {
+       font-size: 1.1em;
+     }
+     .full-percentagevalue {
+       font-size: 1.0em;
+       margin-bottom: 0px;
+     }
+     .full-rpmvalue {
+       font-size: 1.3em;
+     }
+     .full-rpmvalue span {
+       font-size: 0.6em;
+     }
+     .full-fan-history {
+       width: 47%;
+       margin-right: 2%;
+       display: inline-block;
+     }
+     select {
+       font-size: 0.7em;
+       margin-top: 0;
+     }
+     .full-fan-chart {
+       height: 18vw;
+       min-height: 10px;
+       border: 2px solid $color-3rd;
+       margin-top: 0px;
+       margin-bottom: 0px;
+     }
+     .addinfo-cube {
+       width: 49%;
+       margin-top: 13px;
+       display: inline-block;
+       vertical-align: top;
+     }
+     .full-fan-addinfo {
+       font-size: 0.75em;
+     }
+     .full-fan-addinfo span {
+       font-size: 1em;
+     }
+ }
+
+
+} // Max-width 580px
+*/
+
+View Compiled
+
+
+ 
