@@ -21,16 +21,14 @@ WAKE_WORDS = ["Dexter", "hey Dexter", "texture", "computer", "Okay computer" "he
 
 
 
-recognizer = sr.Recognizer()
+
 
 
 class Dexter:
 
 	def __init__(self):
 		self.startup = time.time()
-		
-		
-
+	
 
 def boing():
 	playsound('sounds/boing.wav')
@@ -38,7 +36,10 @@ def boing():
 
 def listen():
 	
-	playsound('sounds/boing.wav')
+	#playsound('sounds/boing.wav')
+	
+	print('Listening...')
+
 
 	with sr.Microphone() as source:
 			
@@ -46,9 +47,18 @@ def listen():
 			#print("Waiting for wake word")
 
 			#recognizer.adjust_for_ambient_noise(source, duration=0.5)
-			recorded_audio = recognizer.listen(source, timeout=0.5)
-			
+			try:
+				recorded_audio = recognizer.listen(source, timeout=1)
+			except Exception as ex:
+				if debug:
+					print(ex)
+					return
+				else:
+					return
+
+
 			print("Recognizing")
+
 			start = time.time()
 
 			text = recognizer.recognize_google(
@@ -56,13 +66,17 @@ def listen():
 					language='en-US')
 
 			decode_time = time.time() - start
-			print("Detection time: {}".format(decode_time))
+
+			if debug:
+				print("Detection time: {}".format(decode_time))
 
 			with open('logs/decode-time.txt', 'a') as decode:
 				decode.write("{}\n".format(decode_time))
 				decode.close()
 
-			print("Decoded Text : {}".format(text))
+
+			if debug:
+				print("Decoded Text : {}".format(text))
 
 			handle_query(text)
 
@@ -75,28 +89,25 @@ def listen():
 		except Exception as ex:
 			print(ex)
 
-		'''
-		for word in WAKE_WORDS:
-			if word.lower() in text.lower():
-				handle_query(text)
-
-				with open('logs/total-response-time.txt', 'a') as trt:
-					trt.write("{}\n".format(time.time() - start))
-					trt.close()
-		'''
-
 
 if __name__ == '__main__':
-	dex = Dexter()
+	debug = True
 
+	recognizer = sr.Recognizer()
 	engine = PreciseEngine('hotword/precise-engine/precise-engine', 'hotword/computer-en.pb')
 	runner = PreciseRunner(engine, on_activation=listen)
 	runner.start()
 
-	while True:
+	intro()
+
+
+	dex = Dexter()
+
+	
+	run = True
+	while run:
 		time.sleep(2)
 
-	#intro()
 	#voice("Hello sir, my name is Dexter, you're virtual assistant. How can I help you.")
 	
 	#listen_for_wake()
