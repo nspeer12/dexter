@@ -18,7 +18,7 @@
             "responses": []
         },
         {"tag": "math",
-            "patterns": ["1 + 2", "3 / 4", "5 * 6", "7 - 8", "9 % 0"],
+            "patterns": ["1 + 2", "3 / 4", "5 * 6", "7 - 8", "9 % 0","what is 1 + 2", "what is 3 / 4", "what is 5 * 6", "what is 7 - 8", "what is 9 % 0"],
             "responses": []
         },
         {"tag": "news",

@@ -52,11 +52,6 @@ def wakeWord():
                         speak("Yessir, how may I help you?")
                         return True
 
-def play():
-    song = message.replace("play", "")
-    print(song)
-    kit.playonyt(str(song))
-
 def getMessage():
     while True:
         try:
@@ -76,15 +71,139 @@ def getMessage():
 
 def greeting():
     speak("greeting")
-    print("hello")
+
+def introduction():
+    speak("I am Dexter")
 
 def goodbye():
     speak("goodbye")
 
+def wiki():
+    speak("making api call to wiki")
+
+def math():
+    speak("making api call to wolf frame alpha")
+
+def news():
+    speak("making api call to top stories from reddit")
+
+def play():
+    speak(message.replace("play", "playing"))
+    song = message.replace("play ", "")
+    kit.playonyt(str(song))
+
+def resume():
+    # use WinRT api in the future
+    pyautogui.press('playpause')
+
+def pause():
+    # use WinRT api in the future
+    pyautogui.press('playpause')
+
+def increaseVolume():
+    pyautogui.press('volumeup')
+
+def decreaseVolume():
+    pyautogui.press('volumedown')
+
+def mute():
+    # differentiate between unmute using sound api
+    pyautogui.press('volumemute')
+
+def unmute():
+    # differentiate between mute using sound api
+    pyautogui.press('volumemute')
+
+def reset():
+	pyautogui.hotkey('win', 'x')
+	time.sleep(.1)
+	pyautogui.press('u')
+	time.sleep(.1)
+	pyautogui.press('r')
+
+def shutdown():
+	pyautogui.hotkey('win', 'x')
+	time.sleep(.1)
+	pyautogui.press('u')
+	time.sleep(.1)
+	pyautogui.press('u')
+
+def sleep():
+	pyautogui.hotkey('win', 'x')
+	time.sleep(1)
+	pyautogui.press('u')
+	time.sleep(1)
+	pyautogui.press('s')
+
+def minimize():
+    pyautogui.hotkey('win', 'm')
+
+def maximize():
+    pyautogui.hotkey('win', 'up')
+
+def restore():
+    pyautogui.hotkey('win', 'shiftleft', 'm')
+
+def switchApplications():
+    pyautogui.hotkey('alt', 'tab')
+
+def switchDesktop():
+    pyautogui.hotkey('win', 'tab')
+
+def openApplication():
+    speak("opening Application")
+
+def openFile():
+    speak("opening file")
+
+def date():
+    speak("opening file")
+    t = datetime.datetime.now()
+    day = t.strftime("%A")
+    date = t.strftime("%d")
+    month = t.strftime("%B")
+    year = t.strftime("%Y")
+    speak('its {}, {} {}, {}'.format(day, month, date, year))
+
+def time():
+    t = datetime.datetime.now()
+    hour = t.strftime("%H")
+    minute = t.strftime("%M")
+    ampm = t.strftime("%p")
+    hour = int(hour) % 12
+    speak('its {} {} {}'.format(hour, minute, ampm))
+
+def day():
+    speak("it taco tuesday")
+
 mappings = {
     'greeting' : greeting,
+    'introduction' : introduction,
     'goodbye' : goodbye,
-    'play' : play
+    'wiki' : wiki,
+    'math' : math,
+    'news' : news,
+    'play' : play,
+    'resume' : resume,
+    'pause' : pause,
+    'increaseVolume' : increaseVolume,
+    'decreaseVolume' : decreaseVolume,
+    'mute' : mute,
+    'unmute' : unmute,
+    'reset' : reset,
+    'shutdown' : shutdown,
+    'sleep' : sleep,
+    'minimize' : minimize,
+    'maximize' : maximize,
+    'restore' : restore,
+    'switchApplications' : switchApplications,
+    'switchDesktop' : switchDesktop,
+    'openApplication' : openApplication,
+    'openFile' : openFile,
+    'date' : date,
+    'time' : time,
+    'day' : day,
+
     }
 
 # while True:

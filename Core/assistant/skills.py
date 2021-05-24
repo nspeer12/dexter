@@ -29,7 +29,6 @@ def get_time(*args):
 
 	return 'its {} {} {}'.format(hour, minute, ampm)
 
-
 def get_day(*args):
 	return 'its taco tuesday'
 
