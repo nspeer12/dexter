@@ -12,6 +12,7 @@ import torch
 import torch.nn as nn
 from model.gesture.gestureModel import NeuralNetG
 # from model.motion.motionModel import NeuralNetM
+import time
 
 class handDetection():
     def __init__(self):
@@ -37,6 +38,9 @@ class handDetection():
         self.gesture_history = deque(maxlen=4)
         self.gesture_cords = []
         self.hand_exit = True
+        self.old_gesture = -1
+        self.old_tracker = -1
+        self.last_function_time = 0
 
         # Define CSV paths
         gesture_label_csv_path = 'csv/gesture_label.csv'
@@ -166,7 +170,15 @@ class handDetection():
                 
                 output = self.model.forward(torch.from_numpy(np.append([left_or_right], normalized_points)).float())
                 self.gesture_history.append(torch.argmax(output))
-                current_predict_gesture = self.gesture_labels[Counter(self.gesture_history).most_common()[0][0]]
+                new_prediction = Counter(self.gesture_history).most_common()[0][0]
+
+                if (self.old_gesture != new_prediction):
+                    if ((self.last_function_time + 1) < time.time()):
+                        print(self.gesture_labels[self.old_gesture],self.gesture_labels[new_prediction])
+                    self.old_tracker = self.old_gesture
+                    self.old_gesture = new_prediction
+                    self.last_function_time = time.time()
+                current_predict_gesture = self.gesture_labels[new_prediction]
 
                 # if (len(self.point_history) == 4):
                 #     output2 = self.model2.forward(torch.from_numpy(np.append([left_or_right], fully_flat)).float())
@@ -175,7 +187,9 @@ class handDetection():
             else:
                 current_predict_gesture = "no hand detected"
                 current_predict_motion = "no hand detected"
+                self.old_gesture = -1
                 self.hand_exit = True
+                self.last_function_time = time.time()
 
             # Move Mouse
             # if (len(gesture_cords) > 0):
@@ -235,10 +249,17 @@ class handDetection():
             cv.putText(debug_image, "fps: " + str(int(fps)), (10, 700), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # bot left
 
             cv.putText(debug_image, "Predicted Gesture: " + current_predict_gesture, (10, 30), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
-            cv.putText(debug_image, "Record Gesture: " + self.gesture_labels[self.current_gesture_to_record], (10, 60), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
+            cv.putText(debug_image, "Record Gesture: " + self.gesture_labels[self.current_gesture_to_record], (10, 90), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
 
-            cv.putText(debug_image, "Predicted Motion: " + current_predict_motion, (10, 90), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
+            if (self.old_gesture == -1):
+                old_gesture_print = "none"
+            else:
+                old_gesture_print = self.gesture_labels[self.old_tracker]
+            cv.putText(debug_image, "Old Gesture: " + old_gesture_print, (10, 60), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
+
+            cv.putText(debug_image, "Predicted Motion: " + current_predict_motion, (10, 120), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
             # cv.putText(debug_image, "Record Motion: " + self.motion_labels[self.current_motion_to_record], (10, 120), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
+
 
             cv.imshow('Hand Gesture Recognition', debug_image)
 
