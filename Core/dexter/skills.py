@@ -4,6 +4,7 @@ from mouse import *
 from track import object_tracker
 from keyboard import *
 from intro import intro
+import pywhatkit as kit
 
 # COMMENT OLD SKILLS OUT FOR NOW
 # # functions for each skill
@@ -101,8 +102,8 @@ def news(self):
     speak(self,"making api call to top stories from reddit")
 
 def play(self):
-    speak(self,message.replace("play", "playing"))
-    song = message.replace("play ", "")
+    speak(self,self.message.replace("play", "playing"))
+    song = self.message.replace("play ", "")
     kit.playonyt(str(song))
 
 def resume(self):
