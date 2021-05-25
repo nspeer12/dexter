@@ -6,7 +6,7 @@ from keyboard import *
 from intro import intro
 from voice import *
 from gpt3 import *
-
+import pywhatkit as kit
 
 # COMMENT OLD SKILLS OUT FOR NOW
 # # functions for each skill
@@ -90,7 +90,7 @@ from gpt3 import *
 
 
 def greeting(self, query, context):
-    voice("greeting")
+    voice("Hi, I'm Dexter. How can I help you today?")
 
 def introduction(self, query, context):
     voice("I am Dexter")
@@ -108,8 +108,8 @@ def news(self, query, context):
     voice("making api call to top stories from reddit")
 
 def play(self, query, context):
-    voice(message.replace("play", "playing"))
-    song = message.replace("play ", "")
+    voice(query.replace("play", "playing"))
+    song = query.replace("play ", "")
     kit.playonyt(str(song))
 
 def resume(self, query, context):
