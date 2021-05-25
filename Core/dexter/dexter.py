@@ -100,7 +100,21 @@ class Dexter:
 
 	def get_input(self):
 		# get input from microphone -> google api -> text
-		pass
+		while True:
+			try:
+				with speech_recognition.Microphone() as mic:
+					self.recognizer.adjust_for_ambient_noise(mic,duration=0.2)
+					audio = self.recognizer.listen(mic)
+					text = self.recognizer.recognize_google(audio)
+					text = text.lower()
+					print(f"You said:\n{text}")
+					if (text != ""):
+						self.message = text
+						return text
+					else:
+						print("empty string")
+			except Exception as ex:
+				print(ex)
 
 	def process_input(self, text):
 		text = clean_text(text)
@@ -188,7 +202,6 @@ class Dexter:
 			#playsound('sounds/boing.wav')
 			
 			run = True
-
 
 			print('Listening...')
 
