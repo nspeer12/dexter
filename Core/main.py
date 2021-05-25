@@ -3,7 +3,7 @@ import zmq
 import threading
 import time
 from dexter import Dexter
-from gesture import handDetection
+from gesture import HandDetection
 
 def zmq_sock():
 	context = zmq.Context()
@@ -24,6 +24,23 @@ def zmq_sock():
 		socket.send_string("What it do")
 
 
+def launch_dexter():
+	dex = Dexter()
+	dex.listen()
+
+
+def launch_gesture():
+	gest = HandDetection() 
+
 if __name__ == '__main__':
 	#Establish a socket to start listening for incoming messages on
-	zmq_sock()
+	#zmq_sock()
+
+	d = threading.Thread(target=launch_dexter)
+	g = threading.Thread(target=launch_gesture)
+
+	d.start()
+	g.start()
+
+
+
