@@ -86,94 +86,98 @@ from gpt3 import *
 
 # NEW SKILLS
 
-def greeting(self):
+
+# every skill needs to get passed a query and context parameter
+
+
+def greeting(self, query, context):
     voice("greeting")
 
-def introduction(self):
+def introduction(self, query, context):
     voice("I am Dexter")
 
-def goodbye(self):
+def goodbye(self, query, context):
     voice("goodbye")
 
-def wiki(self):
+def wiki(self, query, context):
     voice("making api call to wiki")
 
-def math(self):
+def math(self, query, context):
     voice("making api call to wolf frame alpha")
 
-def news(self):
+def news(self, query, context):
     voice("making api call to top stories from reddit")
 
-def play(self):
+def play(self, query, context):
     voice(message.replace("play", "playing"))
     song = message.replace("play ", "")
     kit.playonyt(str(song))
 
-def resume(self):
+def resume(self, query, context):
     # use WinRT api in the future
     pyautogui.press('playpause')
 
-def pause(self):
+def pause(self, query, context):
     # use WinRT api in the future
     pyautogui.press('playpause')
 
-def increaseVolume(self):
+def increaseVolume(self, query, context):
     pyautogui.press('volumeup')
 
-def decreaseVolume(self):
+def decreaseVolume(self, query, context):
     pyautogui.press('volumedown')
 
-def mute(self):
+def mute(self, query, context):
     # differentiate between unmute using sound api
     pyautogui.press('volumemute')
 
-def unmute(self):
+def unmute(self, query, context):
     # differentiate between mute using sound api
     pyautogui.press('volumemute')
 
-def reset(self):
+def reset(self, query, context):
 	pyautogui.hotkey('win', 'x')
 	time.sleep(.1)
 	pyautogui.press('u')
 	time.sleep(.1)
 	pyautogui.press('r')
 
-def shutdown(self):
+def shutdown(self, query, context):
 	pyautogui.hotkey('win', 'x')
 	time.sleep(.1)
 	pyautogui.press('u')
 	time.sleep(.1)
 	pyautogui.press('u')
 
-def sleep(self):
+def sleep(self, query, context):
 	pyautogui.hotkey('win', 'x')
 	time.sleep(1)
 	pyautogui.press('u')
 	time.sleep(1)
 	pyautogui.press('s')
 
-def minimize(self):
+def minimize(self, query, context):
     pyautogui.hotkey('win', 'm')
 
-def maximize(self):
+def maximize(self, query, context):
     pyautogui.hotkey('win', 'up')
 
-def restore(self):
+def restore(self, query, context):
     pyautogui.hotkey('win', 'shiftleft', 'm')
 
-def switchApplications(self):
+def switchApplications(self, query, context):
     pyautogui.hotkey('alt', 'tab')
 
-def switchDesktop(self):
+def switchDesktop(self, query, context):
     pyautogui.hotkey('win', 'tab')
 
-def openApplication(self):
+def openApplication(self, query, context):
     voice("opening Application")
 
-def openFile(self):
+def openFile(self, query, context):
     voice("opening file")
 
-def date(self):
+def date(self, query, context):
     t = datetime.datetime.now()
     day = t.strftime("%A")
     date = t.strftime("%d")
@@ -182,7 +186,7 @@ def date(self):
 
     voice('its {}, {} {}, {}'.format(day, month, date, year))
 
-def get_time(self, message):
+def get_time(self, query, context):
     t = datetime.datetime.now()
     hour = t.strftime("%H")
     minute = t.strftime("%M")
@@ -190,9 +194,9 @@ def get_time(self, message):
     hour = int(hour) % 12
     voice('its {} {} {}'.format(hour, minute, ampm))
 
-def day(self):
+def day(self, query, context):
     voice(self,"it taco tuesday")
 
-def question(self, text:str):
+def question(self, query, context):
     print('here')
-    voice(gpt3_answer(text))
+    voice(gpt3_answer(query))
