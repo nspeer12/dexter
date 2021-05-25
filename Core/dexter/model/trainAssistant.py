@@ -7,6 +7,8 @@ from assistantModel import NeuralNet
 import numpy as np
 import pandas as pd
 import csv
+from tqdm import tqdm
+
 
 # Device Config
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -49,7 +51,9 @@ cm = np.zeros((num_classes,num_classes))
 
 # Train the model
 n_total_steps = len(dataloader)
-for epoch in range(num_epochs):
+
+for epoch in tqdm(range(num_epochs)):
+
     for i, (features, labels) in enumerate(dataloader):
 
         features = features.to(device=device, dtype=torch.float32)
@@ -80,7 +84,7 @@ for epoch in range(num_epochs):
             n_correct += (predictions == labels).sum().item()
 
         acc = 100.0* n_correct / n_samples
-        print(f'Test accuracy = {acc}')
+        #print(f'Test accuracy = {acc}')
 
 # Confusion Matrix
 with torch.no_grad():
@@ -94,8 +98,18 @@ with torch.no_grad():
             cm[labels[i],predictions[i]] = cm[labels[i],predictions[i]] + 1
 
 # Y is actual X is predicted
-print(cm)
+#print(cm)
 
 # Specify Path & Save Model
 PATH = "AssistantModel.pth"
 torch.save(model.state_dict(), PATH)
+
+levelup =  '''
+
+        _______ _    _ _______             _     _  _____ 
+ |      |______  \  /  |______ |           |     | |_____]
+ |_____ |______   \/   |______ |_____      |_____| |      
+
+'''
+
+print(levelup)
