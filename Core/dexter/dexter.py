@@ -19,7 +19,6 @@ import torch
 import torch.nn as nn
 from model.assistantModel import NeuralNet
 import speech_recognition
-import pyttsx3 as tts
 import nltk
 from nltk.stem import WordNetLemmatizer
 
@@ -54,8 +53,6 @@ class Dexter:
 		print("loaded assistant model")
 
 		self.recognizer = speech_recognition.Recognizer()
-		self.speaker = tts.init()
-		self.speaker.setProperty('rate', 150)
 
 		self.mappings = {
 			'greeting' : greeting,
@@ -82,8 +79,9 @@ class Dexter:
 			'openApplication' : openApplication,
 			'openFile' : openFile,
 			'date' : date,
-			'time' : time,
+			'time' : get_time,
 			'day' : day,
+			'question' : question,
 		}
 
 	def wake_word(self):
@@ -122,93 +120,84 @@ class Dexter:
 		print(prediction)
 
 		if prediction in self.mappings.keys():
-			self.mappings[prediction](self)
-
-def boing():
-	playsound('sounds/boing.wav')
+			self.mappings[prediction](self, message)
 
 
-def listen():
-	
-	#playsound('sounds/boing.wav')
-	
-	print('Listening...')
+	def listen(self):
+		
+		#playsound('sounds/boing.wav')
+		
+		run = True
 
 
-	with sr.Microphone() as source:
+		print('Listening...')
+
+
+		with sr.Microphone() as source:
 			
-		try:
-			#print("Waiting for wake word")
+			while run:
 
-			#recognizer.adjust_for_ambient_noise(source, duration=0.5)
-			try:
-				recorded_audio = self.recognizer.listen(source, timeout=1)
-			except Exception as ex:
-				if debug:
+				try:
+					#print("Waiting for wake word")
+
+					#recognizer.adjust_for_ambient_noise(source, duration=0.5)
+					try:
+						recorded_audio = self.recognizer.listen(source, timeout=1)
+
+					except Exception as ex:
+						if debug:
+							print(ex)
+
+						continue
+
+					print("Recognizing")
+
+					start = time.time()
+
+					text = self.recognizer.recognize_google(
+							recorded_audio,
+							language='en-US')
+
+					decode_time = time.time() - start
+
+					if debug:
+						print("Detection time: {}".format(decode_time))
+
+					with open('logs/decode-time.txt', 'a') as decode:
+						decode.write("{}\n".format(decode_time))
+						decode.close()
+
+
+					if debug:
+						print("Decoded Text : {}".format(text))
+
+					
+					self.process_input(text)
+
+					#handle_query(text)
+
+					with open('logs/total-response-time.txt', 'a') as trt:
+						trt.write("{}\n".format(time.time() - start))
+						trt.close()
+
+
+				except Exception as ex:
 					print(ex)
-					return
-				else:
-					return
-
-
-			print("Recognizing")
-
-			start = time.time()
-
-			text = recognizer.recognize_google(
-					recorded_audio,
-					language='en-US')
-
-			decode_time = time.time() - start
-
-			if debug:
-				print("Detection time: {}".format(decode_time))
-
-			with open('logs/decode-time.txt', 'a') as decode:
-				decode.write("{}\n".format(decode_time))
-				decode.close()
-
-
-			if debug:
-				print("Decoded Text : {}".format(text))
-
-			handle_query(text)
-
-			with open('logs/total-response-time.txt', 'a') as trt:
-				trt.write("{}\n".format(time.time() - start))
-				trt.close()
-
-			return
-
-		except Exception as ex:
-			print(ex)
 
 
 if __name__ == '__main__':
-	# debug = True
-
-	# engine = PreciseEngine('hotword\\precise-engine\\precise-engine.exe', 'hotword\\computer-en.pb')
-	# runner = PreciseRunner(engine, on_activation=listen)
-	# runner.start()
-
-	# intro()
-
-
-	# dex = Dexter()
-
-	
-	# run = True
-	# while run:
-	# 	time.sleep(2)
+	debug = True
 
 	#voice("Hello sir, my name is Dexter, you're virtual assistant. How can I help you.")
 	
 	#listen_for_wake()
-	ai = Dexter()
-	while True:
-		print("waiting for your reponse")
-		s = ai.get_input()
-		# print(s)
-		ai.process_input(s)
+	# ai = Dexter()
+	# while True:
+	# 	print("waiting for your reponse")
+	# 	s = ai.get_input()
+	# 	# print(s)
+	# 	ai.process_input(s)
+	dexter = Dexter()
+	dexter.listen()
 
 	

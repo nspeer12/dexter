@@ -100,7 +100,7 @@ def voice_engine(text:str):
 	engine.runAndWait()
 
 
-def voice(text:str, quality='high'):
+def voice(text, quality='high'):
 	if quality == 'high':
 		voice_replica(text)
 	else:

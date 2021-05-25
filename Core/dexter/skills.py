@@ -5,6 +5,9 @@ from track import object_tracker
 from keyboard import *
 from intro import intro
 import pywhatkit as kit
+from voice import *
+from gpt3 import *
+
 
 # COMMENT OLD SKILLS OUT FOR NOW
 # # functions for each skill
@@ -84,26 +87,26 @@ import pywhatkit as kit
 # NEW SKILLS
 
 def greeting(self):
-    speak(self,"greeting")
+    voice("greeting")
 
 def introduction(self):
-    speak(self,"I am Dexter")
+    voice("I am Dexter")
 
 def goodbye(self):
-    speak(self,"goodbye")
+    voice("goodbye")
 
 def wiki(self):
-    speak(self,"making api call to wiki")
+    voice("making api call to wiki")
 
 def math(self):
-    speak(self,"making api call to wolf frame alpha")
+    voice("making api call to wolf frame alpha")
 
 def news(self):
-    speak(self,"making api call to top stories from reddit")
+    voice("making api call to top stories from reddit")
 
 def play(self):
-    speak(self,self.message.replace("play", "playing"))
-    song = self.message.replace("play ", "")
+    voice(message.replace("play", "playing"))
+    song = message.replace("play ", "")
     kit.playonyt(str(song))
 
 def resume(self):
@@ -165,31 +168,31 @@ def switchDesktop(self):
     pyautogui.hotkey('win', 'tab')
 
 def openApplication(self):
-    speak(self,"opening Application")
+    voice("opening Application")
 
 def openFile(self):
-    speak(self,"opening file")
+    voice("opening file")
 
 def date(self):
-    speak(self,"opening file")
     t = datetime.datetime.now()
     day = t.strftime("%A")
     date = t.strftime("%d")
     month = t.strftime("%B")
     year = t.strftime("%Y")
-    speak(self,'its {}, {} {}, {}'.format(day, month, date, year))
 
-def time(self):
+    voice('its {}, {} {}, {}'.format(day, month, date, year))
+
+def get_time(self, message):
     t = datetime.datetime.now()
     hour = t.strftime("%H")
     minute = t.strftime("%M")
     ampm = t.strftime("%p")
     hour = int(hour) % 12
-    speak(self,'its {} {} {}'.format(hour, minute, ampm))
+    voice('its {} {} {}'.format(hour, minute, ampm))
 
 def day(self):
-    speak(self,"it taco tuesday")
+    voice(self,"it taco tuesday")
 
-def speak(self,text):
-    self.speaker.say(text)
-    self.speaker.runAndWait()
+def question(self, text:str):
+    print('here')
+    voice(gpt3_answer(text))
