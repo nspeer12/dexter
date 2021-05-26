@@ -1,5 +1,5 @@
 import wolframalpha 
-from nlp import *
+# from nlp import *
 import inflect
 
 def ask_wolfram(question:str):

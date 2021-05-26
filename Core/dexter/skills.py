@@ -1,13 +1,12 @@
+from dexter.keyboard import *
+from dexter.voice import *
+from dexter.utils.intro import intro
+from dexter.apis.gpt3 import *
+
 import time
 import datetime
-from mouse import *
-from track import object_tracker
-from keyboard import *
-from intro import intro
 import pywhatkit as kit
-from voice import *
-from gpt3 import *
-
+import pywhatkit as kit
 
 # COMMENT OLD SKILLS OUT FOR NOW
 # # functions for each skill
@@ -90,94 +89,94 @@ from gpt3 import *
 # every skill needs to get passed a query and context parameter
 
 
-def greeting(self, query, context):
-    voice("greeting")
+def greeting(query, context):
+    voice("Hi, I'm Dexter. How can I help you today?")
 
-def introduction(self, query, context):
+def introduction(query, context):
     voice("I am Dexter")
 
-def goodbye(self, query, context):
+def goodbye(query, context):
     voice("goodbye")
 
-def wiki(self, query, context):
+def wiki(query, context):
     voice("making api call to wiki")
 
-def math(self, query, context):
+def math(query, context):
     voice("making api call to wolf frame alpha")
 
-def news(self, query, context):
+def news(query, context):
     voice("making api call to top stories from reddit")
 
-def play(self, query, context):
-    voice(message.replace("play", "playing"))
-    song = message.replace("play ", "")
+def play(query, context):
+    voice(query.replace("play", "playing"))
+    song = query.replace("play ", "")
     kit.playonyt(str(song))
 
-def resume(self, query, context):
+def resume(query, context):
     # use WinRT api in the future
     pyautogui.press('playpause')
 
-def pause(self, query, context):
+def pause(query, context):
     # use WinRT api in the future
     pyautogui.press('playpause')
 
-def increaseVolume(self, query, context):
+def increaseVolume(query, context):
     pyautogui.press('volumeup')
 
-def decreaseVolume(self, query, context):
+def decreaseVolume(query, context):
     pyautogui.press('volumedown')
 
-def mute(self, query, context):
+def mute(query, context):
     # differentiate between unmute using sound api
     pyautogui.press('volumemute')
 
-def unmute(self, query, context):
+def unmute(query, context):
     # differentiate between mute using sound api
     pyautogui.press('volumemute')
 
-def reset(self, query, context):
+def reset(query, context):
 	pyautogui.hotkey('win', 'x')
 	time.sleep(.1)
 	pyautogui.press('u')
 	time.sleep(.1)
 	pyautogui.press('r')
 
-def shutdown(self, query, context):
+def shutdown(query, context):
 	pyautogui.hotkey('win', 'x')
 	time.sleep(.1)
 	pyautogui.press('u')
 	time.sleep(.1)
 	pyautogui.press('u')
 
-def sleep(self, query, context):
+def sleep(query, context):
 	pyautogui.hotkey('win', 'x')
 	time.sleep(1)
 	pyautogui.press('u')
 	time.sleep(1)
 	pyautogui.press('s')
 
-def minimize(self, query, context):
+def minimize(query, context):
     pyautogui.hotkey('win', 'm')
 
-def maximize(self, query, context):
+def maximize(query, context):
     pyautogui.hotkey('win', 'up')
 
-def restore(self, query, context):
+def restore(query, context):
     pyautogui.hotkey('win', 'shiftleft', 'm')
 
-def switchApplications(self, query, context):
+def switchApplications(query, context):
     pyautogui.hotkey('alt', 'tab')
 
-def switchDesktop(self, query, context):
+def switchDesktop(query, context):
     pyautogui.hotkey('win', 'tab')
 
-def openApplication(self, query, context):
+def openApplication(query, context):
     voice("opening Application")
 
-def openFile(self, query, context):
+def openFile(query, context):
     voice("opening file")
 
-def date(self, query, context):
+def date(query, context):
     t = datetime.datetime.now()
     day = t.strftime("%A")
     date = t.strftime("%d")
@@ -186,7 +185,7 @@ def date(self, query, context):
 
     voice('its {}, {} {}, {}'.format(day, month, date, year))
 
-def get_time(self, query, context):
+def get_time(query, context):
     t = datetime.datetime.now()
     hour = t.strftime("%H")
     minute = t.strftime("%M")
@@ -194,9 +193,9 @@ def get_time(self, query, context):
     hour = int(hour) % 12
     voice('its {} {} {}'.format(hour, minute, ampm))
 
-def day(self, query, context):
+def day(query, context):
     voice(self,"it taco tuesday")
 
-def question(self, query, context):
+def question(query, context):
     print('here')
     voice(gpt3_answer(query))
