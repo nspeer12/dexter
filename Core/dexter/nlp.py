@@ -1,10 +1,6 @@
 import spacy
 from string import punctuation
 import re
-from skills import *
-from voice import *
-from _wolfram_api import *
-from gpt3 import *
 
 # download with python -m spacy download en_core_web_sm
 nlp = spacy.load("en_core_web_sm")
@@ -54,12 +50,14 @@ def parse_query(query:str):
 
 
 def clean_text(query:str):
-	query = query.replace('Dexter ', '')
-	query = query.replace('dexter ', '')
-	query = query.replace('texture ', '')
+	query = query.replace('hey dexter', '')
+	query = query.replace('hey Dexter', '')
+	query = query.replace('Dexter', '')
+	query = query.replace('dexter', '')
+	query = query.replace('texture', '')
 	return query.lower()
 
-
+'''
 def handle_query(query:str):
 	query = clean_text(query)
 	
@@ -103,3 +101,4 @@ def is_math_equation(query:str):
 			return True
 
 	return False
+'''
