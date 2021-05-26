@@ -5,7 +5,7 @@ import mediapipe as mp
 import csv
 import copy
 import time
-# import win32api, win32con
+import win32api, win32con
 from collections import Counter
 from collections import deque
 import torch
@@ -13,6 +13,14 @@ import torch.nn as nn
 from model.gesture.gestureModel import NeuralNetG
 # from model.motion.motionModel import NeuralNetM
 import time
+import pandas as pd
+
+def zoomOut():
+    print("zooming out")
+
+def zoomIn():
+    print("zooming in")
+
 
 class handDetection():
     def __init__(self):
@@ -20,6 +28,11 @@ class handDetection():
         cap_device = 0
         cap_width = 1280
         cap_height = 720
+
+        self.mapping = {
+            "zoomIn" : zoomIn,
+            "zoomOut" : zoomOut
+            } 
 
         # Hand Model
         use_static_image_mode = False
@@ -41,10 +54,14 @@ class handDetection():
         self.old_gesture = -1
         self.old_tracker = -1
         self.last_function_time = 0
+        self.delay = 1 # in seconds
 
         # Define CSV paths
         gesture_label_csv_path = 'csv/gesture_label.csv'
         self.gesture_csv_path = 'csv/gesture.csv'
+        self.df = pd.read_csv('csv/functions.csv')
+
+        print(self.df)
 
         # motion_label_csv_path = 'csv/motion_label.csv'
         # self.motion_csv_path = 'csv/motion.csv'
@@ -173,8 +190,12 @@ class handDetection():
                 new_prediction = Counter(self.gesture_history).most_common()[0][0]
 
                 if (self.old_gesture != new_prediction):
-                    if ((self.last_function_time + 1) < time.time()):
-                        print(self.gesture_labels[self.old_gesture],self.gesture_labels[new_prediction])
+                    if ((self.last_function_time + self.delay) < time.time()):
+                        function_to_be_executed = self.df.loc[(self.df["old"] == self.gesture_labels[self.old_gesture]) & (self.df["new"] == self.gesture_labels[new_prediction])]["function"]
+                        if (len(function_to_be_executed) > 0):
+                            function_to_be_executed = function_to_be_executed.iloc[0]
+                            self.mapping[function_to_be_executed]()
+                        # print(self.gesture_labels[self.old_gesture],self.gesture_labels[new_prediction])
                     self.old_tracker = self.old_gesture
                     self.old_gesture = new_prediction
                     self.last_function_time = time.time()
@@ -192,8 +213,8 @@ class handDetection():
                 self.last_function_time = time.time()
 
             # Move Mouse
-            # if (len(gesture_cords) > 0):
-                # win32api.SetCursorPos((max(0,min(1920,int(gesture_cords[8][0]*1920*1.2))),max(0,min(1080,int(gesture_cords[8][1]*1080*1.4)))))
+            if (len(gesture_cords) > 0):
+                win32api.SetCursorPos((max(0,min(1920,int(gesture_cords[8][0]*1920*1.2))),max(0,min(1080,int(gesture_cords[8][1]*1080*1.4)))))
 
             # Calculate FPS
             self.cTime = time.time()
