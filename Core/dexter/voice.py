@@ -3,6 +3,8 @@ import os
 from playsound import playsound
 import time
 import random
+import multiprocessing
+
 
 def get_voices():
 	root_url = 'https://api.replicastudios.com'
@@ -27,7 +29,7 @@ def get_voices():
 	return voices
 
 
-def voice_replica(text:str):
+def voice_replica(text:str, debug=False):
 	start = time.time()
 
 	try:
@@ -69,10 +71,9 @@ def voice_replica(text:str):
 		cwd = os.getcwd()
 
 		# use random file name
-		filename = "tmp/tmp{}.wav".format(random.randint(0,10000))
+		filename = "dexter/tmp/tmp.wav"
 
-		output_path = os.path.join(cwd, filename)
-		print(output_path)
+		output_path = filename
 		data = requests.get(url).content
 
 		
@@ -80,19 +81,27 @@ def voice_replica(text:str):
 			f.write(data)
 			f.close()
 
+		play = multiprocessing.Process(target=playsound, args=(output_path,))
+		play.start()
+
+
+		'''
 		with open('logs/replcia-time.txt', 'a') as f:
 			f.write("{}\n".format(time.time() - start))
 			f.close()
-
+		'''
 
 	except():
 		voice(text)
 
 
-	print('Response took:{}', time.time() - start)
+	if debug:
+		print('Response took:{}', time.time() - start)
 
+	print(output_path)
 	playsound(output_path)
-
+	print('heya')
+	time.sleep(2)
 
 def voice_engine(text:str):
 	engine = pyttsx3.init()

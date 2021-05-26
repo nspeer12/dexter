@@ -1,12 +1,12 @@
-from precise_runner import PreciseEngine, PreciseRunner
-from playsound import playsound
+import pvporcupine
 
+handle = pvporcupine.create(keywords=['bumblebee'])
 
-engine = PreciseEngine('precise-engine/precise-engine', 'computer-en.pb')
-runner = PreciseRunner(engine, on_activation=lambda: playsound('boing.wav'))
-runner.start()
+def get_next_audio_frame():
+    pass
 
-# Sleep forever
-from time import sleep
 while True:
-    sleep(10)
+    keyword_index = handle.process(get_next_audio_frame())
+    if keyword_index >= 0:
+        # Insert detection event callback here
+        pass
