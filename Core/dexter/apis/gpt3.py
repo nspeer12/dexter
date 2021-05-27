@@ -1,12 +1,7 @@
 import openai
 
 openai.organization = "org-fEhf9cVXO5Gy5N7wHGEu4RjT"
-openai.api_key = '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'
-
-#response = openai.Completion.create(engine="davinci", prompt="This is a test", max_tokens=5)
-#print(response)
-
-#print(openai.Engine.list())
+openai.api_key = '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'
 
 
 def gpt3_answer(question:str, max_tokens=256, model='curie'):

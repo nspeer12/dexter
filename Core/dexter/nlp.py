@@ -1,10 +1,6 @@
 import spacy
 from string import punctuation
 import re
-from skills import *
-from voice import *
-from _wolfram_api import *
-from gpt3 import *
 
 # download with python -m spacy download en_core_web_sm
 nlp = spacy.load("en_core_web_sm")
@@ -41,7 +37,6 @@ def parse_query(query:str):
 			result.append(token.text)
 
 	res = list(set(result))
-	print(res)
 
 	# take max len object from extracted text
 	# ex: ['new', 'york', 'city', 'new york city'] -> 'new york city'
@@ -55,12 +50,14 @@ def parse_query(query:str):
 
 
 def clean_text(query:str):
-	query = query.replace('Dexter ', '')
-	query = query.replace('dexter ', '')
-	query = query.replace('texture ', '')
+	query = query.replace('hey dexter', '')
+	query = query.replace('hey Dexter', '')
+	query = query.replace('Dexter', '')
+	query = query.replace('dexter', '')
+	query = query.replace('texture', '')
 	return query.lower()
 
-
+'''
 def handle_query(query:str):
 	query = clean_text(query)
 	
@@ -70,6 +67,7 @@ def handle_query(query:str):
 	for key in keys:
 		if key in query.lower():
 			print(key)
+
 			if skills_map[key] == type_mode:
 				skills_map[key](query)
 			else:
@@ -78,9 +76,6 @@ def handle_query(query:str):
 			if reply != '':
 				voice(reply)
 			return
-
-	# need to improve question handling
-	print('here')
 
 	if is_math_equation(query):
 		return
@@ -96,13 +91,14 @@ def handle_query(query:str):
 def is_math_equation(query:str):
 	
 	words = query.split()
-	print(words)
+	#print(words)
 
 	# check every 
 	for w in words:
-		print(w)
+		#print(w)
 		if w.isnumeric():
 			voice(ask_wolfram(query))
 			return True
 
 	return False
+'''

@@ -5,20 +5,44 @@ import mediapipe as mp
 import csv
 import copy
 import time
-# import win32api, win32con
+import win32api, win32con
 from collections import Counter
 from collections import deque
 import torch
 import torch.nn as nn
-from model.gesture.gestureModel import NeuralNetG
+from gesture.model.gesture.gestureModel import NeuralNetG
 # from model.motion.motionModel import NeuralNetM
+import time
+import os
+import pandas as pd
 
-class handDetection():
+def mouseDown():
+    print("mouse down")
+    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,0,0)
+
+def mouseUp():
+    print("mouse up")
+    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,0,0)
+
+def zoomOut():
+    print("zooming out")
+
+def zoomIn():
+    print("zooming in")
+
+class HandDetection():
     def __init__(self):
         # Camera Params
         cap_device = 0
         cap_width = 1280
         cap_height = 720
+
+        self.mapping = {
+            "mouseDown" : mouseDown,
+            "mouseUp" : mouseUp,
+            "zoomIn" : zoomIn,
+            "zoomOut" : zoomOut
+            } 
 
         # Hand Model
         use_static_image_mode = False
@@ -37,11 +61,15 @@ class handDetection():
         self.gesture_history = deque(maxlen=4)
         self.gesture_cords = []
         self.hand_exit = True
+        self.old_gesture = -1
+        self.old_tracker = -1
+        self.last_function_time = 0
+        self.delay = 1 # in seconds
 
         # Define CSV paths
-        gesture_label_csv_path = 'csv/gesture_label.csv'
-        self.gesture_csv_path = 'csv/gesture.csv'
-
+        gesture_label_csv_path = os.path.join(os.getcwd(), 'gesture/csv/gesture_label.csv')
+        self.gesture_csv_path = os.path.join(os.getcwd(), 'gesture/csv/gesture.csv')
+        self.df = pd.read_csv('gesture/csv/functions.csv')
         # motion_label_csv_path = 'csv/motion_label.csv'
         # self.motion_csv_path = 'csv/motion.csv'
 
@@ -74,7 +102,7 @@ class handDetection():
         print("loaded hand model")
 
         # Define Model Paths
-        GESTURE_PATH = "model/gesture/GestureModel.pth"
+        GESTURE_PATH = "gesture/model/gesture/GestureModel.pth"
         # MOTION_PATH = "model/motion/MotionModel.pth"
 
         # Load Gesture Model
@@ -166,7 +194,20 @@ class handDetection():
                 
                 output = self.model.forward(torch.from_numpy(np.append([left_or_right], normalized_points)).float())
                 self.gesture_history.append(torch.argmax(output))
-                current_predict_gesture = self.gesture_labels[Counter(self.gesture_history).most_common()[0][0]]
+                new_prediction = Counter(self.gesture_history).most_common()[0][0]
+
+                if (self.old_gesture != new_prediction):
+                    if ((self.last_function_time + self.delay) < time.time()):
+                        function_to_be_executed = self.df.loc[(self.df["old"] == self.gesture_labels[self.old_gesture]) & ((self.df["new"] == self.gesture_labels[new_prediction]) | (self.df["new"] == "any"))]["function"]
+                        if (len(function_to_be_executed) > 0):
+                            function_to_be_executed = function_to_be_executed.iloc[0]
+                            if function_to_be_executed in self.mapping.keys():
+                                self.mapping[function_to_be_executed]()
+                        # print(self.gesture_labels[self.old_gesture],self.gesture_labels[new_prediction])
+                    self.old_tracker = self.old_gesture
+                    self.old_gesture = new_prediction
+                    self.last_function_time = time.time()
+                current_predict_gesture = self.gesture_labels[new_prediction]
 
                 # if (len(self.point_history) == 4):
                 #     output2 = self.model2.forward(torch.from_numpy(np.append([left_or_right], fully_flat)).float())
@@ -175,11 +216,13 @@ class handDetection():
             else:
                 current_predict_gesture = "no hand detected"
                 current_predict_motion = "no hand detected"
+                self.old_gesture = -1
                 self.hand_exit = True
+                self.last_function_time = time.time()
 
             # Move Mouse
-            # if (len(gesture_cords) > 0):
-                # win32api.SetCursorPos((max(0,min(1920,int(gesture_cords[8][0]*1920*1.2))),max(0,min(1080,int(gesture_cords[8][1]*1080*1.4)))))
+            if (len(gesture_cords) > 0):
+                win32api.SetCursorPos((max(0,min(1920,int(gesture_cords[8][0]*1920*1.2))),max(0,min(1080,int(gesture_cords[8][1]*1080*1.4)))))
 
             # Calculate FPS
             self.cTime = time.time()
@@ -235,17 +278,19 @@ class handDetection():
             cv.putText(debug_image, "fps: " + str(int(fps)), (10, 700), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # bot left
 
             cv.putText(debug_image, "Predicted Gesture: " + current_predict_gesture, (10, 30), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
-            cv.putText(debug_image, "Record Gesture: " + self.gesture_labels[self.current_gesture_to_record], (10, 60), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
+            cv.putText(debug_image, "Record Gesture: " + self.gesture_labels[self.current_gesture_to_record], (10, 90), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
 
-            cv.putText(debug_image, "Predicted Motion: " + current_predict_motion, (10, 90), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
+            if (self.old_gesture == -1):
+                old_gesture_print = "none"
+            else:
+                old_gesture_print = self.gesture_labels[self.old_tracker]
+            cv.putText(debug_image, "Old Gesture: " + old_gesture_print, (10, 60), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
+
+            cv.putText(debug_image, "Predicted Motion: " + current_predict_motion, (10, 120), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
             # cv.putText(debug_image, "Record Motion: " + self.motion_labels[self.current_motion_to_record], (10, 120), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
+
 
             cv.imshow('Hand Gesture Recognition', debug_image)
 
         self.cap.release()
         cv.destroyAllWindows()
-
-
-if __name__ == '__main__':
-    hand = handDetection()
-    hand.loop()

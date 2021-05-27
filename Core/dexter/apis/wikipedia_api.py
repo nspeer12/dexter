@@ -1,5 +1,5 @@
 import wikipedia
-from nlp import *
+# from nlp import *
 
 def ask_wikipedia(query:str, num_sentences=2):
 	query = parse_query(query)
