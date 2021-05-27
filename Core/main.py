@@ -4,7 +4,7 @@ import threading
 import multiprocessing
 import time
 from dexter import Dexter
-from gesture import HandDetection
+from gesture.hand_detection import HandDetection
 import speech_recognition as sr
 
 
