@@ -3,7 +3,7 @@ import zmq
 import threading
 import multiprocessing
 import time
-from dexter import Dexter
+from assistant import Dexter
 from gesture.hand_detection import HandDetection
 import speech_recognition as sr
 
@@ -60,8 +60,8 @@ if __name__ == '__main__':
 	#Establish a socket to start listening for incoming messages on
 	#zmq_sock()
 
-	# d = multiprocessing.Process(target=launch_dexter)
-	# d.start()
+	d = multiprocessing.Process(target=launch_dexter)
+	d.start()
 
 	g = multiprocessing.Process(target=launch_gesture)
 	g.start()
@@ -70,8 +70,6 @@ if __name__ == '__main__':
 	# for i in reversed(range(100)):
 	# 	print('killing application in ' + str(i) + ' seconds')
 	# 	time.sleep(1)
-
-	print('bye bye')
 	
 	# d.terminate()
 	# g.terminate()
