@@ -6,6 +6,11 @@ __pycache__/
 # C extensions
 *.so
 
+# annoying file
+pywhatkit_dbs.txt
+
+.vs
+
 # Distribution / packaging
 .Python
 build/
