@@ -3,10 +3,9 @@ import zmq
 import threading
 import multiprocessing
 import time
-from assistant import Dexter
-from gesture.hand_detection import HandDetection
 import speech_recognition as sr
-
+from gesture import launch_gesture
+from assistant import launch_dexter
 
 def zmq_sock():
 	context = zmq.Context()
@@ -25,16 +24,6 @@ def zmq_sock():
 
 		#  Send reply back to client
 		socket.send_string("What it do")
-
-
-def launch_dexter():
-	dex = Dexter(debug=True)
-	dex.listen()
-
-
-def launch_gesture():
-	gest = HandDetection() 
-	gest.loop()
 
 
 def sr_test():

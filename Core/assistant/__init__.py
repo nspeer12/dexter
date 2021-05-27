@@ -1,13 +1,6 @@
-from dexter.skills import *
-from dexter.utils.intro import intro
-from dexter.nlp import *
-from dexter.apis.gpt3 import *
-from dexter.voice import *
-from dexter.apis.wikipedia_api import *
-from dexter.apis.wolfram_api import *
-from dexter.model.assistantModel import NeuralNet
-
 import os
+from os import path
+
 import speech_recognition as sr
 import datetime
 import time
@@ -26,6 +19,21 @@ import wave
 import numpy as np
 
 
+# gotta back that shit up for imports to work
+import sys
+sys.path.append("..")
+
+from assistant.skills import *
+from assistant.utils.intro import intro
+from assistant.model.assistantModel import NeuralNet
+from assistant.nlp import *
+from assistant.apis.gpt3 import *
+from assistant.voice import *
+from assistant.apis.wikipedia_api import *
+from assistant.apis.wolfram_api import *
+
+
+
 MIC_SOURCE = 1
 WAKE_WORDS = ["Dexter", "hey Dexter", "texture", "computer", "Okay computer" "hey computer", "dex"]
 
@@ -38,9 +46,14 @@ class Dexter:
 		self.debug = debug
 		self.cwd = os.getcwd()
 
-		ASSISTANT_PATH = os.path.join(self.cwd, "dexter/model/AssistantModel.pth")
-		FEATURES_PATH = os.path.join(self.cwd, "dexter/model/Assistant_features.csv")
-		LABELS_PATH = os.path.join(self.cwd, "dexter/model/Assistant_labels.csv")
+		# Define CSV paths
+		dir_name = path.dirname(__file__)
+
+		path.join(dir_name, 'csv/gesture_label.csv')
+
+		ASSISTANT_PATH = path.join(dir_name, "model/AssistantModel.pth")
+		FEATURES_PATH = path.join(dir_name, "model/Assistant_features.csv")
+		LABELS_PATH = path.join(dir_name, "model/Assistant_labels.csv")
 
 		# read in csv for num features and classes
 		with open(FEATURES_PATH) as f:
@@ -153,7 +166,7 @@ class Dexter:
 		print('Listening...')
 
 
-		with sr.Microphone(device_index=1) as source:
+		with sr.Microphone() as source:
 			
 			#self.recognizer.adjust_for_ambient_noise(source, duration=0.5)
 			
@@ -259,3 +272,7 @@ class Dexter:
 							trt.write("{}\n".format(time.time() - start))
 							trt.close()
 						'''
+
+def launch_dexter():
+	dex = Dexter(debug=True)
+	dex.listen()
