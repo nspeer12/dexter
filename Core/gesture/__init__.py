@@ -94,6 +94,10 @@ class HandDetection():
         self.screen_x = 3840
         self.screen_y = 2160
 
+        self.scale_x = 1.5
+        self.scale_y = 1.5
+
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
         self.mapping = {
             "mouseDown" : mouseDown,
@@ -175,7 +179,7 @@ class HandDetection():
 
         # Load Gesture Model
         self.model = NeuralNetG(self.num_classes)
-        self.model.load_state_dict(torch.load(GESTURE_PATH))
+        self.model.load_state_dict(torch.load(GESTURE_PATH, map_location=self.device))
         self.model.eval()
         print("loaded gesture model")
 
@@ -300,7 +304,7 @@ class HandDetection():
                 
                 # this line is a beast    
                 #mouse_pos = (max(0,min(self.screen_x,int(gesture_cords[0][0]*self.screen_x*1.2))),max(0,min(self.screen_y,int(gesture_cords[0][1]*self.screen_y*1.4))))
-                
+
                 new_pos = (max(0,min(self.screen_x,int(gesture_cords[0][0]*self.screen_x*1.2))),max(0,min(self.screen_y,int(gesture_cords[0][1]*self.screen_y*1.4))))
 
 
@@ -315,6 +319,16 @@ class HandDetection():
                     avg_y = (y for y in self.pos_history[1]) / len(self.pos_history)
 
                     new_pos = (avg_x, avg_y)
+
+
+
+                # provide buffer from the end of the camera
+                if new_x := new_pos[0] * self.scale_x < self.screen_x:
+                    print(new_pos[0])
+
+                if new_x := new_pos[1] * self.scale_y < self.screen_y:
+                    print(new_pos[1])
+                    
 
                 if sys.platform == 'win32':
                     win32api.SetCursorPos()
