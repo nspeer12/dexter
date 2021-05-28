@@ -27,7 +27,6 @@ else:
     import pyautogui
 
 
-print(os.getcwd())
 
 def mouseDown():
     print("mouse down")
@@ -63,6 +62,27 @@ def click():
         pyautogui.click()
 
 
+def double_click():
+    print('double-click')
+    if sys.platform == 'windows':
+        print('click on windows')
+    else:
+        pyautogui.click()
+        time.sleep(.1)
+        pyautogui.click()
+
+
+
+def reset_mouse(x=3840/2,y=2160/2):
+    size = pyautogui.size()
+    print(size)
+    print(x)
+    print(y)
+    pyautogui.moveTo(x,y)
+
+
+
+
 class HandDetection():
     def __init__(self):
         # Camera Params
@@ -70,12 +90,19 @@ class HandDetection():
         cap_width = 1280
         cap_height = 720
 
+        # Screen params
+        self.screen_x = 3840
+        self.screen_y = 2160
+
+
         self.mapping = {
             "mouseDown" : mouseDown,
             "mouseUp" : mouseUp,
             "zoomIn" : zoomIn,
             "zoomOut" : zoomOut,
             "click" : click,
+            "double_click" : double_click,
+            "reset_mouse" : reset_mouse,
             } 
 
         # Hand Model
@@ -84,6 +111,7 @@ class HandDetection():
         min_tracking_confidence = 0.5
 
         # FPS Time counter
+        self.cur_fps = 1
         self.pTime = 0
         self.cTime = 0
         setFPS = 30
@@ -100,6 +128,7 @@ class HandDetection():
         self.last_function_time = 0
         self.delay = 1 # in seconds
 
+        self.pos_history = []
         self.dir = path.dirname(__file__)
 
         # Define CSV paths
@@ -242,6 +271,7 @@ class HandDetection():
                         if (len(function_to_be_executed) > 0):
                             function_to_be_executed = function_to_be_executed.iloc[0]
                             if function_to_be_executed in self.mapping.keys():
+                                print(function_to_be_executed)
                                 self.mapping[function_to_be_executed]()
 
                         # print(self.gesture_labels[self.old_gesture],self.gesture_labels[new_prediction])
@@ -262,19 +292,43 @@ class HandDetection():
                 self.hand_exit = True
                 self.last_function_time = time.time()
 
+
             # Move Mouse
             if (len(gesture_cords) > 0):
-                mouse_pos = (max(0,min(1920,int(gesture_cords[8][0]*1920*1.2))),max(0,min(1080,int(gesture_cords[8][1]*1080*1.4))))
+                #print(gesture_cords[8])
+
                 
-                if sys.platform == 'windows':
+                # this line is a beast    
+                #mouse_pos = (max(0,min(self.screen_x,int(gesture_cords[0][0]*self.screen_x*1.2))),max(0,min(self.screen_y,int(gesture_cords[0][1]*self.screen_y*1.4))))
+                
+                new_pos = (max(0,min(self.screen_x,int(gesture_cords[0][0]*self.screen_x*1.2))),max(0,min(self.screen_y,int(gesture_cords[0][1]*self.screen_y*1.4))))
+
+
+                if len(self.pos_history) > 0:
+                    # moving averages of pos
+                    if len(self.pos_history) > 5:
+                        self.pos_history.pop()
+
+                    self.pos_history.append(new_pos)
+
+                    avg_x = (x for x in self.pos_history[0]) / len(self.pos_history)
+                    avg_y = (y for y in self.pos_history[1]) / len(self.pos_history)
+
+                    new_pos = (avg_x, avg_y)
+
+                if sys.platform == 'win32':
                     win32api.SetCursorPos()
                 else:
-                    pyautogui.moveTo(mouse_pos)
+                    # move relative to original position of mouse
+                    pyautogui.moveTo(new_pos)
 
             # Calculate FPS
             self.cTime = time.time()
             fps = 1 / (self.cTime - self.pTime)
             self.pTime = self.cTime
+
+
+            self.cur_fps = fps
 
             # Press esc to exit
             key = cv.waitKey(10)
