@@ -85,6 +85,9 @@ def reset_mouse(x=3840/2,y=2160/2):
 
 class HandDetection():
     def __init__(self):
+        
+        self.debug = True
+
         # Camera Params
         cap_device = 0
         cap_width = 1280
@@ -196,6 +199,7 @@ class HandDetection():
         self.cap.set(cv.CAP_PROP_FRAME_WIDTH, cap_width)
         self.cap.set(cv.CAP_PROP_FRAME_HEIGHT, cap_height)
         print("got camera")
+
 
     def loop(self):
         while True:
@@ -319,16 +323,6 @@ class HandDetection():
                     avg_y = (y for y in self.pos_history[1]) / len(self.pos_history)
 
                     new_pos = (avg_x, avg_y)
-
-
-
-                # provide buffer from the end of the camera
-                if new_x := new_pos[0] * self.scale_x < self.screen_x:
-                    print(new_pos[0])
-
-                if new_x := new_pos[1] * self.scale_y < self.screen_y:
-                    print(new_pos[1])
-                    
 
                 if sys.platform == 'win32':
                     win32api.SetCursorPos()
