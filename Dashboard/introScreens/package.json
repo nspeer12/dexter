@@ -1,0 +1,11 @@
+{
+  "name": "introscreens",
+  "version": "1.0.0",
+  "description": "intro screens used at start up to gather information from the user",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "eris fitzgerald :)",
+  "license": "ISC"
+}
