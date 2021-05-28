@@ -1,7 +1,7 @@
-from dexter.keyboard import *
-from dexter.voice import *
-from dexter.utils.intro import intro
-from dexter.apis.gpt3 import *
+from assistant.keyboard import *
+from assistant.voice import *
+from assistant.utils.intro import intro
+from assistant.apis.gpt3 import *
 
 import time
 import datetime

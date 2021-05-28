@@ -5,30 +5,63 @@ import mediapipe as mp
 import csv
 import copy
 import time
-import win32api, win32con
 from collections import Counter
 from collections import deque
 import torch
 import torch.nn as nn
-from gesture.model.gesture.gestureModel import NeuralNetG
-# from model.motion.motionModel import NeuralNetM
 import time
 import os
 import pandas as pd
+import sys
+from os import path
+
+# gotta back that shit up for imports to work
+sys.path.append("..")
+
+from gesture.model.gesture.gestureModel import NeuralNetG
+# from model.motion.motionModel import NeuralNetM
+
+if sys.platform == 'windows':
+    import win32api, win32con
+else:
+    import pyautogui
+
+
+print(os.getcwd())
 
 def mouseDown():
     print("mouse down")
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,0,0)
+
+    if sys.platform == 'windows':
+        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,0,0)
+    else:
+        pyautogui.mouseDown()
+
 
 def mouseUp():
     print("mouse up")
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,0,0)
+
+    if sys.platform == 'windows':
+        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,0,0)
+    else:
+        pyautogui.mouseUp()
+
 
 def zoomOut():
     print("zooming out")
 
 def zoomIn():
     print("zooming in")
+
+
+def click():
+    print('click')
+
+    if sys.platform == 'windows':
+        print('click on windows')
+    else:
+        pyautogui.click()
+
 
 class HandDetection():
     def __init__(self):
@@ -41,7 +74,8 @@ class HandDetection():
             "mouseDown" : mouseDown,
             "mouseUp" : mouseUp,
             "zoomIn" : zoomIn,
-            "zoomOut" : zoomOut
+            "zoomOut" : zoomOut,
+            "click" : click,
             } 
 
         # Hand Model
@@ -66,10 +100,14 @@ class HandDetection():
         self.last_function_time = 0
         self.delay = 1 # in seconds
 
+        self.dir = path.dirname(__file__)
+
         # Define CSV paths
-        gesture_label_csv_path = os.path.join(os.getcwd(), 'gesture/csv/gesture_label.csv')
-        self.gesture_csv_path = os.path.join(os.getcwd(), 'gesture/csv/gesture.csv')
-        self.df = pd.read_csv('gesture/csv/functions.csv')
+        dir_name = path.dirname(__file__)
+
+        gesture_label_csv_path = path.join(dir_name, 'csv/gesture_label.csv')
+        self.gesture_csv_path = path.join(dir_name, 'csv/gesture.csv')
+        self.df = pd.read_csv(path.join(dir_name, 'csv/functions.csv'))
         # motion_label_csv_path = 'csv/motion_label.csv'
         # self.motion_csv_path = 'csv/motion.csv'
 
@@ -102,7 +140,8 @@ class HandDetection():
         print("loaded hand model")
 
         # Define Model Paths
-        GESTURE_PATH = "gesture/model/gesture/GestureModel.pth"
+        GESTURE_PATH = path.join(dir_name, 'model/gesture/GestureModel.pth')
+
         # MOTION_PATH = "model/motion/MotionModel.pth"
 
         # Load Gesture Model
@@ -158,6 +197,7 @@ class HandDetection():
                     self.prev_point = np.array(gesture_cords[9])
                     current_predict_motion = ""
                     self.point_counter = 6
+
                 # Add to coordinate history
                 self.point_counter += 1
                 if (self.point_counter == 7):
@@ -203,10 +243,12 @@ class HandDetection():
                             function_to_be_executed = function_to_be_executed.iloc[0]
                             if function_to_be_executed in self.mapping.keys():
                                 self.mapping[function_to_be_executed]()
+
                         # print(self.gesture_labels[self.old_gesture],self.gesture_labels[new_prediction])
                     self.old_tracker = self.old_gesture
                     self.old_gesture = new_prediction
                     self.last_function_time = time.time()
+
                 current_predict_gesture = self.gesture_labels[new_prediction]
 
                 # if (len(self.point_history) == 4):
@@ -222,7 +264,12 @@ class HandDetection():
 
             # Move Mouse
             if (len(gesture_cords) > 0):
-                win32api.SetCursorPos((max(0,min(1920,int(gesture_cords[8][0]*1920*1.2))),max(0,min(1080,int(gesture_cords[8][1]*1080*1.4)))))
+                mouse_pos = (max(0,min(1920,int(gesture_cords[8][0]*1920*1.2))),max(0,min(1080,int(gesture_cords[8][1]*1080*1.4))))
+                
+                if sys.platform == 'windows':
+                    win32api.SetCursorPos()
+                else:
+                    pyautogui.moveTo(mouse_pos)
 
             # Calculate FPS
             self.cTime = time.time()
@@ -294,3 +341,7 @@ class HandDetection():
 
         self.cap.release()
         cv.destroyAllWindows()
+
+def launch_gesture():
+    gest = HandDetection() 
+    gest.loop()
