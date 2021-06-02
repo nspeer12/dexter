@@ -4,6 +4,12 @@ const path = require('path')
 const { countReset } = require('console')
 const zmq = require("zeromq")
 
+try 
+{
+    require('electron-reloader')(module)
+} 
+catch (_) {}
+
 
 function createWindow() {
     
@@ -14,13 +20,16 @@ function createWindow() {
         acceptFirstMouse: true,
         titleBarStyle: 'hidden-inset',
         frame: false,
+        enableRemoteModule: true,
         webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
             preload: path.join(__dirname, 'preload.js')
         }
     })
 
     // and load the index.html of the app.
-    mainWindow.loadURL('file://' + __dirname + '/index.html');
+    mainWindow.loadURL('file://' + __dirname + '/Pages/Home.html');
     //mainWindow.webContents.openDevTools()
     
     
@@ -35,7 +44,9 @@ function createWindow() {
         const [result] = await sock.receive()
       
         console.log("Got response: " + result.toString('ascii'))
-      }
+    }
+
+    //ipc_test()
 
 }
 

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" class="">
+<html lang="en" class="" >
   <head>
     <meta charset="UTF-8" />
     <title>Dexter</title>
-    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="../css/index.css" />
+    <script src="../js/dashboard.js" charset="utf-8"></script>
   </head>
 
   <body>
@@ -16,22 +17,26 @@
           <div class="semi_arc_2 e4_1">
             <div class="counterspin4"></div>
           </div>
-          <div style="font-size: 40px; margin-top: 25px">04</div>
-          <div style="font-size: 25px">January</div>
+          <div id="time_date" style="font-size: 40px; margin-top: 25px">04</div>
+          <div id="time_month" style="font-size: 25px">January</div>
         </div>
 
         <div id="time" class="arc e1">
-          <div style="font-size: 23px; margin-left: -10px; margin-top: 23px">
-            23:41
+          <div id="time_local" style="font-size: 21px; margin-top: 23px">
+          
           </div>
-          <div
-            style="font-size: 15px; margin-left: 40px; margin-top: -30px; display; inline;"
-          >
-            31
-          </div>
-          <div style="font-size: 17px; margin-top: 10px">Tuesday</div>
+          <div id="time_day" style="font-size: 17px; margin-top: 10px">Tuesday</div>
         </div>
       </div>
+
+        <span
+        class="menuitem entypo-cog"
+        style="font-size: 30px; margin-left: 10px"
+        onclick="openSettingsMenu()">
+        
+        <p class="caption" style="font-size: 20px">Settings</p>
+      </span>
+      <br />
 
       <p class="title">Performance</p>
       <div class="hline title_underline"></div>
@@ -40,7 +45,7 @@
         class="menuitem entypo-gauge"
         style="font-size: 30px; margin-left: 10px"
       >
-        <p id="cpu" class="caption" style="font-size: 20px">CPU Usage: 19%</p>
+        <p id="cpu" class="caption" style="font-size: 20px">CPU Usage: -</p>
       </span>
       <br />
 
@@ -49,7 +54,7 @@
         style="font-size: 30px; margin-left: 10px"
       >
         <p id="ram" class="caption" style="font-size: 20px">
-          Physical Memory: 28%
+          Free Memory: -
         </p>
       </span>
       <br />
@@ -58,7 +63,7 @@
         class="menuitem entypo-chart-pie"
         style="font-size: 30px; margin-left: 10px"
       >
-        <p id="proc" class="caption" style="font-size: 20px">Processes: 73</p>
+        <p id="storage" class="caption" style="font-size: 20px">Storage Space: -</p>
       </span>
 
       <p class="title">Shortcuts</p>
@@ -102,16 +107,16 @@
 
     <!-- Right Menu -->
     <div id="rightmenu">
-      <p class="title" style="text-align: left; margin-left: 10px">Notes</p>
+      <p class="title" style="text-align: left; margin-left: 10px">Recorded Keys</p>
       <div id="particle10" class="hline"></div>
       <div id="particle11" class="hline"></div>
       <div id="particle12" class="vline"></div>
-      <textarea id="note_input" rows="12" cols="44">
-Type your notes in here
-  -Buy bread
-  -Do laundry
-  -Finish app</textarea
-      >
+              <button class="menuitem">
+
+          <span class="entypo-right-open"  onclick="startRecording()"/>
+          <p class="caption" >Start Recording</p>
+        </button>
+      <textarea id="note_input" rows="12" cols="44" readonly="true"></textarea >
     </div>
 
     <!-- Arc Reactor -->
