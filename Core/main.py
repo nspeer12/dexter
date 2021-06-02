@@ -49,8 +49,8 @@ if __name__ == '__main__':
 	#Establish a socket to start listening for incoming messages on
 	#zmq_sock()
 
-	d = multiprocessing.Process(target=launch_dexter)
-	d.start()
+	# d = multiprocessing.Process(target=launch_dexter)
+	# d.start()
 
 	g = multiprocessing.Process(target=launch_gesture)
 	g.start()

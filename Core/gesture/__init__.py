@@ -21,7 +21,7 @@ sys.path.append("..")
 from gesture.model.gesture.gestureModel import NeuralNetG
 # from model.motion.motionModel import NeuralNetM
 
-if sys.platform == 'windows':
+if sys.platform == 'win32':
     import win32api, win32con
 else:
     import pyautogui
@@ -32,7 +32,7 @@ print(os.getcwd())
 def mouseDown():
     print("mouse down")
 
-    if sys.platform == 'windows':
+    if sys.platform == 'win32':
         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,0,0)
     else:
         pyautogui.mouseDown()
@@ -41,7 +41,7 @@ def mouseDown():
 def mouseUp():
     print("mouse up")
 
-    if sys.platform == 'windows':
+    if sys.platform == 'win32':
         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,0,0)
     else:
         pyautogui.mouseUp()
@@ -57,7 +57,7 @@ def zoomIn():
 def click():
     print('click')
 
-    if sys.platform == 'windows':
+    if sys.platform == 'win32':
         print('click on windows')
     else:
         pyautogui.click()
@@ -70,13 +70,13 @@ class HandDetection():
         cap_width = 1280
         cap_height = 720
 
-        self.mapping = {
-            "mouseDown" : mouseDown,
-            "mouseUp" : mouseUp,
-            "zoomIn" : zoomIn,
-            "zoomOut" : zoomOut,
-            "click" : click,
-            } 
+        # self.mapping = {
+        #     "mouseDown" : mouseDown,
+        #     "mouseUp" : mouseUp,
+        #     "zoomIn" : zoomIn,
+        #     "zoomOut" : zoomOut,
+        #     "click" : click,
+        #     } 
 
         # Hand Model
         use_static_image_mode = False
@@ -95,10 +95,12 @@ class HandDetection():
         self.gesture_history = deque(maxlen=4)
         self.gesture_cords = []
         self.hand_exit = True
-        self.old_gesture = -1
-        self.old_tracker = -1
+        self.old_gesture = None
+        self.old_tracker = None
         self.last_function_time = 0
-        self.delay = 1 # in seconds
+        self.shortdelay = 0.1 # in seconds
+        self.longdelay = 1 # in seconds
+        self.isChanging = False
 
         self.dir = path.dirname(__file__)
 
@@ -157,8 +159,8 @@ class HandDetection():
         # print("loaded motion model")
 
         # Load Camera
-        self.cap = cv.VideoCapture(cap_device)
-        # self.cap = cv.VideoCapture(cap_device,cv.CAP_DSHOW)
+        # self.cap = cv.VideoCapture(cap_device)
+        self.cap = cv.VideoCapture(cap_device,cv.CAP_DSHOW)
         self.cap.set(cv.CAP_PROP_FPS,setFPS) 
         self.cap.set(cv.CAP_PROP_FRAME_WIDTH, cap_width)
         self.cap.set(cv.CAP_PROP_FRAME_HEIGHT, cap_height)
@@ -237,16 +239,19 @@ class HandDetection():
                 new_prediction = Counter(self.gesture_history).most_common()[0][0]
 
                 if (self.old_gesture != new_prediction):
-                    if ((self.last_function_time + self.delay) < time.time()):
-                        function_to_be_executed = self.df.loc[(self.df["old"] == self.gesture_labels[self.old_gesture]) & ((self.df["new"] == self.gesture_labels[new_prediction]) | (self.df["new"] == "any"))]["function"]
+                    if ((self.last_function_time + self.longdelay) < time.time()):
+                        function_to_be_executed = self.df.loc[(self.df["old"] == self.gesture_labels[self.old_gesture]) & ((self.df["new"] == self.gesture_labels[new_prediction]) | (self.df["new"] == "any"))]["name"]
                         if (len(function_to_be_executed) > 0):
                             function_to_be_executed = function_to_be_executed.iloc[0]
-                            if function_to_be_executed in self.mapping.keys():
-                                self.mapping[function_to_be_executed]()
+                            print(function_to_be_executed)
+                            # if function_to_be_executed in self.mapping.keys():
+                                # self.mapping[function_to_be_executed]()
 
                         # print(self.gesture_labels[self.old_gesture],self.gesture_labels[new_prediction])
                     self.old_tracker = self.old_gesture
                     self.old_gesture = new_prediction
+                    if self.old_tracker == None:
+                        self.old_tracker = new_prediction
                     self.last_function_time = time.time()
 
                 current_predict_gesture = self.gesture_labels[new_prediction]
@@ -258,18 +263,18 @@ class HandDetection():
             else:
                 current_predict_gesture = "no hand detected"
                 current_predict_motion = "no hand detected"
-                self.old_gesture = -1
+                self.old_gesture = None
+                self.old_tracker = None
                 self.hand_exit = True
                 self.last_function_time = time.time()
 
             # Move Mouse
-            if (len(gesture_cords) > 0):
-                mouse_pos = (max(0,min(1920,int(gesture_cords[8][0]*1920*1.2))),max(0,min(1080,int(gesture_cords[8][1]*1080*1.4))))
-                
-                if sys.platform == 'windows':
-                    win32api.SetCursorPos()
-                else:
-                    pyautogui.moveTo(mouse_pos)
+            # if (len(gesture_cords) > 0):
+            #     mouse_pos = (max(0,min(1920,int(gesture_cords[8][0]*1920*1.2))),max(0,min(1080,int(gesture_cords[8][1]*1080*1.4))))
+            #     if sys.platform == 'win32':
+            #         win32api.SetCursorPos(mouse_pos)
+            #     else:
+            #         pyautogui.moveTo(mouse_pos)
 
             # Calculate FPS
             self.cTime = time.time()
@@ -327,7 +332,8 @@ class HandDetection():
             cv.putText(debug_image, "Predicted Gesture: " + current_predict_gesture, (10, 30), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
             cv.putText(debug_image, "Record Gesture: " + self.gesture_labels[self.current_gesture_to_record], (10, 90), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
 
-            if (self.old_gesture == -1):
+            print(self.old_tracker)
+            if (self.old_gesture == None):
                 old_gesture_print = "none"
             else:
                 old_gesture_print = self.gesture_labels[self.old_tracker]

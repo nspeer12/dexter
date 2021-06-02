@@ -1,6 +1,5 @@
-old,new,function
+old,new,name
 ok,open,zoomIn
 open,ok,zoomOut
-open,pointer-click,mouseDown
-pointer-click,open,mouseUp
-open,close,click
+spider-man,pointer,mouseDown
+pointer,any,mouseUp
