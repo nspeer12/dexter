@@ -109,7 +109,7 @@ class HandDetection():
 
         gesture_label_csv_path = path.join(dir_name, 'csv/gesture_label.csv')
         self.gesture_csv_path = path.join(dir_name, 'csv/gesture.csv')
-        self.df = pd.read_csv(path.join(dir_name, 'csv/functions.csv'))
+        self.df = pd.read_csv(path.join(dir_name, 'csv/gestureTogesture.csv'))
         # motion_label_csv_path = 'csv/motion_label.csv'
         # self.motion_csv_path = 'csv/motion.csv'
 
@@ -247,11 +247,12 @@ class HandDetection():
                     elif (self.isChanging == True and ((self.short_delay_time + self.shortdelay) < time.time())):
                         # execute function after long delay
                         if ( (self.last_function_time + self.longdelay) < time.time()):
-                            print(self.gesture_labels[self.old_gesture],self.gesture_labels[new_prediction])
-                            # function_to_be_executed = self.df.loc[(self.df["old"] == self.gesture_labels[self.old_gesture]) & ((self.df["new"] == self.gesture_labels[new_prediction]) | (self.df["new"] == "any"))]["name"]
-                            # if (len(function_to_be_executed) > 0):
-                            #     function_to_be_executed = function_to_be_executed.iloc[0]
-                            #     print(function_to_be_executed)
+                            # print(self.gesture_labels[self.old_gesture],self.gesture_labels[new_prediction])
+                            function_to_be_executed = self.df.loc[(self.df["old"] == self.gesture_labels[self.old_gesture]) & ((self.df["new"] == self.gesture_labels[new_prediction]) | (self.df["new"] == "any"))]["name"]
+                            # print(function_to_be_executed)
+                            if (len(function_to_be_executed) > 0):
+                                function_to_be_executed = function_to_be_executed.iloc[0]
+                                print(function_to_be_executed)
                                 # if function_to_be_executed in self.mapping.keys():
                                     # self.mapping[function_to_be_executed]()
                         self.isChanging = False
