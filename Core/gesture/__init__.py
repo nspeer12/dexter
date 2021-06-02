@@ -159,8 +159,8 @@ class HandDetection():
         # print("loaded motion model")
 
         # Load Camera
-        # self.cap = cv.VideoCapture(cap_device)
-        self.cap = cv.VideoCapture(cap_device,cv.CAP_DSHOW)
+        self.cap = cv.VideoCapture(cap_device)
+        # self.cap = cv.VideoCapture(cap_device,cv.CAP_DSHOW)
         self.cap.set(cv.CAP_PROP_FPS,setFPS) 
         self.cap.set(cv.CAP_PROP_FRAME_WIDTH, cap_width)
         self.cap.set(cv.CAP_PROP_FRAME_HEIGHT, cap_height)
@@ -239,20 +239,27 @@ class HandDetection():
                 new_prediction = Counter(self.gesture_history).most_common()[0][0]
 
                 if (self.old_gesture != new_prediction):
-                    if ((self.last_function_time + self.longdelay) < time.time()):
-                        function_to_be_executed = self.df.loc[(self.df["old"] == self.gesture_labels[self.old_gesture]) & ((self.df["new"] == self.gesture_labels[new_prediction]) | (self.df["new"] == "any"))]["name"]
-                        if (len(function_to_be_executed) > 0):
-                            function_to_be_executed = function_to_be_executed.iloc[0]
-                            print(function_to_be_executed)
-                            # if function_to_be_executed in self.mapping.keys():
-                                # self.mapping[function_to_be_executed]()
 
-                        # print(self.gesture_labels[self.old_gesture],self.gesture_labels[new_prediction])
-                    self.old_tracker = self.old_gesture
-                    self.old_gesture = new_prediction
-                    if self.old_tracker == None:
-                        self.old_tracker = new_prediction
-                    self.last_function_time = time.time()
+                    # wait a short delay before recording new gesture
+                    if (self.isChanging == False):
+                        self.isChanging = True
+                        self.short_delay_time = time.time()
+                    elif (self.isChanging == True and ((self.short_delay_time + self.shortdelay) < time.time())):
+                        # execute function after long delay
+                        if ( (self.last_function_time + self.longdelay) < time.time()):
+                            print(self.gesture_labels[self.old_gesture],self.gesture_labels[new_prediction])
+                            # function_to_be_executed = self.df.loc[(self.df["old"] == self.gesture_labels[self.old_gesture]) & ((self.df["new"] == self.gesture_labels[new_prediction]) | (self.df["new"] == "any"))]["name"]
+                            # if (len(function_to_be_executed) > 0):
+                            #     function_to_be_executed = function_to_be_executed.iloc[0]
+                            #     print(function_to_be_executed)
+                                # if function_to_be_executed in self.mapping.keys():
+                                    # self.mapping[function_to_be_executed]()
+                        self.isChanging = False
+                        self.old_tracker = self.old_gesture
+                        self.old_gesture = new_prediction
+                        if self.old_tracker == None:
+                            self.old_tracker = new_prediction
+                        self.last_function_time = time.time()
 
                 current_predict_gesture = self.gesture_labels[new_prediction]
 
@@ -332,7 +339,6 @@ class HandDetection():
             cv.putText(debug_image, "Predicted Gesture: " + current_predict_gesture, (10, 30), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
             cv.putText(debug_image, "Record Gesture: " + self.gesture_labels[self.current_gesture_to_record], (10, 90), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
 
-            print(self.old_tracker)
             if (self.old_gesture == None):
                 old_gesture_print = "none"
             else:
