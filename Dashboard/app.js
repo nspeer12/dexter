@@ -29,7 +29,7 @@ function createWindow() {
     })
 
     // and load the index.html of the app.
-    mainWindow.loadURL('file://' + __dirname + '/Pages/Home.html');
+    mainWindow.loadURL('file://' + __dirname + '/Pages/Dashboard.html');
     //mainWindow.webContents.openDevTools()
     
     
