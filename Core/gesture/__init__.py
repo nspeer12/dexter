@@ -99,17 +99,17 @@ class HandDetection():
         self.old_tracker = None
         self.last_function_time = 0
         self.shortdelay = 0.1 # in seconds
-        self.longdelay = 1 # in seconds
+        self.longdelay = 1.5 # in seconds
         self.isChanging = False
-
-        self.dir = path.dirname(__file__)
 
         # Define CSV paths
         dir_name = path.dirname(__file__)
 
         gesture_label_csv_path = path.join(dir_name, 'csv/gesture_label.csv')
         self.gesture_csv_path = path.join(dir_name, 'csv/gesture.csv')
-        self.df = pd.read_csv(path.join(dir_name, 'csv/gestureTogesture.csv'))
+
+        self.dfGesture = pd.read_csv(path.join(dir_name, 'csv/gestureToGesture.csv'))
+        self.dfMotion = pd.read_csv(path.join(dir_name, 'csv/gestureMotion.csv'))
         # motion_label_csv_path = 'csv/motion_label.csv'
         # self.motion_csv_path = 'csv/motion.csv'
 
@@ -210,12 +210,12 @@ class HandDetection():
                     # self.prev_point = np.average(gesture_cords,axis=0)
                     self.prev_point = gesture_cords[9]
 
-                    if (np.abs(distance[0]) > 9):
+                    if (np.abs(distance[0]) > 12):
                         if (distance[0] > 0):
                             current_predict_motion = "left"
                         else:
                             current_predict_motion = "right"
-                    elif (np.abs(distance[1]) > 9):
+                    elif (np.abs(distance[1]) > 12):
                         if (distance[1] > 0):
                             current_predict_motion = "up"
                         else:
@@ -248,7 +248,7 @@ class HandDetection():
                         # execute function after long delay
                         if ( (self.last_function_time + self.longdelay) < time.time()):
                             # print(self.gesture_labels[self.old_gesture],self.gesture_labels[new_prediction])
-                            function_to_be_executed = self.df.loc[(self.df["old"] == self.gesture_labels[self.old_gesture]) & ((self.df["new"] == self.gesture_labels[new_prediction]) | (self.df["new"] == "any"))]["name"]
+                            function_to_be_executed = self.dfGesture.loc[(self.dfGesture["old"] == self.gesture_labels[self.old_gesture]) & ((self.dfGesture["new"] == self.gesture_labels[new_prediction]) | (self.dfGesture["new"] == "any"))]["name"]
                             # print(function_to_be_executed)
                             if (len(function_to_be_executed) > 0):
                                 function_to_be_executed = function_to_be_executed.iloc[0]
@@ -262,7 +262,13 @@ class HandDetection():
                             self.old_tracker = new_prediction
                         self.last_function_time = time.time()
 
+                elif ((current_predict_motion != "no motion") and (current_predict_motion != "no hand detected")):
+                    if ( (self.last_function_time + self.longdelay) < time.time()):
+                        self.last_function_time = time.time()
+                        print(current_predict_motion, self.gesture_labels[new_prediction])
+
                 current_predict_gesture = self.gesture_labels[new_prediction]
+
 
                 # if (len(self.point_history) == 4):
                 #     output2 = self.model2.forward(torch.from_numpy(np.append([left_or_right], fully_flat)).float())
