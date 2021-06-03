@@ -1,13 +1,10 @@
 import os
 from os import path
-
 import speech_recognition as sr
 import datetime
 import time
 from multiprocessing import Process
-import sounddevice as sd
 from scipy.io.wavfile import write
-from precise_runner import PreciseEngine, PreciseRunner
 from playsound import playsound
 import csv
 import torch
@@ -46,6 +43,8 @@ class Dexter:
 		self.debug = debug
 		self.cwd = os.getcwd()
 
+		self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
 		# Define CSV paths
 		dir_name = path.dirname(__file__)
 
@@ -73,7 +72,7 @@ class Dexter:
 		self.num_classes = len(self.Assistant_labels)
 
 		self.model = NeuralNet(self.num_features,self.num_classes)
-		self.model.load_state_dict(torch.load(ASSISTANT_PATH))
+		self.model.load_state_dict(torch.load(ASSISTANT_PATH, map_location=self.device))
 		self.model.eval()
 		
 		if self.debug:
