@@ -71,7 +71,7 @@ def voice_replica(text:str, debug=False):
 		cwd = os.getcwd()
 
 		# use random file name
-		filename = "dexter/tmp/tmp.wav"
+		filename = "tmp.wav"
 
 		output_path = filename
 		data = requests.get(url).content
