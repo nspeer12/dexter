@@ -14,7 +14,9 @@ import nltk
 from nltk.stem import WordNetLemmatizer
 import wave
 import numpy as np
-
+import pvporcupine
+import pyaudio
+import struct
 
 # gotta back that shit up for imports to work
 import sys
@@ -24,15 +26,13 @@ from assistant.skills import *
 from assistant.utils.intro import intro
 from assistant.model.assistantModel import NeuralNet
 from assistant.nlp import *
-from assistant.apis.gpt3 import *
-from assistant.voice import *
-from assistant.apis.wikipedia_api import *
-from assistant.apis.wolfram_api import *
 
 
 
 MIC_SOURCE = 1
 WAKE_WORDS = ["Dexter", "hey Dexter", "texture", "computer", "Okay computer" "hey computer", "dex"]
+
+
 
 
 
@@ -112,9 +112,53 @@ class Dexter:
 
 		self.context = ''
 
+		self.audio = None
+		self.audio_stream = None
+		self.porcupine = pvporcupine.create(keywords=["computer", "jarvis"])
+
+	def start_audio_stream(self):
+		self.audio = pyaudio.PyAudio()
+
+		self.audio_stream = self.audio.open(
+								rate=self.porcupine.sample_rate,
+								channels=1,
+								format=pyaudio.paInt16,
+								input=True,
+								frames_per_buffer=self.porcupine.frame_length)
+
+
+	def stop_audio_stream(self):
+		self.audio_stream.close()
+		self.audio.terminate()
+
+
 	def hotword(self):
-		# loop until wake word is detected
-		pass
+		porcupine = None
+		pa = None
+		audio_stream = None
+
+		self.start_audio_stream()
+
+		try:
+			
+			while True:
+
+				pcm = self.audio_stream.read(self.porcupine.frame_length)
+				pcm = struct.unpack_from("h" * self.porcupine.frame_length, pcm)
+
+				keyword_index = self.porcupine.process(pcm)
+
+
+				if keyword_index >= 0:
+					self.stop_audio_stream()
+					print("Hotword Detected")
+					self.listen()
+					self.start_audio_stream()
+
+
+
+		except Exception as ex:
+			print(ex)
 
 	def get_input(self):
 		# get input from microphone -> google api -> text
@@ -169,49 +213,53 @@ class Dexter:
 			
 			#self.recognizer.adjust_for_ambient_noise(source, duration=0.5)
 			
-			while run:
 		
-				try:
-					recorded_audio = self.recognizer.listen(source, timeout=0.5)
-					
-					print("Recognizing")
+			try:
+				recorded_audio = self.recognizer.listen(source, timeout=1)
+				
+				print("Recognizing")
 
-					start = time.time()
+				start = time.time()
 
-					text = self.recognizer.recognize_google(
-							recorded_audio,
-							language='en-US')
+				text = self.recognizer.recognize_google(
+						recorded_audio,
+						language='en-US')
 
-				except Exception as ex:
-					if self.debug:
-						print(ex)
+			except Exception as ex:
+				if self.debug:
+					print(ex)
 
-				else:
-					
-					decode_time = time.time() - start
+			else:
+				
+				decode_time = time.time() - start
 
-					if self.debug:
-						print("Detection time: {}".format(decode_time))
+				if self.debug:
+					print("Detection time: {}".format(decode_time))
 
-					'''
-					with open('logs/decode-time.txt', 'a') as decode:
-						decode.write("{}\n".format(decode_time))
-						decode.close()
-					'''
+				'''
+				with open('logs/decode-time.txt', 'a') as decode:
+					decode.write("{}\n".format(decode_time))
+					decode.close()
+				'''
 
-					if self.debug:
-						print("Decoded Text : {}".format(text))
+				if self.debug:
+					print("Decoded Text : {}".format(text))
 
-											
-					self.process_input(text)
+										
+				self.process_input(text)
 
-					#handle_query(text)
+				if self.debug:
+					print("Total Response Time: {}\n".format(time.time() - start))
 
-					'''
-					with open('logs/total-response-time.txt', 'a') as trt:
-						trt.write("{}\n".format(time.time() - start))
-						trt.close()
-					'''
+				'''
+				with open('logs/total-response-time.txt', 'a') as trt:
+					trt.write("{}\n".format(time.time() - start))
+					trt.close()
+				'''
+
+		return
+
+
 
 	def listen_houndify(self):
 			
@@ -274,4 +322,4 @@ class Dexter:
 
 def launch_dexter():
 	dex = Dexter(debug=True)
-	dex.listen()
+	dex.hotword()

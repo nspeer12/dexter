@@ -1,12 +1,31 @@
+import struct
+import pyaudio
 import pvporcupine
 
-handle = pvporcupine.create(keywords=['bumblebee'])
+porcupine = None
+pa = None
+audio_stream = None
 
-def get_next_audio_frame():
-    pass
 
-while True:
-    keyword_index = handle.process(get_next_audio_frame())
-    if keyword_index >= 0:
-        # Insert detection event callback here
-        pass
+try:
+	porcupine = pvporcupine.create(keywords=["computer", "jarvis"])
+
+	pa = pyaudio.PyAudio()
+
+	audio_stream = pa.open(
+							rate=porcupine.sample_rate,
+							channels=1,
+							format=pyaudio.paInt16,
+							input=True,
+							frames_per_buffer=porcupine.frame_length)
+
+	while True:
+		pcm = audio_stream.read(porcupine.frame_length)
+		pcm = struct.unpack_from("h" * porcupine.frame_length, pcm)
+
+		keyword_index = porcupine.process(pcm)
+
+		if keyword_index >= 0:
+			print("Hotword Detected")
+except:
+	print('poop')
