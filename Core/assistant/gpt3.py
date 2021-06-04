@@ -3,12 +3,17 @@ import openai
 openai.organization = "org-fEhf9cVXO5Gy5N7wHGEu4RjT"
 openai.api_key = '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'
 
+#response = openai.Completion.create(engine="davinci", prompt="This is a test", max_tokens=5)
+#print(response)
 
-def gpt3_answer(question:str, max_tokens=256, model='curie'):
+#print(openai.Engine.list())
+
+
+def gpt3_answer(question:str, max_tokens=256, model='davinci'):
 	# required parameters
 	examples = [["What is human life expectancy in the United States?","78 years."]]
 	examples_context = "In 2017, U.S. life expectancy was 78.6 years."
-	documents = [""]
+	documents = ["Puppy A is happy.", "Puppy B is sad."]
 
 	response = openai.Answer.create(model=model, 
 									examples_context=examples_context, 

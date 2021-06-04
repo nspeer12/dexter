@@ -199,8 +199,13 @@ class Dexter:
 		# TODO: prediction threshold
 
 		if prediction in self.mappings.keys():
-			self.mappings[prediction](text, self.context)
 
+			res = self.mappings[prediction](text, self.context)
+			if res != None:
+				self.context += 'Human: ' + text + '\n'
+				self.context += 'AI: ' + res + '\n'
+				print(self.context)
+				voice(res)
 
 	def listen(self):
 		

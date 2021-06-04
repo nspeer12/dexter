@@ -6,7 +6,7 @@
         "responses": ["Hello!", "Good to see you again!", "Hi there, how can I help?"]
         },
         {"tag": "introduction",
-        "patterns": ["who are you","What is your name?","what are you"],
+        "patterns": ["who are you","what are you"],
         "responses": ["I am Dexter"]
         },
         {"tag": "goodbye",
@@ -21,7 +21,9 @@
         "responses": ["Sad to see you go :(", "Talk to you later", "Goodbye!"]
         },
         {"tag": "wiki",
-            "patterns": ["who is","what is","who are","what are"],
+            "patterns": ["who is Gucci Mane","what is the capital of Bangledesh","who are the Chicago Bears","what is a blackhole",
+                         "what is Chicago", "what as the Seattle Fire", "where is Florida", "what's the history of Clevland",
+                         "What is quantum physics"],
             "responses": [] 
         },
         {"tag": "math",
@@ -112,7 +114,7 @@
             "responses": []
         },
         {"tag": "day",
-            "patterns": ["what is day today?"],
+            "patterns": ["what is day today?", "what's the day of the week", "what day of the week is it", "what's today"],
             "responses": []
         }
     ]

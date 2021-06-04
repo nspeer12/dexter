@@ -11,77 +11,77 @@ import pywhatkit as kit
 # COMMENT OLD SKILLS OUT FOR NOW
 # # functions for each skill
 # def weather(*args):
-# 	return 'the weather today is sunny with a high of 69 degrees'
+#   return 'the weather today is sunny with a high of 69 degrees'
 
 # def get_date(*args):
-# 	t = datetime.datetime.now()
-# 	day = t.strftime("%A")
+#   t = datetime.datetime.now()
+#   day = t.strftime("%A")
 
-# 	date = t.strftime("%d")
-# 	month = t.strftime("%B")
-# 	year = t.strftime("%Y")
+#   date = t.strftime("%d")
+#   month = t.strftime("%B")
+#   year = t.strftime("%Y")
 
-# 	return 'its {}, {} {}, {}'.format(day, month, date, year)
+#   return 'its {}, {} {}, {}'.format(day, month, date, year)
 
 # def get_time(*args):
-# 	t = datetime.datetime.now()
-# 	hour = t.strftime("%H")
-# 	minute = t.strftime("%M")
-# 	ampm = t.strftime("%p")
+#   t = datetime.datetime.now()
+#   hour = t.strftime("%H")
+#   minute = t.strftime("%M")
+#   ampm = t.strftime("%p")
 
-# 	hour = int(hour) % 12
+#   hour = int(hour) % 12
 
-# 	return 'its {} {} {}'.format(hour, minute, ampm)
+#   return 'its {} {} {}'.format(hour, minute, ampm)
 
 # def get_day(*args):
-# 	return 'its taco tuesday'
+#   return 'its taco tuesday'
 
 
 # def quit_app(*args):
-# 	quit()
+#   quit()
 
 # def mouse_mode(*args):
-# 	mouse_control()
+#   mouse_control()
 
 # def introduction(*args):
-# 	return '''
-# 			Hello, my name is Dexter. It sure is great to meet you.
-# 			I am your intelligent assistant, and I am here to help you.
-# 			'''
+#   return '''
+#           Hello, my name is Dexter. It sure is great to meet you.
+#           I am your intelligent assistant, and I am here to help you.
+#           '''
 
 # def are_u_up(*args):
-# 	return 'For you sir, always.'
+#   return 'For you sir, always.'
 
 
 # def bye(*args):
-# 	return 'see you later, bitches'
+#   return 'see you later, bitches'
 
 # skills_map = {
-# 		  'introduce': introduction,
-# 		  'are you up': are_u_up, 
-# 		  'time': get_time,
-# 		  'date': get_date,
-# 		  'day': get_day,
-# 		  'quit': quit_app,
-# 		  'mouse': mouse_mode,
-# 		  'track': object_tracker,
-# 		  'menu': open_windows_menu,
-# 		  'file explorer': open_file_explorer,
-# 		  'settings': open_settings,
-# 		  'minimize': minimize,
-# 		  'restore': restore_windows,
-# 		  'task view': task_view,
-# 		  'maximize': maximize_current_window,
-# 		  'search': search,
-# 		  'pause': playpause,
-# 		  'play': playpause,
-# 		  'bye': bye,
-# 		  'sleep': sleep,
-# 		  'shut down': shutdown,
-# 		  'reset': reset,
-# 		  'type': type_mode,
-# 		  'new line': newline,
-# 		 }
+#         'introduce': introduction,
+#         'are you up': are_u_up, 
+#         'time': get_time,
+#         'date': get_date,
+#         'day': get_day,
+#         'quit': quit_app,
+#         'mouse': mouse_mode,
+#         'track': object_tracker,
+#         'menu': open_windows_menu,
+#         'file explorer': open_file_explorer,
+#         'settings': open_settings,
+#         'minimize': minimize,
+#         'restore': restore_windows,
+#         'task view': task_view,
+#         'maximize': maximize_current_window,
+#         'search': search,
+#         'pause': playpause,
+#         'play': playpause,
+#         'bye': bye,
+#         'sleep': sleep,
+#         'shut down': shutdown,
+#         'reset': reset,
+#         'type': type_mode,
+#         'new line': newline,
+#        }
 
 # NEW SKILLS
 
@@ -90,93 +90,113 @@ import pywhatkit as kit
 
 
 def greeting(query, context):
-    voice("Hi, I'm Dexter. How can I help you today?")
+    ans = "Hi, I'm Dexter. How can I help you today?"
+    return ans
 
 def introduction(query, context):
-    voice("I am Dexter")
+    ans = 'I am Dexter, your intelligent assistant'
+    return ans
+
 
 def goodbye(query, context):
-    voice("goodbye")
+    ans = 'Goodbye, sir'
+    return ans
 
 def wiki(query, context):
-    text = ask_wikipedia(query)
-    voice(text)
+    ans = ask_wikipedia(query)
+    return ans
 
 def math(query, context):
-    text = ask_wolfram(query)
-    voice(text)
+    ans = ask_wolfram(query)
+    return ans
 
 def news(query, context):
-    voice("making api call to top stories from reddit")
+    ans = "making api call to top stories from reddit"
 
 def play(query, context):
-    voice(query.replace("play", "playing"))
     song = query.replace("play ", "")
     kit.playonyt(str(song))
+    return 'playing ' + str(song)
 
 def resume(query, context):
     # use WinRT api in the future
     pyautogui.press('playpause')
+    return None
 
 def pause(query, context):
     # use WinRT api in the future
     pyautogui.press('playpause')
+    return None
 
 def increaseVolume(query, context):
     pyautogui.press('volumeup')
+    return None
 
 def decreaseVolume(query, context):
     pyautogui.press('volumedown')
+    return None
 
 def mute(query, context):
     # differentiate between unmute using sound api
     pyautogui.press('volumemute')
+    return None
 
 def unmute(query, context):
     # differentiate between mute using sound api
     pyautogui.press('volumemute')
+    return None
 
 def reset(query, context):
-	pyautogui.hotkey('win', 'x')
-	time.sleep(.1)
-	pyautogui.press('u')
-	time.sleep(.1)
-	pyautogui.press('r')
+    pyautogui.hotkey('win', 'x')
+    time.sleep(.1)
+    pyautogui.press('u')
+    time.sleep(.1)
+    pyautogui.press('r')
+    return None
 
 def shutdown(query, context):
-	pyautogui.hotkey('win', 'x')
-	time.sleep(.1)
-	pyautogui.press('u')
-	time.sleep(.1)
-	pyautogui.press('u')
+    pyautogui.hotkey('win', 'x')
+    time.sleep(.1)
+    pyautogui.press('u')
+    time.sleep(.1)
+    pyautogui.press('u')
+    return None
 
 def sleep(query, context):
-	pyautogui.hotkey('win', 'x')
-	time.sleep(1)
-	pyautogui.press('u')
-	time.sleep(1)
-	pyautogui.press('s')
+    pyautogui.hotkey('win', 'x')
+    time.sleep(1)
+    pyautogui.press('u')
+    time.sleep(1)
+    pyautogui.press('s')
+    return None
 
 def minimize(query, context):
     pyautogui.hotkey('win', 'm')
+    return None
 
 def maximize(query, context):
     pyautogui.hotkey('win', 'up')
+    return None
 
 def restore(query, context):
     pyautogui.hotkey('win', 'shiftleft', 'm')
+    return None
 
 def switchApplications(query, context):
     pyautogui.hotkey('alt', 'tab')
+    return None
 
 def switchDesktop(query, context):
     pyautogui.hotkey('win', 'tab')
+    return None
 
 def openApplication(query, context):
     voice("opening Application")
+    return None
 
 def openFile(query, context):
     voice("opening file")
+    return None
 
 def date(query, context):
     t = datetime.datetime.now()
@@ -185,7 +205,8 @@ def date(query, context):
     month = t.strftime("%B")
     year = t.strftime("%Y")
 
-    voice('its {}, {} {}, {}'.format(day, month, date, year))
+    ans = 'its {}, {} {}, {}'.format(day, month, date, year)
+    return ans
 
 def get_time(query, context):
     t = datetime.datetime.now()
@@ -193,11 +214,24 @@ def get_time(query, context):
     minute = t.strftime("%M")
     ampm = t.strftime("%p")
     hour = int(hour) % 12
-    voice('its {} {} {}'.format(hour, minute, ampm))
+    ans = 'its {} {} {}'.format(hour, minute, ampm)
+    return ans
 
 def day(query, context):
-    voice(self,"it taco tuesday")
+    day_idx = datetime.datetime.today().weekday()
+    
+    days = {0 : 'monday',
+            1 : 'tuesday',
+            2 : 'wednesday',
+            3 : 'thursday',
+            4 : 'friday',
+            5 : 'saturday',
+            6 : 'sunday'}
+
+    ans = 'today its ' + days[day_idx]
+    return ans
+    
 
 def question(query, context):
-    print('here')
-    voice(gpt3_answer(query))
+    ans = gpt3_answer(query)
+    return ans
