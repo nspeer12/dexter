@@ -2,10 +2,10 @@ from assistant.keyboard import *
 from assistant.voice import *
 from assistant.utils.intro import intro
 from assistant.apis.gpt3 import *
-
+from assistant.apis.wolfram_api import ask_wolfram
+from assistant.apis.wikipedia_api import ask_wikipedia
 import time
 import datetime
-import pywhatkit as kit
 import pywhatkit as kit
 
 # COMMENT OLD SKILLS OUT FOR NOW
@@ -99,10 +99,12 @@ def goodbye(query, context):
     voice("goodbye")
 
 def wiki(query, context):
-    voice("making api call to wiki")
+    text = ask_wikipedia(query)
+    voice(text)
 
 def math(query, context):
-    voice("making api call to wolf frame alpha")
+    text = ask_wolfram(query)
+    voice(text)
 
 def news(query, context):
     voice("making api call to top stories from reddit")

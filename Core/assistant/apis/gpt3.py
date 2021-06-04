@@ -1,7 +1,7 @@
 import openai
 
 openai.organization = "org-fEhf9cVXO5Gy5N7wHGEu4RjT"
-openai.api_key = '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'
+openai.api_key = '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'
 
 
 def gpt3_answer(question:str, max_tokens=256, model='curie'):
