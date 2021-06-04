@@ -114,7 +114,8 @@ class Dexter:
 
 		self.audio = None
 		self.audio_stream = None
-		self.porcupine = pvporcupine.create(keywords=["computer", "jarvis"])
+
+		self.porcupine = pvporcupine.create(keyword_paths=['assistant/porcupine/hey-dexter-mac.ppn'])
 
 	def start_audio_stream(self):
 		self.audio = pyaudio.PyAudio()
@@ -160,6 +161,7 @@ class Dexter:
 		except Exception as ex:
 			print(ex)
 
+
 	def get_input(self):
 		# get input from microphone -> google api -> text
 		while True:
@@ -177,6 +179,7 @@ class Dexter:
 						print("empty string")
 			except Exception as ex:
 				print(ex)
+
 
 	def process_input(self, text):
 		text = clean_text(text)
