@@ -6,13 +6,14 @@ from multiprocessing import Pool
 import time
 import speech_recognition as sr
 from fastapi import FastAPI, Request
+from flask import Flask
 from gesture import launch_gesture
 from assistant import launch_dexter
 
 app = FastAPI()
 
 dex = None
-gest = multiprocessing.Process(target=launch_gesture)
+gest = None
 pool = Pool(2)
 
 
@@ -38,40 +39,31 @@ async def index():
 	return 'Hello World'
 
 
-@app.post('/start-dexter')
-async def start_dexter(request:Request):
-	global dex
-	dex = multiprocessing.Process(target=launch_dexter)
-	dex.start()
-	return 'dexter started'
+@app.post('/dexter-control/')
+def start_stop_dexter(cmd=None):
+	print(cmd)
 
+	if cmd == 'start':
+		global dex
+		dex = multiprocessing.Process(target=launch_dexter)
+		dex.start()
+		return 'dexter started'
 
-@app.post('/stop-dexter')
-async def stop_dexter(request:Request):
-	global dex
-	if dex is not None:
+	elif cmd == 'stop' and dex is not None:
 		dex.terminate()
 		return 'dexter stopped'
-	else:
-		return 'dexter not started'
 
-@app.post('/start-gesture')
-async def start_gesture():
-	global gest
-	gest.start()
-	return 'gesture started'
+	return 'cmd not recieved'
 
 
 @app.post('/stop-gesture')
 async def stop_gesture():
+	'''
 	global gest
 	if gest is not None:
-		gest.terminate()
+		
 		return 'gesture stopped'
 	else:
-		return 'gesture not started'
+		'''
+	return 'gesture not started'
 
-
-if __name__ == '__main__':
-	
-	app.start()

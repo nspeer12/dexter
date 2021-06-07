@@ -39,15 +39,32 @@ function startRecording()
 }
 
 
-function startDexter(data)
+// for controlling dexter
+var dexCmd = 'start'
+
+function startStopDexter(data)
 {
+    console.log(data);
+
+    if (dexCmd == 'start')
+    {
+        dexCmd = 'stop'
+        document.getElementById('startStopDexterButton').innerHTML = 'Stop Dexter';
+    }
+    else if (dexCmd == 'stop')
+    {
+        dexCmd = 'start'
+        document.getElementById('startStopDexterButton').innerHTML = 'Start Dexter';
+    }
+    
     var xhr = new XMLHttpRequest();
-    var url = 'http://localhost:8000/start-dexter'
+    var url = 'http://localhost:8000/dexter-control/?cmd=' + dexCmd
     xhr.open("POST", url, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify({
-        data: data
+        data: data,
     }));
+
 }
 
 function stopDexter(data)
