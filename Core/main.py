@@ -56,6 +56,24 @@ def start_stop_dexter(cmd=None):
 	return 'cmd not recieved'
 
 
+@app.post('/gesture-control/')
+def start_stop_dexter(cmd=None):
+	print(cmd)
+
+	if cmd == 'start':
+		global gest
+		gest = multiprocessing.Process(target=launch_gesture)
+		gest.start()
+		return 'gesture started'
+
+	elif cmd == 'stop' and dex is not None:
+		gest.terminate()
+		return 'gesture stopped'
+
+	return 'cmd not recieved'
+
+
+
 @app.post('/stop-gesture')
 async def stop_gesture():
 	'''

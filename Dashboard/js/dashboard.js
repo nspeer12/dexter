@@ -39,46 +39,60 @@ function startRecording()
 }
 
 
-// for controlling dexter
+
 var dexCmd = 'start'
-
-function startStopDexter(data)
+function controlDexter(data)
 {
-    console.log(data);
 
+    var xhr = new XMLHttpRequest();
+    var url = 'http://localhost:8000/dexter-control/?cmd=' + dexCmd;
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        data: data,
+    }));
+    
     if (dexCmd == 'start')
     {
-        dexCmd = 'stop'
+        dexCmd = 'stop';
         document.getElementById('startStopDexterButton').innerHTML = 'Stop Dexter';
     }
     else if (dexCmd == 'stop')
     {
-        dexCmd = 'start'
+        dexCmd = 'start';
         document.getElementById('startStopDexterButton').innerHTML = 'Start Dexter';
     }
     
+    
+
+}
+
+var gestCmd = 'start'
+function controlGesture(data)
+{
     var xhr = new XMLHttpRequest();
-    var url = 'http://localhost:8000/dexter-control/?cmd=' + dexCmd
+    var url = 'http://localhost:8000/gesture-control/?cmd=' + gestCmd;
     xhr.open("POST", url, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify({
         data: data,
     }));
 
-}
-
-function stopDexter(data)
-{
+    if (gestCmd == 'start')
+    {
+        gestCmd = 'stop';
+        document.getElementById('startStopGestureButton').innerHTML = 'Stop Gesture Control';
+    }
+    else if (gestCmd == 'stop')
+    {
+        gestCmd = 'start';
+        document.getElementById('startStopGestureButton').innerHTML = 'Start Gesture Control';
+    }
     
-    var xhr = new XMLHttpRequest();
-    var url = 'http://localhost:8000/stop-dexter'
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify({
-        data: data
-    }));
-}
+    
 
+
+}
 
 setInterval(function() {
     diagnostics();
