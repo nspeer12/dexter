@@ -1,6 +1,8 @@
 var os = require('os');
 // var diskfree = require("diskfree");
 
+
+
 function openSettingsMenu() {
     const win = window.open("Home.html", "_blank", "fullscreen= false");
     win.center();
@@ -35,6 +37,31 @@ function startRecording()
     window.addEventListener("keydown", keyDownCallback);
     window.addEventListener("keyup", keyUpCallback);
 }
+
+
+function startDexter(data)
+{
+    var xhr = new XMLHttpRequest();
+    var url = 'http://localhost:8000/start-dexter'
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        data: data
+    }));
+}
+
+function stopDexter(data)
+{
+    
+    var xhr = new XMLHttpRequest();
+    var url = 'http://localhost:8000/stop-dexter'
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        data: data
+    }));
+}
+
 
 setInterval(function() {
     diagnostics();

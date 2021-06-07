@@ -1,3 +1,5 @@
+bitcoin_price
+convo
 date
 day
 decreaseVolume
@@ -14,6 +16,7 @@ openApplication
 openFile
 pause
 play
+print_chat_log
 question
 restart
 restore
