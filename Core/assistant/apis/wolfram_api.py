@@ -1,6 +1,6 @@
 import wolframalpha 
-# from nlp import *
 import inflect
+import re
 
 def ask_wolfram(question:str):
 	print(question)
@@ -32,7 +32,24 @@ def ask_wolfram(question:str):
 	answer = re.sub("sqrt", "times the square root of", answer)
 	answer = re.sub(r'\)', "", answer)
 	answer = re.sub(r'\(', "", answer)
-	answer = 'the answer is ' + answer
+
+	# change numeric values to spoken words
+
+	infl = inflect.engine()
+
+	ans_list = answer.split()
+
+	new_ans = ''
+	for w in ans_list:
+		
+		print(new_ans)
+
+		if w.isnumeric():
+			w = infl.number_to_words(w)
+
+		new_ans += w + ' '
+
+	answer = 'the answer is ' + new_ans
 	print(answer)
 
 	return answer
