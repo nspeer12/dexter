@@ -5,12 +5,12 @@
     <title>Photon</title>
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="../css/photon.general.css">
+    <link rel="stylesheet" href="../css/photon.min.general.css">
     
     <!-- Javascript -->
     <script src="../js/menu.js" charset="utf-8"></script>
   </head>
-  <body>
+  
     <div class="window">
 
       <!-- .toolbar-header sits at the top of your app -->
@@ -24,10 +24,11 @@
           <div class="pane pane-sm sidebar">
             <nav class="nav-group">
               <h5 class="nav-group-title">Favorites</h5>
-              <span class="nav-group-item">
-                <span class="icon icon-home"></span>
-                User
-              </span>
+              <a href="./User.html">
+                <span class="nav-group-item">
+                  <span class="icon icon-home"></span>
+                  User
+                </span></a>
               <a href="./index.html">
               <span class="nav-group-item">
                 <span class="icon icon-light-up"></span>
@@ -60,35 +61,9 @@
                 About
               </span></a>
             </nav>
-          </div>
-          
-          <form>
-            <div class="radio">
-              <label>
-                <input type="radio" name="radios" checked>
-                Launch Dexter on start up
-              </label>
-            </div>
-            <div class="radio">
-              <label>
-                <input type="radio" name="radios">
-                Wait for wake word on startup
-              </label>
-            </div>
-            <div class="form-actions">
-              <button type="submit" class="btn btn-form btn-default">Apply</button>
-              <button type="submit" class="btn btn-form btn-primary">Uninstall</button>
-            </div>
-          </form>
-
-          
-
-          
-
-          
+          </div>  
 
     </div>
     
-    
-  </body>
+  
 </html>
