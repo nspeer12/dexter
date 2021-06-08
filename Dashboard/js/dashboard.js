@@ -1,6 +1,8 @@
 var os = require('os');
 // var diskfree = require("diskfree");
 
+
+
 function openSettingsMenu() {
     const win = window.open("Home.html", "_blank", "fullscreen= false");
     win.center();
@@ -34,6 +36,62 @@ function startRecording()
     keyText.textContent = "";
     window.addEventListener("keydown", keyDownCallback);
     window.addEventListener("keyup", keyUpCallback);
+}
+
+
+
+var dexCmd = 'start'
+function controlDexter(data)
+{
+
+    var xhr = new XMLHttpRequest();
+    var url = 'http://localhost:8000/dexter-control/?cmd=' + dexCmd;
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        data: data,
+    }));
+    
+    if (dexCmd == 'start')
+    {
+        dexCmd = 'stop';
+        document.getElementById('startStopDexterButton').innerHTML = 'Stop Dexter';
+    }
+    else if (dexCmd == 'stop')
+    {
+        dexCmd = 'start';
+        document.getElementById('startStopDexterButton').innerHTML = 'Start Dexter';
+    }
+    
+    
+
+}
+
+var gestCmd = 'start'
+function controlGesture(data)
+{
+    var xhr = new XMLHttpRequest();
+    var url = 'http://localhost:8000/gesture-control/?cmd=' + gestCmd;
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        data: data,
+    }));
+
+    if (gestCmd == 'start')
+    {
+        gestCmd = 'stop';
+        document.getElementById('startStopGestureButton').innerHTML = 'Stop Gesture Control';
+    }
+    else if (gestCmd == 'stop')
+    {
+        gestCmd = 'start';
+        document.getElementById('startStopGestureButton').innerHTML = 'Start Gesture Control';
+    }
+    
+    
+
+
 }
 
 setInterval(function() {

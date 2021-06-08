@@ -2,63 +2,86 @@ import time
 import zmq
 import threading
 import multiprocessing
+from multiprocessing import Pool
 import time
 import speech_recognition as sr
+from fastapi import FastAPI, Request
+from flask import Flask
 from gesture import launch_gesture
 from assistant import launch_dexter
+
+app = FastAPI()
+
+dex = None
+gest = None
+pool = Pool(2)
+
 
 def zmq_sock():
 	context = zmq.Context()
 	socket = context.socket(zmq.REP)
-	socket.bind("tcp://127.0.0.1:5555")
+	socket.bind("tcp://127.0.0.1:8888")
 
-	while True:
-
-		#  Wait for incoming request from client
-		print("Listening...")
-		message = socket.recv()
-		print("Received request: %s\nSending response" % message)
-
-		#  Do some other stuff
-		time.sleep(1)
-
-		#  Send reply back to client
-		socket.send_string("What it do")
+	#  Wait for incoming request from client
+	print("Listening...")
+	message = socket.recv()
+	print("Received request: %s\nSending response" % message)
 
 
-def sr_test():
+	#  Send reply back to client
+	socket.send_string("Socket Connected")
 
-	while True:
-		try:
-			with sr.Microphone(device_index=0) as mic:
-				#self.recognizer.adjust_for_ambient_noise(mic,duration=0.2)
-				#audio = self.recognizer.listen(mic)
-				#text = self.recognizer.recognize_google(audio)
-				#text = text.lower()
-				print(f"You said:\n{text}")
-				if (text != ""):
-					self.message = text
-					return text
-				else:
-					print("empty string")
-		except Exception as ex:
-			print(ex)
+	return socket
 
 
-if __name__ == '__main__':
-	#Establish a socket to start listening for incoming messages on
-	#zmq_sock()
+@app.get('/')
+async def index():
+	return 'Hello World'
 
-	# d = multiprocessing.Process(target=launch_dexter)
-	# d.start()
 
-	g = multiprocessing.Process(target=launch_gesture)
-	g.start()
+@app.post('/dexter-control/')
+def start_stop_dexter(cmd=None):
+	print(cmd)
 
-	
-	# for i in reversed(range(100)):
-	# 	print('killing application in ' + str(i) + ' seconds')
-	# 	time.sleep(1)
-	
-	# d.terminate()
-	# g.terminate()
+	if cmd == 'start':
+		global dex
+		dex = multiprocessing.Process(target=launch_dexter)
+		dex.start()
+		return 'dexter started'
+
+	elif cmd == 'stop' and dex is not None:
+		dex.terminate()
+		return 'dexter stopped'
+
+	return 'cmd not recieved'
+
+
+@app.post('/gesture-control/')
+def start_stop_dexter(cmd=None):
+	print(cmd)
+
+	if cmd == 'start':
+		global gest
+		gest = multiprocessing.Process(target=launch_gesture)
+		gest.start()
+		return 'gesture started'
+
+	elif cmd == 'stop' and dex is not None:
+		gest.terminate()
+		return 'gesture stopped'
+
+	return 'cmd not recieved'
+
+
+
+@app.post('/stop-gesture')
+async def stop_gesture():
+	'''
+	global gest
+	if gest is not None:
+		
+		return 'gesture stopped'
+	else:
+		'''
+	return 'gesture not started'
+

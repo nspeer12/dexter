@@ -70,6 +70,7 @@ class HandDetection():
         cap_width = 1280
         cap_height = 720
 
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         # self.mapping = {
         #     "mouseDown" : mouseDown,
         #     "mouseUp" : mouseUp,
@@ -148,7 +149,7 @@ class HandDetection():
 
         # Load Gesture Model
         self.model = NeuralNetG(self.num_classes)
-        self.model.load_state_dict(torch.load(GESTURE_PATH))
+        self.model.load_state_dict(torch.load(GESTURE_PATH, map_location=self.device))
         self.model.eval()
         print("loaded gesture model")
 
