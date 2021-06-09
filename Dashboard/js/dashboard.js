@@ -1,15 +1,76 @@
 var os = require('os');
-// var diskfree = require("diskfree");
-
-
-
-function openSettingsMenu() {
-    const win = window.open("Home.html", "_blank", "fullscreen= false");
-    win.center();
-}
 
 const keyDownCallback = keyPressed.bind(this);
 const keyUpCallback = keyReleased.bind(this);
+
+var anim;
+var barNumber = 27;
+
+function scale (number, inMin, inMax, outMin, outMax) {
+    return (number - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+}
+
+onchange = function(stream) {
+
+    var context = new AudioContext();
+    var src = context.createMediaStreamSource(stream);
+    var analyser = context.createAnalyser();
+
+    src.connect(analyser);
+    analyser.fftSize = 512;
+    analyser.smoothingTimeConstant = .8
+
+    var bufferLength = analyser.frequencyBinCount;
+    var bufferByBar = Math.round(bufferLength/barNumber);
+    var dataArray = new Uint8Array(bufferLength);
+
+    var list = document.getElementsByClassName("marks")[0]
+    var marks = list.getElementsByTagName("li");
+    var core = document.getElementsByClassName("core2")[0]
+
+    console.log("bufferLength",bufferLength);
+    console.log("bufferByBar",bufferByBar);
+    console.log("barNumber",barNumber);
+
+    function renderFrame() {
+        anim = requestAnimationFrame(renderFrame);
+        analyser.getByteFrequencyData(dataArray);
+
+        var intensity = 0
+
+        for (var i = 0; i < marks.length; ++i) {
+            intensity += dataArray[i]
+            marks[i].style.transform = "rotate(" + (i*6) + "deg) translateY(" +  scale(dataArray[i], 0, 255, 130, 200) + "px)"
+        }
+
+        intensity /= marks.length
+
+        // for (var i = 0; i < marks.length; ++i) {
+        //     marks[i].style.transform = "rotate(" + (i*6) + "deg) translateY(" +  scale(intensity, 0, 255, 130, 200) + "px)"
+        // }
+
+        core.style.background = "rgba(2, " + scale(0 ,0, 255, 200, 255) +", " + scale(0,0, 255, 200, 255) +", 0.8)"
+    }
+    console.log("render");
+    renderFrame();
+};
+
+function start(){
+    if(anim){
+        window.cancelAnimationFrame(anim);
+    }
+    navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video : false
+    })
+    .then((stream)=>{ onchange(stream); })
+    .catch((e) => handleError(e))
+    function handleError (e) {
+        console.log(e)
+    }
+}
+
+start();
 
 function keyReleased(event)
 {
@@ -155,21 +216,38 @@ function diagnostics() {
 
     document.getElementById("cpu").innerText = "CPU Usage: " + percentageCPU + "%";
     document.getElementById("ram").innerText = "Free Memory: " + Math.round(os.freemem() / (1000000)) + " MB";
-
-    // diskfree.check('C:', function onDiskInfo(error, info) {
-    //     if (error) {
-    //         // You can see if its a known error
-    //         if (diskfree.isErrBadPath(err)) {
-    //             throw new Error('Path is Wrong');
-    //         } else if (diskfree.isErrDenied(error)) {
-    //             throw new Error('Permission Denied');
-    //         } else if (diskfree.isErrIO(error)) {
-    //             throw new Error('IO Error');
-    //         }
-     
-    //         throw new Error('Unknown error: ' + error);
-    //     }
-     
-    // document.getElementById("storage").innerText = "Free Memory: " + Math.round(info.free / (1000000)) + " MB";
-    // });
 }
+
+window.addEventListener('load', (event) =>{
+
+    document.getElementById("consolebutton").onclick=()=>{
+        var console = document.getElementById("console")
+        var consoletext = document.getElementById("consoleInput")
+    
+        var text = consoletext.value
+        consoletext.value = ""
+    
+        console.value += "LOG> " + text + "\n"    
+    };
+
+    document.getElementById("settings_button").onclick=()=>{
+        const win = window.open("Home.html", "_blank", "fullscreen= false");
+        win.center();
+    };
+
+    document.getElementById("facebook_icon").onclick=()=>{
+        require('electron').shell.openExternal("https://www.facebook.com");
+    };
+
+    document.getElementById("twitter_icon").onclick=()=>{
+        require('electron').shell.openExternal("https://www.twitter.com");
+    };
+
+    document.getElementById("linkedin_icon").onclick=()=>{
+        require('electron').shell.openExternal("https://www.linkedin.com");
+    };
+
+    document.getElementById("computer_button").onclick=()=>{
+        require('electron').shell.openExternal("/");
+    };
+});
