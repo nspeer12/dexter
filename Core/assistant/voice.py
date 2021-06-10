@@ -81,9 +81,6 @@ def voice_replica(text:str, debug=False):
 			f.write(data)
 			f.close()
 
-		play = multiprocessing.Process(target=playsound, args=(output_path,))
-		play.start()
-
 
 		'''
 		with open('logs/replcia-time.txt', 'a') as f:
@@ -98,10 +95,7 @@ def voice_replica(text:str, debug=False):
 	if debug:
 		print('Response took:{}', time.time() - start)
 
-	print(output_path)
 	playsound(output_path)
-	print('heya')
-	time.sleep(2)
 
 def voice_engine(text:str):
 	engine = pyttsx3.init()

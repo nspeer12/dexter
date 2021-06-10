@@ -108,13 +108,21 @@ class Dexter:
 			'time' : get_time,
 			'day' : day,
 			'question' : question,
+			'bitcoin_price' : bitcoin_price,
+			'convo' : convo,
+			'print_chat_log' : print_chat_log,
 		}
 
-		self.context = ''
+		self.context = ""
+
+		self.query_history = []
+		self.response_history = []
+
 
 		self.audio = None
 		self.audio_stream = None
-		self.porcupine = pvporcupine.create(keywords=["computer", "jarvis"])
+
+		self.porcupine = pvporcupine.create(keyword_paths=['assistant/porcupine/hey-dexter-mac.ppn'])
 
 	def start_audio_stream(self):
 		self.audio = pyaudio.PyAudio()
@@ -160,6 +168,7 @@ class Dexter:
 		except Exception as ex:
 			print(ex)
 
+
 	def get_input(self):
 		# get input from microphone -> google api -> text
 		while True:
@@ -177,6 +186,7 @@ class Dexter:
 						print("empty string")
 			except Exception as ex:
 				print(ex)
+
 
 	def process_input(self, text):
 		text = clean_text(text)
@@ -196,7 +206,15 @@ class Dexter:
 		# TODO: prediction threshold
 
 		if prediction in self.mappings.keys():
-			self.mappings[prediction](text, self.context)
+
+			res = self.mappings[prediction](text, self.context)
+			if res != None:
+				self.query_history.append(text)
+				self.response_history.append(res)
+
+				self.context += 'Human: ' + text + '\n'
+				self.context += 'AI: ' + res + '\n'
+				voice(res)
 
 
 	def listen(self):
@@ -245,7 +263,7 @@ class Dexter:
 				if self.debug:
 					print("Decoded Text : {}".format(text))
 
-										
+											
 				self.process_input(text)
 
 				if self.debug:

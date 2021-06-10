@@ -7,5 +7,8 @@
     "start": "electron ."
   },
   "author": "eris fitzgerald :)",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.0.1"
+  }
 }
