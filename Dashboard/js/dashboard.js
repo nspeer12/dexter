@@ -231,8 +231,8 @@ window.addEventListener('load', (event) =>{
     };
 
     document.getElementById("settings_button").onclick=()=>{
-        const win = window.open("Home.html", "_blank", "fullscreen= false");
-        win.center();
+        const win = window.open("../Pages/settings.html", "_blank", "fullscreen= false");
+        // win.center();
     };
 
     document.getElementById("facebook_icon").onclick=()=>{
