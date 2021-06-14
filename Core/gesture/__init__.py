@@ -17,6 +17,7 @@ from os import path
 from gesture.skills import *
 import win32api, win32con
 import pyautogui
+import threading
 
 # gotta back that shit up for imports to work
 sys.path.append("..")
@@ -26,7 +27,7 @@ from gesture.model.gesture.gestureModel import NeuralNetG
 
 
 
-pyautogui.PAUSE = 0
+pyautogui.PAUSE = 0.01
 # print(os.getcwd())
 
 # def mouseDown():
@@ -280,7 +281,10 @@ class HandDetection():
                             if (len(record) > 0):
                                 print(record.iloc[0]["name"],record.iloc[0]["pre-defined function name"])
                                 # print(type(record.iloc[0]["pre-defined function name"]))
-                                self.mapping[record.iloc[0]["pre-defined function name"]]()
+                                t1 = threading.Thread(target=self.mapping[record.iloc[0]["pre-defined function name"]])
+                                t1.start()
+                                # print(threading.active_count())
+                                # self.mapping[record.iloc[0]["pre-defined function name"]]()
                             # function_to_be_executed = self.df.loc[(self.df["starting position"] == self.gesture_labels[self.old_gesture]) & ((self.df["ending position"] == self.gesture_labels[new_prediction]) | (self.df["ending position"] == "any"))]["name"]
                             # print(function_to_be_executed)
                             # if (len(function_to_be_executed) > 0):
@@ -302,7 +306,9 @@ class HandDetection():
                         # print(gesture_name)
                         if (len(record) > 0):
                             print(record.iloc[0]["name"],record.iloc[0]["pre-defined function name"])
-                            self.mapping[record.iloc[0]["pre-defined function name"]]()
+                            t1 = threading.Thread(target=self.mapping[record.iloc[0]["pre-defined function name"]])
+                            t1.start()
+                            # print(threading.active_count())
                         # print(current_predict_motion, self.gesture_labels[new_prediction])
 
                 current_predict_gesture = self.gesture_labels[new_prediction]
@@ -321,12 +327,12 @@ class HandDetection():
                 self.last_function_time = time.time()
 
             # Move Mouse
-            if (len(gesture_cords) > 0):
-                mouse_pos = (max(0,min(1920,int(gesture_cords[8][0]*1920*1.2))),max(0,min(1080,int(gesture_cords[8][1]*1080*1.4))))
-                # if sys.platform == 'win32':
-                #     win32api.SetCursorPos(mouse_pos)
-                # else:
-                pyautogui.moveTo(mouse_pos)
+            # if (len(gesture_cords) > 0):
+            #     mouse_pos = (max(0,min(1920,int(gesture_cords[8][0]*1920*1.2))),max(0,min(1080,int(gesture_cords[8][1]*1080*1.4))))
+            #     # if sys.platform == 'win32':
+            #     #     win32api.SetCursorPos(mouse_pos)
+            #     # else:
+            #     pyautogui.moveTo(mouse_pos)
 
             # Calculate FPS
             self.cTime = time.time()
@@ -395,7 +401,6 @@ class HandDetection():
 
 
             cv.imshow('Hand Gesture Recognition', debug_image)
-
         self.cap.release()
         cv.destroyAllWindows()
 

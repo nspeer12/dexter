@@ -1,6 +1,6 @@
 import pyautogui
 
-pyautogui.PAUSE = 0
+pyautogui.PAUSE = 0.01
 
 def leftClick():
     pyautogui.click()
