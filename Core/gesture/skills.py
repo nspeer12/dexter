@@ -65,10 +65,10 @@ def prevTrack():
     pyautogui.press('prevtrack')
 
 def increaseVolume():
-    pyautogui.press('volumeup')
+    pyautogui.press('volumeup', presses=5)
 
 def decreaseVolume():
-    pyautogui.press('volumedown')
+    pyautogui.press('volumedown', presses=5)
 
 def unmute():
     pyautogui.press('volumemute')
