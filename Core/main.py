@@ -1,37 +1,26 @@
 import time
-import zmq
 import threading
 import multiprocessing
-from multiprocessing import Pool
 import time
-import speech_recognition as sr
 from fastapi import FastAPI, Request
 from flask import Flask
 from gesture import launch_gesture
 from assistant import launch_dexter
+import requests
+import json
+import os
+from settings import *
 
 app = FastAPI()
 
 dex = None
 gest = None
-pool = Pool(2)
+setts = load_settings()
+print(setts)
 
-
-def zmq_sock():
-	context = zmq.Context()
-	socket = context.socket(zmq.REP)
-	socket.bind("tcp://127.0.0.1:8888")
-
-	#  Wait for incoming request from client
-	print("Listening...")
-	message = socket.recv()
-	print("Received request: %s\nSending response" % message)
-
-
-	#  Send reply back to client
-	socket.send_string("Socket Connected")
-
-	return socket
+@app.post('/settings')
+def settings_update(settings:Settings):
+	write_settings(settings)
 
 
 @app.get('/')
@@ -45,7 +34,7 @@ def start_stop_dexter(cmd=None):
 
 	if cmd == 'start':
 		global dex
-		dex = multiprocessing.Process(target=launch_dexter)
+		dex = multiprocessing.Process(target=launch_dexter, args=(setts,))
 		dex.start()
 		return 'dexter started'
 
@@ -84,4 +73,6 @@ async def stop_gesture():
 	else:
 		'''
 	return 'gesture not started'
+
+
 
