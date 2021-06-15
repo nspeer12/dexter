@@ -1,67 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <link rel="stylesheet" href="../introScreens/css/styles.css" media= "screen">
-    <link rel = "stylesheet"  href = "../introscreens/bootstrap/css/bootstrap.min.css" />
-    <link href='https://fonts.googleapis.com/css?family=Exo+2:400,900italic,900,800italic,800,700italic,700,600italic,600,500italic,500,400italic,300italic,300,200italic,200,100italic,100' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Exo+2:400,900italic,900,800italic,800,700italic,700,600italic,600,500italic,500,400italic,300italic,300,200italic,200,100italic,100' rel='stylesheet' type='text/css'>
-    <meta charset="UTF-8">
-    <link href='https://fonts.googleapis.com/css?family=Exo+2:400,900italic,900,800italic,800,700italic,700,600italic,600,500italic,500,400italic,300italic,300,200italic,200,100italic,100' rel='stylesheet' type='text/css'>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Intro</title>
-</head>
-
-
-
-<body>      
-      <div class="futurepanel">
-        <div class="futurepanel__header">
-          <h1 class="futurepanel__title">Welcome</h1>
-          <span class="futureinput__help">Welcome to your new assistant. First, some basic information to better help Dexter help you</span>
-        </div>
-        <div class="futurepanel__body">  
-          <div class="futureinput futureinput--text">
-            <label for="example1">Name</label>
-            <input type="text" name="example1" id="example1" placeholder="enter text here">
-            <span class="futureinput__help">how dexter will refer to you (the user)</span>
-          </div>
-          <div class="futurepanel__divider"></div>
-          <div class="futureinput futureinput--text">
-            <label class="" for="example1">Preferred Pronouns</label>
-            <input type="text" name="example1" id="example1" placeholder="enter text here">
-            <span class="futureinput__help">how dexter will refer to the user in 3rd person (he/she/they)</span>
-          </div>
-          <div class="futurepanel__divider"></div>      
-          <div class="futureinput futureinput--text">
-            <label class="" for="example1">Date of Birth</label>
-            <input type="text" name="example1" id="example1" placeholder="enter text here">
-            <span class="futureinput__help">will dexter do anything for birthdays? like a message? or a song? idk </span>
-          </div>
-          <div class="futurepanel__divider"></div>      
-          <div class="futureinput futureinput--text">
-            <label class="" for="example1">Location</label>
-            <input type="text" name="example1" id="example1" placeholder="enter text here">
-          </div>
-          <div class="futurepanel__divider"></div>
-          <div class="futureinput futureinput--text">
-            <label for="example1">Operating System</label>
-            <input type="text" name="example1" id="example1" placeholder="enter text here" disabled>
-            <span class="futureinput__help">will we need to know this? idk!</span>
-          </div>
-          <div class="futurepanel__divider"></div>    
-        </div>
-        <div class="futurepanel__footer">
-          <div>#0002134678 TFFC:3 ///////////// </div>
-        </div>
-      </div>
-
+  <head>
+      <title>Page 1</title>
+      <link rel="stylesheet" href="../introScreens/css/styles.css" media= "screen">
+      <link rel="stylesheet" href="../introScreens/bootstrap/css/bootstrap.css" media= "screen">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
+  </head>
+  <body data-spy="scroll" data-offset="0" data-target="#myNavbar">
+	
+    <!-- Navigation Bar -->
     
-        
-      </div>  
     
-   
-</body>
+    <!-- All Content Page -->
+    <div id="myPageContent" class="container-fluid">
+      <section id="page1">
+          <form>
+            <div class="form-group-photon">
+              <p>Hey, what's your name?</p>
+              <input type="Name" class="form-control-photon" placeholder="name">
+            </div>
+          </form>
+        <a href="#page2">
+          <button class="btn btn-large btn-default">Next </button>
+        </a>
+      </section>
+
+      <section id="page2">
+        <form>
+          <div class="form-group-photon">
+            <p>Email</p>
+            <input type="Email" class="form-control-photon" placeholder="name">
+            <p>Password</p>
+            <input type="Password" class="form-control-photon" placeholder="name">
+            <p>Password Confirmation</p>
+            <input type="Password Confirmation" class="form-control-photon" placeholder="name">
+          </div>
+        </form>
+        <a href="#page3">
+          <button class="btn btn-large btn-default">Next </button>
+        </a>
+        <a href="#page1">
+          <button class="btn btn-large btn-default">Back </button>
+        </a>
+      </section>
+
+      <section id="page3">
+        <p>Dexter Info: Hi! I'm Dexter, your _______ capable of helping with ______. Dexter works
+          by listening for your voice to help control your desktop. 
+
+          Do you want to enable Dexter? (Toggle eventually)
+        </p>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Enable
+          </label>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Disable
+          </label>
+        </div>
+        <a href="#page4">
+          <button class="btn btn-large btn-default">Next </button>
+        </a>
+        <a href="#page2">
+          <button class="btn btn-large btn-default">Back </button>
+        </a>
+      </section>
+
+      <section id="page4">
+        <p>Gesture Controls: Gesture controls are another way you can interact with your Desktop. We use your camera and _______
+          technology to capture the motion of your hand and interpret as different commands. 
+          Would you like to enable Gesture Recongintion? (Toggle eventually)
+        </p>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Enable
+          </label>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Disable
+          </label>
+        </div>
+        <a href="#page5">
+          <button class="btn btn-large btn-default">Next </button>
+        </a>
+        <a href="#page3">
+          <button class="btn btn-large btn-default">Back </button>
+        </a>
+      </section>
+
+      <section id="page5">
+        <p>Voice Controls: Voice controls are another way you can interact with your Desktop. We use your microphone and _______
+          technology to interpret the sound of your voice as different commands. 
+          Would you like to enable Voice Recongintion? (Toggle eventually)
+        </p>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Enable
+          </label>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Disable
+          </label>
+        </div>
+        <a href="#page6">
+          <button class="btn btn-large btn-default">Next </button>
+        </a>
+        <a href="#page4">
+        <button class="btn btn-large btn-default">Back </button>
+        </a>
+      </section>
+
+      <section id="page6">
+        <p>Launch Dexter on Start-up?
+        </p>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Enable
+          </label>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Disable
+          </label>
+        </div>
+        <a href="#page1">
+          <button class="btn btn-large btn-default">Top</button>
+        </a>
+        <button class="btn btn-large btn-default">Submit </button>
+      </section>
+    </div>
+
+  
+    
+  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  
 </html>
