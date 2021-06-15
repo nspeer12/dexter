@@ -14,6 +14,10 @@ import os
 import pandas as pd
 import sys
 from os import path
+from gesture.skills import *
+import win32api, win32con
+import pyautogui
+import threading
 
 # gotta back that shit up for imports to work
 sys.path.append("..")
@@ -21,46 +25,44 @@ sys.path.append("..")
 from gesture.model.gesture.gestureModel import NeuralNetG
 # from model.motion.motionModel import NeuralNetM
 
-if sys.platform == 'win32':
-    import win32api, win32con
-else:
-    import pyautogui
 
 
-print(os.getcwd())
+pyautogui.PAUSE = 0.01
+# print(os.getcwd())
 
-def mouseDown():
-    print("mouse down")
+# def mouseDown():
+#     print("mouse down")
 
-    if sys.platform == 'win32':
-        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,0,0)
-    else:
-        pyautogui.mouseDown()
-
-
-def mouseUp():
-    print("mouse up")
-
-    if sys.platform == 'win32':
-        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,0,0)
-    else:
-        pyautogui.mouseUp()
+#     if sys.platform == 'win32':
+#         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,0,0)
+#     else:
+#         pyautogui.mouseDown()
 
 
-def zoomOut():
-    print("zooming out")
+# def mouseUp():
+#     print("mouse up")
 
-def zoomIn():
-    print("zooming in")
+#     if sys.platform == 'win32':
+#         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,0,0)
+#     else:
+#         pyautogui.mouseUp()
 
 
-def click():
-    print('click')
+# def zoomOut():
+#     print("zooming out")
 
-    if sys.platform == 'win32':
-        print('click on windows')
-    else:
-        pyautogui.click()
+# def zoomIn():
+#     print("zooming in")
+#     pyautogui.hotkey('ctrl', '=')
+
+
+# def click():
+#     print('click')
+
+#     if sys.platform == 'win32':
+#         print('click on windows')
+#     else:
+#         pyautogui.click()
 
 
 class HandDetection():
@@ -103,14 +105,39 @@ class HandDetection():
         self.longdelay = 1.5 # in seconds
         self.isChanging = False
 
+        self.mapping = {
+            "leftClick" : leftClick,
+            "rightClick" : rightClick,
+            "zoomIn" : zoomIn,
+            "zoomOut" : zoomOut,
+            "scrollUp" : scrollUp,
+            "scrollDown" : scrollDown,
+            "goBack" : goBack,
+            "goForward" : goForward,
+            "switchApp" : switchApp,
+            "switchDesktop" : switchDesktop,
+            "slideAppLeft" : slideAppLeft,
+            "slideAppRight" : slideAppRight,
+            "maximizeApp" : maximizeApp,
+            "minimizeApp" : minimizeApp,
+            "play" : play,
+            "pause" : pause,
+            "nextTrack" : nextTrack,
+            "prevTrack" : prevTrack,
+            "increaseVolume" : increaseVolume,
+            "decreaseVolume" : decreaseVolume,
+            "unmute" : unmute,
+            "mute" : mute
+        }
+
         # Define CSV paths
         dir_name = path.dirname(__file__)
 
         gesture_label_csv_path = path.join(dir_name, 'csv/gesture_label.csv')
         self.gesture_csv_path = path.join(dir_name, 'csv/gesture.csv')
 
-        self.dfGesture = pd.read_csv(path.join(dir_name, 'csv/gestureToGesture.csv'))
-        self.dfMotion = pd.read_csv(path.join(dir_name, 'csv/gestureMotion.csv'))
+        self.df = pd.read_json(path.join(dir_name, 'csv/gestureSettings.json'),orient="records")
+        # print(self.df)
         # motion_label_csv_path = 'csv/motion_label.csv'
         # self.motion_csv_path = 'csv/motion.csv'
 
@@ -239,21 +266,30 @@ class HandDetection():
                 self.gesture_history.append(torch.argmax(output))
                 new_prediction = Counter(self.gesture_history).most_common()[0][0]
 
-                if (self.old_gesture != new_prediction):
+                if (self.old_gesture != new_prediction): # detecting change in gesture
 
                     # wait a short delay before recording new gesture
                     if (self.isChanging == False):
                         self.isChanging = True
+                        self.old_tracker = self.old_gesture
                         self.short_delay_time = time.time()
                     elif (self.isChanging == True and ((self.short_delay_time + self.shortdelay) < time.time())):
                         # execute function after long delay
                         if ( (self.last_function_time + self.longdelay) < time.time()):
                             # print(self.gesture_labels[self.old_gesture],self.gesture_labels[new_prediction])
-                            function_to_be_executed = self.dfGesture.loc[(self.dfGesture["old"] == self.gesture_labels[self.old_gesture]) & ((self.dfGesture["new"] == self.gesture_labels[new_prediction]) | (self.dfGesture["new"] == "any"))]["name"]
+                            record = self.df.loc[(self.df["starting position"] == self.gesture_labels[self.old_tracker]) & ((self.df["ending position"] == self.gesture_labels[new_prediction]) | (self.df["ending position"] == "any"))]
+                            if (len(record) > 0):
+                                print(record.iloc[0]["name"],record.iloc[0]["pre-defined function name"])
+                                # print(type(record.iloc[0]["pre-defined function name"]))
+                                t1 = threading.Thread(target=self.mapping[record.iloc[0]["pre-defined function name"]])
+                                t1.start()
+                                # print(threading.active_count())
+                                # self.mapping[record.iloc[0]["pre-defined function name"]]()
+                            # function_to_be_executed = self.df.loc[(self.df["starting position"] == self.gesture_labels[self.old_gesture]) & ((self.df["ending position"] == self.gesture_labels[new_prediction]) | (self.df["ending position"] == "any"))]["name"]
                             # print(function_to_be_executed)
-                            if (len(function_to_be_executed) > 0):
-                                function_to_be_executed = function_to_be_executed.iloc[0]
-                                print(function_to_be_executed)
+                            # if (len(function_to_be_executed) > 0):
+                            #     function_to_be_executed = function_to_be_executed.iloc[0]
+                            #     print(function_to_be_executed)
                                 # if function_to_be_executed in self.mapping.keys():
                                     # self.mapping[function_to_be_executed]()
                         self.isChanging = False
@@ -263,10 +299,17 @@ class HandDetection():
                             self.old_tracker = new_prediction
                         self.last_function_time = time.time()
 
-                elif ((current_predict_motion != "no motion") and (current_predict_motion != "no hand detected")):
-                    if ( (self.last_function_time + self.longdelay) < time.time()):
+                elif ((current_predict_motion != "no motion") and (current_predict_motion != "no hand detected")): # detecting change in motion
+                    if ( (self.last_function_time + self.longdelay) < time.time() ):
                         self.last_function_time = time.time()
-                        print(current_predict_motion, self.gesture_labels[new_prediction])
+                        record = self.df.loc[(self.df["ending position"] == self.gesture_labels[new_prediction]) & (self.df["motion"] == current_predict_motion)]
+                        # print(gesture_name)
+                        if (len(record) > 0):
+                            print(record.iloc[0]["name"],record.iloc[0]["pre-defined function name"])
+                            t1 = threading.Thread(target=self.mapping[record.iloc[0]["pre-defined function name"]])
+                            t1.start()
+                            # print(threading.active_count())
+                        # print(current_predict_motion, self.gesture_labels[new_prediction])
 
                 current_predict_gesture = self.gesture_labels[new_prediction]
 
@@ -286,10 +329,10 @@ class HandDetection():
             # Move Mouse
             # if (len(gesture_cords) > 0):
             #     mouse_pos = (max(0,min(1920,int(gesture_cords[8][0]*1920*1.2))),max(0,min(1080,int(gesture_cords[8][1]*1080*1.4))))
-            #     if sys.platform == 'win32':
-            #         win32api.SetCursorPos(mouse_pos)
-            #     else:
-            #         pyautogui.moveTo(mouse_pos)
+            #     # if sys.platform == 'win32':
+            #     #     win32api.SetCursorPos(mouse_pos)
+            #     # else:
+            #     pyautogui.moveTo(mouse_pos)
 
             # Calculate FPS
             self.cTime = time.time()
@@ -358,7 +401,6 @@ class HandDetection():
 
 
             cv.imshow('Hand Gesture Recognition', debug_image)
-
         self.cap.release()
         cv.destroyAllWindows()
 
