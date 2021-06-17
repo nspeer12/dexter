@@ -1,0 +1,10 @@
+{
+    "core_host": "string",
+    "core_port": 0,
+    "dashboard_host": "string",
+    "dashboard_port": 0,
+    "gesture_on_startup": true,
+    "launch_on_startup": true,
+    "name": "string",
+    "voice_on_startup": true
+}

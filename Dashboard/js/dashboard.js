@@ -214,8 +214,8 @@ function diagnostics() {
     //Calculate the average percentage CPU usage
     var percentageCPU = 100 - ~~(100 * idleDifference / totalDifference);
 
-    document.getElementById("cpu").innerText = "CPU Usage: " + percentageCPU + "%";
-    document.getElementById("ram").innerText = "Free Memory: " + Math.round(os.freemem() / (1000000)) + " MB";
+    document.getElementById("cpu").innerText = "CPU: " + percentageCPU + "%";
+    document.getElementById("ram").innerText = "Memory: " + Math.round(os.freemem() / (1000000)) + " MB";
 }
 
 window.addEventListener('load', (event) =>{
