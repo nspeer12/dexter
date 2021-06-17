@@ -101,7 +101,7 @@ class HandDetection():
         self.old_gesture = None
         self.old_tracker = None
         self.last_function_time = 0
-        self.shortdelay = 0.1 # in seconds
+        self.shortdelay = 0.3 # in seconds
         self.longdelay = 1.5 # in seconds
         self.isChanging = False
 
