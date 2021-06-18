@@ -16,7 +16,27 @@
 
       <!-- .toolbar-header sits at the top of your app -->
       <header class="toolbar toolbar-header">
-        <h1 class="title">Settings</h1>
+        <span>
+          <h1 class="title">Settings</h1>
+        </span>
+
+        <div class="btn-group">
+          <button class="btn btn-default">
+            <span class="icon icon-check"
+                  onclick="window.open('', '_self', ''); window.close();">
+                  
+            </span>
+          </button>
+
+          <button class="btn btn-default">
+            <span class="icon icon-cancel-circled"
+                  onclick="window.open('', '_self', ''); window.close();">
+                
+            </span>
+          </button>
+          
+        </div>
+
       </header>
 
       <!-- Your app's content goes inside .window-content -->
