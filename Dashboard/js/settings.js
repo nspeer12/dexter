@@ -19,7 +19,6 @@ function navItemClicked(clickEvent) {
 
 window.addEventListener('load', (event) =>{
 
-
   document.getElementById("settings-general").addEventListener('click', navItemClicked)
   document.getElementById("settings-index").addEventListener('click', navItemClicked)
   document.getElementById("settings-user").addEventListener('click', navItemClicked)
@@ -28,5 +27,34 @@ window.addEventListener('load', (event) =>{
   document.getElementById("settings-privacy").addEventListener('click', navItemClicked)
   document.getElementById("settings-about").addEventListener('click', navItemClicked)
 
-
 });
+
+function getIntents()
+{
+    var xhr = new XMLHttpRequest();
+    var url = 'http://localhost:8000/get-intents';
+    xhr.open("GET", url);
+    xhr.send();
+
+    var intents;
+
+    xhr.onreadystatechange=(e)=>{
+      intents = JSON.parse(xhr.responseText)['intents'];
+      //console.log(intents);
+    }
+
+    for (var key in intents)
+    {
+      console.log(key);
+    }
+    
+}
+
+function trainAssistant()
+{
+    var xhr = new XMLHttpRequest();
+    var url = 'http://localhost:8000/train-assistant';
+    xhr.open("POST", url);
+    xhr.send();
+    
+}

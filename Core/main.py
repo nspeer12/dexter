@@ -23,6 +23,39 @@ def settings_update(settings:Settings):
 	write_settings(settings)
 
 
+
+@app.post('/voice-settings')
+def voice_settings():
+	return ''
+
+@app.get('/get-intents')
+def get_intents():
+	print(os.getcwd())
+	intent_path = os.path.join(os.getcwd(), 'assistant/model/intents.json')
+
+	if os.path.exists(intent_path):
+		f = open(intent_path)
+		data = json.load(f)
+		print(type(data))
+		
+		f.close()
+
+		if 'intents' in data:
+			print(data)
+			return data
+
+
+
+@app.post('/train-assistant')
+def train_assistant():
+	os.chdir('assistant/model/')
+	from trainAssistant import train_assistant
+	train_assistant()
+	os.chdir('..')
+	os.chdir('..')
+	return 'level up'
+
+
 @app.get('/')
 async def index():
 	return 'Hello World'
@@ -34,7 +67,7 @@ def start_stop_dexter(cmd=None):
 
 	if cmd == 'start':
 		global dex
-		dex = multiprocessing.Process(target=launch_dexter, args=(setts,))
+		dex = multiprocessing.Process(target=launch_dexter)
 		dex.start()
 		return 'dexter started'
 

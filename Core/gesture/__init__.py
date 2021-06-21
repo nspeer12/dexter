@@ -15,7 +15,7 @@ import pandas as pd
 import sys
 from os import path
 from gesture.skills import *
-import win32api, win32con
+#import win32api, win32con
 import pyautogui
 import threading
 
