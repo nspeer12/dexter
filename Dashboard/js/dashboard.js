@@ -231,7 +231,7 @@ window.addEventListener('load', (event) =>{
     };
 
     document.getElementById("settings_button").onclick=()=>{
-        const win = window.open("../Pages/settings.html", "_blank", "fullscreen= false");
+        const win = window.open("../Pages/settings.html", "_blank", "fullscreen=false,transparent=true,frame=false");
         // win.center();
     };
 

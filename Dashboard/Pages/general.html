@@ -6,64 +6,42 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="../css/photon.min.general.css">
+    <link rel="stylesheet" href="../css/general.css">
     
     <!-- Javascript -->
-    <script src="../js/menu.js" charset="utf-8"></script>
+    <script src="../js/general.js" charset="utf-8"></script>
   </head>
   
-    <div class="window">
+<form>
 
-      <!-- .toolbar-header sits at the top of your app -->
-      <header class="toolbar toolbar-header">
-        <h1 class="title">Settings</h1>
-      </header>
+  <h1>General</h1>
 
-      <!-- Your app's content goes inside .window-content -->
-      <div class="window-content">
-        <div class="pane-group">
-          <div class="pane pane-sm sidebar">
-            <nav class="nav-group">
-              <h5 class="nav-group-title">Favorites</h5>
-              <a href="./User.html">
-                <span class="nav-group-item">
-                  <span class="icon icon-home"></span>
-                  User
-                </span></a>
-              <a href="./index.html">
-              <span class="nav-group-item">
-                <span class="icon icon-light-up"></span>
-                Home
-              </span></a>
-              <a href="./Gestures.html">
-              <span class="nav-group-item">
-                <span class="icon icon-download"></span>
-                Gestures
-              </span></a>
-              <a href="./Voice.html">
-              <span class="nav-group-item">
-                <span class="icon icon-folder"></span>
-                Voice
-              </span></a>
-              <a href="./Privacy.html">
-              <span class="nav-group-item">
-                <span class="icon icon-window"></span>
-                Privacy
-              </span></a>
-              <a href="./General.html">
-              <span class="nav-group-item active">
-                <span class="icon icon-signal"></span>
-                General
-              </span>
-            </a>
-            <a href="./About.html">
-              <span class="nav-group-item">
-                <span class="icon icon-monitor"></span>
-                About
-              </span></a>
-            </nav>
-          </div>  
+  <div class="checkbox">
+    <label>
+      <input type="checkbox"> Launch Dexter on startup
+    </label>
+  </div>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox"> Enable Hand Gestures on startup
+    </label>
+  </div>
 
-    </div>
-    
-  
+  <h2>Audio</h2>
+
+  </br>
+  <div>
+  <label>Output Device</label>
+  <select id="output-device-list" class="form-control">
+  </select>
+  </div>
+
+  <br/>
+  <div>
+  <label>Input Device</label>
+  <select id="input-device-list" class="form-control">
+  </select>
+  </div>
+</form>
+
 </html>
