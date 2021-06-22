@@ -5,38 +5,25 @@
     <title>Settings</title>
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="../css/photon.home.css">
     <link rel="stylesheet" href="../css/settings.css">
+    <link rel="stylesheet" href="../css/photon.home.css">
 
     <!-- Javascript -->
     <script src="../js/settings.js" charset="utf-8"></script>
   </head>
   <body>
-    <div class="window">
+    <div class="window" style="border-radius: 6px;">
 
       <!-- .toolbar-header sits at the top of your app -->
-      <header class="toolbar toolbar-header">
-        <span>
-          <h1 class="title">Settings</h1>
-        </span>
+      <header class="toolbar toolbar-header" style="-webkit-app-region: drag;">
 
         <div class="btn-group">
-          <button class="btn btn-default">
-            <span class="icon icon-check"
-                  onclick="window.open('', '_self', ''); window.close();">
-                  
-            </span>
-          </button>
 
-          <button class="btn btn-default">
-            <span class="icon icon-cancel-circled"
-                  onclick="window.open('', '_self', ''); window.close();">
-                
-            </span>
+          <button class="btn btn-default" onclick="window.close();">
+            <span class="icon icon-cancel-circled"></span>
           </button>
-          
         </div>
-
+        <h1 class="title">Settings</h1>
       </header>
 
       <!-- Your app's content goes inside .window-content -->
