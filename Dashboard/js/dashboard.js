@@ -149,10 +149,6 @@ function controlGesture(data)
         gestCmd = 'start';
         document.getElementById('startStopGestureButton').innerHTML = 'Start Gesture Control';
     }
-    
-    
-
-
 }
 
 setInterval(function() {
@@ -231,20 +227,8 @@ window.addEventListener('load', (event) =>{
     };
 
     document.getElementById("settings_button").onclick=()=>{
+
         const win = window.open("../Pages/settings.html", "_blank", "fullscreen=false,transparent=true,frame=false");
-        // win.center();
-    };
-
-    document.getElementById("facebook_icon").onclick=()=>{
-        require('electron').shell.openExternal("https://www.facebook.com");
-    };
-
-    document.getElementById("twitter_icon").onclick=()=>{
-        require('electron').shell.openExternal("https://www.twitter.com");
-    };
-
-    document.getElementById("linkedin_icon").onclick=()=>{
-        require('electron').shell.openExternal("https://www.linkedin.com");
     };
 
     document.getElementById("computer_button").onclick=()=>{

@@ -21,15 +21,16 @@ class Settings(BaseModel):
 	gesture_on_startup: bool
 
 
-
+# idk if this works :/
 def load_settings():
 	if os.path.exists('settings.json'):
 		f = open('settings.json')
 		data = json.load(f)
 		print(type(data))
 		for x in data:
-			print(x)
-		return None
+			if type(x) == 'str':
+				os.environ[str(x)] = data[str(x)]
+				print(str(x))
 
 
 def write_settings(settings: Settings):
