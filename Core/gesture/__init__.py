@@ -15,7 +15,7 @@ import pandas as pd
 import sys
 from os import path
 from gesture.skills import *
-import win32api, win32con
+#import win32api, win32con
 import pyautogui
 import threading
 
@@ -101,33 +101,33 @@ class HandDetection():
         self.old_gesture = None
         self.old_tracker = None
         self.last_function_time = 0
-        self.shortdelay = 0.1 # in seconds
+        self.shortdelay = 0.3 # in seconds
         self.longdelay = 1.5 # in seconds
         self.isChanging = False
 
         self.mapping = {
-            "leftClick" : leftClick,
-            "rightClick" : rightClick,
-            "zoomIn" : zoomIn,
-            "zoomOut" : zoomOut,
-            "scrollUp" : scrollUp,
-            "scrollDown" : scrollDown,
-            "goBack" : goBack,
-            "goForward" : goForward,
-            "switchApp" : switchApp,
-            "switchDesktop" : switchDesktop,
-            "slideAppLeft" : slideAppLeft,
-            "slideAppRight" : slideAppRight,
-            "maximizeApp" : maximizeApp,
-            "minimizeApp" : minimizeApp,
-            "play" : play,
-            "pause" : pause,
-            "nextTrack" : nextTrack,
-            "prevTrack" : prevTrack,
-            "increaseVolume" : increaseVolume,
-            "decreaseVolume" : decreaseVolume,
-            "unmute" : unmute,
-            "mute" : mute
+            "Left Click" : leftClick,
+            "Right Click" : rightClick,
+            "Zoom In" : zoomIn,
+            "Zoom Out" : zoomOut,
+            "Scroll Up" : scrollUp,
+            "Scroll Down" : scrollDown,
+            "Go Back" : goBack,
+            "Go Forward" : goForward,
+            "Switch App" : switchApp,
+            "Switch Desktop" : switchDesktop,
+            "Slide App Left" : slideAppLeft,
+            "Slide App Right" : slideAppRight,
+            "Maximize App" : maximizeApp,
+            "Minimize App" : minimizeApp,
+            "Play" : play,
+            "Pause" : pause,
+            "Next Track" : nextTrack,
+            "Previous Track" : prevTrack,
+            "Increase Volume" : increaseVolume,
+            "Decrease Volume" : decreaseVolume,
+            "Unmute" : unmute,
+            "Mute" : mute
         }
 
         # Define CSV paths

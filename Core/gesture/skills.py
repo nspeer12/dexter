@@ -17,10 +17,10 @@ def zoomOut():
     pyautogui.hotkey('ctrl', '-')
 
 def scrollUp():
-    pyautogui.scroll(10)
+    pyautogui.scroll(100)
 
 def scrollDown():
-    pyautogui.scroll(-10)
+    pyautogui.scroll(-100)
 
 def goBack():
     pyautogui.hotkey("browserback")
@@ -32,7 +32,7 @@ def switchApp():
     pyautogui.hotkey('alt', 'tab')
 
 def switchDesktop():
-    ppyautogui.hotkey('win', 'tab')
+    pyautogui.hotkey('win', 'tab')
 
 def slideAppLeft():
     pyautogui.hotkey('win', 'up')
@@ -50,7 +50,8 @@ def maximizeApp():
     pyautogui.hotkey('win', 'up')
 
 def minimizeApp():
-    pyautogui.hotkey('win', 'm')
+    # pyautogui.hotkey('win', 'm') # all applications
+    pyautogui.hotkey('win', 'down') # one application
 
 def play():
     pyautogui.press('playpause')

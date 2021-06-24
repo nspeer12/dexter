@@ -1,3 +1,24 @@
 [
-    {}
+    {"name":"Left Click"},
+    {"name":"Right Click"},
+    {"name":"Zoom In"},
+    {"name":"Zoom Out"},
+    {"name":"Scroll Up"},
+    {"name":"Scroll Down"},
+    {"name":"Go Back"},
+    {"name":"Go Forward"},
+    {"name":"Switch App"},
+    {"name":"Switch Desktop"},
+    {"name":"Slide App Left"},
+    {"name":"Slide App Right"},
+    {"name":"Maximize App"},
+    {"name":"Minimize App"},
+    {"name":"Play"},
+    {"name":"Pause"},
+    {"name":"Next Track"},
+    {"name":"Previous Track"},
+    {"name":"Increase Volume"},
+    {"name":"Decrease Volume"},
+    {"name":"Unmute"},
+    {"name":"Mute"}
 ]

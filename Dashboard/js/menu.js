@@ -9,7 +9,7 @@ const pug = require('pug');
 const templateCompiler = pug.compileFile('homes.pug');
 
 // Insert your data into the template file
-console.log(templateCompiler({ name: 'Eris' });
+console.log(templateCompiler({ name: 'Eris' }));
 
 // Build our new menu
 var menu = new Menu()
@@ -131,4 +131,4 @@ function parallax(){
 
 
 
-
+}
