@@ -2,13 +2,18 @@
   "name": "introscreens",
   "version": "1.0.0",
   "description": "intro screens used at start up to gather information from the user",
-  "main": "main.js",
+  "main": "gesture.js",
   "scripts": {
     "start": "electron ."
   },
   "author": "eris fitzgerald :)",
   "license": "ISC",
   "dependencies": {
-    "bootstrap": "^5.0.1"
+    "bootstrap": "^5.0.1",
+    "ejs": "^3.1.6",
+    "electron": "^13.1.3",
+    "jquery": "^3.6.0",
+    "jsdom": "^16.6.0",
+    "save": "^2.4.0"
   }
 }
