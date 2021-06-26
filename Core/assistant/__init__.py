@@ -108,6 +108,7 @@ class Dexter:
 			'time' : get_time,
 			'day' : day,
 			'question' : question,
+            'weather' : weather,
 		}
 
 		self.context = ''
@@ -195,7 +196,11 @@ class Dexter:
 		output = self.model.forward(bag.float())
 
 		prediction = self.Assistant_labels[torch.argmax(output)]
-	
+
+		#prediction = 'weather'
+
+		#print(prediction)
+        
 		# TODO: prediction threshold
 
 		if prediction in self.mappings.keys():
