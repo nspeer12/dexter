@@ -9,7 +9,7 @@
 
     <!-- Javascript -->
     <script src="../js/menu.js" charset="utf-8"></script>
-
+    <script src="../js/settings.js" charset="utf-8"></script>
     
 
 
@@ -22,56 +22,14 @@
         <h1 class="title">Voice Assistant</h1>
       </header>
 
-
-
-      <!-- Your app's content goes inside .window-content -->
-      <div class="window-content">
-        <div class="pane-group">
-          <div class="pane pane-sm sidebar">
-            <nav class="nav-group">
-              <h5 class="nav-group-title">Favorites</h5>
-              <span class="nav-group-item">
-                <span class="icon icon-home"></span>
-                User
-              </span>
-              <span class="nav-group-item">
-                <span class="icon icon-light-up"></span>
-                Home
-              </span>
-              <a href="./Gestures.html">
-              <span class="nav-group-item">
-                <span class="icon icon-download"></span>
-                Gestures
-              </span></a>
-              <a href="./Voice.html">
-              <span class="nav-group-item active">
-                <span class="icon icon-folder"></span>
-                Voice
-              </span></a>
-              <a href="./Privacy.html">
-              <span class="nav-group-item">
-                <span class="icon icon-window"></span>
-                Privacy
-              </span></a>
-              <a href="./General.html">
-              <span class="nav-group-item">
-                <span class="icon icon-signal"></span>
-                General
-              </span>
-            </a>
-            <a href="./About.html">
-              <span class="nav-group-item">
-                <span class="icon icon-monitor"></span>
-                About
-              </span></a>
-            </nav>
-          </div>
-
           <main>
+            
             <div>
+                <button onclick='getIntents();'>Get intents</button>
+                <button onclick='trainAssistant();'>Train Model</button>
                 <section id="introduction">
                     <span>
-                      <h2>Voice Assistant</h2>
+                      <h2 style="text-align:center">Voice Assistant</h2>
                       <p>Teach Dexter new skills and enable him to do anything on your computer.</p>
                     </span>
                 </section>

@@ -17,59 +17,13 @@
   <body>
     <div class="window">
 
-      <!-- .toolbar-header sits at the top of your app -->
       <header class="toolbar toolbar-header">
         <h1 class="title">Voice Assistant</h1>
       </header>
 
-
-
-      <!-- Your app's content goes inside .window-content -->
-      <div class="window-content">
-        <div class="pane-group">
-          <div class="pane pane-sm sidebar">
-            <nav class="nav-group">
-              <h5 class="nav-group-title">Favorites</h5>
-              <span class="nav-group-item">
-                <span class="icon icon-home"></span>
-                User
-              </span>
-              <span class="nav-group-item">
-                <span class="icon icon-light-up"></span>
-                Home
-              </span>
-              <a href="./Gestures.html">
-              <span class="nav-group-item">
-                <span class="icon icon-download"></span>
-                Gestures
-              </span></a>
-              <a href="./Voice.html">
-              <span class="nav-group-item active">
-                <span class="icon icon-folder"></span>
-                Voice
-              </span></a>
-              <a href="./Privacy.html">
-              <span class="nav-group-item">
-                <span class="icon icon-window"></span>
-                Privacy
-              </span></a>
-              <a href="./General.html">
-              <span class="nav-group-item">
-                <span class="icon icon-signal"></span>
-                General
-              </span>
-            </a>
-            <a href="./About.html">
-              <span class="nav-group-item">
-                <span class="icon icon-monitor"></span>
-                About
-              </span></a>
-            </nav>
-          </div>
-
           <main>
             <div>
-                <section id="introduction">
+                <section id="">
                     <span>
                       <h2>Add Custom Skill</h2>
                       <p>Teach Dexter new skills and enable him to do anything on your computer.</p>
@@ -129,7 +83,7 @@
                       </div>
                       <div class="form-actions">
                         <button type="submit" class="btn btn-form btn-default">Cancel</button>
-                        <button type="submit" class="btn btn-form btn-primary" onclick="window.location.href='Voice.html'">OK</button>
+                        <button type="submit" href='127.0.0.1:8000/get-intents' class="btn btn-form btn-primary" onclick="window.location.href='Voice.html'">OK</button>
                       </div>
                   </form>
                 </section>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <title>Settings</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../css/settings.css">
+    <link rel="stylesheet" href="../css/photon.home.css">
+
+    <!-- Javascript -->
+    <script src="../js/settings.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div class="window" style="border-radius: 6px;">
+
+      <!-- .toolbar-header sits at the top of your app -->
+      <header class="toolbar toolbar-header" style="-webkit-app-region: drag;">
+
+        <div class="btn-group">
+
+          <button class="btn btn-default" onclick="window.close();">
+            <span class="icon icon-cancel-circled"></span>
+          </button>
+        </div>
+        <h1 class="title">Settings</h1>
+      </header>
+
+      <!-- Your app's content goes inside .window-content -->
+      <div class="window-content">
+        <div class="pane-group">
+          <div class="pane pane-sm sidebar">
+            <nav class="nav-group">
+              <h5 class="nav-group-title">Pages</h5>
+
+              <span id="settings-index" class="nav-group-item active">
+                <span class="icon icon-home"></span>
+                Home
+              </span>
+              <span id="settings-general" class="nav-group-item">
+                <span class="icon icon-list"></span>
+                General
+              </span>
+              <span id="settings-user" class="nav-group-item">
+                <span class="icon icon-user"></span>
+                User
+              </span>
+              <span id="settings-gestures" class="nav-group-item">
+                <span class="icon icon-thumbs-up"></span>
+                Gestures
+              </span>
+              <span id="settings-voice" class="nav-group-item">
+                <span class="icon icon-mic"></span>
+                Voice
+              </span>
+              <span id="settings-privacy" class="nav-group-item">
+                <span class="icon icon-lock"></span>
+                Privacy
+              </span>
+              <span id="settings-about" class="nav-group-item">
+                <span class="icon icon-info"></span>
+                About
+              </span>
+            </nav>
+          </div>
+
+        <iframe id="main-content" src="../Pages/Index.html"></iframe>  
+        </div>
+      </div>
+  </body>
+</html>

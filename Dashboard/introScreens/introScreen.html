@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <title>Page 1</title>
+      <link rel="stylesheet" href="../introScreens/css/styles.css" media= "screen">
+      <link rel="stylesheet" href="../introScreens/bootstrap/css/bootstrap.css" media= "screen">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+  </head>
+  <body data-spy="scroll" data-offset="0" data-target="#myNavbar">
+	
+    <!-- Navigation Bar -->
+    
+    
+    <!-- All Content Page -->
+    <div id="myPageContent" class="container-fluid">
+      <section id="page1">
+          <form>
+            <div class="form-group-photon">
+              <p>Hey, what's your name?</p>
+              <input type="Name" class="form-control-photon" placeholder="name">
+            </div>
+          </form>
+        <a href="#page2">
+          <button class="btn btn-large btn-default">Next </button>
+        </a>
+      </section>
+
+      <section id="page2">
+        <form>
+          <div class="form-group-photon">
+            <p>Email</p>
+            <input type="Email" class="form-control-photon" placeholder="name">
+            <p>Password</p>
+            <input type="Password" class="form-control-photon" placeholder="name">
+            <p>Password Confirmation</p>
+            <input type="Password Confirmation" class="form-control-photon" placeholder="name">
+          </div>
+        </form>
+        <a href="#page3">
+          <button class="btn btn-large btn-default">Next </button>
+        </a>
+        <a href="#page1">
+          <button class="btn btn-large btn-default">Back </button>
+        </a>
+      </section>
+
+      <section id="page3">
+        <p>Dexter Info: Hi! I'm Dexter, your _______ capable of helping with ______. Dexter works
+          by listening for your voice to help control your desktop. 
+
+          Do you want to enable Dexter? (Toggle eventually)
+        </p>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Enable
+          </label>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Disable
+          </label>
+        </div>
+        <a href="#page4">
+          <button class="btn btn-large btn-default">Next </button>
+        </a>
+        <a href="#page2">
+          <button class="btn btn-large btn-default">Back </button>
+        </a>
+      </section>
+
+      <section id="page4">
+        <p>Gesture Controls: Gesture controls are another way you can interact with your Desktop. We use your camera and _______
+          technology to capture the motion of your hand and interpret as different commands. 
+          Would you like to enable Gesture Recongintion? (Toggle eventually)
+        </p>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Enable
+          </label>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Disable
+          </label>
+        </div>
+        <a href="#page5">
+          <button class="btn btn-large btn-default">Next </button>
+        </a>
+        <a href="#page3">
+          <button class="btn btn-large btn-default">Back </button>
+        </a>
+      </section>
+
+      <section id="page5">
+        <p>Voice Controls: Voice controls are another way you can interact with your Desktop. We use your microphone and _______
+          technology to interpret the sound of your voice as different commands. 
+          Would you like to enable Voice Recongintion? (Toggle eventually)
+        </p>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Enable
+          </label>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Disable
+          </label>
+        </div>
+        <a href="#page6">
+          <button class="btn btn-large btn-default">Next </button>
+        </a>
+        <a href="#page4">
+        <button class="btn btn-large btn-default">Back </button>
+        </a>
+      </section>
+
+      <section id="page6">
+        <p>Launch Dexter on Start-up?
+        </p>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Enable
+          </label>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Disable
+          </label>
+        </div>
+        <a href="#page1">
+          <button class="btn btn-large btn-default">Top</button>
+        </a>
+        <button class="btn btn-large btn-default">Submit </button>
+      </section>
+    </div>
+
+  
+    
+  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  
+</html>

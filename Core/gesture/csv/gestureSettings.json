@@ -1,0 +1,27 @@
+[
+    {"starting position" : "pointer", "ending position" : "close", "motion": "none", "name": "lower index", "function": "pre-defined function", "pre-defined function name":"Left Click", "macro":"", "path": ""},
+    {"starting position" : "bunny ears", "ending position" : "close", "motion": "none", "name": "lower index and middle", "function": "pre-defined function", "pre-defined function name":"Right Click", "macro":"", "path": ""},
+    {"starting position" : "ok", "ending position" : "open", "motion": "none", "name": "Zoom in 2 Fingers", "function": "pre-defined function", "pre-defined function name":"Zoom In", "macro":"", "path": ""},
+    {"starting position" : "open", "ending position" : "ok", "motion": "none", "name": "Zoom out 2 Fingers", "function": "pre-defined function", "pre-defined function name":"Zoom Out", "macro":"", "path": ""},
+    {"starting position" : "none", "ending position" : "3 fingers", "motion": "up", "name": "Slide up 3 Fingers", "function": "pre-defined function", "pre-defined function name":"Scroll Up", "macro":"", "path": ""},
+    {"starting position" : "none", "ending position" : "3 fingers", "motion": "down", "name": "Slide down 3 Fingers", "function": "pre-defined function", "pre-defined function name":"Scroll Down", "macro":"", "path": ""},
+    {"starting position" : "none", "ending position" : "3 fingers", "motion": "left", "name": "Slide left 3 Fingers", "function": "pre-defined function", "pre-defined function name":"Go Back", "macro":"", "path": ""},
+    {"starting position" : "none", "ending position" : "3 fingers", "motion": "right", "name": "Slide right 3 Fingers", "function": "pre-defined function", "pre-defined function name":"Go Forward", "macro":"", "path": ""},
+    {"starting position" : "none", "ending position" : "4 fingers", "motion": "right", "name": "Slide right 4 Fingers", "function": "pre-defined function", "pre-defined function name":"Switch App", "macro":"", "path": ""},
+    {"starting position" : "none", "ending position" : "4 fingers", "motion": "up", "name": "slide up 4 Fingers", "function": "pre-defined function", "pre-defined function name":"Switch Desktop", "macro":"", "path": ""},
+    {"starting position" : "none", "ending position" : "open", "motion": "left", "name": "Slide left 5 Fingers", "function": "pre-defined function", "pre-defined function name":"Slide App Left", "macro":"", "path": ""},
+    {"starting position" : "none", "ending position" : "open", "motion": "right", "name": "Slide right 5 Fingers", "function": "pre-defined function", "pre-defined function name":"Slide App Right", "macro":"", "path": ""},
+    {"starting position" : "duck finger", "ending position" : "open", "motion": "none", "name": "Zoom out 5 Fingers", "function": "pre-defined function", "pre-defined function name":"Maximize App", "macro":"", "path": ""},
+    {"starting position" : "open", "ending position" : "duck finger", "motion": "none", "name": "Zoom in 5 Fingers", "function": "pre-defined function", "pre-defined function name":"Minimize App", "macro":"", "path": ""},
+    {"starting position" : "close", "ending position" : "open", "motion": "none", "name": "Open Hand", "function": "pre-defined function", "pre-defined function name":"Play", "macro":"", "path": ""},
+    {"starting position" : "open", "ending position" : "close", "motion": "none", "name": "Close Hand", "function": "pre-defined function", "pre-defined function name":"Pause", "macro":"", "path": ""},
+    {"starting position" : "none", "ending position" : "close", "motion": "right", "name": "Sliding right Closed Fist", "function": "pre-defined function", "pre-defined function name":"Next Track", "macro":"", "path": ""},
+    {"starting position" : "none", "ending position" : "close", "motion": "left", "name": "Sliding left Closed Fist", "function": "pre-defined function", "pre-defined function name":"Previous Track", "macro":"", "path": ""},
+    {"starting position" : "none", "ending position" : "thumbs up", "motion": "up", "name": "Sliding up Thumbs up", "function": "pre-defined function", "pre-defined function name":"Increase Volume", "macro":"", "path": ""},
+    {"starting position" : "none", "ending position" : "thumbs down", "motion": "down", "name": "Sliding down Thumbs down", "function": "pre-defined function", "pre-defined function name":"Decrease Volume", "macro":"", "path": ""},
+    {"starting position" : "none", "ending position" : "thumbs up", "motion": "left", "name": "Sliding left Thumbs up", "function": "pre-defined function", "pre-defined function name":"Unmute", "macro":"", "path": ""},
+    {"starting position" : "none", "ending position" : "thumbs up", "motion": "right", "name": "Sliding right Thumbs up", "function": "pre-defined function", "pre-defined function name":"Unmute", "macro":"", "path": ""},
+    {"starting position" : "none", "ending position" : "thumbs down", "motion": "left", "name": "Sliding left Thumbs down", "function": "pre-defined function", "pre-defined function name":"Mute", "macro":"", "path": ""},
+    {"starting position" : "none", "ending position" : "thumbs down", "motion": "right", "name": "Sliding right Thumbs down", "function": "pre-defined function", "pre-defined function name":"Mute", "macro":"", "path": ""}
+
+]

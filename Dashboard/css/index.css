@@ -491,6 +491,97 @@ body {
     margin-right: auto;
 }
 
+/* Debug Console */
+#debugconsole {
+    width: 25vw;
+    height: 25vh;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 1vmin;
+    border: outset;
+    border-color: rgba(2, 255, 255, 0.5);
+    border-radius: 2px;
+}
+
+#consoleBottom {
+    position: absolute;
+    bottom: 0;
+    width: -webkit-fill-available;
+    height: 18%;
+    display: flex;
+    margin: 2px;
+}
+
+#console {
+    color: rgba(2, 255, 255, 0.6);
+    background: black;
+    resize: none;
+    opacity: .8;
+    position: absolute;
+    margin: 2px;
+    width: -webkit-fill-available;
+    height: 78%;
+}
+
+#consoleInput {
+    color: rgba(2, 255, 255, 0.6);
+    background: black;
+    resize: none;
+    transition: 0.3s;
+    opacity: .8;
+    width: -webkit-fill-available;
+}
+
+#consolebutton {
+    text-align: -webkit-center;
+    border: solid;
+    color: rgba(2, 255, 255, 0.6);
+    font-size: larger;
+    background: black;
+    width: fit-content;
+    height: -webkit-fill-available;
+    margin-left: 2px;
+}
+
+#socials {
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    top: 0;
+    margin: 1vmin;
+    position: absolute;
+    right: 28vw;
+}
+
+#socials span {
+    font-size:x-large;
+}
+
+#facebook_icon {
+    color: #3b5998;
+}
+
+#twitter_icon {
+    color: #1DA1F2;
+}
+
+#linkedin_icon {
+    color: #0e76a8;
+}
+
+#gesturesFrame {
+    width: 100%;
+}
+
+#gesturesWindow {
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    display: flex;
+    height: 25vh;
+    margin: 1vmin;
+}
 
 /* Arc Reactor */
 

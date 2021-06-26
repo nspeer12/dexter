@@ -1,64 +1,111 @@
 import time
-import zmq
 import threading
 import multiprocessing
 import time
-import speech_recognition as sr
+from fastapi import FastAPI, Request
+from flask import Flask
 from gesture import launch_gesture
 from assistant import launch_dexter
+import requests
+import json
+import os
+from settings import *
 
-def zmq_sock():
-	context = zmq.Context()
-	socket = context.socket(zmq.REP)
-	socket.bind("tcp://127.0.0.1:5555")
+app = FastAPI()
 
-	while True:
+dex = None
+gest = None
+setts = load_settings()
+print(setts)
 
-		#  Wait for incoming request from client
-		print("Listening...")
-		message = socket.recv()
-		print("Received request: %s\nSending response" % message)
-
-		#  Do some other stuff
-		time.sleep(1)
-
-		#  Send reply back to client
-		socket.send_string("What it do")
+@app.post('/settings')
+def settings_update(settings:Settings):
+	write_settings(settings)
 
 
-def sr_test():
 
-	while True:
-		try:
-			with sr.Microphone(device_index=0) as mic:
-				#self.recognizer.adjust_for_ambient_noise(mic,duration=0.2)
-				#audio = self.recognizer.listen(mic)
-				#text = self.recognizer.recognize_google(audio)
-				#text = text.lower()
-				print(f"You said:\n{text}")
-				if (text != ""):
-					self.message = text
-					return text
-				else:
-					print("empty string")
-		except Exception as ex:
-			print(ex)
+@app.post('/voice-settings')
+def voice_settings():
+	return ''
+
+@app.get('/get-intents')
+def get_intents():
+	print(os.getcwd())
+	intent_path = os.path.join(os.getcwd(), 'assistant/model/intents.json')
+
+	if os.path.exists(intent_path):
+		f = open(intent_path)
+		data = json.load(f)
+		print(type(data))
+		
+		f.close()
+
+		if 'intents' in data:
+			print(data)
+			return data
 
 
-if __name__ == '__main__':
-	#Establish a socket to start listening for incoming messages on
-	#zmq_sock()
 
-	# d = multiprocessing.Process(target=launch_dexter)
-	# d.start()
+@app.post('/train-assistant')
+def train_assistant():
+	os.chdir('assistant/model/')
+	from trainAssistant import train_assistant
+	train_assistant()
+	os.chdir('..')
+	os.chdir('..')
+	return 'level up'
 
-	g = multiprocessing.Process(target=launch_gesture)
-	g.start()
 
-	
-	# for i in reversed(range(100)):
-	# 	print('killing application in ' + str(i) + ' seconds')
-	# 	time.sleep(1)
-	
-	# d.terminate()
-	# g.terminate()
+@app.get('/')
+async def index():
+	return 'Hello World'
+
+
+@app.post('/dexter-control/')
+def start_stop_dexter(cmd=None):
+	print(cmd)
+
+	if cmd == 'start':
+		global dex
+		dex = multiprocessing.Process(target=launch_dexter)
+		dex.start()
+		return 'dexter started'
+
+	elif cmd == 'stop' and dex is not None:
+		dex.terminate()
+		return 'dexter stopped'
+
+	return 'cmd not recieved'
+
+
+@app.post('/gesture-control/')
+def start_stop_dexter(cmd=None):
+	print(cmd)
+
+	if cmd == 'start':
+		global gest
+		gest = multiprocessing.Process(target=launch_gesture)
+		gest.start()
+		return 'gesture started'
+
+	elif cmd == 'stop' and dex is not None:
+		gest.terminate()
+		return 'gesture stopped'
+
+	return 'cmd not recieved'
+
+
+
+@app.post('/stop-gesture')
+async def stop_gesture():
+	'''
+	global gest
+	if gest is not None:
+		
+		return 'gesture stopped'
+	else:
+		'''
+	return 'gesture not started'
+
+
+

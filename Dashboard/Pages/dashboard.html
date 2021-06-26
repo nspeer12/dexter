@@ -22,7 +22,7 @@
         </div>
 
         <div id="time" class="arc e1">
-          <div id="time_local" style="font-size: 21px; margin-top: 23px">
+          <div id="time_local" style="font-size: 15px; margin-top: 23px">
           
           </div>
           <div id="time_day" style="font-size: 17px; margin-top: 10px">Tuesday</div>
@@ -31,10 +31,9 @@
 
         <span
         class="menuitem entypo-cog"
-        style="font-size: 30px; margin-left: 10px"
-        onclick="openSettingsMenu()">
+        style="font-size: 30px; margin-left: 10px">
         
-        <p class="caption" style="font-size: 20px">Settings</p>
+        <p id="settings_button" class="caption" style="font-size: 20px">Settings</p>
       </span>
       <br />
 
@@ -45,7 +44,7 @@
         class="menuitem entypo-gauge"
         style="font-size: 30px; margin-left: 10px"
       >
-        <p id="cpu" class="caption" style="font-size: 20px">CPU Usage: -</p>
+        <p id="cpu" class="caption" style="font-size: 20px">CPU: -</p>
       </span>
       <br />
 
@@ -54,7 +53,7 @@
         style="font-size: 30px; margin-left: 10px"
       >
         <p id="ram" class="caption" style="font-size: 20px">
-          Free Memory: -
+          Memory: -
         </p>
       </span>
       <br />
@@ -63,7 +62,7 @@
         class="menuitem entypo-chart-pie"
         style="font-size: 30px; margin-left: 10px"
       >
-        <p id="storage" class="caption" style="font-size: 20px">Storage Space: -</p>
+        <p id="storage" class="caption" style="font-size: 20px">Space: -</p>
       </span>
 
       <p class="title">Shortcuts</p>
@@ -78,7 +77,7 @@
           <span class="entypo-right-open" />
           <p class="caption">Documents</p>
         </button>
-        <button class="menuitem">
+        <button id="computer_button" class="menuitem">
           <span class="entypo-right-open" />
           <p class="caption">Computer</p>
         </button>
@@ -105,18 +104,13 @@
       </div>
     </div>
 
-    <!-- Right Menu -->
-    <div id="rightmenu">
-      <p class="title" style="text-align: left; margin-left: 10px">Recorded Keys</p>
-      <div id="particle10" class="hline"></div>
-      <div id="particle11" class="hline"></div>
-      <div id="particle12" class="vline"></div>
-              <button class="menuitem">
+    <div id="debugconsole">
+      <textarea id="console" readonly></textarea>
 
-          <span class="entypo-right-open"  onclick="startRecording()"/>
-          <p class="caption" >Start Recording</p>
-        </button>
-      <textarea id="note_input" rows="12" cols="44" readonly="true"></textarea >
+      <div id="consoleBottom">
+        <textarea id="consoleInput" placeholder="Enter a voice command"></textarea >      
+        <span class="menuitem entypo-paper-plane" id="consolebutton"></span>
+      </div>
     </div>
 
     <!-- Arc Reactor -->

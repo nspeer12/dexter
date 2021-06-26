@@ -7,6 +7,7 @@ from assistant.apis.wikipedia_api import ask_wikipedia
 from assistant.apis.bitcoin import bitcoin_price
 from assistant.apis.weather_api import weather_get
 
+
 import time
 import datetime
 import pywhatkit as kit
@@ -170,7 +171,7 @@ def print_chat_log(query:str, context):
     print(context)
     return 'here you go sir'
 
-
 def weather(query, context):
     ans = weather_get(query,"Orlando")
     return ans
+

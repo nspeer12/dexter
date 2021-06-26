@@ -108,10 +108,17 @@ class Dexter:
 			'time' : get_time,
 			'day' : day,
 			'question' : question,
-            'weather' : weather,
+      'weather' : weather,
+			'bitcoin_price' : bitcoin_price,
+			'convo' : convo,
+			'print_chat_log' : print_chat_log,
 		}
 
-		self.context = ''
+		self.context = ""
+
+		self.query_history = []
+		self.response_history = []
+
 
 		self.audio = None
 		self.audio_stream = None
@@ -204,7 +211,15 @@ class Dexter:
 		# TODO: prediction threshold
 
 		if prediction in self.mappings.keys():
-			self.mappings[prediction](text, self.context)
+
+			res = self.mappings[prediction](text, self.context)
+			if res != None:
+				self.query_history.append(text)
+				self.response_history.append(res)
+
+				self.context += 'Human: ' + text + '\n'
+				self.context += 'AI: ' + res + '\n'
+				voice(res)
 
 
 	def listen(self):
@@ -253,7 +268,7 @@ class Dexter:
 				if self.debug:
 					print("Decoded Text : {}".format(text))
 
-										
+											
 				self.process_input(text)
 
 				if self.debug:
