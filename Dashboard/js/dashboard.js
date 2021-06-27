@@ -28,10 +28,6 @@ onchange = function(stream) {
     var marks = list.getElementsByTagName("li");
     var core = document.getElementsByClassName("core2")[0]
 
-    console.log("bufferLength",bufferLength);
-    console.log("bufferByBar",bufferByBar);
-    console.log("barNumber",barNumber);
-
     function renderFrame() {
         anim = requestAnimationFrame(renderFrame);
         analyser.getByteFrequencyData(dataArray);
@@ -51,7 +47,6 @@ onchange = function(stream) {
 
         core.style.background = "rgba(2, " + scale(0 ,0, 255, 200, 255) +", " + scale(0,0, 255, 200, 255) +", 0.8)"
     }
-    console.log("render");
     renderFrame();
 };
 
@@ -228,7 +223,9 @@ window.addEventListener('load', (event) =>{
 
     document.getElementById("settings_button").onclick=()=>{
 
-        const win = window.open("../Pages/settings.html", "_blank", "fullscreen=false,transparent=true,frame=false");
+        var width = screen.width  * .8;
+        var height = screen.height * .8;
+        const win = window.open("../Pages/settings.html", "_blank", "fullscreen=false,transparent=true,frame=false,width=" + width + ",height=" + height);
     };
 
     document.getElementById("computer_button").onclick=()=>{

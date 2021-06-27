@@ -12,8 +12,6 @@ window.addEventListener('load', (event) =>{
             var dev = document.createElement("option");
             dev.text = device.label
 
-            console.log(dev)
-
             if(device.kind == "audioinput") {
                 inputList.add(dev);
             }

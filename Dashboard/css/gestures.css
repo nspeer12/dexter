@@ -1,0 +1,16 @@
+form {
+    margin-right: 1vw;
+    height: 100%;
+    overflow: auto;
+}
+
+.table-striped {
+    border: 1px solid #bebebe;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgb(0 0 0 / 10%);
+}
+
+.gesture-help-btn {
+    margin: 0px;
+}

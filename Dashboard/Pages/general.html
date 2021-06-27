@@ -1,47 +1,37 @@
 <!DOCTYPE html>
 <html>
-    
-  <head>
-    <title>Photon</title>
-
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="../css/photon.min.general.css">
-    <link rel="stylesheet" href="../css/general.css">
-    
-    <!-- Javascript -->
-    <script src="../js/general.js" charset="utf-8"></script>
-  </head>
-  
-<form>
-
-  <h1>General</h1>
-
-  <div class="checkbox">
-    <label>
-      <input type="checkbox"> Launch Dexter on startup
-    </label>
-  </div>
-  <div class="checkbox">
-    <label>
-      <input type="checkbox"> Enable Hand Gestures on startup
-    </label>
-  </div>
-
-  <h2>Audio</h2>
-
-  </br>
-  <div>
-  <label>Output Device</label>
-  <select id="output-device-list" class="form-control">
-  </select>
-  </div>
-
-  <br/>
-  <div>
-  <label>Input Device</label>
-  <select id="input-device-list" class="form-control">
-  </select>
-  </div>
+    <head>
+        <title>Photon</title>
+        <!-- Stylesheets -->
+        <link rel="stylesheet" href="../css/photon.min.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <!-- Javascript -->
+        <script src="../js/general.js" charset="utf-8"></script>
+    </head>
+    <form>
+        <h1>General</h1>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox">
+                Launch Dexter on startup
+            </label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox">
+                Enable Hand Gestures on startup
+            </label>
+        </div>
+        <h2>Audio</h2>
+    </br>
+    <div>
+        <label>Output Device</label>
+        <select id="output-device-list" class="form-control"></select>
+    </div>
+    <br>
+    <div>
+        <label>Input Device</label>
+        <select id="input-device-list" class="form-control"></select>
+    </div>
 </form>
-
 </html>
