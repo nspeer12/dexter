@@ -19,17 +19,17 @@ setts = load_settings()
 print(setts)
 
 @app.post('/settings')
-def settings_update(settings:Settings):
+async def settings_update(settings:Settings):
 	write_settings(settings)
 
 
 
 @app.post('/voice-settings')
-def voice_settings():
+async def voice_settings():
 	return ''
 
 @app.get('/get-intents')
-def get_intents():
+async def get_intents():
 	print(os.getcwd())
 	intent_path = os.path.join(os.getcwd(), 'assistant/model/intents.json')
 
@@ -47,7 +47,7 @@ def get_intents():
 
 
 @app.post('/train-assistant')
-def train_assistant():
+async def train_assistant():
 	os.chdir('assistant/model/')
 	from trainAssistant import train_assistant
 	train_assistant()
@@ -62,7 +62,7 @@ async def index():
 
 
 @app.post('/dexter-control/')
-def start_stop_dexter(cmd=None):
+async def start_stop_dexter(cmd=None):
 	print(cmd)
 
 	if cmd == 'start':
@@ -79,7 +79,7 @@ def start_stop_dexter(cmd=None):
 
 
 @app.post('/gesture-control/')
-def start_stop_dexter(cmd=None):
+async def start_stop_dexter(cmd=None):
 	print(cmd)
 
 	if cmd == 'start':
@@ -88,7 +88,7 @@ def start_stop_dexter(cmd=None):
 		gest.start()
 		return 'gesture started'
 
-	elif cmd == 'stop' and dex is not None:
+	elif cmd == 'stop' and gest is not None:
 		gest.terminate()
 		return 'gesture stopped'
 
