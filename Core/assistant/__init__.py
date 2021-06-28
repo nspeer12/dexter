@@ -123,7 +123,7 @@ class Dexter:
 		self.audio = None
 		self.audio_stream = None
 
-		self.porcupine = pvporcupine.create(keyword_paths=['assistant/porcupine/hey-dexter-mac.ppn'])
+		self.porcupine = pvporcupine.create(keyword_paths=['assistant/porcupine/hey-dexter-windows.ppn'])
 
 	def start_audio_stream(self):
 		self.audio = pyaudio.PyAudio()
