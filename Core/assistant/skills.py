@@ -42,7 +42,7 @@ def news(query, context):
 def play(query, context):
     song = query.replace("play ", "")
     kit.playonyt(str(song))
-    return 'playing ' + str(song)
+    return None
 
 def resume(query, context):
     # use WinRT api in the future

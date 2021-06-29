@@ -18,7 +18,7 @@ import pvporcupine
 import pyaudio
 import struct
 
-# gotta back that shit up for imports to work
+# need to move path back
 import sys
 sys.path.append("..")
 
@@ -31,8 +31,6 @@ from assistant.nlp import *
 
 MIC_SOURCE = 1
 WAKE_WORDS = ["Dexter", "hey Dexter", "texture", "computer", "Okay computer" "hey computer", "dex"]
-
-
 
 
 
@@ -112,6 +110,7 @@ class Dexter:
 			'bitcoin_price' : bitcoin_price,
 			'convo' : convo,
 			'print_chat_log' : print_chat_log,
+			'fullscreen' : fullscreen,
 		}
 
 		self.context = ""
@@ -124,6 +123,7 @@ class Dexter:
 		self.audio_stream = None
 
 		self.porcupine = pvporcupine.create(keyword_paths=['assistant/porcupine/hey-dexter-windows.ppn'])
+		self.mute_on_wake = True
 
 	def start_audio_stream(self):
 		self.audio = pyaudio.PyAudio()
@@ -175,7 +175,7 @@ class Dexter:
 		while True:
 			try:
 				with speech_recognition.Microphone() as mic:
-					self.recognizer.adjust_for_ambient_noise(mic,duration=0.2)
+					self.recognizer.adjust_for_ambient_noise(mic,duration=1)
 					audio = self.recognizer.listen(mic)
 					text = self.recognizer.recognize_google(audio)
 					text = text.lower()
@@ -211,15 +211,27 @@ class Dexter:
 		# TODO: prediction threshold
 
 		if prediction in self.mappings.keys():
+			print('here 1')
 
-			res = self.mappings[prediction](text, self.context)
-			if res != None:
+			
+			function_to_run = self.mappings[prediction]
+
+
+			if self.debug:
+				print(function_to_run.__name__)
+
+			res = function_to_run(text, self.context)
+			
+			print('here 2')
+			if isinstance(res, str) and isinstance(text, str):
+
 				self.query_history.append(text)
+
 				self.response_history.append(res)
 
-				self.context += 'Human: ' + text + '\n'
-				self.context += 'AI: ' + res + '\n'
-				voice(res)
+				self.context += 'Human: ' + str(text) + '\n'
+				self.context += 'AI: ' + str(res) + '\n'
+				return res
 
 
 	def listen(self):
@@ -228,17 +240,20 @@ class Dexter:
 		
 		run = True
 
+		# TODO:
+		#  - lower volume when listening
+
 
 		print('Listening...')
 
 
 		with sr.Microphone() as source:
 			
-			#self.recognizer.adjust_for_ambient_noise(source, duration=0.5)
+			self.recognizer.adjust_for_ambient_noise(source, duration=0.3)
 			
 		
 			try:
-				recorded_audio = self.recognizer.listen(source, timeout=1)
+				recorded_audio = self.recognizer.listen(source, timeout=1.5)
 				
 				print("Recognizing")
 
@@ -258,90 +273,31 @@ class Dexter:
 
 				if self.debug:
 					print("Detection time: {}".format(decode_time))
-
-				'''
-				with open('logs/decode-time.txt', 'a') as decode:
-					decode.write("{}\n".format(decode_time))
-					decode.close()
-				'''
-
-				if self.debug:
-					print("Decoded Text : {}".format(text))
-
-											
-				self.process_input(text)
-
-				if self.debug:
-					print("Total Response Time: {}\n".format(time.time() - start))
-
-				'''
-				with open('logs/total-response-time.txt', 'a') as trt:
-					trt.write("{}\n".format(time.time() - start))
-					trt.close()
-				'''
-
-		return
-
-
-
-	def listen_houndify(self):
-			
-			client_id = 'mLj9gDELeOre8qQtF8nFgg=='
-			client_key = 'VSZ20NQYzk1ncWF2DQK3sYKAoCty5fmZcl7vyQIvYJ1eyIGAxOTuGQ9lD6LY5ayhWSowLSyF47Da-4JeQl21IA=='
-
-
-			#playsound('sounds/boing.wav')
-			
-			run = True
-
-			print('Listening...')
-
-
-			with sr.Microphone() as source:
 				
-				#self.recognizer.adjust_for_ambient_noise(source, duration=0.5)
-				
-				while run:
-			
-					try:
-						recorded_audio = self.recognizer.listen(source, timeout=0.5)
-						
-						print("Recognizing")
-
-						start = time.time()
-
-						text = self.recognizer.recognize_houndify(recorded_audio, client_id, client_key)
-
-					except Exception as ex:
-						if self.debug:
-							print(ex)
-
-					else:
-						
-						decode_time = time.time() - start
-
-						if self.debug:
-							print("Detection time: {}".format(decode_time))
-
-						'''
+					if os.path.exists('logs/decode-time'):
 						with open('logs/decode-time.txt', 'a') as decode:
 							decode.write("{}\n".format(decode_time))
 							decode.close()
-						'''
-
-						if self.debug:
+			
 							print("Decoded Text : {}".format(text))
 
-												
-						self.process_input(text)
+										
+				res = self.process_input(text)
 
-						#handle_query(text)
+				if not isinstance(res, type(None)):
+					voice(res)
 
-						'''
+				if self.debug:
+					print("Total Response Time: {}\n".format(time.time() - start))
+					
+					if os.path.exists('logs/total-response-time/txt'):
 						with open('logs/total-response-time.txt', 'a') as trt:
 							trt.write("{}\n".format(time.time() - start))
 							trt.close()
-						'''
+				
+		
+		return
+
 
 def launch_dexter():
 	dex = Dexter(debug=True)

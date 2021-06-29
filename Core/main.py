@@ -9,17 +9,26 @@ from assistant import launch_dexter
 import requests
 import json
 import os
-from settings import *
+from settings import Settings, write_settings, load_settings
 
 app = FastAPI()
 
+
+settings = load_settings()
+
+
 dex = None
+
+if settings.dexter_on_startup:
+	dex = multiprocessing.Process(target=launch_dexter)
+	dex.start()
+
+
 gest = None
-setts = load_settings()
-print(setts)
+
 
 @app.post('/settings')
-async def settings_update(settings:Settings):
+async def settings_update(settings):
 	write_settings(settings)
 
 
