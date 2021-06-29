@@ -112,6 +112,7 @@ class Dexter:
 			'bitcoin_price' : bitcoin_price,
 			'convo' : convo,
 			'print_chat_log' : print_chat_log,
+			'fullscreen' : fullscreen,
 		}
 
 		self.context = ""
@@ -175,7 +176,7 @@ class Dexter:
 		while True:
 			try:
 				with speech_recognition.Microphone() as mic:
-					self.recognizer.adjust_for_ambient_noise(mic,duration=0.2)
+					self.recognizer.adjust_for_ambient_noise(mic,duration=1)
 					audio = self.recognizer.listen(mic)
 					text = self.recognizer.recognize_google(audio)
 					text = text.lower()

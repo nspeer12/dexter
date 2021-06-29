@@ -146,6 +146,19 @@ function controlGesture(data)
     }
 }
 
+
+function trainModel()
+{
+    var xhr = new XMLHttpRequest();
+    var url = 'http://localhost:8000/train-assistant';
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        data: data,
+    }));
+}
+
+
 setInterval(function() {
     diagnostics();
   }, 2000);
@@ -185,6 +198,7 @@ function cpuAverage() {
     //Return the average Idle and Tick times
     return {idle: totalIdle / cpus.length,  total: totalTick / cpus.length};
 }
+
 
 function clock() {
     var d = new Date();
