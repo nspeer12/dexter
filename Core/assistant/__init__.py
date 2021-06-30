@@ -26,11 +26,10 @@ from assistant.skills import *
 from assistant.utils.intro import intro
 from assistant.model.assistantModel import NeuralNet
 from assistant.nlp import *
+from assistant.fulfillment import fulfillment_api
 
 
 MIC_SOURCE = 1
-WAKE_WORDS = ["Dexter", "hey Dexter", "texture", "computer", "Okay computer" "hey computer", "dex"]
-
 
 class Dexter:
 
@@ -80,7 +79,7 @@ class Dexter:
 			'greeting' : greeting,
 			'introduction' : introduction,
 			'goodbye' : goodbye,
-			'wiki' : wiki,
+			'wiki' : fulfillment_api,
 			'math' : math,
 			'news' : news,
 			'play' : play,
@@ -103,10 +102,10 @@ class Dexter:
 			'date' : date,
 			'time' : get_time,
 			'day' : day,
-			'question' : question,
+			'question' : fulfillment_api,
       		'weather' : weather,
 			'bitcoin_price' : bitcoin_price,
-			'convo' : convo,
+			'convo' : fulfillment_api,
 			'print_chat_log' : print_chat_log,
 			'fullscreen' : fullscreen,
 		}

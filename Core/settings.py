@@ -8,12 +8,11 @@ class Settings():
 			setattr(self, k, v)
 
 
-# idk if this works :/
 def load_settings():
 	if os.path.exists('settings.json'):
-		f = open('settings.json')
-		data = json.load(f)
-		return Settings(data)
+		with open('settings.json') as f:
+			data = json.load(f)
+			return Settings(data)
 
 
 def write_settings(settings: Settings):
