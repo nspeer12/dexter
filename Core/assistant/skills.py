@@ -38,6 +38,7 @@ def math(query, context):
 
 def news(query, context):
     ans = "making api call to top stories from reddit"
+    return ans
 
 def play(query, context):
     song = query.replace("play ", "")

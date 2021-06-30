@@ -28,10 +28,8 @@ from assistant.model.assistantModel import NeuralNet
 from assistant.nlp import *
 
 
-
 MIC_SOURCE = 1
 WAKE_WORDS = ["Dexter", "hey Dexter", "texture", "computer", "Okay computer" "hey computer", "dex"]
-
 
 
 class Dexter:
@@ -69,7 +67,7 @@ class Dexter:
 		
 		self.num_classes = len(self.Assistant_labels)
 
-		self.model = NeuralNet(self.num_features,self.num_classes)
+		self.model = NeuralNet(self.num_features, self.num_classes)
 		self.model.load_state_dict(torch.load(ASSISTANT_PATH, map_location=self.device))
 		self.model.eval()
 		
@@ -106,15 +104,16 @@ class Dexter:
 			'time' : get_time,
 			'day' : day,
 			'question' : question,
-      'weather' : weather,
+      		'weather' : weather,
 			'bitcoin_price' : bitcoin_price,
 			'convo' : convo,
 			'print_chat_log' : print_chat_log,
 			'fullscreen' : fullscreen,
 		}
 
-		self.context = ""
 
+		self.record_history = False
+		self.context = ""
 		self.query_history = []
 		self.response_history = []
 
@@ -124,6 +123,9 @@ class Dexter:
 
 		self.porcupine = pvporcupine.create(keyword_paths=['assistant/porcupine/hey-dexter-windows.ppn'])
 		self.mute_on_wake = True
+		self.timeout = 1
+		
+
 
 	def start_audio_stream(self):
 		self.audio = pyaudio.PyAudio()
@@ -157,107 +159,33 @@ class Dexter:
 
 				keyword_index = self.porcupine.process(pcm)
 
-
 				if keyword_index >= 0:
 					self.stop_audio_stream()
 					print("Hotword Detected")
 					self.listen()
 					self.start_audio_stream()
 
-
-
 		except Exception as ex:
 			print(ex)
 
 
-	def get_input(self):
-		# get input from microphone -> google api -> text
-		while True:
-			try:
-				with speech_recognition.Microphone() as mic:
-					self.recognizer.adjust_for_ambient_noise(mic,duration=1)
-					audio = self.recognizer.listen(mic)
-					text = self.recognizer.recognize_google(audio)
-					text = text.lower()
-					print(f"You said:\n{text}")
-					if (text != ""):
-						self.message = text
-						return text
-					else:
-						print("empty string")
-			except Exception as ex:
-				print(ex)
-
-
-	def process_input(self, text):
-		text = clean_text(text)
-
-		bag = [0] * self.num_features
-		words = nltk.word_tokenize(text)
-		for word in words:
-			if word.lower() in self.feature_dict:
-				bag[self.feature_dict[word.lower()]] += 1
-
-		bag = torch.from_numpy(np.array(bag))
-		# print(bag)
-		output = self.model.forward(bag.float())
-
-		prediction = self.Assistant_labels[torch.argmax(output)]
-
-		#prediction = 'weather'
-
-		#print(prediction)
-        
-		# TODO: prediction threshold
-
-		if prediction in self.mappings.keys():
-			print('here 1')
-
-			
-			function_to_run = self.mappings[prediction]
-
-
-			if self.debug:
-				print(function_to_run.__name__)
-
-			res = function_to_run(text, self.context)
-			
-			print('here 2')
-			if isinstance(res, str) and isinstance(text, str):
-
-				self.query_history.append(text)
-
-				self.response_history.append(res)
-
-				self.context += 'Human: ' + str(text) + '\n'
-				self.context += 'AI: ' + str(res) + '\n'
-				return res
-
 
 	def listen(self):
-		
-		#playsound('sounds/boing.wav')
-		
-		run = True
 
 		# TODO:
 		#  - lower volume when listening
 
-
 		print('Listening...')
-
 
 		with sr.Microphone() as source:
 			
-			self.recognizer.adjust_for_ambient_noise(source, duration=0.3)
-			
+			#self.recognizer.adjust_for_ambient_noise(source, duration=0.3)
 		
 			try:
-				recorded_audio = self.recognizer.listen(source, timeout=1.5)
+				recorded_audio = self.recognizer.listen(source, timeout=self.timeout)
 				
-				print("Recognizing")
-
 				start = time.time()
+				print("Recognizing")
 
 				text = self.recognizer.recognize_google(
 						recorded_audio,
@@ -273,30 +201,60 @@ class Dexter:
 
 				if self.debug:
 					print("Detection time: {}".format(decode_time))
-				
-					if os.path.exists('logs/decode-time'):
-						with open('logs/decode-time.txt', 'a') as decode:
-							decode.write("{}\n".format(decode_time))
-							decode.close()
-			
-							print("Decoded Text : {}".format(text))
-
 										
 				res = self.process_input(text)
 
 				if not isinstance(res, type(None)):
-					voice(res)
+					voice(res, quality='high')
 
 				if self.debug:
 					print("Total Response Time: {}\n".format(time.time() - start))
-					
-					if os.path.exists('logs/total-response-time/txt'):
-						with open('logs/total-response-time.txt', 'a') as trt:
-							trt.write("{}\n".format(time.time() - start))
-							trt.close()
-				
 		
 		return
+
+
+	def process_input(self, text):
+		text = clean_text(text)
+
+		bag = [0] * self.num_features
+		words = nltk.word_tokenize(text)
+		for word in words:
+			if word.lower() in self.feature_dict:
+				bag[self.feature_dict[word.lower()]] += 1
+
+		bag = torch.from_numpy(np.array(bag))
+		
+		output = self.model.forward(bag.float())
+
+		prediction = self.Assistant_labels[torch.argmax(output)]
+        
+		# TODO: prediction threshold
+
+		if prediction in self.mappings.keys():
+	
+			function_to_run = self.mappings[prediction]
+
+			if self.debug:
+				print(prediction)
+
+			res = function_to_run(text, self.context)
+			
+			# record command and response
+			if self.record_history and isinstance(res, str) and isinstance(text, str):
+
+
+				self.query_history.append(text)
+
+				self.response_history.append(res)
+
+				self.context += 'Human: ' + str(text) + '\n'
+				self.context += 'AI: ' + str(res) + '\n'
+			
+			
+			return res
+
+
+
 
 
 def launch_dexter():
