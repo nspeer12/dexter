@@ -73,13 +73,6 @@ class HandDetection():
         cap_height = 720
 
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        # self.mapping = {
-        #     "mouseDown" : mouseDown,
-        #     "mouseUp" : mouseUp,
-        #     "zoomIn" : zoomIn,
-        #     "zoomOut" : zoomOut,
-        #     "click" : click,
-        #     } 
 
         # Hand Model
         use_static_image_mode = False
