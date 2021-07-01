@@ -66,11 +66,22 @@ pyautogui.PAUSE = 0.01
 
 
 class HandDetection():
+
+
+    def getCamera(self):
+        # Load Camera
+        self.cap = cv.VideoCapture(self.cap_device)
+        # self.cap = cv.VideoCapture(cap_device,cv.CAP_DSHOW)
+        self.cap.set(cv.CAP_PROP_FPS,self.setFPS) 
+        self.cap.set(cv.CAP_PROP_FRAME_WIDTH, self.cap_width)
+        self.cap.set(cv.CAP_PROP_FRAME_HEIGHT, self.cap_height)
+        print("got camera")
+
     def __init__(self):
         # Camera Params
-        cap_device = 0
-        cap_width = 1280
-        cap_height = 720
+        self.cap_device = 0
+        self.cap_width = 1280
+        self.cap_height = 720
 
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -82,7 +93,7 @@ class HandDetection():
         # FPS Time counter
         self.pTime = 0
         self.cTime = 0
-        setFPS = 30
+        self.setFPS = 30
 
         # Varaibles to keep track of points
         # self.point_history = deque(maxlen=4)
@@ -122,6 +133,8 @@ class HandDetection():
             "Unmute" : unmute,
             "Mute" : mute
         }
+        t1 = threading.Thread(target=self.getCamera)
+        t1.start()
 
         # Define CSV paths
         dir_name = path.dirname(__file__)
@@ -178,14 +191,8 @@ class HandDetection():
         # self.model2.load_state_dict(torch.load(MOTION_PATH))
         # self.model2.eval()
         # print("loaded motion model")
+        t1.join()
 
-        # Load Camera
-        self.cap = cv.VideoCapture(cap_device)
-        # self.cap = cv.VideoCapture(cap_device,cv.CAP_DSHOW)
-        self.cap.set(cv.CAP_PROP_FPS,setFPS) 
-        self.cap.set(cv.CAP_PROP_FRAME_WIDTH, cap_width)
-        self.cap.set(cv.CAP_PROP_FRAME_HEIGHT, cap_height)
-        print("got camera")
 
     def loop(self):
         while True:
