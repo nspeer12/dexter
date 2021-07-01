@@ -4,7 +4,7 @@ from playsound import playsound
 import time
 import random
 import multiprocessing
-
+import simpleaudio as sa
 
 def get_voices():
 	root_url = 'https://api.replicastudios.com'
@@ -58,7 +58,10 @@ def voice_replica(text:str, debug=False):
 		}, headers = headers)
 
 		res = r.json()
-		
+
+		if 'sample_rate' in res:
+			sample_rate = res['sample_rate']
+
 		if 'url' in res:
 			url = res['url']
 		else:
@@ -66,27 +69,10 @@ def voice_replica(text:str, debug=False):
 			print(res)
 			return 0
 
-
-		# download file
-		cwd = os.getcwd()
-
-		# use random file name
-		filename = "tmp.wav"
-
-		output_path = filename
 		data = requests.get(url).content
 
-		
-		with open(output_path, "wb") as f:
-			f.write(data)
-			f.close()
+		sa.play_buffer(data, 1, 2, sample_rate)
 
-
-		'''
-		with open('logs/replcia-time.txt', 'a') as f:
-			f.write("{}\n".format(time.time() - start))
-			f.close()
-		'''
 
 	except():
 		voice(text)
@@ -95,7 +81,6 @@ def voice_replica(text:str, debug=False):
 	if debug:
 		print('Response took:{}', time.time() - start)
 
-	playsound(output_path)
 
 def voice_engine(text:str):
 	engine = pyttsx3.init()

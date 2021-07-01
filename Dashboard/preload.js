@@ -1,4 +1,7 @@
 // All of the Node.js APIs are available in the preload process.
+
+const { response } = require('express')
+
 // It has the same sandbox as a Chrome extension.
 window.addEventListener('DOMContentLoaded', () => {
   const replaceText = (selector, text) => {
@@ -10,3 +13,12 @@ window.addEventListener('DOMContentLoaded', () => {
     replaceText(`${type}-version`, process.versions[type])
   }
 })
+
+function browseFile () {
+  const {dialog} = require('electron').remote;
+
+  return dialog.showOpenDialog(
+    require('electron').remote.getCurrentWindow(), 
+    { properties: ['openFile'] }
+  )
+}

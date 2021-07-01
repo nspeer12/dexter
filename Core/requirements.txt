@@ -30,7 +30,6 @@ Pillow==8.2.0
 playsound==1.2.2
 preshed==3.0.5
 protobuf==3.17.2
-PyAudio==0.2.11
 PyAutoGUI==0.9.52
 pydantic==1.7.4
 PyGetWindow==0.0.9
@@ -68,3 +67,8 @@ pyzmq==22.1.0
 zmq==0.0.0
 pvporcupine==1.9.5
 pvporcupinedemo==1.9.5
+uvicorn
+PyAudio
+fastapi
+pydantic
+simpleaudio==1.0.4

@@ -1,7 +1,5 @@
+const { BrowserWindow } = require('electron');
 var os = require('os');
-
-const keyDownCallback = keyPressed.bind(this);
-const keyUpCallback = keyReleased.bind(this);
 
 var anim;
 var barNumber = 27;
@@ -28,10 +26,6 @@ onchange = function(stream) {
     var marks = list.getElementsByTagName("li");
     var core = document.getElementsByClassName("core2")[0]
 
-    console.log("bufferLength",bufferLength);
-    console.log("bufferByBar",bufferByBar);
-    console.log("barNumber",barNumber);
-
     function renderFrame() {
         anim = requestAnimationFrame(renderFrame);
         analyser.getByteFrequencyData(dataArray);
@@ -51,7 +45,6 @@ onchange = function(stream) {
 
         core.style.background = "rgba(2, " + scale(0 ,0, 255, 200, 255) +", " + scale(0,0, 255, 200, 255) +", 0.8)"
     }
-    console.log("render");
     renderFrame();
 };
 
@@ -71,35 +64,6 @@ function start(){
 }
 
 start();
-
-function keyReleased(event)
-{
-    window.removeEventListener("keydown", keyDownCallback);
-    window.removeEventListener("keyup", keyUpCallback);
-}
-
-function keyPressed(event){
-    var keyText = document.getElementById("note_input");
-
-    if(keyText.textContent === "")
-    {
-        keyText.append(event.key); 
-    }
-    else
-    {
-        keyText.append(' + ' + event.key); 
-    }
-}
-
-function startRecording()
-{
-    var keyText = document.getElementById("note_input");
-    keyText.textContent = "";
-    window.addEventListener("keydown", keyDownCallback);
-    window.addEventListener("keyup", keyUpCallback);
-}
-
-
 
 var dexCmd = 'start'
 function controlDexter(data)
@@ -149,11 +113,20 @@ function controlGesture(data)
         gestCmd = 'start';
         document.getElementById('startStopGestureButton').innerHTML = 'Start Gesture Control';
     }
-    
-    
-
-
 }
+
+
+function trainModel()
+{
+    var xhr = new XMLHttpRequest();
+    var url = 'http://localhost:8000/train-assistant';
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        data: data,
+    }));
+}
+
 
 setInterval(function() {
     diagnostics();
@@ -195,6 +168,7 @@ function cpuAverage() {
     return {idle: totalIdle / cpus.length,  total: totalTick / cpus.length};
 }
 
+
 function clock() {
     var d = new Date();
     document.getElementById("time_local").innerHTML = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
@@ -231,20 +205,18 @@ window.addEventListener('load', (event) =>{
     };
 
     document.getElementById("settings_button").onclick=()=>{
-        const win = window.open("../Pages/settings.html", "_blank", "fullscreen= false");
-        // win.center();
-    };
 
-    document.getElementById("facebook_icon").onclick=()=>{
-        require('electron').shell.openExternal("https://www.facebook.com");
-    };
-
-    document.getElementById("twitter_icon").onclick=()=>{
-        require('electron').shell.openExternal("https://www.twitter.com");
-    };
-
-    document.getElementById("linkedin_icon").onclick=()=>{
-        require('electron').shell.openExternal("https://www.linkedin.com");
+        var width = screen.width  * .8;
+        var height = screen.height * .8;
+        const win = window.open("../Pages/settings.html", "_blank", 
+        `contextIsolation=no,
+        nodeIntegration=yes,
+        enableRemoteModule=yes,
+        fullscreen=false,
+        transparent=true,
+        frame=false,
+        width=${width},
+        height=${height}`);
     };
 
     document.getElementById("computer_button").onclick=()=>{

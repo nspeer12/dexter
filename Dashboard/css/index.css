@@ -496,7 +496,7 @@ body {
     width: 25vw;
     height: 25vh;
     position: absolute;
-    bottom: 0;
+    top: 0;
     right: 0;
     margin: 1vmin;
     border: outset;
@@ -548,7 +548,8 @@ body {
     width: fit-content;
     height: fit-content;
     display: flex;
-    bottom: 0;
+    top: 0;
+    margin: 1vmin;
     position: absolute;
     right: 28vw;
 }
@@ -567,6 +568,19 @@ body {
 
 #linkedin_icon {
     color: #0e76a8;
+}
+
+#gesturesFrame {
+    width: 100%;
+}
+
+#gesturesWindow {
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    display: flex;
+    height: 25vh;
+    margin: 1vmin;
 }
 
 /* Arc Reactor */

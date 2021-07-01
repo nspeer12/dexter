@@ -9,18 +9,60 @@ from assistant import launch_dexter
 import requests
 import json
 import os
-from settings import *
+from settings import Settings, write_settings, load_settings
 
 app = FastAPI()
 
+
+settings = load_settings()
+
+
 dex = None
+
+if settings.dexter_on_startup:
+	dex = multiprocessing.Process(target=launch_dexter)
+	dex.start()
+
+
 gest = None
-setts = load_settings()
-print(setts)
+
 
 @app.post('/settings')
-def settings_update(settings:Settings):
+async def settings_update(settings):
 	write_settings(settings)
+
+
+
+@app.post('/voice-settings')
+async def voice_settings():
+	return ''
+
+@app.get('/get-intents')
+async def get_intents():
+	print(os.getcwd())
+	intent_path = os.path.join(os.getcwd(), 'assistant/model/intents.json')
+
+	if os.path.exists(intent_path):
+		f = open(intent_path)
+		data = json.load(f)
+		print(type(data))
+		
+		f.close()
+
+		if 'intents' in data:
+			print(data)
+			return data
+
+
+
+@app.post('/train-assistant')
+async def train_assistant():
+	os.chdir('assistant/model/')
+	from trainAssistant import train_assistant
+	train_assistant()
+	os.chdir('..')
+	os.chdir('..')
+	return 'level up'
 
 
 @app.get('/')
@@ -29,12 +71,12 @@ async def index():
 
 
 @app.post('/dexter-control/')
-def start_stop_dexter(cmd=None):
+async def start_stop_dexter(cmd=None):
 	print(cmd)
 
 	if cmd == 'start':
 		global dex
-		dex = multiprocessing.Process(target=launch_dexter, args=(setts,))
+		dex = multiprocessing.Process(target=launch_dexter)
 		dex.start()
 		return 'dexter started'
 
@@ -46,7 +88,7 @@ def start_stop_dexter(cmd=None):
 
 
 @app.post('/gesture-control/')
-def start_stop_dexter(cmd=None):
+async def start_stop_dexter(cmd=None):
 	print(cmd)
 
 	if cmd == 'start':
@@ -55,7 +97,7 @@ def start_stop_dexter(cmd=None):
 		gest.start()
 		return 'gesture started'
 
-	elif cmd == 'stop' and dex is not None:
+	elif cmd == 'stop' and gest is not None:
 		gest.terminate()
 		return 'gesture stopped'
 

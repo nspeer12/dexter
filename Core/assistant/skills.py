@@ -5,6 +5,8 @@ from assistant.apis.gpt3 import *
 from assistant.apis.wolfram_api import ask_wolfram
 from assistant.apis.wikipedia_api import ask_wikipedia
 from assistant.apis.bitcoin import bitcoin_price
+from assistant.apis.weather_api import weather_get
+
 
 import time
 import datetime
@@ -36,11 +38,12 @@ def math(query, context):
 
 def news(query, context):
     ans = "making api call to top stories from reddit"
+    return ans
 
 def play(query, context):
     song = query.replace("play ", "")
     kit.playonyt(str(song))
-    return 'playing ' + str(song)
+    return None
 
 def resume(query, context):
     # use WinRT api in the future
@@ -169,6 +172,7 @@ def print_chat_log(query:str, context):
     print(context)
     return 'here you go sir'
 
-
-
+def weather(query, context):
+    ans = weather_get(query,"Orlando")
+    return ans
 
