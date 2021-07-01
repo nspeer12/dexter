@@ -77,6 +77,9 @@ class HandDetection():
         self.cap.set(cv.CAP_PROP_FRAME_HEIGHT, self.cap_height)
         print("got camera")
 
+    def loadGestureSettings(self):
+        self.df = pd.read_json(path.join(self.dir_name, 'csv/gestureSettings.json'),orient="records")
+
     def __init__(self):
         # Camera Params
         self.cap_device = 0
@@ -137,12 +140,12 @@ class HandDetection():
         t1.start()
 
         # Define CSV paths
-        dir_name = path.dirname(__file__)
+        self.dir_name = path.dirname(__file__)
 
-        gesture_label_csv_path = path.join(dir_name, 'csv/gesture_label.csv')
-        self.gesture_csv_path = path.join(dir_name, 'csv/gesture.csv')
+        gesture_label_csv_path = path.join(self.dir_name, 'csv/gesture_label.csv')
+        self.gesture_csv_path = path.join(self.dir_name, 'csv/gesture.csv')
 
-        self.df = pd.read_json(path.join(dir_name, 'csv/gestureSettings.json'),orient="records")
+        self.loadGestureSettings()
         # print(self.df)
         # motion_label_csv_path = 'csv/motion_label.csv'
         # self.motion_csv_path = 'csv/motion.csv'
@@ -176,7 +179,7 @@ class HandDetection():
         print("loaded hand model")
 
         # Define Model Paths
-        GESTURE_PATH = path.join(dir_name, 'model/gesture/GestureModel.pth')
+        GESTURE_PATH = path.join(self.dir_name, 'model/gesture/GestureModel.pth')
 
         # MOTION_PATH = "model/motion/MotionModel.pth"
 
