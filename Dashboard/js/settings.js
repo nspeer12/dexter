@@ -46,7 +46,11 @@ function getIntents()
     {
       console.log(key);
     }
-    
+}
+
+function getPath()
+{
+  return browseFile();  
 }
 
 function trainAssistant()

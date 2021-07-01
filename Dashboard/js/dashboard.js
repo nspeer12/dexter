@@ -1,7 +1,5 @@
+const { BrowserWindow } = require('electron');
 var os = require('os');
-
-const keyDownCallback = keyPressed.bind(this);
-const keyUpCallback = keyReleased.bind(this);
 
 var anim;
 var barNumber = 27;
@@ -66,35 +64,6 @@ function start(){
 }
 
 start();
-
-function keyReleased(event)
-{
-    window.removeEventListener("keydown", keyDownCallback);
-    window.removeEventListener("keyup", keyUpCallback);
-}
-
-function keyPressed(event){
-    var keyText = document.getElementById("note_input");
-
-    if(keyText.textContent === "")
-    {
-        keyText.append(event.key); 
-    }
-    else
-    {
-        keyText.append(' + ' + event.key); 
-    }
-}
-
-function startRecording()
-{
-    var keyText = document.getElementById("note_input");
-    keyText.textContent = "";
-    window.addEventListener("keydown", keyDownCallback);
-    window.addEventListener("keyup", keyUpCallback);
-}
-
-
 
 var dexCmd = 'start'
 function controlDexter(data)
@@ -225,7 +194,15 @@ window.addEventListener('load', (event) =>{
 
         var width = screen.width  * .8;
         var height = screen.height * .8;
-        const win = window.open("../Pages/settings.html", "_blank", "fullscreen=false,transparent=true,frame=false,width=" + width + ",height=" + height);
+        const win = window.open("../Pages/settings.html", "_blank", 
+        `contextIsolation=no,
+        nodeIntegration=yes,
+        enableRemoteModule=yes,
+        fullscreen=false,
+        transparent=true,
+        frame=false,
+        width=${width},
+        height=${height}`);
     };
 
     document.getElementById("computer_button").onclick=()=>{
