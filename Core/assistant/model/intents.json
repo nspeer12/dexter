@@ -62,7 +62,11 @@
             "responses": []
         },
         {"tag": "unmute",
-            "patterns": ["unmute","sound on"],
+            "patterns": ["unmute","sound on", "turn up", "let's turn up", "let's get lit"],
+            "responses": []
+        },
+        {"tag": "fullscreen",
+            "patterns": ["fullscreen", "full screen", "exit full screen", "exit fullscreen"],
             "responses": []
         },
         {"tag": "restart",

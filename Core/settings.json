@@ -1,10 +1,10 @@
 {
-    "core_host": "string",
-    "core_port": 0,
-    "dashboard_host": "string",
-    "dashboard_port": 0,
+    "core_host": "127.0.0.1",
+    "core_port": 4242,
+    "dashboard_host": "127.0.0.1",
+    "dashboard_port": 4444,
     "gesture_on_startup": true,
     "launch_on_startup": true,
     "name": "string",
-    "voice_on_startup": true
+    "dexter_on_startup": true
 }

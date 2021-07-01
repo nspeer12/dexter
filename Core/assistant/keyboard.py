@@ -4,43 +4,48 @@ import re
 
 def open_windows_menu(*args):
 	pyautogui.press('win')
-	return ''
+	return None
 
 def open_file_explorer(*args):
 	pyautogui.hotkey('win', 'i')
-	return ''
+	return None
 
 def open_settings(*args):
 	pyautogui.hotkey('win', 'i')
-	return ''
+	return None
 
 def minimize(*args):
 	pyautogui.hotkey('win', 'm')
-	return ''
+	return None
 
 def restore_windows(*args):
 	pyautogui.hotkey('win', 'shiftleft', 'm')
-	return ''
+	return None
+
+def fullscreen(*args):
+	pyautogui.press('f')
+	return None
+
 
 def task_view(*args):
 	pyautogui.hotkey('win', 'tab')
-	return ''
+	return None
 
 def maximize_current_window(*args):
 	pyautogui.hotkey('win', 'up')
-	return ''
+	return None
 
 def enter(*args):
 	pyautogui.press('enter')
-	return ''
+	return None
 
 def search(*args):
 	pyautogui.press('browsersearch')
-	return ''
+	return None
 
 def playpause(*args):
 	pyautogui.press('playpause')
-	return ''
+	return None
 
 def sleep(*args):
 	pyautogui.hotkey('win', 'x')
@@ -103,4 +108,4 @@ def type_mode(*args):
 
 def newline(*args):
 	pyautogui.press("return")
-	return ''
+	return None
