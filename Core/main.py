@@ -12,37 +12,29 @@ from assistant import launch_dexter
 import requests
 import json
 import os
-from settings import Settings, write_settings, load_settings
+from settings import *
 from typing import Optional
 
 app = FastAPI()
 
 
-settings = load_settings()
+#settings = load_settings()
 
 
 dex = None
 
-if settings.dexter_on_startup:
-	dex = multiprocessing.Process(target=launch_dexter)
-	dex.start()
+#if settings.dexter_on_startup:
+#	dex = multiprocessing.Process(target=launch_dexter)
+#	dex.start()
 
 
 gest = None
 
 
-
-class SettingsRequest(BaseModel):
-	dexter_on_startup: bool
-	gesture_on_startup: bool
-	output_device: int
-	input_device: int
-
-
 @app.post('/settings/')
-async def settings_update(r: SettingsRequest):
+async def settings_update(r: GeneralSettings):
 	print(r)
-	#write_settings(resquest)
+	write_general_settings(r)
 	return Response(content=json.dumps({"test":"hi"}))
 
 

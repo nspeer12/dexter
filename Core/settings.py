@@ -1,25 +1,28 @@
 import os
 import json
+from pydantic import BaseModel
 
 
-class Settings():
-	def __init__(self, dictionary):
-		for k, v in dictionary.items():
-			setattr(self, k, v)
-			print(k,v)
+class GeneralSettings(BaseModel):
+	dexter_on_startup: bool
+	gesture_on_startup: bool
+	output_device: int
+	input_device: int
+
 
 def load_settings():
 	if os.path.exists('settings.json'):
 		with open('settings.json') as f:
 			data = json.load(f)
-			return Settings(data)
+			return GeneralSettings(data)
 
 
-def write_settings(settings: Settings):
-	# might not be working
-	data = json.loads(settings)
+def write_general_settings(settings: GeneralSettings):
+
+	data = json.loads(settings.json())
 
 	with open('settings.json', 'w') as f:
+		print(data)
 		json.dump(data, f, sort_keys=True, indent=4)
 
 
