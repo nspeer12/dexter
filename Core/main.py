@@ -35,7 +35,7 @@ if settings.gesture_on_startup:
 
 @app.post('/settings/')
 async def settings_update(r: GeneralSettings):
-	print(r)
+	print('settings')
 	write_general_settings(r)
 	return Response(content=json.dumps({"test":"hi"}))
 
@@ -46,8 +46,10 @@ async def voice_settings():
 	return ''
 
 @app.post('/gesture-settings/')
-async def gesture_settings(gesture_setings):
+async def gesture_settings(gesture_setings:GestureSettingList):
+	print('gesture settings')
 	print(gesture_settings)
+	return Response(content=json.dumps({"test":"it worked"}))
 
 
 @app.get('/get-intents/')

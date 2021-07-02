@@ -28,20 +28,7 @@ window.addEventListener('load', (event) =>{
 
 });
 
-function saveSettings()
-{
-    var xhttp = new XMLHttpRequest();
-    var url = 'http://localhost:8000/settings/';
-    xhttp.open("POST", url, false);
-    xhttp.send();
 
-    var intents;
-
-    xhr.onreadystatechange=(e)=>{
-      intents = JSON.parse(xhr.responseText);
-      //console.log(intents);
-    }
-}
 
 function getPath()
 {

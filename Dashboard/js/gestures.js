@@ -1,5 +1,5 @@
 var userGestures;
-var gestureSettings = [];
+
 
 function populateGesturesTable() {
 
@@ -32,37 +32,24 @@ function populateGesturesTable() {
 
 function postUpdatedGestures() {
     //TODO: Turn this into API call to main application to post custom gesture data
-    //console.log(JSON.stringify(userGestures))
-
-    userGestures.forEach(gesture => {
-        gestureSettings.push({
-            starting_position: gesture["starting position"],
-            ending_position: gesture["ending_position"],
-            motion: gesture["motion"],
-            name: gesture["name"],
-            function: gesture["function"],
-            pre_defined_function_name: gesture["pre-defined function name"],
-            macro: gesture["macro"],
-            path: gesture["path"]
-        });
-    })
-
-    userGestures.forEach(gesture => {
-        console.log(gesture.macro);
-    })
-
+    console.log("here")
+    //console.log('here ');
+    var gestureSettings = {"settings": userGestures}
+   
 
     var xhttp = new XMLHttpRequest();
-    var url = 'http://localhost:8000/settings/'
+    var url = 'http://localhost:8000/gesture-settings/'
     xhttp.open("POST", url, true);
     xhttp.setRequestHeader('Content-Type', 'application/json');
+    
     xhttp.send(JSON.stringify(gestureSettings));
 }
 
 function getCustomGestures() {
 
     //TODO: Turn this into API call to main application to get custom gesture data
-	let gestureDataJson = `[ {"starting position" : "pointer", "ending position" : "close", "motion": "none", "name": "lower index", "function": "macro", "pre-defined function name":"Left Click", "macro":"Alt+F4", "path": ""},
+	let gestureDataJson = `[
+        {"starting position" : "pointer", "ending position" : "close", "motion": "none", "name": "lower index", "function": "macro", "pre-defined function name":"Left Click", "macro":"Alt+F4", "path": ""},
         {"starting position" : "bunny ears", "ending position" : "close", "motion": "none", "name": "lower index and middle", "function": "script", "pre-defined function name":"Right Click", "macro":"", "path": "C:/script.py"},
         {"starting position" : "ok", "ending position" : "open", "motion": "none", "name": "Zoom in 2 Fingers", "function": "pre-defined function", "pre-defined function name":"Zoom In", "macro":"", "path": ""},
         {"starting position" : "open", "ending position" : "ok", "motion": "none", "name": "Zoom out 2 Fingers", "function": "pre-defined function", "pre-defined function name":"Zoom Out", "macro":"", "path": ""},
