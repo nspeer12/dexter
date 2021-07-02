@@ -32,7 +32,12 @@ function populateGesturesTable() {
 function postUpdatedGestures() {
     //TODO: Turn this into API call to main application to post custom gesture data
     console.log(JSON.stringify(userGestures))
-}
+
+    var xhttp = new XMLHttpRequest();
+    var url = 'http://localhost:8000/settings/'
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(userGestures));
 
 function getCustomGestures() {
 

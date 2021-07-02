@@ -6,7 +6,7 @@ class Settings():
 	def __init__(self, dictionary):
 		for k, v in dictionary.items():
 			setattr(self, k, v)
-
+			print(k,v)
 
 def load_settings():
 	if os.path.exists('settings.json'):

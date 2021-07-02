@@ -119,7 +119,7 @@ function controlGesture(data)
 function trainModel()
 {
     var xhr = new XMLHttpRequest();
-    var url = 'http://localhost:8000/train-assistant';
+    var url = 'http://localhost:8000/train-assistant/';
     xhr.open("POST", url, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify({

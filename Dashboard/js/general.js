@@ -18,7 +18,7 @@ window.addEventListener('load', (event) =>{
             else if(device.kind == "audiooutput") {
                 outputList.add(dev);
             }
-    });
+        });
     })
 
     // document.getElementById("consolebutton").onclick=()=>{

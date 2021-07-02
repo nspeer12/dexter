@@ -2,14 +2,18 @@ import time
 import threading
 import multiprocessing
 import time
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Response
+from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
 from flask import Flask
+from pydantic import BaseModel
 from gesture import launch_gesture
 from assistant import launch_dexter
 import requests
 import json
 import os
 from settings import Settings, write_settings, load_settings
+from typing import Optional
 
 app = FastAPI()
 
@@ -27,17 +31,29 @@ if settings.dexter_on_startup:
 gest = None
 
 
-@app.post('/settings')
-async def settings_update(settings):
-	write_settings(settings)
+
+class Request(BaseModel):
+	data: Optional[str] = None
+
+
+@app.post('/settings/')
+async def settings_update(request: Request):
+	print(request)
+	write_settings(resquest)
 
 
 
-@app.post('/voice-settings')
+@app.post('/voice-settings/')
 async def voice_settings():
 	return ''
 
-@app.get('/get-intents')
+@app.post('/gesture-settings/')
+async def gesture_settings(gesture_setings):
+	print(gesture_settings)
+
+
+
+@app.get('/get-intents/')
 async def get_intents():
 	print(os.getcwd())
 	intent_path = os.path.join(os.getcwd(), 'assistant/model/intents.json')
@@ -50,12 +66,11 @@ async def get_intents():
 		f.close()
 
 		if 'intents' in data:
-			print(data)
-			return data
+			return Response(content=json.dumps(data), media_type="application/json")
 
 
 
-@app.post('/train-assistant')
+@app.post('/train-assistant/')
 async def train_assistant():
 	os.chdir('assistant/model/')
 	from trainAssistant import train_assistant
