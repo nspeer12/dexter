@@ -1,4 +1,5 @@
 var userGestures;
+var gestureSettings = [];
 
 function populateGesturesTable() {
 
@@ -31,13 +32,32 @@ function populateGesturesTable() {
 
 function postUpdatedGestures() {
     //TODO: Turn this into API call to main application to post custom gesture data
-    console.log(JSON.stringify(userGestures))
+    //console.log(JSON.stringify(userGestures))
+
+    userGestures.forEach(gesture => {
+        gestureSettings.push({
+            starting_position: gesture["starting position"],
+            ending_position: gesture["ending_position"],
+            motion: gesture["motion"],
+            name: gesture["name"],
+            function: gesture["function"],
+            pre_defined_function_name: gesture["pre-defined function name"],
+            macro: gesture["macro"],
+            path: gesture["path"]
+        });
+    })
+
+    userGestures.forEach(gesture => {
+        console.log(gesture.macro);
+    })
+
 
     var xhttp = new XMLHttpRequest();
     var url = 'http://localhost:8000/settings/'
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify(userGestures));
+    xhttp.open("POST", url, true);
+    xhttp.setRequestHeader('Content-Type', 'application/json');
+    xhttp.send(JSON.stringify(gestureSettings));
+}
 
 function getCustomGestures() {
 

@@ -1,13 +1,28 @@
 import os
 import json
 from pydantic import BaseModel
-
+from typing import List
 
 class GeneralSettings(BaseModel):
 	dexter_on_startup: bool
 	gesture_on_startup: bool
 	output_device: int
 	input_device: int
+
+
+class GestureSetting(BaseModel):
+	starting_position: str
+	ending_position: str
+	motion: str
+	name: str
+	function: str
+	pre_defined_function_name: str
+	macro: str
+	path: str
+
+
+class GestureSettingList(BaseModel):
+	settings: List[GestureSetting]
 
 
 def load_settings():
