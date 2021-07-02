@@ -14,7 +14,14 @@ def load_settings():
 	if os.path.exists('settings.json'):
 		with open('settings.json') as f:
 			data = json.load(f)
-			return GeneralSettings(data)
+			print(data)
+			settings = GeneralSettings(
+				dexter_on_startup=data['dexter_on_startup'],
+				gesture_on_startup=data['gesture_on_startup'],
+				output_device=data['output_device'],
+				input_device=data['input_device'])
+
+			return settings
 
 
 def write_general_settings(settings: GeneralSettings):

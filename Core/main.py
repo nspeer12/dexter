@@ -18,17 +18,19 @@ from typing import Optional
 app = FastAPI()
 
 
-#settings = load_settings()
+settings = load_settings()
 
 
 dex = None
-
-#if settings.dexter_on_startup:
-#	dex = multiprocessing.Process(target=launch_dexter)
-#	dex.start()
-
+if settings.dexter_on_startup:
+	dex = multiprocessing.Process(target=launch_dexter)
+	dex.start()
 
 gest = None
+if settings.gesture_on_startup:
+	gest = multiprocessing.Process(target=launch_gesture)
+	gest.start()
+
 
 
 @app.post('/settings/')
@@ -46,7 +48,6 @@ async def voice_settings():
 @app.post('/gesture-settings/')
 async def gesture_settings(gesture_setings):
 	print(gesture_settings)
-
 
 
 @app.get('/get-intents/')
@@ -101,15 +102,23 @@ async def start_stop_dexter(cmd=None):
 @app.post('/gesture-control/')
 async def start_stop_dexter(cmd=None):
 	print(cmd)
-
+	
+	global gest
+	
 	if cmd == 'start':
-		global gest
-		gest = multiprocessing.Process(target=launch_gesture)
-		gest.start()
-		return 'gesture started'
-
+		
+		if gest is None:
+			gest = multiprocessing.Process(target=launch_gesture)
+			gest.start()
+			print('gesture started')
+			return 'gesture started'
+		else:
+			print('gesture already started')
+			return 'gesture already started'
 	elif cmd == 'stop' and gest is not None:
 		gest.terminate()
+		gest = None
+		print('gesture stopped')
 		return 'gesture stopped'
 
 	return 'cmd not recieved'
