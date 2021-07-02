@@ -28,36 +28,22 @@ window.addEventListener('load', (event) =>{
 
 });
 
-function getIntents()
+function saveSettings()
 {
-    var xhr = new XMLHttpRequest();
-    var url = 'http://localhost:8000/get-intents';
-    xhr.open("GET", url);
-    xhr.send();
+    var xhttp = new XMLHttpRequest();
+    var url = 'http://localhost:8000/settings/';
+    xhttp.open("POST", url, false);
+    xhttp.send();
 
     var intents;
 
     xhr.onreadystatechange=(e)=>{
-      intents = JSON.parse(xhr.responseText)['intents'];
+      intents = JSON.parse(xhr.responseText);
       //console.log(intents);
-    }
-
-    for (var key in intents)
-    {
-      console.log(key);
     }
 }
 
 function getPath()
 {
   return browseFile();  
-}
-
-function trainAssistant()
-{
-    var xhr = new XMLHttpRequest();
-    var url = 'http://localhost:8000/train-assistant';
-    xhr.open("POST", url);
-    xhr.send();
-    
 }

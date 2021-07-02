@@ -32,14 +32,18 @@ gest = None
 
 
 
-class Request(BaseModel):
-	data: Optional[str] = None
+class SettingsRequest(BaseModel):
+	dexter_on_startup: bool
+	gesture_on_startup: bool
+	output_device: int
+	input_device: int
 
 
 @app.post('/settings/')
-async def settings_update(request: Request):
-	print(request)
-	write_settings(resquest)
+async def settings_update(r: SettingsRequest):
+	print(r)
+	#write_settings(resquest)
+	return Response(content=json.dumps({"test":"hi"}))
 
 
 
