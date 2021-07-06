@@ -15,8 +15,8 @@ class GestureSetting(BaseModel):
 	ending_position: str
 	motion: str
 	name: str
-	function: str
-	pre_defined_function_name: str
+	action: str
+	default_action_name: str
 	macro: str
 	path: str
 
