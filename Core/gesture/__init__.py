@@ -280,15 +280,15 @@ class HandDetection():
                         # execute function after long delay
                         if ( (self.last_function_time + self.longdelay) < time.time()):
                             # print(self.gesture_labels[self.old_gesture],self.gesture_labels[new_prediction])
-                            record = self.df.loc[(self.df["starting position"] == self.gesture_labels[self.old_tracker]) & ((self.df["ending position"] == self.gesture_labels[new_prediction]) | (self.df["ending position"] == "any"))]
+                            record = self.df.loc[(self.df["starting_position"] == self.gesture_labels[self.old_tracker]) & ((self.df["ending_position"] == self.gesture_labels[new_prediction]) | (self.df["ending_position"] == "any"))]
                             if (len(record) > 0):
-                                print(record.iloc[0]["name"],record.iloc[0]["pre-defined function name"])
+                                print(record.iloc[0]["name"],record.iloc[0]["default_action_name"])
                                 # print(type(record.iloc[0]["pre-defined function name"]))
-                                t1 = threading.Thread(target=self.mapping[record.iloc[0]["pre-defined function name"]])
+                                t1 = threading.Thread(target=self.mapping[record.iloc[0]["default_action_name"]])
                                 t1.start()
                                 # print(threading.active_count())
                                 # self.mapping[record.iloc[0]["pre-defined function name"]]()
-                            # function_to_be_executed = self.df.loc[(self.df["starting position"] == self.gesture_labels[self.old_gesture]) & ((self.df["ending position"] == self.gesture_labels[new_prediction]) | (self.df["ending position"] == "any"))]["name"]
+                            # function_to_be_executed = self.df.loc[(self.df["starting_position"] == self.gesture_labels[self.old_gesture]) & ((self.df["ending position"] == self.gesture_labels[new_prediction]) | (self.df["ending position"] == "any"))]["name"]
                             # print(function_to_be_executed)
                             # if (len(function_to_be_executed) > 0):
                             #     function_to_be_executed = function_to_be_executed.iloc[0]
@@ -305,11 +305,11 @@ class HandDetection():
                 elif ((current_predict_motion != "no motion") and (current_predict_motion != "no hand detected")): # detecting change in motion
                     if ( (self.last_function_time + self.longdelay) < time.time() ):
                         self.last_function_time = time.time()
-                        record = self.df.loc[(self.df["ending position"] == self.gesture_labels[new_prediction]) & (self.df["motion"] == current_predict_motion)]
+                        record = self.df.loc[(self.df["ending_position"] == self.gesture_labels[new_prediction]) & (self.df["motion"] == current_predict_motion)]
                         # print(gesture_name)
                         if (len(record) > 0):
-                            print(record.iloc[0]["name"],record.iloc[0]["pre-defined function name"])
-                            t1 = threading.Thread(target=self.mapping[record.iloc[0]["pre-defined function name"]])
+                            print(record.iloc[0]["name"],record.iloc[0]["default_action_name"])
+                            t1 = threading.Thread(target=self.mapping[record.iloc[0]["default_action_name"]])
                             t1.start()
                             # print(threading.active_count())
                         # print(current_predict_motion, self.gesture_labels[new_prediction])

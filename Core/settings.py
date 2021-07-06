@@ -52,7 +52,7 @@ def write_gesture_settings(settings: GestureSettingList):
 	data = json.loads(settings.json())
 
 	with open('gesture/csv/gestureSettings.json', 'w') as f:
-		json.dump(data, f, sort_keys=True, indent=4)
+		json.dump(data['settings'], f, sort_keys=True, indent=4)
 
 
 if __name__ == '__main__':
