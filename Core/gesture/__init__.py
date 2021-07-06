@@ -78,7 +78,7 @@ class HandDetection():
         print("got camera")
 
     def loadGestureSettings(self):
-        self.df = pd.read_json(path.join(self.dir_name, 'csv/gestureSettings.json'),orient="records")
+        self.df = pd.read_json(path.join(self.dir_name, 'csv/gestureSettings.json'), orient="records")
 
     def __init__(self):
         # Camera Params
@@ -307,15 +307,14 @@ class HandDetection():
                         self.old_tracker = self.old_gesture
                         self.short_delay_time = time.time()
 
-
                 elif ((current_predict_motion != "no motion") and (current_predict_motion != "no hand detected")): # detecting change in motion
                     if ( (self.last_function_time + self.longdelay) < time.time() ):
                         self.last_function_time = time.time()
-                        record = self.df.loc[(self.df["ending position"] == self.gesture_labels[new_prediction]) & (self.df["motion"] == current_predict_motion)]
+                        record = self.df.loc[(self.df["ending_position"] == self.gesture_labels[new_prediction]) & (self.df["motion"] == current_predict_motion)]
                         # print(gesture_name)
                         if (len(record) > 0):
-                            print(record.iloc[0]["name"],record.iloc[0]["pre-defined function name"])
-                            t1 = threading.Thread(target=self.mapping[record.iloc[0]["pre-defined function name"]])
+                            print(record.iloc[0]["name"],record.iloc[0]["default_action_name"])
+                            t1 = threading.Thread(target=self.mapping[record.iloc[0]["default_action_name"]])
                             t1.start()
                             # print(threading.active_count())
                         # print(current_predict_motion, self.gesture_labels[new_prediction])

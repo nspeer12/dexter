@@ -1,27 +1,242 @@
 [
-    {"starting position" : "pointer", "ending position" : "close", "motion": "none", "name": "lower index", "function": "pre-defined function", "pre-defined function name":"Left Click", "macro":"", "path": ""},
-    {"starting position" : "bunny ears", "ending position" : "close", "motion": "none", "name": "lower index and middle", "function": "pre-defined function", "pre-defined function name":"Right Click", "macro":"", "path": ""},
-    {"starting position" : "ok", "ending position" : "open", "motion": "none", "name": "Zoom in 2 Fingers", "function": "pre-defined function", "pre-defined function name":"Zoom In", "macro":"", "path": ""},
-    {"starting position" : "open", "ending position" : "ok", "motion": "none", "name": "Zoom out 2 Fingers", "function": "pre-defined function", "pre-defined function name":"Zoom Out", "macro":"", "path": ""},
-    {"starting position" : "none", "ending position" : "3 fingers", "motion": "up", "name": "Slide up 3 Fingers", "function": "pre-defined function", "pre-defined function name":"Scroll Up", "macro":"", "path": ""},
-    {"starting position" : "none", "ending position" : "3 fingers", "motion": "down", "name": "Slide down 3 Fingers", "function": "pre-defined function", "pre-defined function name":"Scroll Down", "macro":"", "path": ""},
-    {"starting position" : "none", "ending position" : "3 fingers", "motion": "left", "name": "Slide left 3 Fingers", "function": "pre-defined function", "pre-defined function name":"Go Back", "macro":"", "path": ""},
-    {"starting position" : "none", "ending position" : "3 fingers", "motion": "right", "name": "Slide right 3 Fingers", "function": "pre-defined function", "pre-defined function name":"Go Forward", "macro":"", "path": ""},
-    {"starting position" : "none", "ending position" : "4 fingers", "motion": "right", "name": "Slide right 4 Fingers", "function": "pre-defined function", "pre-defined function name":"Switch App", "macro":"", "path": ""},
-    {"starting position" : "none", "ending position" : "4 fingers", "motion": "up", "name": "slide up 4 Fingers", "function": "pre-defined function", "pre-defined function name":"Switch Desktop", "macro":"", "path": ""},
-    {"starting position" : "none", "ending position" : "open", "motion": "left", "name": "Slide left 5 Fingers", "function": "pre-defined function", "pre-defined function name":"Slide App Left", "macro":"", "path": ""},
-    {"starting position" : "none", "ending position" : "open", "motion": "right", "name": "Slide right 5 Fingers", "function": "pre-defined function", "pre-defined function name":"Slide App Right", "macro":"", "path": ""},
-    {"starting position" : "duck finger", "ending position" : "open", "motion": "none", "name": "Zoom out 5 Fingers", "function": "pre-defined function", "pre-defined function name":"Maximize App", "macro":"", "path": ""},
-    {"starting position" : "open", "ending position" : "duck finger", "motion": "none", "name": "Zoom in 5 Fingers", "function": "pre-defined function", "pre-defined function name":"Minimize App", "macro":"", "path": ""},
-    {"starting position" : "close", "ending position" : "open", "motion": "none", "name": "Open Hand", "function": "pre-defined function", "pre-defined function name":"Play", "macro":"", "path": ""},
-    {"starting position" : "open", "ending position" : "close", "motion": "none", "name": "Close Hand", "function": "pre-defined function", "pre-defined function name":"Pause", "macro":"", "path": ""},
-    {"starting position" : "none", "ending position" : "close", "motion": "right", "name": "Sliding right Closed Fist", "function": "pre-defined function", "pre-defined function name":"Next Track", "macro":"", "path": ""},
-    {"starting position" : "none", "ending position" : "close", "motion": "left", "name": "Sliding left Closed Fist", "function": "pre-defined function", "pre-defined function name":"Previous Track", "macro":"", "path": ""},
-    {"starting position" : "none", "ending position" : "thumbs up", "motion": "up", "name": "Sliding up Thumbs up", "function": "pre-defined function", "pre-defined function name":"Increase Volume", "macro":"", "path": ""},
-    {"starting position" : "none", "ending position" : "thumbs down", "motion": "down", "name": "Sliding down Thumbs down", "function": "pre-defined function", "pre-defined function name":"Decrease Volume", "macro":"", "path": ""},
-    {"starting position" : "none", "ending position" : "thumbs up", "motion": "left", "name": "Sliding left Thumbs up", "function": "pre-defined function", "pre-defined function name":"Unmute", "macro":"", "path": ""},
-    {"starting position" : "none", "ending position" : "thumbs up", "motion": "right", "name": "Sliding right Thumbs up", "function": "pre-defined function", "pre-defined function name":"Unmute", "macro":"", "path": ""},
-    {"starting position" : "none", "ending position" : "thumbs down", "motion": "left", "name": "Sliding left Thumbs down", "function": "pre-defined function", "pre-defined function name":"Mute", "macro":"", "path": ""},
-    {"starting position" : "none", "ending position" : "thumbs down", "motion": "right", "name": "Sliding right Thumbs down", "function": "pre-defined function", "pre-defined function name":"Mute", "macro":"", "path": ""}
-
+    {
+        "action": "macro",
+        "default_action_name": "Left Click",
+        "ending_position": "close",
+        "macro": "C:\\Users\\nspee\\AppData\\Local\\Discord\\Update.exe + Control",
+        "motion": "none",
+        "name": "lower index",
+        "path": "C:\\Users\\nspee\\AppData\\Local\\Discord\\Update.exe",
+        "starting_position": "pointer"
+    },
+    {
+        "action": "script",
+        "default_action_name": "Right Click",
+        "ending_position": "close",
+        "macro": "",
+        "motion": "none",
+        "name": "lower index and middle",
+        "path": "C:/script.py",
+        "starting_position": "bunny ears"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Zoom In",
+        "ending_position": "open",
+        "macro": "",
+        "motion": "none",
+        "name": "Zoom in 2 Fingers",
+        "path": "",
+        "starting_position": "ok"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Zoom Out",
+        "ending_position": "ok",
+        "macro": "",
+        "motion": "none",
+        "name": "Zoom out 2 Fingers",
+        "path": "",
+        "starting_position": "open"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Scroll Up",
+        "ending_position": "3 fingers",
+        "macro": "",
+        "motion": "up",
+        "name": "Slide up 3 Fingers",
+        "path": "",
+        "starting_position": "none"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Scroll Down",
+        "ending_position": "3 fingers",
+        "macro": "",
+        "motion": "down",
+        "name": "Slide down 3 Fingers",
+        "path": "",
+        "starting_position": "none"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Go Back",
+        "ending_position": "3 fingers",
+        "macro": "",
+        "motion": "left",
+        "name": "Slide left 3 Fingers",
+        "path": "",
+        "starting_position": "none"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Go Forward",
+        "ending_position": "3 fingers",
+        "macro": "",
+        "motion": "right",
+        "name": "Slide right 3 Fingers",
+        "path": "",
+        "starting_position": "none"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Switch App",
+        "ending_position": "4 fingers",
+        "macro": "",
+        "motion": "right",
+        "name": "Slide right 4 Fingers",
+        "path": "",
+        "starting_position": "none"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Switch Desktop",
+        "ending_position": "4 fingers",
+        "macro": "",
+        "motion": "up",
+        "name": "slide up 4 Fingers",
+        "path": "",
+        "starting_position": "none"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Slide App Left",
+        "ending_position": "open",
+        "macro": "",
+        "motion": "left",
+        "name": "Slide left 5 Fingers",
+        "path": "",
+        "starting_position": "none"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Slide App Right",
+        "ending_position": "open",
+        "macro": "",
+        "motion": "right",
+        "name": "Slide right 5 Fingers",
+        "path": "",
+        "starting_position": "none"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Maximize App",
+        "ending_position": "open",
+        "macro": "",
+        "motion": "none",
+        "name": "Zoom out 5 Fingers",
+        "path": "",
+        "starting_position": "duck finger"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Minimize App",
+        "ending_position": "duck finger",
+        "macro": "",
+        "motion": "none",
+        "name": "Zoom in 5 Fingers",
+        "path": "",
+        "starting_position": "open"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Play",
+        "ending_position": "open",
+        "macro": "",
+        "motion": "none",
+        "name": "Open Hand",
+        "path": "",
+        "starting_position": "close"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Pause",
+        "ending_position": "close",
+        "macro": "",
+        "motion": "none",
+        "name": "Close Hand",
+        "path": "",
+        "starting_position": "open"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Next Track",
+        "ending_position": "close",
+        "macro": "",
+        "motion": "right",
+        "name": "Sliding right Closed Fist",
+        "path": "",
+        "starting_position": "none"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Previous Track",
+        "ending_position": "close",
+        "macro": "",
+        "motion": "left",
+        "name": "Sliding left Closed Fist",
+        "path": "",
+        "starting_position": "none"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Increase Volume",
+        "ending_position": "thumbs up",
+        "macro": "",
+        "motion": "up",
+        "name": "Sliding up Thumbs up",
+        "path": "",
+        "starting_position": "none"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Decrease Volume",
+        "ending_position": "thumbs down",
+        "macro": "",
+        "motion": "down",
+        "name": "Sliding down Thumbs down",
+        "path": "",
+        "starting_position": "none"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Unmute",
+        "ending_position": "thumbs up",
+        "macro": "",
+        "motion": "left",
+        "name": "Sliding left Thumbs up",
+        "path": "",
+        "starting_position": "none"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Unmute",
+        "ending_position": "thumbs up",
+        "macro": "",
+        "motion": "right",
+        "name": "Sliding right Thumbs up",
+        "path": "",
+        "starting_position": "none"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Mute",
+        "ending_position": "thumbs down",
+        "macro": "",
+        "motion": "left",
+        "name": "Sliding left Thumbs down",
+        "path": "",
+        "starting_position": "none"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Mute",
+        "ending_position": "thumbs down",
+        "macro": "",
+        "motion": "right",
+        "name": "Sliding right Thumbs down",
+        "path": "",
+        "starting_position": "none"
+    }
 ]

@@ -106,26 +106,17 @@ function controlGesture(data)
     if (gestCmd == 'start')
     {
         gestCmd = 'stop';
-        document.getElementById('startStopGestureButton').innerHTML = 'Stop Gesture Control';
+        document.getElementById('startStopGestureButton').innerHTML = 'Stop Gesture';
     }
     else if (gestCmd == 'stop')
     {
         gestCmd = 'start';
-        document.getElementById('startStopGestureButton').innerHTML = 'Start Gesture Control';
+        document.getElementById('startStopGestureButton').innerHTML = 'Start Gesture';
     }
 }
 
 
-function trainModel()
-{
-    var xhr = new XMLHttpRequest();
-    var url = 'http://localhost:8000/train-assistant';
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify({
-        data: data,
-    }));
-}
+
 
 
 setInterval(function() {
