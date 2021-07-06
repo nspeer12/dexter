@@ -13,6 +13,8 @@ function createWindow () {
   
   app.whenReady().then(() => {
     createWindow();
+    document.getElementById("demo").opacity = 0
+    document.getElementById("demo").opacity = 1
   })
  
 

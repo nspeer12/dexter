@@ -2,7 +2,7 @@
   "name": "introscreens",
   "version": "1.0.0",
   "description": "intro screens used at start up to gather information from the user",
-  "main": "gesture.js",
+  "main": "intro.js",
   "scripts": {
     "start": "electron ."
   },
