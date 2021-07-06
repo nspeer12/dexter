@@ -8,33 +8,30 @@
         <!-- Javascript -->
         <script src="../js/general.js" charset="utf-8"></script>
     </head>
-    <form id="settings-form" onsubmit="saveGeneralSettings();">
+    <form>
         <h1>General</h1>
-            <input type="checkbox" name="dex-on-start" id="dex-on-start">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox">
                 Launch Dexter on startup
-            </input>
-            </br>
-            <input type="checkbox" name="gest-on-start" id="gest-on-start">
+            </label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox">
                 Enable Hand Gestures on startup
-            </input>
+            </label>
+        </div>
         <h2>Audio</h2>
-    </br>
-
-    <div>
-        <label>Input Device</label>
-        <select id="input-device-list" name="input-device" class="form-control"></select>
-    </div>
     </br>
     <div>
         <label>Output Device</label>
-        <select id="output-device-list" name="output-device" class="form-control"></select>
+        <select id="output-device-list" class="form-control"></select>
     </div>
-    </br>
-    
-
+    <br>
     <div>
-        <input type="submit" value="Save">
+        <label>Input Device</label>
+        <select id="input-device-list" class="form-control"></select>
     </div>
-
-    </form>
+</form>
 </html>
