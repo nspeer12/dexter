@@ -43,16 +43,6 @@
                 <p id="storage" class="caption" style="font-size: 20px">Space: -</p>
             </span>
             <p class="title">Shortcuts</p>
-            <div>
-                <button class="menuitem">
-                    <span class="entypo-right-open" onclick="controlDexter(dexCmd)"/>
-                    <p class="caption" id="startStopDexterButton">Start Dexter</p>
-                </button>
-                <button class="menuitem">
-                    <span class="entypo-right-open" onclick="controlGesture(gestCmd)"/>
-                    <p class="caption" id="startStopGestureButton">Start Gesture</p>
-                </button>
-            </div>
             <div class="hline title_underline"></div>
             <div class="menu">
                 <button class="menuitem">
@@ -96,6 +86,16 @@
             </div>
         </div>
         <div id="gesturesWindow">
+            <div>
+                <button class="menuitem">
+                    <span class="entypo-right-open" onclick="controlDexter(dexCmd)"/>
+                    <p class="caption" id="startStopDexterButton">Start Dexter</p>
+                </button>
+                <button class="menuitem">
+                    <span class="entypo-right-open" onclick="controlGesture(gestCmd)"/>
+                    <p class="caption" id="startStopGestureButton">Start Gesture Control</p>
+                </button>
+            </div>
             <iframe id="gesturesFrame"></iframe>
         </div>
 
