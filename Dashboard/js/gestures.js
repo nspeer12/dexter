@@ -49,6 +49,7 @@ function postUpdatedGestures() {
 function getCustomGestures() {
 
     //TODO: Turn this into API call to main application to get custom gesture data
+    // Load this from a file
 	let gestureDataJson = `[
         {"starting_position" : "pointer", "ending_position" : "close", "motion": "none", "name": "lower index", "action": "macro", "default_action_name":"Left Click", "macro":"Alt+F4", "path": ""},
         {"starting_position" : "bunny ears", "ending_position" : "close", "motion": "none", "name": "lower index and middle", "action": "script", "default_action_name":"Right Click", "macro":"", "path": "C:/script.py"},

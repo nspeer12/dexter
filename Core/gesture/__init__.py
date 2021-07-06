@@ -78,7 +78,7 @@ class HandDetection():
         print("got camera")
 
     def loadGestureSettings(self):
-        self.df = pd.read_json(path.join(self.dir_name, 'csv/gestureSettings.json'),orient="records")
+        self.df = pd.read_json(path.join(self.dir_name, 'csv/gestureSettings.json'), orient="records")
 
     def __init__(self):
         # Camera Params

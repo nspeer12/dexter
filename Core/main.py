@@ -46,10 +46,10 @@ async def voice_settings():
 	return ''
 
 @app.post('/gesture-settings/')
-async def gesture_settings(gesture_setings:GestureSettingList):
-	print('gesture settings')
-	print(gesture_settings)
-	return Response(content=json.dumps({"test":"it worked"}))
+async def gesture_settings(r:GestureSettingList):
+	print('updating gesture settings')
+	write_gesture_settings(r)
+	return Response(content=json.dumps({"message":"gesture settings accepted"}))
 
 
 @app.get('/get-intents/')
