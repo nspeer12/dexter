@@ -3,7 +3,7 @@ var userGestures;
 
 function populateGesturesTable() {
 
-    let functionTypesJson = `[{"function" : "pre-defined function"}, {"function" : "macro"}, {"function" : "script"}]`
+    let functionTypesJson = `[{"function" : "default action"}, {"function" : "macro"}, {"function" : "script"}]`
     let functionTypes = JSON.parse(functionTypesJson);
 
     //Get our table 
@@ -17,7 +17,7 @@ function populateGesturesTable() {
 
         functionTypes.forEach(funcType => {
             //Add selected tag to current selected action
-            let selected = funcType.function === gesture['function'] ? "selected" : "";
+            let selected = funcType.function === gesture["action"] ? "selected" : "";
             functionList += `<option ${selected} value="${funcType.function}">${funcType.function}</option>\n`
         });
                 
@@ -31,9 +31,6 @@ function populateGesturesTable() {
 }
 
 function postUpdatedGestures() {
-    //TODO: Turn this into API call to main application to post custom gesture data
-    console.log("here")
-    //console.log('here ');
     var gestureSettings = {"settings": userGestures}
    
     console.log(gestureSettings)
@@ -107,7 +104,7 @@ function generateActionRow(gesture) {
     //Get our predefined function names
     let predefinedFunctions = JSON.parse(predefinedJson);
 
-    switch(gesture['function']) {
+    switch(gesture["action"]) {
         case 'default_action':
             
             //Start our drop down list
@@ -229,7 +226,7 @@ window.addEventListener('DOMContentLoaded', () => {
         userGestures.forEach((gesture) =>{
             if(gesture.name === gestureName) {
 
-                gesture['function'] = selectedVal;
+                gesture['action'] = selectedVal;
                 let newRow = generateActionRow(gesture);
                 tableRow.cells[2].outerHTML = newRow;
                 postUpdatedGestures();
@@ -249,7 +246,7 @@ window.addEventListener('DOMContentLoaded', () => {
         userGestures.forEach((gesture) =>{
             if(gesture.name === gestureName) {
 
-                gesture['pre-defined function'] = selectedVal;
+                gesture['default_action_name'] = selectedVal;
                 postUpdatedGestures();
             }
         });
