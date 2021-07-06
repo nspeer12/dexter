@@ -1,12 +1,12 @@
 [
     {
-        "action": "macro",
+        "action": "default action",
         "default_action_name": "Left Click",
         "ending_position": "close",
-        "macro": "C:\\Users\\nspee\\AppData\\Local\\Discord\\Update.exe + Control",
+        "macro": "Alt+F4",
         "motion": "none",
         "name": "lower index",
-        "path": "C:\\Users\\nspee\\AppData\\Local\\Discord\\Update.exe",
+        "path": "",
         "starting_position": "pointer"
     },
     {
@@ -16,7 +16,7 @@
         "macro": "",
         "motion": "none",
         "name": "lower index and middle",
-        "path": "C:/script.py",
+        "path": "C:\\Users\\nspee\\AppData\\Roaming\\Zoom\\bin\\Zoom.exe",
         "starting_position": "bunny ears"
     },
     {
