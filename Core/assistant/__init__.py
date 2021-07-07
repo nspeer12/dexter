@@ -122,7 +122,7 @@ class Dexter:
 
 		self.porcupine = pvporcupine.create(keyword_paths=['assistant/porcupine/hey-dexter-windows.ppn'])
 		self.mute_on_wake = True
-		self.timeout = 1
+		self.timeout = .5
 		
 
 
@@ -178,7 +178,7 @@ class Dexter:
 
 		with sr.Microphone() as source:
 			
-			self.recognizer.adjust_for_ambient_noise(source, duration=0.3)
+			#self.recognizer.adjust_for_ambient_noise(source, duration=0.3)
 		
 			try:
 				recorded_audio = self.recognizer.listen(source, timeout=self.timeout)

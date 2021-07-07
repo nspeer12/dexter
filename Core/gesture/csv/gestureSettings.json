@@ -1,9 +1,9 @@
 [
     {
-        "action": "default action",
+        "action": "macro",
         "default_action_name": "Left Click",
         "ending_position": "close",
-        "macro": "Alt+F4",
+        "macro": "Control + Shift + I",
         "motion": "none",
         "name": "lower index",
         "path": "",
@@ -16,14 +16,14 @@
         "macro": "",
         "motion": "none",
         "name": "lower index and middle",
-        "path": "C:\\Users\\nspee\\AppData\\Roaming\\Zoom\\bin\\Zoom.exe",
+        "path": "C:/script.py",
         "starting_position": "bunny ears"
     },
     {
-        "action": "default_action",
+        "action": "macro",
         "default_action_name": "Zoom In",
         "ending_position": "open",
-        "macro": "",
+        "macro": "Control + Shift + I",
         "motion": "none",
         "name": "Zoom in 2 Fingers",
         "path": "",
