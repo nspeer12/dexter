@@ -3,7 +3,7 @@
         "action": "macro",
         "default_action_name": "Left Click",
         "ending_position": "close",
-        "macro": "Control + Shift + I",
+        "macro": "1 + 3 + 2",
         "motion": "none",
         "name": "lower index",
         "path": "",
@@ -20,10 +20,10 @@
         "starting_position": "bunny ears"
     },
     {
-        "action": "macro",
+        "action": "default_action",
         "default_action_name": "Zoom In",
         "ending_position": "open",
-        "macro": "Control + Shift + I",
+        "macro": "",
         "motion": "none",
         "name": "Zoom in 2 Fingers",
         "path": "",
