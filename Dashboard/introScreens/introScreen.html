@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+  
+  <link rel="stylesheet" href="../introScreens/css/styles.css" media= "screen">
+  <link rel="stylesheet" href="../photon/css/photon.min.css" media= "screen">
+  <link rel ="stylesheet" href= "../css/bootstrap/css/bootstrap.min.css" media = "screen">  
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
       <title>Page 1</title>
-      <link rel="stylesheet" href="../introScreens/css/styles.css" media= "screen">
-      <link rel="stylesheet" href="../introScreens/bootstrap/css/bootstrap.css" media= "screen">
+      
+      
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
@@ -15,131 +20,334 @@
     
     <!-- All Content Page -->
     <div id="myPageContent" class="container-fluid">
+
+      <section id="welcome">
+        <span class="icon icon-rocket"></span>
+        <div class="typing-container">
+          Hey Dexter!
+        </div>
+        
+          <p class = "fadeeffect">
+           Welcome.
+          </p>
+          <p class = "fadeeffect-2">
+            Dexter is an AI designed to make computer tasks more efficent
+            than ever before.  Combining keyboard, voice, and gesture technology, Dexter streamlines
+            communcation between you and your desktop creating an interactive, intelligent, and dyanmic assistant 
+            ready to assist you.
+          </p>
+        <a href="#page1">
+          <button class="btn btn-large-welcome btn-default"> Begin </button>
+        </a>
+    </section>
+
+    
+
       <section id="page1">
+        <span class="icon icon-info-circled"></span>
+          <h2 class = "page1H1">Name</h2>
+
+        <p class = "page1Desc">Things with Dexter work best if there's an easy way to refer to you. 
+          Dexter will only use your name when communicating back to you through voice (?).
+          <br>Please input name.
+        </p>
           <form>
             <div class="form-group-photon">
-              <p>Hey, what's your name?</p>
-              <input type="Name" class="form-control-photon" placeholder="name">
+            <input type="Name" class="form-control-photon-page1" placeholder="Name">
             </div>
           </form>
         <a href="#page2">
-          <button class="btn btn-large btn-default">Next </button>
+          <button class="btn btn-large-page1 btn-default">Next </button>
         </a>
       </section>
 
       <section id="page2">
-        <form>
-          <div class="form-group-photon">
-            <p>Email</p>
-            <input type="Email" class="form-control-photon" placeholder="name">
-            <p>Password</p>
-            <input type="Password" class="form-control-photon" placeholder="name">
-            <p>Password Confirmation</p>
-            <input type="Password Confirmation" class="form-control-photon" placeholder="name">
-          </div>
-        </form>
+        <span class="icon icon-login"></span>
+          <h2 class = "page1H1">Account Creation</h2>
+
+        <p class = "page2desc">
+          Dexter is all about making your virtual assisant work for you. Account creation enables us to be able to save your preferences, 
+          scripts, voice commands, and gestures. 
+        </p>
+        <div class = "fillIn">
+          <form>
+            <div class="form-group-photon-page2">
+              <p class = "page2stuff">Email</p>
+              <input type="Email" class="form-control-photon-page2" placeholder="Email">
+              <p class = "page2stuff">Password</p>
+              <input type="Password" class="form-control-photon-page2" placeholder="Password">
+              <p class = "page2stuff">Password Confirmation</p>
+              <input type="Password Confirmation" class="form-control-photon-page2" placeholder="Confirm Password">
+            </div>
+          </form>
+        </div>
         <a href="#page3">
-          <button class="btn btn-large btn-default">Next </button>
-        </a>
-        <a href="#page1">
-          <button class="btn btn-large btn-default">Back </button>
+          <button class="btn btn-large-page2 btn-default">Next </button>
         </a>
       </section>
 
       <section id="page3">
-        <p>Dexter Info: Hi! I'm Dexter, your _______ capable of helping with ______. Dexter works
-          by listening for your voice to help control your desktop. 
-
-          Do you want to enable Dexter? (Toggle eventually)
-        </p>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox"> Enable
-          </label>
+        <span class="icon icon-compass"></span>
+          <h2 class = "page1H1">Voice and Gesture</h2>
+        <p class = "page3desc">Dexter uses both Voice and Gesture technology.  </p>
+        <div class = "voiceSection">
+          <h2 class = "voiceTitle">
+            Voice
+          </h2>
+          <p class = "voiceStuff">
+            Voice works by enabling your microphone and listening to your commands.
+              <div class="checkbox-voice">
+                <label>
+                  <input type="checkbox"> Enable Voice
+                </label>
+              </div>
+          </p>
         </div>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox"> Disable
-          </label>
+        <div class = "gestureSection">
+          <h2 class = "gestureTitle">
+              Gesture
+          </h2>
+          <p class = "gestureStuff">
+            
+              Gesture works by enabling your camera and reading your hand movements. 
+              <div class="checkbox-gesture">
+                <label>
+                  <input type="checkbox"> Enable Gesture
+                </label>
+              </div>
+           </p>
         </div>
-        <a href="#page4">
-          <button class="btn btn-large btn-default">Next </button>
+        <a href="#diff">
+          <button class="btn btn-large-page3 btn-default">Next </button>
         </a>
-        <a href="#page2">
-          <button class="btn btn-large btn-default">Back </button>
+      
+      </section>
+
+
+      
+      <section id="diff">
+        <span class="icon icon-info-circled"></span>
+          <h2 class = "page1H1">The Difference with Dexter</h2>
+        <p class = "diffpara">
+          Virtual assisants are not a new concept, so what's so special about Dexter? 
+          Dexter offers features that other virtual assistants do not. Compared with 
+          competetors, Dexter offers:
+        </p>
+        <table class="table-diff-striped">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Siri</th>
+              <th>Cortana</th>
+              <th>Google Assistant</th>
+              <th>Dexter</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Gesture</td>
+              <td>
+                <span class="icon icon-cancel"></span>
+              </td>
+              <td>
+                <span class="icon icon-cancel"></span>
+              </td>
+              <td>
+                <span class="icon icon-cancel"></span>
+              </td>
+              <td>
+                <span class="icon icon-check"></span>
+              </td>
+            </tr>
+  
+            <tr>
+              <td>Voice</td>
+              <td>
+                <span class="icon icon-cancel"></span>
+              </td>
+              <td>
+                <span class="icon icon-cancel"></span>
+              </td>
+              <td>
+                <span class="icon icon-cancel"></span>
+              </td>
+              <td>
+                <span class="icon icon-check"></span>
+              </td>
+            </tr>
+  
+            <tr>
+              <td>Text</td>
+              <td>
+                <span class="icon icon-cancel"></span>
+              </td>
+              <td>
+                <span class="icon icon-cancel"></span>
+              </td>
+              <td>
+                <span class="icon icon-cancel"></span>
+              </td>
+              <td>
+                <span class="icon icon-check"></span>
+              </td>
+            </tr>
+  
+            <tr>
+              <td>Macro</td>
+              <td>
+                <span class="icon icon-cancel"></span>
+              </td>
+              <td>
+                <span class="icon icon-cancel"></span>
+              </td>
+              <td>
+                <span class="icon icon-cancel"></span>
+              </td>
+              <td>
+                <span class="icon icon-check"></span>
+              </td>
+            </tr>
+  
+            <tr>
+              <td>Scripts</td>
+              <td>
+                <span class="icon icon-cancel"></span>
+              </td>
+              <td>
+                <span class="icon icon-cancel"></span>
+              </td>
+              <td>
+                <span class="icon icon-cancel"></span>
+              </td>
+              <td>
+                <span class="icon icon-check"></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+  
+        <a href="#welcome">
+          <button class="btn btn-large btn-default"> Submit </button>
         </a>
       </section>
 
       <section id="page4">
-        <p>Gesture Controls: Gesture controls are another way you can interact with your Desktop. We use your camera and _______
-          technology to capture the motion of your hand and interpret as different commands. 
-          Would you like to enable Gesture Recongintion? (Toggle eventually)
-        </p>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox"> Enable
-          </label>
-        </div>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox"> Disable
-          </label>
-        </div>
-        <a href="#page5">
-          <button class="btn btn-large btn-default">Next </button>
-        </a>
-        <a href="#page3">
-          <button class="btn btn-large btn-default">Back </button>
-        </a>
-      </section>
-
-      <section id="page5">
-        <p>Voice Controls: Voice controls are another way you can interact with your Desktop. We use your microphone and _______
-          technology to interpret the sound of your voice as different commands. 
-          Would you like to enable Voice Recongintion? (Toggle eventually)
-        </p>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox"> Enable
-          </label>
-        </div>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox"> Disable
-          </label>
-        </div>
-        <a href="#page6">
-          <button class="btn btn-large btn-default">Next </button>
-        </a>
-        <a href="#page4">
-        <button class="btn btn-large btn-default">Back </button>
-        </a>
-      </section>
-
-      <section id="page6">
-        <p>Launch Dexter on Start-up?
-        </p>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox"> Enable
-          </label>
-        </div>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox"> Disable
-          </label>
-        </div>
+        <p>Launch Dexter on Start-up?</p>
+        
+          <form>
+            <div class="radio">
+              <label>
+                <input type="radio" name="radios" checked>
+                Launch Dexter on Startup
+              </label>
+              <label>
+                <input type="radio" name="radios" checked>
+                Do not launch Dexter on Startup
+              </label>
+            </div>
+          </form>      
+        
+      
+        <form>
+          <div class="radio">
+            <label>
+              <input type="radio" name="radios" checked>
+              Launch Voice on Startup
+            </label>
+            <label>
+              <input type="radio" name="radios" checked>
+              Do not launch Voice on Startup
+            </label>
+          </div>
+        </form>
+      
+        <form>
+          <div class="radio 3">
+            <label>
+              <input type="radio" name="radios" checked>
+              Launch Gesture on Startup
+            </label>
+            <label>
+              <input type="radio" name="radios" checked>
+              Do not Gesture on Startup
+            </label>
+          </div>
+        </form>
+      
+        <form>
+          <div class="radio 4">
+            <label>
+              <input type="radio" name="radios" checked>
+              Launch Dashboard on Startup
+            </label>
+            <label>
+              <input type="radio" name="radios" checked>
+              Do not launch Dashboard on Startup
+            </label>
+          </div>
+        </form>
+      
+        <form>
+          <div class="form-group">
+            <label>Operating System</label>
+            <input type="email" class="form-control" placeholder="Operating System">
+          </div>
+        </form>
+          
+        <form>
+          <div class="form-group">
+            <label>System Memory</label>
+            <input type="email" class="form-control" placeholder="Operating System">
+          </div>
+        </form>
+      
+        <form>
+          <div class="form-group">
+            <label>System Graphics</label>
+            <input type="email" class="form-control" placeholder="Operating System">
+          </div>
+        </form>
+      
+        <form>
+          <div class="form-group">
+            <label>Primary Display Resolution</label>
+            <input type="email" class="form-control" placeholder="Operating System">
+          </div>
+        </form>
+      
+        <form>
+          <div class="form-group">
+            <label>Audio Input Device</label>
+            <input type="email" class="form-control" placeholder="Operating System">
+          </div>
+        </form>
+      
+        <form>
+          <div class="form-group">
+            <label>Audio Output Device</label>
+            <input type="email" class="form-control" placeholder="Operating System">
+          </div>
+        </form>
+      
+        <form>
+          <div class="form-group">
+            <label>System Language</label>
+            <input type="email" class="form-control" placeholder="Operating System">
+          </div>
+        </form>
+        
         <a href="#page1">
           <button class="btn btn-large btn-default">Top</button>
         </a>
         <button class="btn btn-large btn-default">Submit </button>
       </section>
+
     </div>
+
+    
 
   
     
   </body>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  
 </html>
