@@ -108,8 +108,10 @@ class HandDetection():
         self.old_gesture = None
         self.old_tracker = None
         self.last_function_time = 0
+        self.last_frame_time = 0
         self.shortdelay = 0.2 # in seconds
-        self.longdelay = 1.5 # in seconds
+        self.longdelay = 1.0 # in seconds
+        self.waitToEraseDataDelay = 0.1 # in seconds
         self.isChanging = False
 
         self.mapping = {
@@ -274,7 +276,7 @@ class HandDetection():
                     # execute function after long delay
                     # print("changing to false")
                     # print( (self.last_function_time + self.longdelay) < time.time())
-                    if ( (self.last_function_time + self.longdelay) < time.time()):
+                    if ( (self.last_function_time + self.longdelay) < time.time() and self.old_tracker != None):
                         # print(self.gesture_labels[self.old_gesture],self.gesture_labels[new_prediction])
                         record = self.df.loc[(self.df["starting position"] == self.gesture_labels[self.old_tracker]) & ((self.df["ending position"] == self.gesture_labels[new_prediction]) | (self.df["ending position"] == "any"))]
                         if (len(record) > 0):
@@ -321,6 +323,7 @@ class HandDetection():
                         # print(current_predict_motion, self.gesture_labels[new_prediction])
 
                 current_predict_gesture = self.gesture_labels[new_prediction]
+                self.last_frame_time = time.time()
 
 
                 # if (len(self.point_history) == 4):
@@ -329,12 +332,13 @@ class HandDetection():
                 #     current_predict_motion = self.motion_labels[Counter(self.motion_history).most_common()[0][0]]
             else:
                 # print("lost hand")
+                # self.hand_exit = True
+                if (self.last_frame_time + self.waitToEraseDataDelay > time.time()):
+                    self.old_gesture = None
+                    self.old_tracker = None
+                    self.last_function_time = time.time()
                 current_predict_gesture = "no hand detected"
                 current_predict_motion = "no hand detected"
-                self.old_gesture = None
-                self.old_tracker = None
-                self.hand_exit = True
-                self.last_function_time = time.time()
 
             # Move Mouse
             # if (len(gesture_cords) > 0):
@@ -396,7 +400,6 @@ class HandDetection():
 
             # Display Image
             cv.putText(debug_image, "fps: " + str(int(fps)), (10, 700), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # bot left
-
             cv.putText(debug_image, "Predicted Gesture: " + current_predict_gesture, (10, 30), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
             cv.putText(debug_image, "Record Gesture: " + self.gesture_labels[self.current_gesture_to_record], (10, 90), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
 
