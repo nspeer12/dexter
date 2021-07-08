@@ -43,10 +43,25 @@ function postUpdatedGestures() {
     xhttp.send(JSON.stringify(gestureSettings));
 }
 
-function getCustomGestures() {
+function getGestures() {
 
-    //TODO: Turn this into API call to main application to get custom gesture data
-    // Load this from a file
+    
+    var xhr = new XMLHttpRequest();
+    var url = 'http://localhost:8000/get-gestures';
+    xhr.open("GET", url);
+    xhr.send();
+
+    var gestureDataJson;
+
+    xhr.onreadystatechange=(e)=>{
+        console.log(xhr.responseText);
+        gestureDataJson = JSON.parse(xhr.responseText);
+        userGestures = gestureDataJson['settings'];
+    }
+
+    console.log(gestureDataJson);
+    
+    /*
     let gestureDataJson = `[
         {"starting_position" : "pointer", "ending_position" : "close", "motion": "none", "name": "lower index", "action": "macro", "default_action_name":"Left Click", "macro":"Alt+F4", "path": ""},
         {"starting_position" : "bunny ears", "ending_position" : "close", "motion": "none", "name": "lower index and middle", "action": "script", "default_action_name":"Right Click", "macro":"", "path": "C:/script.py"},
@@ -72,8 +87,8 @@ function getCustomGestures() {
         {"starting_position" : "none", "ending_position" : "thumbs up", "motion": "right", "name": "Sliding right Thumbs up", "action": "default_action", "default_action_name":"Unmute", "macro":"", "path": ""},
         {"starting_position" : "none", "ending_position" : "thumbs down", "motion": "left", "name": "Sliding left Thumbs down", "action": "default_action", "default_action_name":"Mute", "macro":"", "path": ""},
         {"starting_position" : "none", "ending_position" : "thumbs down", "motion": "right", "name": "Sliding right Thumbs down", "action": "default_action", "default_action_name":"Mute", "macro":"", "path": ""}]`
+        */
 
-    userGestures = JSON.parse(gestureDataJson);
 }
 
 function generateActionRow(gesture) {
@@ -211,7 +226,7 @@ function getScriptPath(event)
 
 window.addEventListener('DOMContentLoaded', () => {
 
-    getCustomGestures();
+    getGestures();
     populateGesturesTable();
 
     $(".function-list").on("change", (event) => {
