@@ -18,6 +18,7 @@ from gesture.skills import *
 #import win32api, win32con
 import pyautogui
 import threading
+import json
 
 from .model.gesture.gestureModel import NeuralNetG
 # from model.motion.motionModel import NeuralNetM
@@ -76,7 +77,10 @@ class HandDetection():
 
     def loadGestureSettings(self):
         print('loading settings')
-        self.df = pd.read_json(path.join(self.dir_name, 'csv/gestureSettings.json'),orient="records")
+
+        with open(path.join(self.dir_name, 'csv/gestureSettings.json')) as f:
+            self.settings_json = json.load(f)['settings']
+            self.df = pd.DataFrame(self.settings_json)
 
     def __init__(self):
         # Camera Params
