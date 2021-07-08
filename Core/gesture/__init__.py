@@ -18,11 +18,9 @@ from gesture.skills import *
 #import win32api, win32con
 import pyautogui
 import threading
+import json
 
-# gotta back that shit up for imports to work
-sys.path.append("..")
-
-from gesture.model.gesture.gestureModel import NeuralNetG
+from .model.gesture.gestureModel import NeuralNetG
 # from model.motion.motionModel import NeuralNetM
 
 
@@ -84,7 +82,11 @@ class HandDetection():
         print("got camera")
 
     def loadGestureSettings(self):
-        self.df = pd.read_json(path.join(self.dir_name, 'csv/gestureSettings.json'),orient="records")
+        print('loading settings')
+
+        with open(path.join(self.dir_name, 'csv/gestureSettings.json')) as f:
+            self.settings_json = json.load(f)['settings']
+            self.df = pd.DataFrame(self.settings_json)
 
     def __init__(self):
         # Camera Params
@@ -334,8 +336,8 @@ class HandDetection():
                     if (len(record) > 0):
                         # print(record.iloc[0]["name"],record.iloc[0]["default_action_name"])
                         if (record.iloc[0]["default_action_name"] == "Track"):
-                            self.xCord = min(self.xSize * gesture_cords[9][0], self.xSize)
-                            self.yCord = min(self.ySize * gesture_cords[0][1], self.ySize)
+                            self.xCord = max(min( ((self.xSize - 0) / (0.8-0.2))*(gesture_cords[0][0] - 0.8) + self.xSize , self.xSize),0)
+                            self.yCord = max(min( ((self.ySize - 0) / (0.8-0.3))*(gesture_cords[0][1] - 0.8) + self.ySize , self.ySize),0)
                             t1 = threading.Thread(target=self.mapping[record.iloc[0]["default_action_name"]])
                             t1.start()
                         else:
@@ -440,6 +442,8 @@ class HandDetection():
         self.cap.release()
         cv.destroyAllWindows()
 
+
+
 def launch_gesture():
-    gest = HandDetection() 
-    gest.loop()
+    gesture = HandDetection()
+    gesture.loop()

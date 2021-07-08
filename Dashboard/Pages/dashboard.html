@@ -27,8 +27,7 @@
                 <p id="settings_button" class="caption" style="font-size: 20px">Settings</p>
             </span>
             <br>
-            <p class="title">Performance</p>
-            <div class="hline title_underline"></div>
+            <div class="hline" style="height:2rem;"></div>
             <span class="menuitem entypo-gauge" style="font-size: 30px; margin-left: 10px">
                 <p id="cpu" class="caption" style="font-size: 20px">CPU: -</p>
             </span>
@@ -40,9 +39,8 @@
             </span>
             <br>
             <span class="menuitem entypo-chart-pie" style="font-size: 30px; margin-left: 10px">
-                <p id="storage" class="caption" style="font-size: 20px">Space: -</p>
+                <p id="gpu" class="caption" style="font-size: 20px">GPU: -</p>
             </span>
-            <p class="title">Shortcuts</p>
             <div>
                 <button class="menuitem">
                     <span class="entypo-right-open" onclick="controlDexter(dexCmd)"/>
@@ -53,7 +51,7 @@
                     <p class="caption" id="startStopGestureButton">Start Gesture</p>
                 </button>
             </div>
-            <div class="hline title_underline"></div>
+            <div class="hline" style="height:5rem;"></div>
             <div class="menu">
                 <button class="menuitem">
                     <span class="entypo-right-open"/>
@@ -90,8 +88,7 @@
         <div id="debugconsole">
             <textarea id="console" readonly></textarea>
             <div id="consoleBottom">
-                <textarea id="consoleInput" placeholder="Enter a voice command">
-                </textarea >
+                <textarea id="consoleInput" placeholder="Enter a voice command"></textarea >
                 <span class="menuitem entypo-paper-plane" id="consolebutton"></span>
             </div>
         </div>

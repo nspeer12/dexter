@@ -1,13 +1,15 @@
 import time
-import threading
+from threading import *
 import multiprocessing
+from multiprocessing import Process, Manager
+from multiprocessing.managers import BaseManager
 import time
 from fastapi import FastAPI, Request, Response
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
-from gesture import launch_gesture
-from assistant import launch_dexter
+from gesture import HandDetection, launch_gesture
+from assistant import Dexter, launch_dexter
 import requests
 import json
 import os
@@ -16,20 +18,28 @@ from typing import Optional
 
 app = FastAPI()
 
+#manager = BaseManager()
+#namespace = manager.Namespace()
+#namespace.dexter = Dexter()
+#namespace.gesture = HandDetection()
 
 settings = load_settings()
 
 
-dex = None
-if settings.dexter_on_startup:
-	dex = multiprocessing.Process(target=launch_dexter)
-	dex.start()
 
-gest = None
+
+
+# gesture process
+gestp = None
 if settings.gesture_on_startup:
-	gest = multiprocessing.Process(target=launch_gesture)
-	gest.start()
+	gestp = multiprocessing.Process(target=launch_gesture)
+	gestp.start()
 
+#dexter process
+dexp = None
+if settings.dexter_on_startup:
+	dexp = multiprocessing.Process(target=launch_dexter)
+	dexp.start()
 
 
 @app.post('/settings/')
@@ -44,11 +54,30 @@ async def settings_update(r: GeneralSettings):
 async def voice_settings():
 	return ''
 
+
 @app.post('/gesture-settings/')
 async def gesture_settings(r:GestureSettingList):
 	print('updating gesture settings')
 	write_gesture_settings(r)
+
+	#TODO: reload settings
+
 	return Response(content=json.dumps({"message":"gesture settings accepted"}))
+
+
+@app.get('/get-gestures/')
+async def get_gestures():
+	print(os.getcwd())
+	intent_path = os.path.join(os.getcwd(), 'gesture/csv/gestureSettings.json')
+
+	if os.path.exists(intent_path):
+		f = open(intent_path)
+		data = json.load(f)
+		print(data)
+		
+		f.close()
+		res = jsonable_encoder(json.dumps({"test":"hi"}))
+		return JSONResponse(content=res, media_type="application/json")
 
 
 @app.get('/get-intents/')
@@ -88,13 +117,13 @@ async def start_stop_dexter(cmd=None):
 	print(cmd)
 
 	if cmd == 'start':
-		global dex
-		dex = multiprocessing.Process(target=launch_dexter)
-		dex.start()
+		global dexp
+		dexp = multiprocessing.Process(target=launch_dexter)
+		dexp.start()
 		return 'dexter started'
 
-	elif cmd == 'stop' and dex is not None:
-		dex.terminate()
+	elif cmd == 'stop' and dexp is not None:
+		dexp.terminate()
 		return 'dexter stopped'
 
 	return 'cmd not recieved'
@@ -104,38 +133,28 @@ async def start_stop_dexter(cmd=None):
 async def start_stop_dexter(cmd=None):
 	print(cmd)
 	
-	global gest
-	
+	global gestp
+
 	if cmd == 'start':
 		
-		if gest is None:
-			gest = multiprocessing.Process(target=launch_gesture)
-			gest.start()
+		if gestp is None:
+			gestp = multiprocessing.Process(target=launch_gesture)
+			gestp.start()
+
 			print('gesture started')
-			return 'gesture started'
+			return
 		else:
 			print('gesture already started')
-			return 'gesture already started'
-	elif cmd == 'stop' and gest is not None:
-		gest.terminate()
-		gest = None
-		print('gesture stopped')
-		return 'gesture stopped'
+			return
+
+	elif cmd == 'stop':
+		if gestp is not None:
+			gestp.terminate()
+			gestp = None
+			print('gesture stopped')
+		else:
+			print('gesture not started')
+		return
 
 	return 'cmd not recieved'
-
-
-
-@app.post('/stop-gesture')
-async def stop_gesture():
-	'''
-	global gest
-	if gest is not None:
-		
-		return 'gesture stopped'
-	else:
-		'''
-	return 'gesture not started'
-
-
 
