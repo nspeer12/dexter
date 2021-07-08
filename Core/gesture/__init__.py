@@ -66,6 +66,11 @@ pyautogui.PAUSE = 0.01
 
 class HandDetection():
 
+    def track(self):
+        # print("inside tracking function")
+        # print(self.xCord,self.yCord)
+        pyautogui.moveTo(self.xCord,self.yCord)
+
     def macro(self):
         pyautogui.press(self.macroString)
 
@@ -114,6 +119,9 @@ class HandDetection():
         self.longdelay = 1.5 # in seconds
         self.waitToEraseDataDelay = 0.3 # in seconds
         self.isChanging = False
+        self.xSize, self.ySize = pyautogui.size()
+        self.xCord = 0
+        self.yCord = 0
 
         self.mapping = {
             "Left Click" : leftClick,
@@ -137,7 +145,8 @@ class HandDetection():
             "Increase Volume" : increaseVolume,
             "Decrease Volume" : decreaseVolume,
             "Unmute" : unmute,
-            "Mute" : mute
+            "Mute" : mute,
+            "Track": self.track
         }
         t1 = threading.Thread(target=self.getCamera)
         t1.start()
@@ -319,19 +328,22 @@ class HandDetection():
                         self.old_tracker = self.old_gesture
                         self.short_delay_time = time.time()
 
-
-                elif ((current_predict_motion != "no motion") and (current_predict_motion != "no hand detected")): # detecting change in motion
-                    if ( (self.last_function_time + self.longdelay) < time.time() ):
-                        self.last_function_time = time.time()
-                        record = self.df.loc[(self.df["ending_position"] == self.gesture_labels[new_prediction]) & (self.df["motion"] == current_predict_motion)]
-                        # print(gesture_name)
-                        if (len(record) > 0):
-                            print(record.iloc[0]["name"],record.iloc[0]["default_action_name"])
+                # detecting change in motion
+                elif ( (self.last_function_time + self.longdelay) < time.time() ):
+                    record = self.df.loc[(self.df["ending_position"] == self.gesture_labels[new_prediction]) & ((self.df["motion"] == current_predict_motion) | (self.df["motion"] == "any"))]
+                    if (len(record) > 0):
+                        # print(record.iloc[0]["name"],record.iloc[0]["default_action_name"])
+                        if (record.iloc[0]["default_action_name"] == "Track"):
+                            self.xCord = min(self.xSize * gesture_cords[9][0], self.xSize)
+                            self.yCord = min(self.ySize * gesture_cords[0][1], self.ySize)
+                            t1 = threading.Thread(target=self.mapping[record.iloc[0]["default_action_name"]])
+                            t1.start()
+                        else:
                             t1 = threading.Thread(target=self.mapping[record.iloc[0]["default_action_name"]])
                             t1.start()
                             self.last_function_time = time.time()
-                            # print(threading.active_count())
-                        # print(current_predict_motion, self.gesture_labels[new_prediction])
+                        # print(threading.active_count())
+                    # print(current_predict_motion, self.gesture_labels[new_prediction])
 
                 current_predict_gesture = self.gesture_labels[new_prediction]
                 self.last_frame_time = time.time()

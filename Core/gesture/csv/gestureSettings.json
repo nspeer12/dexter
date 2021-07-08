@@ -238,5 +238,15 @@
         "name": "Sliding right Thumbs down",
         "path": "",
         "starting_position": "none"
+    },
+    {
+        "action": "default_action",
+        "default_action_name": "Track",
+        "ending_position": "pointer",
+        "macro": "",
+        "motion": "any",
+        "name": "Pointer",
+        "path": "",
+        "starting_position": "none"
     }
 ]
