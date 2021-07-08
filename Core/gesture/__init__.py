@@ -292,7 +292,6 @@ class HandDetection():
                                 self.macroString = self.macroString.split(" + ")
                                 t1 = threading.Thread(target=self.macro)
                                 t1.start()
-
                             elif (record.iloc[0]["action"] == "script"):
                                 print("script",record.iloc[0]["path"])
                             self.last_function_time = time.time()
