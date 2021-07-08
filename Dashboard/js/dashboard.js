@@ -1,6 +1,11 @@
 const { BrowserWindow } = require('electron');
 var os = require('os');
 
+const si = require('systeminformation');
+var percentageMem;
+var percentageGPU;
+var percentageCPU;
+
 var anim;
 var barNumber = 27;
 
@@ -169,7 +174,20 @@ function clock() {
     document.getElementById("time_month").innerHTML = months[d.getMonth()]
 }
 
+
+
+
 function diagnostics() {
+
+    si.cpu(function(data) {
+        percentageMem = data.speed;
+        console.log(data[0].speed);
+    })
+
+    si.graphics(function(data) {
+            percentageGPU = data.controllers[0].utilizationGpu;
+        })
+
     var tempPoll = cpuAverage();
 
     var idleDifference = tempPoll.idle - lastAverage.idle;
@@ -180,8 +198,12 @@ function diagnostics() {
     //Calculate the average percentage CPU usage
     var percentageCPU = 100 - ~~(100 * idleDifference / totalDifference);
 
+    //var percentageMem = Math.round(100 - ((os.freemem() / os.totalmem()) * 100))
+
+
     document.getElementById("cpu").innerText = "CPU: " + percentageCPU + "%";
-    document.getElementById("ram").innerText = "Memory: " + Math.round(os.freemem() / (1000000)) + " MB";
+    document.getElementById("ram").innerText = "Memory: " + percentageMem + " %";
+    document.getElementById("gpu").innerText = "GPU: " + percentageGPU + " %";
 }
 
 window.addEventListener('load', (event) =>{

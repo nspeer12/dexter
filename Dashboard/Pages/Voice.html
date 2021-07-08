@@ -5,83 +5,86 @@
         <!-- Stylesheets -->
         <link rel="stylesheet" href="../css/photon.min.css">
         <link rel="stylesheet" href="../css/voice.css">
+        <script src="../js/voice.js" charset="utf-8"></script>
     </head>
-    <form>
-        <div>
+    <body>
+        <form>
+            <div>
 
-            <button onclick="getIntents();">Get intents</button>
-            <button onclick="trainModel();">Train Model</button>
-            
-            <section id="introduction">
-                <span>
-                    <h2 style="text-align:center">Voice Assistant</h2>
-                    <p>Teach Dexter new skills and enable him to do anything on your computer.</p>
-                </span>
-            </section>
+                <button onclick="getIntents();">Get intents</button>
+                <button onclick="trainModel();">Train Model</button>
+                
+                <section id="introduction">
+                    <span>
+                        <h2 style="text-align:center">Voice Assistant</h2>
+                        <p>Teach Dexter new skills and enable him to do anything on your computer.</p>
+                    </span>
+                </section>
 
-            <section id="Custom Skills">
-                <h2>Custom Skills</h2>
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <div class="media-body">
-                            <strong>Minecraft</strong>
-                            <p>"Launch Minecraft"</p>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="media-body">
-                            <strong>Reddit</strong>
-                            <p>"Go to Reddit"</p>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="media-body">
-                            <strong>Do the Thing</strong>
-                            <p>"Hey Dexter, do the thing"</p>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <button onclick="window.location.href='AddSkill.html'" class="btn btn-primary" href="AddVoice.html">
-                            <span>Add Skill</span>
-                        </button>
-                    </li>
-                </ul>
-            </section>
-            <section id="Default Skills">
-                <h2>Default Skills</h2>
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <div class="media-body">
-                            <strong>Time</strong>
-                            <p>"Hey Dexter, what's the time?"</p>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="media-body">
-                            <strong>Weather</strong>
-                            <p>"Hey Dexter, is it going to rain today?"</p>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="media-body">
-                            <strong>Alarm</strong>
-                            <p>"Hey Dexter, set an alarm for 1:30pm"</p>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="media-body">
-                            <strong>Timer</strong>
-                            <p>"Hey Dexter, set a timer for 15 minutes"</p>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="media-body">
-                            <strong>Weather</strong>
-                            <p>"Hey Dexter, is it going to rain today?"</p>
-                        </div>
-                    </li>
-                </ul>
-            </section>
-        </div>
-    </form>
+                <section id="Custom Skills">
+                    <h2>Custom Skills</h2>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="media-body">
+                                <strong>Minecraft</strong>
+                                <p>"Launch Minecraft"</p>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="media-body">
+                                <strong>Reddit</strong>
+                                <p>"Go to Reddit"</p>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="media-body">
+                                <strong>Do the Thing</strong>
+                                <p>"Hey Dexter, do the thing"</p>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <button id="addSkill" class="btn">
+                                <span>Add Skill</span>
+                            </button>
+                        </li>
+                    </ul>
+                </section>
+                <section id="Default Skills">
+                    <h2>Default Skills</h2>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="media-body">
+                                <strong>Time</strong>
+                                <p>"Hey Dexter, what's the time?"</p>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="media-body">
+                                <strong>Weather</strong>
+                                <p>"Hey Dexter, is it going to rain today?"</p>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="media-body">
+                                <strong>Alarm</strong>
+                                <p>"Hey Dexter, set an alarm for 1:30pm"</p>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="media-body">
+                                <strong>Timer</strong>
+                                <p>"Hey Dexter, set a timer for 15 minutes"</p>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="media-body">
+                                <strong>Weather</strong>
+                                <p>"Hey Dexter, is it going to rain today?"</p>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+        </form>
+    </body>
 </html>
