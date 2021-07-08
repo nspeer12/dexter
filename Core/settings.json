@@ -1,10 +1,6 @@
 {
-    "core_host": "127.0.0.1",
-    "core_port": 4242,
-    "dashboard_host": "127.0.0.1",
-    "dashboard_port": 4444,
-    "gesture_on_startup": true,
-    "launch_on_startup": true,
-    "name": "string",
-    "dexter_on_startup": true
+    "dexter_on_startup": false,
+    "gesture_on_startup": false,
+    "input_device": 0,
+    "output_device": 4
 }

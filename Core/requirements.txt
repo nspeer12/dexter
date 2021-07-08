@@ -71,3 +71,4 @@ uvicorn
 PyAudio
 fastapi
 pydantic
+simpleaudio==1.0.4

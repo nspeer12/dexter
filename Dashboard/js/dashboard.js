@@ -34,7 +34,8 @@ onchange = function(stream) {
 
         for (var i = 0; i < marks.length; ++i) {
             intensity += dataArray[i]
-            marks[i].style.transform = "rotate(" + (i*6) + "deg) translateY(" +  scale(dataArray[i], 0, 255, 130, 200) + "px)"
+            marks[i].style.transform = "rotate(" + (i*6) + "deg)" + "translateY(" +  scale((dataArray[i] * 1.5 + dataArray[marks.length - i]) / 2, 1, 250, 150, 225) + "px) scaleY(" + ((dataArray[i] * 1.5 + dataArray[marks.length - i]) * 0.025) + ")";
+        
         }
 
         intensity /= marks.length
@@ -106,26 +107,17 @@ function controlGesture(data)
     if (gestCmd == 'start')
     {
         gestCmd = 'stop';
-        document.getElementById('startStopGestureButton').innerHTML = 'Stop Gesture Control';
+        document.getElementById('startStopGestureButton').innerHTML = 'Stop Gesture';
     }
     else if (gestCmd == 'stop')
     {
         gestCmd = 'start';
-        document.getElementById('startStopGestureButton').innerHTML = 'Start Gesture Control';
+        document.getElementById('startStopGestureButton').innerHTML = 'Start Gesture';
     }
 }
 
 
-function trainModel()
-{
-    var xhr = new XMLHttpRequest();
-    var url = 'http://localhost:8000/train-assistant';
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify({
-        data: data,
-    }));
-}
+
 
 
 setInterval(function() {

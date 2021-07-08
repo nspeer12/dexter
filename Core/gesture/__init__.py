@@ -64,22 +64,30 @@ pyautogui.PAUSE = 0.01
 #     else:
 #         pyautogui.click()
 
-
 class HandDetection():
+
+    def macro(self):
+        pyautogui.press(self.macroString)
+
+    def getCamera(self):
+        # Load Camera
+        self.cap = cv.VideoCapture(self.cap_device)
+        # self.cap = cv.VideoCapture(self.cap_device,cv.CAP_DSHOW)
+        self.cap.set(cv.CAP_PROP_FPS,self.setFPS) 
+        self.cap.set(cv.CAP_PROP_FRAME_WIDTH, self.cap_width)
+        self.cap.set(cv.CAP_PROP_FRAME_HEIGHT, self.cap_height)
+        print("got camera")
+
+    def loadGestureSettings(self):
+        self.df = pd.read_json(path.join(self.dir_name, 'csv/gestureSettings.json'),orient="records")
+
     def __init__(self):
         # Camera Params
-        cap_device = 0
-        cap_width = 1280
-        cap_height = 720
+        self.cap_device = 0
+        self.cap_width = 1280
+        self.cap_height = 720
 
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        # self.mapping = {
-        #     "mouseDown" : mouseDown,
-        #     "mouseUp" : mouseUp,
-        #     "zoomIn" : zoomIn,
-        #     "zoomOut" : zoomOut,
-        #     "click" : click,
-        #     } 
 
         # Hand Model
         use_static_image_mode = False
@@ -89,7 +97,7 @@ class HandDetection():
         # FPS Time counter
         self.pTime = 0
         self.cTime = 0
-        setFPS = 30
+        self.setFPS = 30
 
         # Varaibles to keep track of points
         # self.point_history = deque(maxlen=4)
@@ -101,8 +109,10 @@ class HandDetection():
         self.old_gesture = None
         self.old_tracker = None
         self.last_function_time = 0
+        self.last_frame_time = 0
         self.shortdelay = 0.3 # in seconds
         self.longdelay = 1.5 # in seconds
+        self.waitToEraseDataDelay = 0.3 # in seconds
         self.isChanging = False
 
         self.mapping = {
@@ -129,14 +139,16 @@ class HandDetection():
             "Unmute" : unmute,
             "Mute" : mute
         }
+        t1 = threading.Thread(target=self.getCamera)
+        t1.start()
 
         # Define CSV paths
-        dir_name = path.dirname(__file__)
+        self.dir_name = path.dirname(__file__)
 
-        gesture_label_csv_path = path.join(dir_name, 'csv/gesture_label.csv')
-        self.gesture_csv_path = path.join(dir_name, 'csv/gesture.csv')
+        gesture_label_csv_path = path.join(self.dir_name, 'csv/gesture_label.csv')
+        self.gesture_csv_path = path.join(self.dir_name, 'csv/gesture.csv')
 
-        self.df = pd.read_json(path.join(dir_name, 'csv/gestureSettings.json'),orient="records")
+        self.loadGestureSettings()
         # print(self.df)
         # motion_label_csv_path = 'csv/motion_label.csv'
         # self.motion_csv_path = 'csv/motion.csv'
@@ -170,7 +182,7 @@ class HandDetection():
         print("loaded hand model")
 
         # Define Model Paths
-        GESTURE_PATH = path.join(dir_name, 'model/gesture/GestureModel.pth')
+        GESTURE_PATH = path.join(self.dir_name, 'model/gesture/GestureModel.pth')
 
         # MOTION_PATH = "model/motion/MotionModel.pth"
 
@@ -185,14 +197,8 @@ class HandDetection():
         # self.model2.load_state_dict(torch.load(MOTION_PATH))
         # self.model2.eval()
         # print("loaded motion model")
+        t1.join()
 
-        # Load Camera
-        self.cap = cv.VideoCapture(cap_device)
-        # self.cap = cv.VideoCapture(cap_device,cv.CAP_DSHOW)
-        self.cap.set(cv.CAP_PROP_FPS,setFPS) 
-        self.cap.set(cv.CAP_PROP_FRAME_WIDTH, cap_width)
-        self.cap.set(cv.CAP_PROP_FRAME_HEIGHT, cap_height)
-        print("got camera")
 
     def loop(self):
         while True:
@@ -266,52 +272,69 @@ class HandDetection():
                 self.gesture_history.append(torch.argmax(output))
                 new_prediction = Counter(self.gesture_history).most_common()[0][0]
 
-                if (self.old_gesture != new_prediction): # detecting change in gesture
 
+                if (self.isChanging == True and ((self.short_delay_time + self.shortdelay) < time.time())):
+                    # execute function after long delay
+                    # print("changing to false")
+                    # print( (self.last_function_time + self.longdelay) < time.time())
+                    if ( (self.last_function_time + self.longdelay) < time.time() and self.old_tracker != None):
+                        # print(self.gesture_labels[self.old_gesture],self.gesture_labels[new_prediction])
+                        record = self.df.loc[(self.df["starting_position"] == self.gesture_labels[self.old_tracker]) & ((self.df["ending_position"] == self.gesture_labels[new_prediction]) | (self.df["ending_position"] == "any"))]
+                        if (len(record) > 0):
+                            if (record.iloc[0]["action"] == "default_action"):
+                                print("default_action",record.iloc[0]["name"],record.iloc[0]["default_action_name"])
+                                # print(type(record.iloc[0]["default_action_name"]))
+                                t1 = threading.Thread(target=self.mapping[record.iloc[0]["default_action_name"]])
+                                t1.start()
+                            elif (record.iloc[0]["action"] == "macro"):
+                                print("macro",record.iloc[0]["macro"])
+                                self.macroString = record.iloc[0]["macro"]
+                                self.macroString = self.macroString.split(" + ")
+                                t1 = threading.Thread(target=self.macro)
+                                t1.start()
+                            elif (record.iloc[0]["action"] == "script"):
+                                print("script",record.iloc[0]["path"])
+                            self.last_function_time = time.time()
+                            # print(threading.active_count())
+                            # self.mapping[record.iloc[0]["default_action_name"]]()
+                        # function_to_be_executed = self.df.loc[(self.df["starting_position"] == self.gesture_labels[self.old_gesture]) & ((self.df["ending_position"] == self.gesture_labels[new_prediction]) | (self.df["ending_position"] == "any"))]["name"]
+                        # print(function_to_be_executed)
+                        # if (len(function_to_be_executed) > 0):
+                        #     function_to_be_executed = function_to_be_executed.iloc[0]
+                        #     print(function_to_be_executed)
+                            # if function_to_be_executed in self.mapping.keys():
+                                # self.mapping[function_to_be_executed]()
+                    self.isChanging = False
+                    self.old_tracker = self.old_gesture
+                    self.old_gesture = new_prediction
+                    if self.old_tracker == None:
+                        self.old_tracker = new_prediction
+
+                elif (self.old_gesture != new_prediction): # detecting change in gesture
+                    # print("enetered changing")
                     # wait a short delay before recording new gesture
                     if (self.isChanging == False):
+                        # print("changing to true")
                         self.isChanging = True
                         self.old_tracker = self.old_gesture
                         self.short_delay_time = time.time()
-                    elif (self.isChanging == True and ((self.short_delay_time + self.shortdelay) < time.time())):
-                        # execute function after long delay
-                        if ( (self.last_function_time + self.longdelay) < time.time()):
-                            # print(self.gesture_labels[self.old_gesture],self.gesture_labels[new_prediction])
-                            record = self.df.loc[(self.df["starting position"] == self.gesture_labels[self.old_tracker]) & ((self.df["ending position"] == self.gesture_labels[new_prediction]) | (self.df["ending position"] == "any"))]
-                            if (len(record) > 0):
-                                print(record.iloc[0]["name"],record.iloc[0]["pre-defined function name"])
-                                # print(type(record.iloc[0]["pre-defined function name"]))
-                                t1 = threading.Thread(target=self.mapping[record.iloc[0]["pre-defined function name"]])
-                                t1.start()
-                                # print(threading.active_count())
-                                # self.mapping[record.iloc[0]["pre-defined function name"]]()
-                            # function_to_be_executed = self.df.loc[(self.df["starting position"] == self.gesture_labels[self.old_gesture]) & ((self.df["ending position"] == self.gesture_labels[new_prediction]) | (self.df["ending position"] == "any"))]["name"]
-                            # print(function_to_be_executed)
-                            # if (len(function_to_be_executed) > 0):
-                            #     function_to_be_executed = function_to_be_executed.iloc[0]
-                            #     print(function_to_be_executed)
-                                # if function_to_be_executed in self.mapping.keys():
-                                    # self.mapping[function_to_be_executed]()
-                        self.isChanging = False
-                        self.old_tracker = self.old_gesture
-                        self.old_gesture = new_prediction
-                        if self.old_tracker == None:
-                            self.old_tracker = new_prediction
-                        self.last_function_time = time.time()
+
 
                 elif ((current_predict_motion != "no motion") and (current_predict_motion != "no hand detected")): # detecting change in motion
                     if ( (self.last_function_time + self.longdelay) < time.time() ):
                         self.last_function_time = time.time()
-                        record = self.df.loc[(self.df["ending position"] == self.gesture_labels[new_prediction]) & (self.df["motion"] == current_predict_motion)]
+                        record = self.df.loc[(self.df["ending_position"] == self.gesture_labels[new_prediction]) & (self.df["motion"] == current_predict_motion)]
                         # print(gesture_name)
                         if (len(record) > 0):
-                            print(record.iloc[0]["name"],record.iloc[0]["pre-defined function name"])
-                            t1 = threading.Thread(target=self.mapping[record.iloc[0]["pre-defined function name"]])
+                            print(record.iloc[0]["name"],record.iloc[0]["default_action_name"])
+                            t1 = threading.Thread(target=self.mapping[record.iloc[0]["default_action_name"]])
                             t1.start()
+                            self.last_function_time = time.time()
                             # print(threading.active_count())
                         # print(current_predict_motion, self.gesture_labels[new_prediction])
 
                 current_predict_gesture = self.gesture_labels[new_prediction]
+                self.last_frame_time = time.time()
 
 
                 # if (len(self.point_history) == 4):
@@ -319,12 +342,14 @@ class HandDetection():
                 #     self.motion_history.append(torch.argmax(output2))
                 #     current_predict_motion = self.motion_labels[Counter(self.motion_history).most_common()[0][0]]
             else:
+                # print("lost hand")
+                # self.hand_exit = True
+                if (self.last_frame_time + self.waitToEraseDataDelay < time.time()):
+                    self.old_gesture = None
+                    self.old_tracker = None
+                    self.last_function_time = time.time()
                 current_predict_gesture = "no hand detected"
                 current_predict_motion = "no hand detected"
-                self.old_gesture = None
-                self.old_tracker = None
-                self.hand_exit = True
-                self.last_function_time = time.time()
 
             # Move Mouse
             # if (len(gesture_cords) > 0):
@@ -386,7 +411,6 @@ class HandDetection():
 
             # Display Image
             cv.putText(debug_image, "fps: " + str(int(fps)), (10, 700), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # bot left
-
             cv.putText(debug_image, "Predicted Gesture: " + current_predict_gesture, (10, 30), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
             cv.putText(debug_image, "Record Gesture: " + self.gesture_labels[self.current_gesture_to_record], (10, 90), cv.FONT_HERSHEY_PLAIN, 1.5, (182, 236, 249), 2) # top left
 
