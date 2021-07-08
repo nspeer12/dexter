@@ -19,10 +19,7 @@ from gesture.skills import *
 import pyautogui
 import threading
 
-# gotta back that shit up for imports to work
-sys.path.append("..")
-
-from gesture.model.gesture.gestureModel import NeuralNetG
+from .model.gesture.gestureModel import NeuralNetG
 # from model.motion.motionModel import NeuralNetM
 
 
@@ -78,6 +75,7 @@ class HandDetection():
         print("got camera")
 
     def loadGestureSettings(self):
+        print('loading settings')
         self.df = pd.read_json(path.join(self.dir_name, 'csv/gestureSettings.json'),orient="records")
 
     def __init__(self):
@@ -417,6 +415,8 @@ class HandDetection():
         self.cap.release()
         cv.destroyAllWindows()
 
+
+
 def launch_gesture():
-    gest = HandDetection() 
-    gest.loop()
+    gesture = HandDetection()
+    gesture.loop()

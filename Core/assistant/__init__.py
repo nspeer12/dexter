@@ -20,7 +20,6 @@ import struct
 
 # need to move path back
 import sys
-sys.path.append("..")
 
 from assistant.skills import *
 from assistant.utils.intro import intro
@@ -149,9 +148,11 @@ class Dexter:
 
 		self.start_audio_stream()
 
+		listen = True
+
 		try:
 			
-			while True:
+			while listen:
 
 				pcm = self.audio_stream.read(self.porcupine.frame_length)
 				pcm = struct.unpack_from("h" * self.porcupine.frame_length, pcm)
@@ -253,9 +254,6 @@ class Dexter:
 			return res
 
 
-
-
-
 def launch_dexter():
-	dex = Dexter(debug=True)
-	dex.hotword()
+    dexter = Dexter(debug=True)
+    dexter.hotword()
