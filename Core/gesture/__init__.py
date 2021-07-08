@@ -62,14 +62,15 @@ pyautogui.PAUSE = 0.01
 #     else:
 #         pyautogui.click()
 
-
 class HandDetection():
 
+    def macro(self):
+        pyautogui.press(self.macroString)
 
     def getCamera(self):
         # Load Camera
         self.cap = cv.VideoCapture(self.cap_device)
-        # self.cap = cv.VideoCapture(cap_device,cv.CAP_DSHOW)
+        # self.cap = cv.VideoCapture(self.cap_device,cv.CAP_DSHOW)
         self.cap.set(cv.CAP_PROP_FPS,self.setFPS) 
         self.cap.set(cv.CAP_PROP_FRAME_WIDTH, self.cap_width)
         self.cap.set(cv.CAP_PROP_FRAME_HEIGHT, self.cap_height)
@@ -282,10 +283,19 @@ class HandDetection():
                         # print(self.gesture_labels[self.old_gesture],self.gesture_labels[new_prediction])
                         record = self.df.loc[(self.df["starting_position"] == self.gesture_labels[self.old_tracker]) & ((self.df["ending_position"] == self.gesture_labels[new_prediction]) | (self.df["ending_position"] == "any"))]
                         if (len(record) > 0):
-                            print(record.iloc[0]["name"],record.iloc[0]["default_action_name"])
-                            # print(type(record.iloc[0]["default_action_name"]))
-                            t1 = threading.Thread(target=self.mapping[record.iloc[0]["default_action_name"]])
-                            t1.start()
+                            if (record.iloc[0]["action"] == "default_action"):
+                                print("default_action",record.iloc[0]["name"],record.iloc[0]["default_action_name"])
+                                # print(type(record.iloc[0]["default_action_name"]))
+                                t1 = threading.Thread(target=self.mapping[record.iloc[0]["default_action_name"]])
+                                t1.start()
+                            elif (record.iloc[0]["action"] == "macro"):
+                                print("macro",record.iloc[0]["macro"])
+                                self.macroString = record.iloc[0]["macro"]
+                                self.macroString = self.macroString.split(" + ")
+                                t1 = threading.Thread(target=self.macro)
+                                t1.start()
+                            elif (record.iloc[0]["action"] == "script"):
+                                print("script",record.iloc[0]["path"])
                             self.last_function_time = time.time()
                             # print(threading.active_count())
                             # self.mapping[record.iloc[0]["default_action_name"]]()
@@ -321,6 +331,7 @@ class HandDetection():
                             print(record.iloc[0]["name"],record.iloc[0]["default_action_name"])
                             t1 = threading.Thread(target=self.mapping[record.iloc[0]["default_action_name"]])
                             t1.start()
+                            self.last_function_time = time.time()
                             # print(threading.active_count())
                         # print(current_predict_motion, self.gesture_labels[new_prediction])
 

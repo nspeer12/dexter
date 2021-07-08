@@ -44,24 +44,24 @@ function postUpdatedGestures() {
 }
 
 function getGestures() {
-
-    
+    /*
     var xhr = new XMLHttpRequest();
     var url = 'http://localhost:8000/get-gestures';
     xhr.open("GET", url);
     xhr.send();
 
     var gestureDataJson;
-
+  
     xhr.onreadystatechange=(e)=>{
         console.log(xhr.responseText);
         gestureDataJson = JSON.parse(xhr.responseText);
         userGestures = gestureDataJson['settings'];
     }
-
+    */
     console.log(gestureDataJson);
     
-    /*
+    
+
     let gestureDataJson = `[
         {"starting_position" : "pointer", "ending_position" : "close", "motion": "none", "name": "lower index", "action": "macro", "default_action_name":"Left Click", "macro":"Alt+F4", "path": ""},
         {"starting_position" : "bunny ears", "ending_position" : "close", "motion": "none", "name": "lower index and middle", "action": "script", "default_action_name":"Right Click", "macro":"", "path": "C:/script.py"},
@@ -87,8 +87,9 @@ function getGestures() {
         {"starting_position" : "none", "ending_position" : "thumbs up", "motion": "right", "name": "Sliding right Thumbs up", "action": "default_action", "default_action_name":"Unmute", "macro":"", "path": ""},
         {"starting_position" : "none", "ending_position" : "thumbs down", "motion": "left", "name": "Sliding left Thumbs down", "action": "default_action", "default_action_name":"Mute", "macro":"", "path": ""},
         {"starting_position" : "none", "ending_position" : "thumbs down", "motion": "right", "name": "Sliding right Thumbs down", "action": "default_action", "default_action_name":"Mute", "macro":"", "path": ""}]`
-        */
-
+       
+    userGestures = JSON.parse(gestureDataJson);
+    
 }
 
 function generateActionRow(gesture) {
@@ -145,16 +146,41 @@ function generateActionRow(gesture) {
 }
 
 var currentMacroRow;
-
+var macroPresses = [];
 
 const keyDownCallback = keyPressed.bind(this);
 const keyUpCallback = keyReleased.bind(this);
 
+function parseKey(key)
+{
+    key = key.toLowerCase()
+
+    if(key.includes("arrow"))
+        return key.replace("arrow", "")
+
+    if(key === "meta")
+        return "home";
+
+    if(key.includes("audio"))
+        return key.replace("audio", "")
+
+    return key
+}
+
 function keyReleased(event)
 {
-    window.removeEventListener("keydown", keyDownCallback);
-    window.removeEventListener("keyup", keyUpCallback);
+    let key = parseKey(event.key)
 
+    //The user has release the first key pressed so stop recording and post gestures
+    if(macroPresses.length != 0 && macroPresses[0] === key)
+    {
+        macroPresses.length = 0;
+        window.removeEventListener("keydown", keyDownCallback);
+        window.removeEventListener("keyup", keyUpCallback);
+        postUpdatedGestures();
+    }
+
+    //Update gesture with new keys
     let gestureName = currentMacroRow.cells[0].innerHTML;
     userGestures.forEach((gesture) => {
         if(gesture.name === gestureName) {
@@ -162,24 +188,32 @@ function keyReleased(event)
             gesture['macro'] = currentMacroRow.cells[2].innerHTML;
         }
     });
-
-    postUpdatedGestures();
 }
 
-function keyPressed(event){
+function keyPressed(event) {
 
+    //Prevent default actions like alt-tab
     event.preventDefault();  
 
+    let key = parseKey(event.key)
+
+    //Dont listen to repeat key events
+    if(event.repeat || macroPresses.includes(key)) 
+        return;
+
+    //Get the cell with the string value
     let macroCell = currentMacroRow.cells[2]
 
-    if(macroCell.innerHTML === "")
+    if(macroPresses.length === 0)
     {
-        macroCell.innerHTML += event.key; 
+        macroCell.innerHTML = key;
     }
     else
     {
-        macroCell.innerHTML += ' + ' + event.key; 
+        macroCell.innerHTML += " + " + key;
     }
+
+    macroPresses.push(key)
 }
 
 function startRecording(event)
@@ -189,6 +223,7 @@ function startRecording(event)
     let tr = td.parentElement;
     currentMacroRow = tr;
     tr.cells[2].innerHTML = "";
+    macroPresses.length = 0;
 
     window.addEventListener("keydown", keyDownCallback);
     window.addEventListener("keyup", keyUpCallback);
