@@ -204,14 +204,22 @@ function diagnostics() {
     document.getElementById("gpu").innerText = "GPU: " + percentageGPU + " %";
 }
 
-function consoleAPI(input) {
+async function consoleAPI(input) {
 
     let xhttp= new XMLHttpRequest();
-    var url = 'http://localhost:8000/api/?query=' + encodeURIComponent(input);
-    console.log(url)
-    xhttp.open('GET', url, false);
+    var url = new URL('http://127.0.0.1:8000/api/');
+    url.searchParams.set('query', input);
+    console.log(url);
+    xhttp.responseType = 'json';
+    xhttp.open("GET", url, true);
     xhttp.send();
-    return http.responseText;
+    xhttp.onload = function() {
+      let res = JSON.parse(xhttp.response);
+      console.log(res);
+      var cons = document.getElementById("console");
+      cons.value += "- " + res["data"]; + "\n";
+      
+    };
 }
 
 window.addEventListener('load', (event) =>{
@@ -227,10 +235,7 @@ window.addEventListener('load', (event) =>{
     
         cons.value += "> " + text + "\n";
 
-        var res = consoleAPI(text);
-        cons.log(res)
-
-        cons.value += "-" + res + "\n";
+        consoleAPI(text);
     };
 
     document.getElementById("settings_button").onclick=()=>{

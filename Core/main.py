@@ -16,7 +16,24 @@ import os
 from settings import *
 from typing import Optional
 
+
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 #manager = BaseManager()
 #namespace = manager.Namespace()
@@ -159,26 +176,23 @@ async def start_stop_dexter(cmd=None):
 	return 'cmd not recieved'
 
 
-class LocalQuery(BaseModel):
-	query: str
-
-
 dex_api= Dexter()
 
 @app.get('/api/')
-async def local_api(query:localQuery):
-	print(query)
-	return Response({"data":"hello"})
-	'''
+async def local_api(query:str):
+	
+	
+
 	try:
 
 		if query:
 			print(query)
-			res = dex.process_input(query)
+			res = dex_api.process_input(query)
 			print(res)
-			return res
+
+			response = jsonable_encoder(json.dumps({"data":res}))
+			return JSONResponse(content=response, media_type="application/json")
 		else:
 			return '400'
 	except Exception as ex:
 		return ex
-	'''
