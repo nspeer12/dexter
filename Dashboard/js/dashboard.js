@@ -123,8 +123,6 @@ function controlGesture(data)
 
 
 
-
-
 setInterval(function() {
     diagnostics();
   }, 2000);
@@ -206,16 +204,38 @@ function diagnostics() {
     document.getElementById("gpu").innerText = "GPU: " + percentageGPU + " %";
 }
 
+async function consoleAPI(input) {
+
+    let xhttp= new XMLHttpRequest();
+    var url = new URL('http://127.0.0.1:8000/api/');
+    url.searchParams.set('query', input);
+    console.log(url);
+    xhttp.responseType = 'json';
+    xhttp.open("GET", url, true);
+    xhttp.send();
+    xhttp.onload = function() {
+      let res = JSON.parse(xhttp.response);
+      console.log(res);
+      var cons = document.getElementById("console");
+      cons.value += "- " + res["data"]; + "\n";
+      
+    };
+}
+
 window.addEventListener('load', (event) =>{
 
     document.getElementById("consolebutton").onclick=()=>{
-        var console = document.getElementById("console")
-        var consoletext = document.getElementById("consoleInput")
+        var cons = document.getElementById("console");
+        var consoletext = document.getElementById("consoleInput");
+
+        
+        var text = consoletext.value;
+        console.log(text);
+        consoletext.value = "";
     
-        var text = consoletext.value
-        consoletext.value = ""
-    
-        console.value += "LOG> " + text + "\n"    
+        cons.value += "> " + text + "\n";
+
+        consoleAPI(text);
     };
 
     document.getElementById("settings_button").onclick=()=>{
@@ -237,3 +257,9 @@ window.addEventListener('load', (event) =>{
         require('electron').shell.openExternal("/");
     };
 });
+
+
+function clickOnHover(id) {
+    document.getElementById(id).click();
+}
+
