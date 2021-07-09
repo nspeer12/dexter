@@ -32,7 +32,7 @@ MIC_SOURCE = 1
 
 class Dexter:
 
-	def __init__(self, debug=False):
+	def __init__(self, debug=False, audio=True):
 		self.startup = time.time()
 		self.debug = debug
 		self.cwd = os.getcwd()
@@ -115,13 +115,13 @@ class Dexter:
 		self.query_history = []
 		self.response_history = []
 
+		if audio:
+			self.audio = None
+			self.audio_stream = None
 
-		self.audio = None
-		self.audio_stream = None
-
-		self.porcupine = pvporcupine.create(keyword_paths=['assistant/porcupine/hey-dexter-windows.ppn'])
-		self.mute_on_wake = True
-		self.timeout = .5
+			self.porcupine = pvporcupine.create(keyword_paths=['assistant/porcupine/hey-dexter-windows.ppn'])
+			self.mute_on_wake = True
+			self.timeout = .5
 		
 
 
