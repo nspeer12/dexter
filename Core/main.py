@@ -158,3 +158,27 @@ async def start_stop_dexter(cmd=None):
 
 	return 'cmd not recieved'
 
+
+class LocalQuery(BaseModel):
+	query: str
+
+
+dex_api= Dexter()
+
+@app.get('/api/')
+async def local_api(query:localQuery):
+	print(query)
+	return Response({"data":"hello"})
+	'''
+	try:
+
+		if query:
+			print(query)
+			res = dex.process_input(query)
+			print(res)
+			return res
+		else:
+			return '400'
+	except Exception as ex:
+		return ex
+	'''

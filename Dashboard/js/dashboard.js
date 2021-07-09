@@ -123,8 +123,6 @@ function controlGesture(data)
 
 
 
-
-
 setInterval(function() {
     diagnostics();
   }, 2000);
@@ -206,16 +204,33 @@ function diagnostics() {
     document.getElementById("gpu").innerText = "GPU: " + percentageGPU + " %";
 }
 
+function consoleAPI(input) {
+
+    let xhttp= new XMLHttpRequest();
+    var url = 'http://localhost:8000/api/?query=' + encodeURIComponent(input);
+    console.log(url)
+    xhttp.open('GET', url, false);
+    xhttp.send();
+    return http.responseText;
+}
+
 window.addEventListener('load', (event) =>{
 
     document.getElementById("consolebutton").onclick=()=>{
-        var console = document.getElementById("console")
-        var consoletext = document.getElementById("consoleInput")
+        var cons = document.getElementById("console");
+        var consoletext = document.getElementById("consoleInput");
+
+        
+        var text = consoletext.value;
+        console.log(text);
+        consoletext.value = "";
     
-        var text = consoletext.value
-        consoletext.value = ""
-    
-        console.value += "LOG> " + text + "\n"    
+        cons.value += "> " + text + "\n";
+
+        var res = consoleAPI(text);
+        cons.log(res)
+
+        cons.value += "-" + res + "\n";
     };
 
     document.getElementById("settings_button").onclick=()=>{
@@ -237,3 +252,9 @@ window.addEventListener('load', (event) =>{
         require('electron').shell.openExternal("/");
     };
 });
+
+
+function clickOnHover(id) {
+    document.getElementById(id).click();
+}
+

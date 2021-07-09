@@ -43,11 +43,15 @@
             </span>
             <div>
                 <button class="menuitem">
-                    <span class="entypo-right-open" onclick="controlDexter(dexCmd)"/>
-                    <p class="caption" id="startStopDexterButton">Start Dexter</p>
+                    <span class="entypo-right-open" onclick="controlDexter(dexCmd)"
+                        onmouseover="clickOnHover('startStopDexterButton');">
+                    <p class="caption" id="startStopDexterButton" >
+                        Start Dexter
+                    </p>
                 </button>
                 <button class="menuitem">
-                    <span class="entypo-right-open" onclick="controlGesture(gestCmd)"/>
+                    <span class="entypo-right-open" onclick="controlGesture(gestCmd)"
+                    onmouseover="clickOnHover('startStopGestureButton');"/>
                     <p class="caption" id="startStopGestureButton">Start Gesture</p>
                 </button>
             </div>
@@ -88,8 +92,10 @@
         <div id="debugconsole">
             <textarea id="console" readonly></textarea>
             <div id="consoleBottom">
-                <textarea id="consoleInput" placeholder="Enter a voice command"></textarea >
-                <span class="menuitem entypo-paper-plane" id="consolebutton"></span>
+                <input type="text" id="consoleInput" placeholder="ask me anything"></textarea >
+                <span class="menuitem entypo-paper-plane" id="consolebutton" onclick="consoleAPI()">
+                
+                </span>
             </div>
         </div>
         <div id="gesturesWindow">
