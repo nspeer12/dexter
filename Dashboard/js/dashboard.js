@@ -31,17 +31,40 @@ onchange = function(stream) {
     var marks = list.getElementsByTagName("li");
     var core = document.getElementsByClassName("core2")[0]
 
+    var visualizerMode = "circle"
+
+    var arc = document.getElementsByClassName("semi_arc_3 e5_3")[0];
+
+
+
     function renderFrame() {
         anim = requestAnimationFrame(renderFrame);
         analyser.getByteFrequencyData(dataArray);
 
         var intensity = 0
+        var visualizer = true;
 
-        for (var i = 0; i < marks.length; ++i) {
-            intensity += dataArray[i]
-            marks[i].style.transform = "rotate(" + (i*6) + "deg)" + "translateY(" +  scale((dataArray[i] * 1.5 + dataArray[marks.length - i]) / 2, 1, 250, 150, 225) + "px) scaleY(" + ((dataArray[i] * 1.5 + dataArray[marks.length - i]) * 0.025) + ")";
-        
+        if (visualizer == true)
+        {
+            for (var i = 0; i < marks.length; ++i) {
+                intensity += dataArray[i];
+                // nick's flat bar
+                //marks[i].style.transform = "rotate(" + (i*6) + "deg)" + "translateY(" +  scale((dataArray[i] * 2 + dataArray[marks.length - i]) / 2, 1, 250, 150, 225) + "px);
+    
+                if (visualizerMode == "flat")
+                {
+                    marks[i].style.transform = "scaleY(" + ((dataArray[i] * 2) * 0.05)  + ")";
+                    marks[i].style.transform += "translateX(-35vw) "
+                    marks[i].style.transform += "translate(" +  (0, 27*i) + "px)";
+                    marks[i].style.transform += "translateZ(-30px)";
+                }
+                else if (visualizerMode == "circle")
+                {
+                    marks[i].style.transform = "rotate(" + (i*6) + "deg)" + "translateY(" +  scale((dataArray[i] + dataArray[marks.length - i] * 0.9), 1, 250, 150, 250) + "px) scaleY(" + ((dataArray[i] * 2 + dataArray[marks.length - i]) * 0.022) + ")";
+                }
+            }
         }
+        
 
         intensity /= marks.length
 
@@ -49,7 +72,12 @@ onchange = function(stream) {
         //     marks[i].style.transform = "rotate(" + (i*6) + "deg) translateY(" +  scale(intensity, 0, 255, 130, 200) + "px)"
         // }
 
-        core.style.background = "rgba(2, " + scale(0 ,0, 255, 200, 255) +", " + scale(0,0, 255, 200, 255) +", 0.8)"
+        core.style.background = "rgba(2, " + scale(0 ,0, 255, 200, 255) +", " + scale(0,0, 2 * i % 255, 200, 255) +", 0.8)";
+
+        
+        
+        // core transformations
+        
     }
     renderFrame();
 };
