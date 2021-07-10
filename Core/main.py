@@ -34,29 +34,34 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-#manager = BaseManager()
-#namespace = manager.Namespace()
-#namespace.dexter = Dexter()
-#namespace.gesture = HandDetection()
-
 settings = load_settings()
-
-
-
 
 
 # gesture process
 gestp = None
 if settings.gesture_on_startup:
-	gestp = multiprocessing.Process(target=launch_gesture)
+	gestp = multiprocessing.Process(target=launch_gesture, args=(settings,))
 	gestp.start()
 
 #dexter process
 dexp = None
 if settings.dexter_on_startup:
-	dexp = multiprocessing.Process(target=launch_dexter)
+	dexp = multiprocessing.Process(target=launch_dexter, args=(settings,))
 	dexp.start()
+
+
+@app.get('/status/')
+async def status():
+	dex_status = "offline"
+	gest_status = "offline"
+
+	if dexp != None:
+		dex_status = "online"
+	
+	if gestp != None:
+		gest_status = "online"
+	
+	return Response(content=json.dumps({"dexter": dex_status, "gesture": gest_status}))
 
 
 @app.post('/settings/')
@@ -105,12 +110,10 @@ async def get_intents():
 	if os.path.exists(intent_path):
 		f = open(intent_path)
 		data = json.load(f)
-		print(type(data))
-		
+		# print(data)
 		f.close()
 
-		if 'intents' in data:
-			return Response(content=json.dumps(data), media_type="application/json")
+		return Response(content=json.dumps(data), media_type="application/json")
 
 
 
@@ -135,15 +138,17 @@ async def start_stop_dexter(cmd=None):
 
 	if cmd == 'start':
 		global dexp
-		dexp = multiprocessing.Process(target=launch_dexter)
+		dexp = multiprocessing.Process(target=launch_dexter, args=(settings,))
 		dexp.start()
 		return 'dexter started'
 
-	elif cmd == 'stop' and dexp is not None:
-		dexp.terminate()
-		return 'dexter stopped'
-
-	return 'cmd not recieved'
+	elif cmd == 'stop':
+		if dexp:
+			dexp.terminate()
+			dexp = None
+			print('dexter stopped')
+		else:
+			print('dexter already stopped')
 
 
 @app.post('/gesture-control/')
@@ -155,7 +160,7 @@ async def start_stop_dexter(cmd=None):
 	if cmd == 'start':
 		
 		if gestp is None:
-			gestp = multiprocessing.Process(target=launch_gesture)
+			gestp = multiprocessing.Process(target=launch_gesture, args=(settings,))
 			gestp.start()
 
 			print('gesture started')
@@ -181,8 +186,6 @@ dex_api= Dexter(audio=False)
 @app.get('/api/')
 async def local_api(query:str):
 	
-	
-
 	try:
 
 		if query:

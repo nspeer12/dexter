@@ -2,10 +2,14 @@
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const { countReset } = require('console')
-const zmq = require("zeromq")
+const spawn = require("child_process");
+var http = require('http');
+var express = require('express')
 
+var server = express()
 
-
+// The server object listens on port 3000
+console.log("server start at port 3000");
 
 try 
 {
@@ -29,60 +33,12 @@ function createWindow() {
             contextIsolation: false,
             preload: path.join(__dirname, 'preload.js')
         }
-    })
+    });
 
     // and load the index.html of the app.
     mainWindow.loadURL('file://' + __dirname + '/Pages/Dashboard.html');
     //mainWindow.webContents.openDevTools()
-    
-    var http = require('http');
-    var express = require('express')
-    var exp = express()
-
-    // Create a server object
-    http.createServer(function (req, res) {
           
-        // http header
-        res.writeHead(200, {'Content-Type': 'text/html'}); 
-          
-        var url = req.url;
-          
-        if(url ==='/test') {
-            res.write(' Welcome to about us page'); 
-            res.end(); 
-        }
-        else {
-            res.write('Hello World!'); 
-            res.end(); 
-        }
-    }).listen(3000, function() {
-          
-        // The server object listens on port 3000
-        console.log("server start at port 3000");
-    });
-
-
-    async function ipc_test() 
-    {
-        const sock = new zmq.Request
-      
-        sock.connect("tcp://127.0.0.1:8888")
-        console.log("Client bound to port 5555\nSending 'Hello'...")
-      
-        await sock.send("Hello")
-        const [result] = await sock.receive()
-      
-        console.log("Got response: " + result.toString('ascii'))
-
-        for (i=0;i<10;i++)
-        {
-            sock.send(i.toString())
-
-        }
-    }
-
-    //ipc_test()
-
 }
 
 // This method will be called when Electron has finished
@@ -105,5 +61,20 @@ app.on('window-all-closed', function() {
     if (process.platform !== 'darwin') app.quit()
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+function startCore() {
+    
+    const ls = exec('dir', function (error, stdout, stderr) {
+        if (error) {
+          console.log(error.stack);
+          console.log('Error code: '+error.code);
+          console.log('Signal received: '+error.signal);
+        }
+        console.log('Child Process STDOUT: '+stdout);
+        console.log('Child Process STDERR: '+stderr);
+      });
+      
+      ls.on('exit', function (code) {
+        console.log('Child process exited with exit code '+code);
+      });
+    
+}

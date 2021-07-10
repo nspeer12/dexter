@@ -1,4 +1,4 @@
-function trainAssistant()
+function trainModel()
 {
     var xhr = new XMLHttpRequest();
     var url = 'http://localhost:8000/train-assistant';
@@ -8,25 +8,15 @@ function trainAssistant()
 
 function getIntents()
 {
-    var xhr = new XMLHttpRequest();
-    var url = 'http://localhost:8000/get-intents';
-    xhr.open("GET", url);
-    xhr.send();
+    var xhttp = new XMLHttpRequest();
+    var url = 'http://localhost:8000/get-intents/';
+    xhttp.open("GET", url);
+    xhttp.send();
 
-    var intents;
+    xhttp.onload = function() {
+        var data = JSON.parse(xhttp.responseText);
+        var intents = data["intents"];
 
-    xhr.onreadystatechange=(e)=>{
-      intents = JSON.parse(xhr.responseText)['intents'];
-      //console.log(intents);
+        console.log(intents);
     }
-
-    for (var key in intents)
-    {
-      console.log(key);
-    }
-}
-
-function addSkill()
-{
-    console.log('hello');
 }

@@ -31,17 +31,45 @@ onchange = function(stream) {
     var marks = list.getElementsByTagName("li");
     var core = document.getElementsByClassName("core2")[0]
 
+    var visualizerMode = "circle";
+
+    var arc = document.getElementsByClassName("semi_arc_3 e5_3")[0];
+
+    var arc = document.getElementById("arc");
+
     function renderFrame() {
         anim = requestAnimationFrame(renderFrame);
         analyser.getByteFrequencyData(dataArray);
 
         var intensity = 0
+        var visualizer = true;
 
-        for (var i = 0; i < marks.length; ++i) {
-            intensity += dataArray[i]
-            marks[i].style.transform = "rotate(" + (i*6) + "deg)" + "translateY(" +  scale((dataArray[i] * 1.5 + dataArray[marks.length - i]) / 2, 1, 250, 150, 225) + "px) scaleY(" + ((dataArray[i] * 1.5 + dataArray[marks.length - i]) * 0.025) + ")";
         
+        if (visualizer == true)
+        {
+            for (var i = 0; i < marks.length; ++i) {
+                
+                intensity += dataArray[i];
+                // nick's flat bar
+                //marks[i].style.transform = "rotate(" + (i*6) + "deg)" + "translateY(" +  scale((dataArray[i] * 2 + dataArray[marks.length - i]) / 2, 1, 250, 150, 225) + "px);
+    
+                if (visualizerMode === "flat")
+                {
+                    marks[i].style.transform = "scaleY(" + ((dataArray[i] * 2) * 0.05)  + ")";
+                    marks[i].style.transform += "translateX(-35vw) "
+                    marks[i].style.transform += "translate(" +  (0, 27*i) + "px)";
+                    marks[i].style.transform += "translateZ(-30px)";
+                }
+                else if (visualizerMode == "circle")
+                {
+                    marks[i].style.transform = "rotate(" + (i*6) + "deg)" + "translateY(" +  scale((dataArray[i] + dataArray[marks.length - i] * 0.8), 1, 250, 150, 220) + "px) scaleY(" + ((dataArray[i] * 2 + dataArray[marks.length - i]) * 0.022) + ")";
+                }
+            }
+
+            var scalefactor = 1 + intensity * .00005;
+            arc.style.transform = "scale(" + scalefactor + "," + scalefactor + ");";
         }
+        
 
         intensity /= marks.length
 
@@ -49,7 +77,12 @@ onchange = function(stream) {
         //     marks[i].style.transform = "rotate(" + (i*6) + "deg) translateY(" +  scale(intensity, 0, 255, 130, 200) + "px)"
         // }
 
-        core.style.background = "rgba(2, " + scale(0 ,0, 255, 200, 255) +", " + scale(0,0, 255, 200, 255) +", 0.8)"
+        core.style.background = "rgba(2, " + scale(0 ,0, 255, 200, 255) +", " + scale(0,0, 2 * i % 255, 200, 255) +", 0.8)";
+
+        
+        
+        // core transformations
+        
     }
     renderFrame();
 };
@@ -67,59 +100,13 @@ function start(){
     function handleError (e) {
         console.log(e)
     }
+
+    getStatus();
 }
 
 start();
 
-var dexCmd = 'start'
-function controlDexter(data)
-{
 
-    var xhr = new XMLHttpRequest();
-    var url = 'http://localhost:8000/dexter-control/?cmd=' + dexCmd;
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify({
-        data: data,
-    }));
-    
-    if (dexCmd == 'start')
-    {
-        dexCmd = 'stop';
-        document.getElementById('startStopDexterButton').innerHTML = 'Stop Dexter';
-    }
-    else if (dexCmd == 'stop')
-    {
-        dexCmd = 'start';
-        document.getElementById('startStopDexterButton').innerHTML = 'Start Dexter';
-    }
-    
-    
-
-}
-
-var gestCmd = 'start'
-function controlGesture(data)
-{
-    var xhr = new XMLHttpRequest();
-    var url = 'http://localhost:8000/gesture-control/?cmd=' + gestCmd;
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify({
-        data: data,
-    }));
-
-    if (gestCmd == 'start')
-    {
-        gestCmd = 'stop';
-        document.getElementById('startStopGestureButton').innerHTML = 'Stop Gesture';
-    }
-    else if (gestCmd == 'stop')
-    {
-        gestCmd = 'start';
-        document.getElementById('startStopGestureButton').innerHTML = 'Start Gesture';
-    }
-}
 
 
 
@@ -177,14 +164,13 @@ function clock() {
 
 function diagnostics() {
 
-    si.cpu(function(data) {
-        percentageMem = data.speed;
-        console.log(data[0].speed);
-    })
+    si.mem(function(data) {
+        percentageMem = Math.round(100 * data.used / data.total);
+    });
 
     si.graphics(function(data) {
             percentageGPU = data.controllers[0].utilizationGpu;
-        })
+    });
 
     var tempPoll = cpuAverage();
 
@@ -196,12 +182,14 @@ function diagnostics() {
     //Calculate the average percentage CPU usage
     var percentageCPU = 100 - ~~(100 * idleDifference / totalDifference);
 
-    //var percentageMem = Math.round(100 - ((os.freemem() / os.totalmem()) * 100))
-
-
-    document.getElementById("cpu").innerText = "CPU: " + percentageCPU + "%";
-    document.getElementById("ram").innerText = "Memory: " + percentageMem + " %";
-    document.getElementById("gpu").innerText = "GPU: " + percentageGPU + " %";
+    if (percentageCPU)
+        document.getElementById("cpu").innerText = "CPU: " + percentageCPU + "%";
+    
+    if (percentageMem)
+        document.getElementById("ram").innerText = "Memory: " + percentageMem + " %";
+    
+    if (percentageGPU)
+        document.getElementById("gpu").innerText = "GPU: " + percentageGPU + " %";
 }
 
 async function consoleAPI(input) {
@@ -217,7 +205,9 @@ async function consoleAPI(input) {
       let res = JSON.parse(xhttp.response);
       console.log(res);
       var cons = document.getElementById("console");
-      cons.value += "- " + res["data"]; + "\n";
+      var textres = res["data"];
+      textres.replace('"', '');
+      cons.value += "- " + res["data"] + "\n";
       
     };
 }
@@ -263,3 +253,116 @@ function clickOnHover(id) {
     document.getElementById(id).click();
 }
 
+function hideArc()
+{
+    var arc = document.getElementById("arc");
+    
+    arc.style.display = "block";
+    arc.style.display = "none";
+
+}
+
+function getStatus()
+{
+    let xhttp= new XMLHttpRequest();
+    var url = new URL('http://127.0.0.1:8000/status/');
+
+    xhttp.responseType = 'json';
+    xhttp.open("GET", url, true);
+    xhttp.send();
+    xhttp.onload = function() {
+        
+        res = JSON.parse(JSON.stringify(xhttp.response));
+        updateButtons(res);
+    };
+
+}
+
+var dexCmd = 'start';
+var gestCmd = 'start';
+
+
+function updateButtons(status)
+{
+
+    if (status["dexter"] == "online")
+    {
+        document.getElementById('startStopDexterButton').innerHTML = 'Stop Dexter';
+        dexCmd = "stop";
+    }
+    else
+    {
+        document.getElementById('startStopDexterButton').innerHTML = 'Start Dexter';
+        dexCmd = "start";
+    }
+
+    if (status["gesture"] == "online")
+    {
+        document.getElementById('startStopGestureButton').innerHTML = 'Stop Gesture';
+        gestCmd = "stop";
+    }
+    else
+    {
+        document.getElementById('startStopGestureButton').innerHTML = 'Start Gesture';
+        gestCmd = "start";
+    }    
+}
+
+
+function controlDexter(data)
+{
+
+    var xhr = new XMLHttpRequest();
+    var url = 'http://localhost:8000/dexter-control/?cmd=' + dexCmd;
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        data: data,
+    }));
+    
+    getStatus();
+
+    if (dexCmd == 'start')
+    {
+        ;
+        //dexCmd = 'stop';
+        //document.getElementById('startStopDexterButton').innerHTML = 'Stop Dexter';
+    }
+    else if (dexCmd == 'stop')
+    {
+        ;
+        //dexCmd = 'start';
+        //document.getElementById('startStopDexterButton').innerHTML = 'Start Dexter';
+    }
+    
+    
+
+}
+
+
+function controlGesture(data)
+{
+    var xhr = new XMLHttpRequest();
+    var url = 'http://localhost:8000/gesture-control/?cmd=' + gestCmd;
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        data: data,
+    }));
+
+    if (gestCmd == 'start')
+    {
+        gestCmd = 'stop';
+        document.getElementById('startStopGestureButton').innerHTML = 'Stop Gesture';
+    }
+    else if (gestCmd == 'stop')
+    {
+        gestCmd = 'start';
+        document.getElementById('startStopGestureButton').innerHTML = 'Start Gesture';
+    }
+}
+
+
+var checkStatus = window.setInterval(function() {
+    var status = getStatus();
+}, 1000)

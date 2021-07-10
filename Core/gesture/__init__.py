@@ -88,9 +88,9 @@ class HandDetection():
             self.settings_json = json.load(f)['settings']
             self.df = pd.DataFrame(self.settings_json)
 
-    def __init__(self):
+    def __init__(self, cap_device=0):
         # Camera Params
-        self.cap_device = 0
+        self.cap_device = cap_device
         self.cap_width = 1280
         self.cap_height = 720
 
@@ -444,6 +444,6 @@ class HandDetection():
 
 
 
-def launch_gesture():
-    gesture = HandDetection()
+def launch_gesture(settings):
+    gesture = HandDetection(cap_device=settings.camera_index)
     gesture.loop()

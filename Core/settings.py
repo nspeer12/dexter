@@ -4,10 +4,12 @@ from pydantic import BaseModel
 from typing import List
 
 class GeneralSettings(BaseModel):
+	debug: bool 
 	dexter_on_startup: bool
 	gesture_on_startup: bool
 	output_device: int
 	input_device: int
+	camera_index: int
 
 
 class GestureSetting(BaseModel):
@@ -31,10 +33,12 @@ def load_settings():
 			data = json.load(f)
 			print(data)
 			settings = GeneralSettings(
-				dexter_on_startup=data['dexter_on_startup'],
-				gesture_on_startup=data['gesture_on_startup'],
-				output_device=data['output_device'],
-				input_device=data['input_device'])
+						debug=data['debug'],
+						dexter_on_startup=data['dexter_on_startup'],
+						gesture_on_startup=data['gesture_on_startup'],
+						output_device=data['output_device'],
+						input_device=data['input_device'],
+						camera_index=data['camera_index'])
 
 			return settings
 

@@ -28,11 +28,9 @@ from assistant.nlp import *
 from assistant.fulfillment import fulfillment_api
 
 
-MIC_SOURCE = 1
-
 class Dexter:
 
-	def __init__(self, debug=False, audio=True):
+	def __init__(self, debug=False, audio=True, input_device=1):
 		self.startup = time.time()
 		self.debug = debug
 		self.cwd = os.getcwd()
@@ -72,7 +70,7 @@ class Dexter:
 		if self.debug:
 			print("loaded assistant model")
 
-		self.recognizer = speech_recognition.Recognizer()
+		
 
 		self.mappings = {
 			'greeting' : greeting,
@@ -116,13 +114,24 @@ class Dexter:
 		self.response_history = []
 
 		if audio:
+			self.mic = input_device
 			self.audio = None
 			self.audio_stream = None
 
 			self.porcupine = pvporcupine.create(keyword_paths=['assistant/porcupine/hey-dexter-windows.ppn'])
 			self.mute_on_wake = True
-			self.timeout = .5
-		
+			self.timeout = 2
+
+			self.recognizer = speech_recognition.Recognizer()
+			self.recognizer.dynamic_energy_threshold = False
+			
+			print('adjusting for audio levels')
+			with sr.Microphone(device_index=self.mic) as source:
+				self.recognizer.adjust_for_ambient_noise(source, duration=5)
+
+			print('done adjusting')
+			self.beep_on_listen = True
+
 
 
 	def start_audio_stream(self):
@@ -177,12 +186,14 @@ class Dexter:
 
 		print('Listening...')
 
-		with sr.Microphone() as source:
+		with sr.Microphone(device_index=self.mic) as source:
 			
-			#self.recognizer.adjust_for_ambient_noise(source, duration=0.3)
+			if self.beep_on_listen:
+				# TODO: need relative path
+				playsound('assistant/sounds/bloop.mp3')
 		
 			try:
-				recorded_audio = self.recognizer.listen(source, timeout=self.timeout)
+				recorded_audio = self.recognizer.listen(source, timeout=self.timeout, phrase_time_limit=5)
 				
 				start = time.time()
 				print("Recognizing")
@@ -254,6 +265,8 @@ class Dexter:
 			return res
 
 
-def launch_dexter():
-    dexter = Dexter(debug=True)
+def launch_dexter(settings):
+
+    dexter = Dexter(debug=settings.debug,
+					input_device=settings.camera_index)
     dexter.hotword()

@@ -10,10 +10,16 @@ from assistant.apis.weather_api import weather_get
 
 import time
 import datetime
-import pywhatkit as kit
+
+
 import json
 import requests
 
+# can't initialize without internet
+try:
+    import pywhatkit as kit
+except Exception as ex:
+    print(ex)
 
 def greeting(query, context):
     ans = "Hi, I'm Dexter. How can I help you today?"
