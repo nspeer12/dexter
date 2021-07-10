@@ -93,7 +93,7 @@ async def get_gestures():
 		print(data)
 		
 		f.close()
-		res = jsonable_encoder(json.dumps({"test":"hi"}))
+		res = jsonable_encoder(json.dumps(data))
 		return JSONResponse(content=res, media_type="application/json")
 
 
@@ -176,7 +176,7 @@ async def start_stop_dexter(cmd=None):
 	return 'cmd not recieved'
 
 
-dex_api= Dexter()
+dex_api= Dexter(audio=False)
 
 @app.get('/api/')
 async def local_api(query:str):

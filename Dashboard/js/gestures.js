@@ -44,24 +44,26 @@ function postUpdatedGestures() {
 }
 
 function getGestures() {
-    /*
-    var xhr = new XMLHttpRequest();
-    var url = 'http://localhost:8000/get-gestures';
-    xhr.open("GET", url);
-    xhr.send();
+
+    var xhttp = new XMLHttpRequest();
+    var url = 'http://localhost:8000/get-gestures/';
+    xhttp.open("GET", url, true);
+    xhttp.send();
 
     var gestureDataJson;
-  
-    xhr.onreadystatechange=(e)=>{
-        console.log(xhr.responseText);
-        gestureDataJson = JSON.parse(xhr.responseText);
-        userGestures = gestureDataJson['settings'];
-    }
-    */
-    console.log(gestureDataJson);
-    
-    
 
+    xhttp.onload = function() {
+        gestureDataJson = JSON.parse(xhttp.responseText);
+        
+        userGestures = JSON.parse(gestureDataJson)["settings"];
+
+        console.log(userGestures);
+        populateGesturesTable()
+    };
+    
+    
+    
+    /*
     let gestureDataJson = `[
         {"starting_position" : "pointer", "ending_position" : "close", "motion": "none", "name": "lower index", "action": "macro", "default_action_name":"Left Click", "macro":"Alt+F4", "path": ""},
         {"starting_position" : "bunny ears", "ending_position" : "close", "motion": "none", "name": "lower index and middle", "action": "script", "default_action_name":"Right Click", "macro":"", "path": "C:/script.py"},
@@ -87,9 +89,7 @@ function getGestures() {
         {"starting_position" : "none", "ending_position" : "thumbs up", "motion": "right", "name": "Sliding right Thumbs up", "action": "default_action", "default_action_name":"Unmute", "macro":"", "path": ""},
         {"starting_position" : "none", "ending_position" : "thumbs down", "motion": "left", "name": "Sliding left Thumbs down", "action": "default_action", "default_action_name":"Mute", "macro":"", "path": ""},
         {"starting_position" : "none", "ending_position" : "thumbs down", "motion": "right", "name": "Sliding right Thumbs down", "action": "default_action", "default_action_name":"Mute", "macro":"", "path": ""}]`
-       
-    userGestures = JSON.parse(gestureDataJson);
-    
+    */    
 }
 
 function generateActionRow(gesture) {
