@@ -34,16 +34,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-#manager = BaseManager()
-#namespace = manager.Namespace()
-#namespace.dexter = Dexter()
-#namespace.gesture = HandDetection()
-
 settings = load_settings()
-
-
-
 
 
 # gesture process
@@ -57,6 +48,13 @@ dexp = None
 if settings.dexter_on_startup:
 	dexp = multiprocessing.Process(target=launch_dexter)
 	dexp.start()
+
+
+@app.get('/status/')
+async def status():
+	# TODO: return status of core so dashboard can update elements
+	return True
+	
 
 
 @app.post('/settings/')

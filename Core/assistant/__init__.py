@@ -72,7 +72,7 @@ class Dexter:
 		if self.debug:
 			print("loaded assistant model")
 
-		self.recognizer = speech_recognition.Recognizer()
+		
 
 		self.mappings = {
 			'greeting' : greeting,
@@ -121,8 +121,15 @@ class Dexter:
 
 			self.porcupine = pvporcupine.create(keyword_paths=['assistant/porcupine/hey-dexter-windows.ppn'])
 			self.mute_on_wake = True
-			self.timeout = .5
-		
+			self.timeout = 1
+
+			self.recognizer = speech_recognition.Recognizer()
+			self.recognizer.dynamic_energy_threshold = False
+				
+			with sr.Microphone() as source:
+				self.recognizer.adjust_for_ambient_noise(source, duration=5)
+
+			self.beep_on_listen = True
 
 
 	def start_audio_stream(self):
@@ -179,7 +186,9 @@ class Dexter:
 
 		with sr.Microphone() as source:
 			
-			#self.recognizer.adjust_for_ambient_noise(source, duration=0.3)
+			if self.beep_on_listen:
+				# TODO: need relative path
+				playsound('assistant/sounds/bloop.mp3')
 		
 			try:
 				recorded_audio = self.recognizer.listen(source, timeout=self.timeout)
