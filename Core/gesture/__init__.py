@@ -444,6 +444,6 @@ class HandDetection():
 
 
 
-def launch_gesture():
+def launch_gesture(settings):
     gesture = HandDetection()
     gesture.loop()

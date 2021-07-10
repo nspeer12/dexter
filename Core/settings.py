@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from typing import List
 
 class GeneralSettings(BaseModel):
+	debug: bool 
 	dexter_on_startup: bool
 	gesture_on_startup: bool
 	output_device: int
@@ -31,6 +32,7 @@ def load_settings():
 			data = json.load(f)
 			print(data)
 			settings = GeneralSettings(
+				debug=data['debug'],
 				dexter_on_startup=data['dexter_on_startup'],
 				gesture_on_startup=data['gesture_on_startup'],
 				output_device=data['output_device'],

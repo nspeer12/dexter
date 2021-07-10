@@ -40,21 +40,28 @@ settings = load_settings()
 # gesture process
 gestp = None
 if settings.gesture_on_startup:
-	gestp = multiprocessing.Process(target=launch_gesture)
+	gestp = multiprocessing.Process(target=launch_gesture, args=(settings,))
 	gestp.start()
 
 #dexter process
 dexp = None
 if settings.dexter_on_startup:
-	dexp = multiprocessing.Process(target=launch_dexter)
+	dexp = multiprocessing.Process(target=launch_dexter, args=(settings,))
 	dexp.start()
 
 
 @app.get('/status/')
 async def status():
-	# TODO: return status of core so dashboard can update elements
-	return True
+	dex_status = "offline"
+	gest_status = "offline"
+
+	if dexp != None:
+		dex_status = "online"
 	
+	if gestp != None:
+		gest_status = "online"
+	
+	return Response(content=json.dumps({"dexter": dex_status, "gesture": gest_status}))
 
 
 @app.post('/settings/')
@@ -137,11 +144,13 @@ async def start_stop_dexter(cmd=None):
 		dexp.start()
 		return 'dexter started'
 
-	elif cmd == 'stop' and dexp is not None:
-		dexp.terminate()
-		return 'dexter stopped'
-
-	return 'cmd not recieved'
+	elif cmd == 'stop':
+		if dexp:
+			dexp.terminate()
+			dexp = None
+			print('dexter stopped')
+		else:
+			print('dexter already stopped')
 
 
 @app.post('/gesture-control/')
@@ -153,7 +162,7 @@ async def start_stop_dexter(cmd=None):
 	if cmd == 'start':
 		
 		if gestp is None:
-			gestp = multiprocessing.Process(target=launch_gesture)
+			gestp = multiprocessing.Process(target=launch_gesture, args=(settings,))
 			gestp.start()
 
 			print('gesture started')
@@ -179,8 +188,6 @@ dex_api= Dexter(audio=False)
 @app.get('/api/')
 async def local_api(query:str):
 	
-	
-
 	try:
 
 		if query:

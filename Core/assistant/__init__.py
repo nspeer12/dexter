@@ -28,11 +28,9 @@ from assistant.nlp import *
 from assistant.fulfillment import fulfillment_api
 
 
-MIC_SOURCE = 1
-
 class Dexter:
 
-	def __init__(self, debug=False, audio=True):
+	def __init__(self, debug=False, audio=True, input_device=1):
 		self.startup = time.time()
 		self.debug = debug
 		self.cwd = os.getcwd()
@@ -116,6 +114,7 @@ class Dexter:
 		self.response_history = []
 
 		if audio:
+			self.mic = input_device
 			self.audio = None
 			self.audio_stream = None
 
@@ -125,10 +124,12 @@ class Dexter:
 
 			self.recognizer = speech_recognition.Recognizer()
 			self.recognizer.dynamic_energy_threshold = False
-				
-			with sr.Microphone() as source:
+			
+			print('adjusting for audio levels')
+			with sr.Microphone(device_index=self.mic) as source:
 				self.recognizer.adjust_for_ambient_noise(source, duration=5)
 
+			print('done adjusting')
 			self.beep_on_listen = True
 
 
@@ -184,14 +185,14 @@ class Dexter:
 
 		print('Listening...')
 
-		with sr.Microphone() as source:
+		with sr.Microphone(device_index=self.mic) as source:
 			
 			if self.beep_on_listen:
 				# TODO: need relative path
 				playsound('assistant/sounds/bloop.mp3')
 		
 			try:
-				recorded_audio = self.recognizer.listen(source, timeout=self.timeout)
+				recorded_audio = self.recognizer.listen(source, timeout=self.timeout, phrase_time_limit=5)
 				
 				start = time.time()
 				print("Recognizing")
@@ -263,6 +264,8 @@ class Dexter:
 			return res
 
 
-def launch_dexter():
-    dexter = Dexter(debug=True)
+def launch_dexter(settings):
+
+    dexter = Dexter(debug=settings.debug,
+					input_device=settings.input_device)
     dexter.hotword()

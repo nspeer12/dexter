@@ -35,6 +35,10 @@ onchange = function(stream) {
 
     var arc = document.getElementsByClassName("semi_arc_3 e5_3")[0];
 
+    if (visualizerMode === "flat")
+    {
+        hideArc();
+    }
 
 
     function renderFrame() {
@@ -42,7 +46,7 @@ onchange = function(stream) {
         analyser.getByteFrequencyData(dataArray);
 
         var intensity = 0
-        var visualizer = true;
+        var visualizer = false;
 
         if (visualizer == true)
         {
@@ -51,7 +55,7 @@ onchange = function(stream) {
                 // nick's flat bar
                 //marks[i].style.transform = "rotate(" + (i*6) + "deg)" + "translateY(" +  scale((dataArray[i] * 2 + dataArray[marks.length - i]) / 2, 1, 250, 150, 225) + "px);
     
-                if (visualizerMode == "flat")
+                if (visualizerMode === "flat")
                 {
                     marks[i].style.transform = "scaleY(" + ((dataArray[i] * 2) * 0.05)  + ")";
                     marks[i].style.transform += "translateX(-35vw) "
@@ -60,7 +64,7 @@ onchange = function(stream) {
                 }
                 else if (visualizerMode == "circle")
                 {
-                    marks[i].style.transform = "rotate(" + (i*6) + "deg)" + "translateY(" +  scale((dataArray[i] + dataArray[marks.length - i] * 0.9), 1, 250, 150, 250) + "px) scaleY(" + ((dataArray[i] * 2 + dataArray[marks.length - i]) * 0.022) + ")";
+                    marks[i].style.transform = "rotate(" + (i*6) + "deg)" + "translateY(" +  scale((dataArray[i] + dataArray[marks.length - i] * 0.8), 1, 250, 150, 220) + "px) scaleY(" + ((dataArray[i] * 2 + dataArray[marks.length - i]) * 0.022) + ")";
                 }
             }
         }
@@ -95,6 +99,8 @@ function start(){
     function handleError (e) {
         console.log(e)
     }
+
+    getStatus();
 }
 
 start();
@@ -206,12 +212,17 @@ function clock() {
 function diagnostics() {
 
     si.cpu(function(data) {
-        percentageMem = data.speed;
-        console.log(data[0].speed);
+        if (data.speed)
+            percentageMem = data.speed;
+        else
+            percentageMem = 0;
     })
 
     si.graphics(function(data) {
-            percentageGPU = data.controllers[0].utilizationGpu;
+            if(data.controllers[0].utilizationGpu)
+                percentageGPU = data.controllers[0].utilizationGpu;
+            else
+                percentageGPU = 0;
         })
 
     var tempPoll = cpuAverage();
@@ -291,3 +302,59 @@ function clickOnHover(id) {
     document.getElementById(id).click();
 }
 
+function hideArc()
+{
+    var arc = document.getElementById("arc_1");
+    
+    arc.style.display = "block";
+    arc.style.display = "none";
+    
+}
+
+function getStatus()
+{
+    let xhttp= new XMLHttpRequest();
+    var url = new URL('http://127.0.0.1:8000/status/');
+
+    xhttp.responseType = 'json';
+    xhttp.open("GET", url, true);
+    xhttp.send();
+    xhttp.onload = function() {
+        
+        res = JSON.parse(JSON.stringify(xhttp.response));
+        updateButtons(res);
+    };
+
+}
+
+function updateButtons(status)
+{
+    console.log(status);
+
+    if (status["dexter"] === "online")
+    {
+        document.getElementById('startStopDexterButton').innerHTML = 'Stop Dexter';
+        dexCmd = "stop";
+    }
+    else
+    {
+        document.getElementById('startStopDexterButton').innerHTML = 'Start Dexter';
+        dexCmd = "stop";
+    }
+
+    if (status["gesture"] === "online")
+    {
+        document.getElementById('startStopGestureButton').innerHTML = 'Stop Gesture';
+        gestCmd = "stop";
+    }
+    else
+    {
+        document.getElementById('startStopGestureButton').innerHTML = 'Start Gesture';
+        gestCmd = "start";
+    }
+
+    
+}
+var checkStatus = window.setInterval(function() {
+    var status = getStatus();
+}, 3000)

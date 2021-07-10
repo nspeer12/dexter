@@ -62,29 +62,9 @@ function createWindow() {
         console.log("server start at port 3000");
     });
 
-
-    async function ipc_test() 
-    {
-        const sock = new zmq.Request
-      
-        sock.connect("tcp://127.0.0.1:8888")
-        console.log("Client bound to port 5555\nSending 'Hello'...")
-      
-        await sock.send("Hello")
-        const [result] = await sock.receive()
-      
-        console.log("Got response: " + result.toString('ascii'))
-
-        for (i=0;i<10;i++)
-        {
-            sock.send(i.toString())
-
-        }
-    }
-
-    //ipc_test()
-
 }
+
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -106,5 +86,13 @@ app.on('window-all-closed', function() {
     if (process.platform !== 'darwin') app.quit()
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+function startCore() {
+    const spawn = require("child_process").spawn;
+    const coreProcess = spawn('python',["-m", "uvicorn", "main:app", "--app-dir", "../Core/"]);
+    console.log('starting core')
+    
+    coreProcess.stdout.on('data', (data) => {
+        console.log(data);
+    });
+    
+}
