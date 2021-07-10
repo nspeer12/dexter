@@ -2,10 +2,14 @@
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const { countReset } = require('console')
-const zmq = require("zeromq")
+const spawn = require("child_process");
+var http = require('http');
+var express = require('express')
 
+var server = express()
 
-
+// The server object listens on port 3000
+console.log("server start at port 3000");
 
 try 
 {
@@ -29,42 +33,13 @@ function createWindow() {
             contextIsolation: false,
             preload: path.join(__dirname, 'preload.js')
         }
-    })
+    });
 
     // and load the index.html of the app.
     mainWindow.loadURL('file://' + __dirname + '/Pages/Dashboard.html');
     //mainWindow.webContents.openDevTools()
-    
-    var http = require('http');
-    var express = require('express')
-    var exp = express()
-
-
-    // Create a server object
-    http.createServer(function (req, res) {
           
-        // http header
-        res.writeHead(200, {'Content-Type': 'text/html'}); 
-          
-        var url = req.url;
-          
-        if(url ==='/test') {
-            res.write(' Welcome to about us page'); 
-            res.end(); 
-        }
-        else {
-            res.write('Hello World!'); 
-            res.end(); 
-        }
-    }).listen(3000, function() {
-          
-        // The server object listens on port 3000
-        console.log("server start at port 3000");
-    });
-
 }
-
-
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -87,12 +62,19 @@ app.on('window-all-closed', function() {
 })
 
 function startCore() {
-    const spawn = require("child_process").spawn;
-    const coreProcess = spawn('python',["-m", "uvicorn", "main:app", "--app-dir", "../Core/"]);
-    console.log('starting core')
     
-    coreProcess.stdout.on('data', (data) => {
-        console.log(data);
-    });
+    const ls = exec('dir', function (error, stdout, stderr) {
+        if (error) {
+          console.log(error.stack);
+          console.log('Error code: '+error.code);
+          console.log('Signal received: '+error.signal);
+        }
+        console.log('Child Process STDOUT: '+stdout);
+        console.log('Child Process STDERR: '+stderr);
+      });
+      
+      ls.on('exit', function (code) {
+        console.log('Child process exited with exit code '+code);
+      });
     
 }

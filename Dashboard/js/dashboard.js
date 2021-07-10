@@ -35,11 +35,7 @@ onchange = function(stream) {
 
     var arc = document.getElementsByClassName("semi_arc_3 e5_3")[0];
 
-    if (visualizerMode === "flat")
-    {
-        hideArc();
-    }
-
+    var arc = document.getElementById("arc");
 
     function renderFrame() {
         anim = requestAnimationFrame(renderFrame);
@@ -48,9 +44,11 @@ onchange = function(stream) {
         var intensity = 0
         var visualizer = true;
 
+        
         if (visualizer == true)
         {
             for (var i = 0; i < marks.length; ++i) {
+                
                 intensity += dataArray[i];
                 // nick's flat bar
                 //marks[i].style.transform = "rotate(" + (i*6) + "deg)" + "translateY(" +  scale((dataArray[i] * 2 + dataArray[marks.length - i]) / 2, 1, 250, 150, 225) + "px);
@@ -67,6 +65,9 @@ onchange = function(stream) {
                     marks[i].style.transform = "rotate(" + (i*6) + "deg)" + "translateY(" +  scale((dataArray[i] + dataArray[marks.length - i] * 0.8), 1, 250, 150, 220) + "px) scaleY(" + ((dataArray[i] * 2 + dataArray[marks.length - i]) * 0.022) + ")";
                 }
             }
+
+            var scalefactor = 1 + intensity * .00005;
+            arc.style.transform = "scale(" + scalefactor + "," + scalefactor + ");";
         }
         
 
@@ -163,19 +164,13 @@ function clock() {
 
 function diagnostics() {
 
-    si.cpu(function(data) {
-        if (data.speed)
-            percentageMem = data.speed;
-        else
-            percentageMem = 0;
-    })
+    si.mem(function(data) {
+        percentageMem = Math.round(100 * data.used / data.total);
+    });
 
     si.graphics(function(data) {
-            if(data.controllers[0].utilizationGpu)
-                percentageGPU = data.controllers[0].utilizationGpu;
-            else
-                percentageGPU = 0;
-        })
+            percentageGPU = data.controllers[0].utilizationGpu;
+    });
 
     var tempPoll = cpuAverage();
 
@@ -187,12 +182,14 @@ function diagnostics() {
     //Calculate the average percentage CPU usage
     var percentageCPU = 100 - ~~(100 * idleDifference / totalDifference);
 
-    //var percentageMem = Math.round(100 - ((os.freemem() / os.totalmem()) * 100))
-
-
-    document.getElementById("cpu").innerText = "CPU: " + percentageCPU + "%";
-    document.getElementById("ram").innerText = "Memory: " + percentageMem + " %";
-    document.getElementById("gpu").innerText = "GPU: " + percentageGPU + " %";
+    if (percentageCPU)
+        document.getElementById("cpu").innerText = "CPU: " + percentageCPU + "%";
+    
+    if (percentageMem)
+        document.getElementById("ram").innerText = "Memory: " + percentageMem + " %";
+    
+    if (percentageGPU)
+        document.getElementById("gpu").innerText = "GPU: " + percentageGPU + " %";
 }
 
 async function consoleAPI(input) {
@@ -287,7 +284,6 @@ var gestCmd = 'start';
 
 function updateButtons(status)
 {
-    console.log(status);
 
     if (status["dexter"] == "online")
     {
@@ -324,15 +320,19 @@ function controlDexter(data)
         data: data,
     }));
     
+    getStatus();
+
     if (dexCmd == 'start')
     {
-        dexCmd = 'stop';
-        document.getElementById('startStopDexterButton').innerHTML = 'Stop Dexter';
+        ;
+        //dexCmd = 'stop';
+        //document.getElementById('startStopDexterButton').innerHTML = 'Stop Dexter';
     }
     else if (dexCmd == 'stop')
     {
-        dexCmd = 'start';
-        document.getElementById('startStopDexterButton').innerHTML = 'Start Dexter';
+        ;
+        //dexCmd = 'start';
+        //document.getElementById('startStopDexterButton').innerHTML = 'Start Dexter';
     }
     
     
@@ -365,4 +365,4 @@ function controlGesture(data)
 
 var checkStatus = window.setInterval(function() {
     var status = getStatus();
-}, 3000)
+}, 1000)

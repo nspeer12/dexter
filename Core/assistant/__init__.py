@@ -120,7 +120,7 @@ class Dexter:
 
 			self.porcupine = pvporcupine.create(keyword_paths=['assistant/porcupine/hey-dexter-windows.ppn'])
 			self.mute_on_wake = True
-			self.timeout = 1
+			self.timeout = 2
 
 			self.recognizer = speech_recognition.Recognizer()
 			self.recognizer.dynamic_energy_threshold = False
@@ -131,6 +131,7 @@ class Dexter:
 
 			print('done adjusting')
 			self.beep_on_listen = True
+
 
 
 	def start_audio_stream(self):
@@ -267,5 +268,5 @@ class Dexter:
 def launch_dexter(settings):
 
     dexter = Dexter(debug=settings.debug,
-					input_device=settings.input_device)
+					input_device=settings.camera_index)
     dexter.hotword()

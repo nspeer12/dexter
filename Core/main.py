@@ -110,12 +110,10 @@ async def get_intents():
 	if os.path.exists(intent_path):
 		f = open(intent_path)
 		data = json.load(f)
-		print(type(data))
-		
+		# print(data)
 		f.close()
 
-		if 'intents' in data:
-			return Response(content=json.dumps(data), media_type="application/json")
+		return Response(content=json.dumps(data), media_type="application/json")
 
 
 
@@ -140,7 +138,7 @@ async def start_stop_dexter(cmd=None):
 
 	if cmd == 'start':
 		global dexp
-		dexp = multiprocessing.Process(target=launch_dexter)
+		dexp = multiprocessing.Process(target=launch_dexter, args=(settings,))
 		dexp.start()
 		return 'dexter started'
 
