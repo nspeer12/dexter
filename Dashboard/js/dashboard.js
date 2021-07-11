@@ -212,21 +212,35 @@ async function consoleAPI(input) {
     };
 }
 
+
+function consoleInput() {
+    var cons = document.getElementById("console");
+    var consoletext = document.getElementById("consoleInput");
+
+    
+    var text = consoletext.value;
+    console.log(text);
+    consoletext.value = "";
+
+    cons.value += "> " + text + "\n";
+
+    consoleAPI(text);
+}
+
+
+
+
 window.addEventListener('load', (event) =>{
 
     document.getElementById("consolebutton").onclick=()=>{
-        var cons = document.getElementById("console");
-        var consoletext = document.getElementById("consoleInput");
-
-        
-        var text = consoletext.value;
-        console.log(text);
-        consoletext.value = "";
-    
-        cons.value += "> " + text + "\n";
-
-        consoleAPI(text);
+        consoleInput();
     };
+
+    document.getElementById("consoleInput").addEventListener("keyup", event => {
+        if(event.key !== "Enter") return;
+        document.getElementById("consolebutton").click(); 
+        event.preventDefault();
+    });
 
     document.getElementById("settings_button").onclick=()=>{
 

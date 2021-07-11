@@ -20,3 +20,7 @@ function getIntents()
         console.log(intents);
     }
 }
+
+function addSkillDropDown() {
+    document.getElementById("CustomSkills").innerHTML += "../Pages/AddSkill.html";
+}
