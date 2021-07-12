@@ -25,7 +25,7 @@ from assistant.skills import *
 from assistant.utils.intro import intro
 from assistant.model.assistantModel import NeuralNet
 from assistant.nlp import *
-from assistant.fulfillment import fulfillment_api
+from assistant.fulfillment import fulfillment_api, log_query
 
 
 class Dexter:
@@ -187,11 +187,11 @@ class Dexter:
 		print('Listening...')
 
 		with sr.Microphone(device_index=self.mic) as source:
-			
-			if self.beep_on_listen:
-				playsound('assistant/sounds/beep.wav')
 		
 			try:
+				if self.beep_on_listen:
+					playsound('assistant/sounds/beep.wav')
+
 				recorded_audio = self.recognizer.listen(source, timeout=self.timeout, phrase_time_limit=5)
 				
 				start = time.time()
@@ -223,13 +223,15 @@ class Dexter:
 				if self.debug:
 					print("Detection time: {}".format(decode_time))
 										
-				res = self.process_input(text)
+				detection, res = self.process_input(text)
 
 				if not isinstance(res, type(None)):
 					voice(res, quality='high')
 
 				if self.debug:
 					print("Total Response Time: {}\n".format(time.time() - start))
+				
+				log_query(text, detection, res)
 		
 		return
 
@@ -272,7 +274,9 @@ class Dexter:
 				self.context += 'AI: ' + str(res) + '\n'
 			
 			
-			return res
+			return prediction, res
+
+
 
 
 def launch_dexter(settings):
