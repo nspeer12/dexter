@@ -61,7 +61,7 @@ async def status():
 	if gestp != None:
 		gest_status = "online"
 	
-	return Response(content=json.dumps({"dexter": dex_status, "gesture": gest_status}))
+	return Response(content=json.dumps({"core": "online", "dexter": dex_status, "gesture": gest_status}))
 
 
 @app.post('/settings/')
@@ -72,9 +72,7 @@ async def settings_update(r: GeneralSettings):
 
 
 
-@app.post('/voice-settings/')
-async def voice_settings():
-	return ''
+
 
 
 @app.post('/gesture-settings/')
@@ -101,11 +99,16 @@ async def get_gestures():
 		res = jsonable_encoder(json.dumps(data))
 		return JSONResponse(content=res, media_type="application/json")
 
+@app.post('/voice-settings/')
+async def voice_settings(r: IntentList):
+	print(r)
+	return ''
+
 
 @app.get('/get-intents/')
 async def get_intents():
 	print(os.getcwd())
-	intent_path = os.path.join(os.getcwd(), 'assistant/model/intents.json')
+	intent_path = os.path.join(os.getcwd(), 'assistant/model/intents-tmp.json')
 
 	if os.path.exists(intent_path):
 		f = open(intent_path)

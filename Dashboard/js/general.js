@@ -42,14 +42,18 @@ function saveGeneralSettings()
     var output_device = document.getElementById("output-device-list").value;
     var input_device = document.getElementById("input-device-list").value;
 
+    var camera_device = document.getElementById("camera-input").value;
 
     var settings = {
         "dexter_on_startup": dexter_on_startup,
         "gesture_on_startup": gesture_on_startup,
         "output_device": output_device,
-        "input_device": input_device
+        "input_device": input_device,
+        "camera_device": camera_device
     }
     
+    console.log(settings);
+
     var xhttp = new XMLHttpRequest();
     var url = 'http://localhost:8000/settings/';
     xhttp.open("POST", url, true);

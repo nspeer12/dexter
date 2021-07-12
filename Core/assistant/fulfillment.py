@@ -15,6 +15,16 @@ def fulfillment_api(query:str, context):
 		
 	return response
 
+def log_query(query:str, detection:str, response:str):
+	log = {"input" : query,
+		 "detection": detection,
+		 "response": response}
+	
+	print(log)
+
+	url = "https://dexter.speer.ai/log-query/"
+	response = requests.get(url, json=log)
+	print(response)
 
 if __name__ == '__main__':
 	fulfillment_api('hello world!')

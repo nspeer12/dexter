@@ -20,7 +20,6 @@ function navItemClicked(clickEvent) {
 window.addEventListener('load', (event) =>{
 
   document.getElementById("settings-general").addEventListener('click', navItemClicked)
-  document.getElementById("settings-user").addEventListener('click', navItemClicked)
   document.getElementById("settings-gestures").addEventListener('click', navItemClicked)
   document.getElementById("settings-voice").addEventListener('click', navItemClicked)
   document.getElementById("settings-privacy").addEventListener('click', navItemClicked)

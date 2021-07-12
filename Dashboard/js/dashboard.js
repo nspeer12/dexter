@@ -212,21 +212,35 @@ async function consoleAPI(input) {
     };
 }
 
+
+function consoleInput() {
+    var cons = document.getElementById("console");
+    var consoletext = document.getElementById("consoleInput");
+
+    
+    var text = consoletext.value;
+    console.log(text);
+    consoletext.value = "";
+
+    cons.value += "> " + text + "\n";
+
+    consoleAPI(text);
+}
+
+
+
+
 window.addEventListener('load', (event) =>{
 
     document.getElementById("consolebutton").onclick=()=>{
-        var cons = document.getElementById("console");
-        var consoletext = document.getElementById("consoleInput");
-
-        
-        var text = consoletext.value;
-        console.log(text);
-        consoletext.value = "";
-    
-        cons.value += "> " + text + "\n";
-
-        consoleAPI(text);
+        consoleInput();
     };
+
+    document.getElementById("consoleInput").addEventListener("keyup", event => {
+        if(event.key !== "Enter") return;
+        document.getElementById("consolebutton").click(); 
+        event.preventDefault();
+    });
 
     document.getElementById("settings_button").onclick=()=>{
 
@@ -266,24 +280,55 @@ function getStatus()
 {
     let xhttp= new XMLHttpRequest();
     var url = new URL('http://127.0.0.1:8000/status/');
+    
+    var status = {"core": "offline", "dexter": "offline", "gesture" : "offline"}
 
     xhttp.responseType = 'json';
-    xhttp.open("GET", url, true);
-    xhttp.send();
+
     xhttp.onload = function() {
+
+        if (this.status === 200)
+        {
+            res = JSON.parse(JSON.stringify(xhttp.response));
+            if (res != null)
+                status = res;
+        }
         
-        res = JSON.parse(JSON.stringify(xhttp.response));
-        updateButtons(res);
+        updateButtons(status);
     };
 
+    xhttp.onerror = function(e) {
+        status = {"core": "offline", "dexter": "offline", "gesture" : "offline"};
+        updateButtons(status)
+    }
+
+    xhttp.open("GET", url, true);
+    xhttp.send();
+
 }
+
+// pings Core server every 5 seconds to update status of processes
+var checkStatus = window.setInterval(function() {
+    var status = getStatus();
+}, 5000)
+
 
 var dexCmd = 'start';
 var gestCmd = 'start';
 
-
 function updateButtons(status)
 {
+
+    console.log(status["core"])
+
+    if (status["core"] == "online")
+    {
+        document.getElementById("core-status").innerHTML = "Core: Online";
+    }
+    else
+    {
+        document.getElementById("core-status").innerHTML = "Core: Offline";
+    }
 
     if (status["dexter"] == "online")
     {
@@ -321,22 +366,6 @@ function controlDexter(data)
     }));
     
     getStatus();
-
-    if (dexCmd == 'start')
-    {
-        ;
-        //dexCmd = 'stop';
-        //document.getElementById('startStopDexterButton').innerHTML = 'Stop Dexter';
-    }
-    else if (dexCmd == 'stop')
-    {
-        ;
-        //dexCmd = 'start';
-        //document.getElementById('startStopDexterButton').innerHTML = 'Start Dexter';
-    }
-    
-    
-
 }
 
 
@@ -362,7 +391,3 @@ function controlGesture(data)
     }
 }
 
-
-var checkStatus = window.setInterval(function() {
-    var status = getStatus();
-}, 1000)

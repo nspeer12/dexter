@@ -10,30 +10,38 @@
     </head>
     <form id="settings-form" onsubmit="saveGeneralSettings();">
         <h1>General</h1>
-            <input type="checkbox" name="dex-on-start" id="dex-on-start">
-                Launch Dexter on startup
-            </input>
+            <div>
+            <h3>Preferences</h3>
+                <label>Name</label>
+                <!--input type is probably wrong here, but for now-->
+                <input type="email" class="form-control" placeholder="What do you want Dexter to call you">
+            </div>
+            <div>
+                <h3>Startup Settings</h3>
+                <input type="checkbox" name="dex-on-start" id="dex-on-start">
+                    Launch Dexter on startup
+                </input>
+                </br>
+                <input type="checkbox" name="gest-on-start" id="gest-on-start">
+                    Enable Gestures on startup
+                </input>
+            </div>
+            <div>
+                <h3>Audio Devices</h3>
+                <label>Input Device</label>
+                <select id="input-device-list" name="input-device" class="form-control"></select>
+                <label>Output Device</label>
+                <select id="output-device-list" name="output-device" class="form-control"></select>
+            </div>
             </br>
-            <input type="checkbox" name="gest-on-start" id="gest-on-start">
-                Enable Hand Gestures on startup
-            </input>
-        <h2>Audio</h2>
-    </br>
+            <div>
+                <h3>Video Devices</h3>
+                <label>Video Input Device</label>
+                <select id="input-device-list" name="camera-device" class="form-control" value="0"></select>
+            </div>
 
     <div>
-        <label>Input Device</label>
-        <select id="input-device-list" name="input-device" class="form-control"></select>
-    </div>
-    </br>
-    <div>
-        <label>Output Device</label>
-        <select id="output-device-list" name="output-device" class="form-control"></select>
-    </div>
-    </br>
-    
-
-    <div>
-        <input type="submit" value="Save">
+        <input type="submit" class="btn" value="Save">
     </div>
 
     </form>

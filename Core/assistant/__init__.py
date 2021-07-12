@@ -25,7 +25,7 @@ from assistant.skills import *
 from assistant.utils.intro import intro
 from assistant.model.assistantModel import NeuralNet
 from assistant.nlp import *
-from assistant.fulfillment import fulfillment_api
+from assistant.fulfillment import fulfillment_api, log_query
 
 
 class Dexter:
@@ -120,7 +120,7 @@ class Dexter:
 
 			self.porcupine = pvporcupine.create(keyword_paths=['assistant/porcupine/hey-dexter-windows.ppn'])
 			self.mute_on_wake = True
-			self.timeout = 2
+			self.timeout = 5
 
 			self.recognizer = speech_recognition.Recognizer()
 			self.recognizer.dynamic_energy_threshold = False
@@ -187,24 +187,34 @@ class Dexter:
 		print('Listening...')
 
 		with sr.Microphone(device_index=self.mic) as source:
-			
-			if self.beep_on_listen:
-				# TODO: need relative path
-				playsound('assistant/sounds/bloop.mp3')
 		
 			try:
+				if self.beep_on_listen:
+					playsound('assistant/sounds/beep.wav')
+
 				recorded_audio = self.recognizer.listen(source, timeout=self.timeout, phrase_time_limit=5)
 				
 				start = time.time()
 				print("Recognizing")
+				
+				
+				if self.beep_on_listen:
+					playsound('assistant/sounds/beep-beep.wav')
 
+					
 				text = self.recognizer.recognize_google(
 						recorded_audio,
 						language='en-US')
 
 			except Exception as ex:
+				
+				if self.beep_on_listen:
+					playsound('assistant/sounds/beep-boop.wav')
+
 				if self.debug:
 					print(ex)
+
+				return
 
 			else:
 				
@@ -213,13 +223,15 @@ class Dexter:
 				if self.debug:
 					print("Detection time: {}".format(decode_time))
 										
-				res = self.process_input(text)
+				detection, res = self.process_input(text)
 
 				if not isinstance(res, type(None)):
 					voice(res, quality='high')
 
 				if self.debug:
 					print("Total Response Time: {}\n".format(time.time() - start))
+				
+				log_query(text, detection, res)
 		
 		return
 
@@ -262,11 +274,13 @@ class Dexter:
 				self.context += 'AI: ' + str(res) + '\n'
 			
 			
-			return res
+			return prediction, res
+
+
 
 
 def launch_dexter(settings):
 
     dexter = Dexter(debug=settings.debug,
-					input_device=settings.camera_index)
+					input_device=settings.input_device)
     dexter.hotword()
