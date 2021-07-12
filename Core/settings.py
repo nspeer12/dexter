@@ -27,6 +27,16 @@ class GestureSettingList(BaseModel):
 	settings: List[GestureSetting]
 
 
+class Intent(BaseModel):
+	tag: str
+	patterns: List[str]
+	action: str
+
+
+class IntentList(BaseModel):
+	intents: List[Intent]
+
+
 def load_settings():
 	if os.path.exists('settings.json'):
 		with open('settings.json') as f:
@@ -57,6 +67,15 @@ def write_gesture_settings(settings: GestureSettingList):
 	with open('gesture/csv/gestureSettings.json', 'w') as f:
 		json.dump(data['settings'], f, sort_keys=True, indent=4)
 		f.close()
+
+
+def write_intents(intents: IntentList):
+	data = json.loads(intents.json())
+
+	with open('assistant/model/intents-tmp.json', 'w') as f:
+		json.dump(data[intents], f, sort_keys=True, indent=4)
+		f.close()
+
 
 if __name__ == '__main__':
 	settings = load_settings()

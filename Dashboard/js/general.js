@@ -49,7 +49,7 @@ function saveGeneralSettings()
         "gesture_on_startup": gesture_on_startup,
         "output_device": output_device,
         "input_device": input_device,
-        "camera_device": 0 
+        "camera_device": camera_device
     }
     
     console.log(settings);

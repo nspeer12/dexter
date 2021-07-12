@@ -189,7 +189,6 @@ class Dexter:
 		with sr.Microphone(device_index=self.mic) as source:
 			
 			if self.beep_on_listen:
-				# TODO: need relative path
 				playsound('assistant/sounds/beep.wav')
 		
 			try:
@@ -198,10 +197,11 @@ class Dexter:
 				start = time.time()
 				print("Recognizing")
 				
+				
 				if self.beep_on_listen:
-					# TODO: need relative path
 					playsound('assistant/sounds/beep-beep.wav')
 
+					
 				text = self.recognizer.recognize_google(
 						recorded_audio,
 						language='en-US')
@@ -209,7 +209,6 @@ class Dexter:
 			except Exception as ex:
 				
 				if self.beep_on_listen:
-					# TODO: need relative path
 					playsound('assistant/sounds/beep-boop.wav')
 
 				if self.debug:

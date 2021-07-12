@@ -11,8 +11,8 @@
         <form>
             <div>
 
-                <button onclick="getIntents();">Get intents</button>
-                <button onclick="trainModel();">Train Model</button>
+                <button onclick="getIntents()">Get intents</button>
+                <button onclick="trainModel()">Train Model</button>
                 
                 <section id="introduction">
                     <span>
@@ -23,30 +23,7 @@
 
                 <section id="CustomSkills">
                     <h2>Custom Skills</h2>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <div class="media-body">
-                                <strong>Minecraft</strong>
-                                <p>"Launch Minecraft"</p>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="media-body">
-                                <strong>Reddit</strong>
-                                <p>"Go to Reddit"</p>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="media-body">
-                                <strong>Do the Thing</strong>
-                                <p>"Hey Dexter, do the thing"</p>
-                            </div>
-                        </li>
-                        <li class="list-group-item btn">
-                            <button id="addskill_button" class="btn" onclick="addSkillDropDown();">
-                                <span>Add Skill</span>
-                            </button>
-                        </li>
+                    <ul class="list-group" id="intent-list">
                     </ul>
                 </section>
                 <section id="Default Skills">

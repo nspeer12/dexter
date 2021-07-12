@@ -335,22 +335,6 @@ function controlDexter(data)
     }));
     
     getStatus();
-
-    if (dexCmd == 'start')
-    {
-        ;
-        //dexCmd = 'stop';
-        //document.getElementById('startStopDexterButton').innerHTML = 'Stop Dexter';
-    }
-    else if (dexCmd == 'stop')
-    {
-        ;
-        //dexCmd = 'start';
-        //document.getElementById('startStopDexterButton').innerHTML = 'Start Dexter';
-    }
-    
-    
-
 }
 
 
@@ -376,7 +360,7 @@ function controlGesture(data)
     }
 }
 
-
+// pings Core server every 5 seconds to update status of processes
 var checkStatus = window.setInterval(function() {
     var status = getStatus();
-}, 1000)
+}, 5000)
