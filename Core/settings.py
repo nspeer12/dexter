@@ -9,7 +9,7 @@ class GeneralSettings(BaseModel):
 	gesture_on_startup: bool
 	output_device: int
 	input_device: int
-	camera_index: int
+	camera_device: int
 
 
 class GestureSetting(BaseModel):
@@ -38,7 +38,7 @@ def load_settings():
 						gesture_on_startup=data['gesture_on_startup'],
 						output_device=data['output_device'],
 						input_device=data['input_device'],
-						camera_index=data['camera_index'])
+						camera_device=data['camera_device'])
 
 			return settings
 

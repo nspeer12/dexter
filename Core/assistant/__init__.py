@@ -120,7 +120,7 @@ class Dexter:
 
 			self.porcupine = pvporcupine.create(keyword_paths=['assistant/porcupine/hey-dexter-windows.ppn'])
 			self.mute_on_wake = True
-			self.timeout = 2
+			self.timeout = 5
 
 			self.recognizer = speech_recognition.Recognizer()
 			self.recognizer.dynamic_energy_threshold = False
@@ -190,21 +190,32 @@ class Dexter:
 			
 			if self.beep_on_listen:
 				# TODO: need relative path
-				playsound('assistant/sounds/bloop.mp3')
+				playsound('assistant/sounds/beep.wav')
 		
 			try:
 				recorded_audio = self.recognizer.listen(source, timeout=self.timeout, phrase_time_limit=5)
 				
 				start = time.time()
 				print("Recognizing")
+				
+				if self.beep_on_listen:
+					# TODO: need relative path
+					playsound('assistant/sounds/beep-beep.wav')
 
 				text = self.recognizer.recognize_google(
 						recorded_audio,
 						language='en-US')
 
 			except Exception as ex:
+				
+				if self.beep_on_listen:
+					# TODO: need relative path
+					playsound('assistant/sounds/beep-boop.wav')
+
 				if self.debug:
 					print(ex)
+
+				return
 
 			else:
 				
@@ -268,5 +279,5 @@ class Dexter:
 def launch_dexter(settings):
 
     dexter = Dexter(debug=settings.debug,
-					input_device=settings.camera_index)
+					input_device=settings.input_device)
     dexter.hotword()

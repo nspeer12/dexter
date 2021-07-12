@@ -61,6 +61,7 @@ app.on('window-all-closed', function() {
     if (process.platform !== 'darwin') app.quit()
 })
 
+/*
 function startCore() {
     
     const ls = exec('dir', function (error, stdout, stderr) {
@@ -78,3 +79,4 @@ function startCore() {
       });
     
 }
+*/
