@@ -61,7 +61,7 @@ async def status():
 	if gestp != None:
 		gest_status = "online"
 	
-	return Response(content=json.dumps({"dexter": dex_status, "gesture": gest_status}))
+	return Response(content=json.dumps({"core": "online", "dexter": dex_status, "gesture": gest_status}))
 
 
 @app.post('/settings/')
