@@ -163,20 +163,30 @@
         {
             "action": "default_action",
             "default_action_name": "Next Track",
-            "ending_position": "close",
+            "ending_position": "thumbs up",
             "macro": "",
             "motion": "right",
-            "name": "Sliding right Closed Fist",
+            "name": "Thumbs Up Sliding Right",
             "path": "",
             "starting_position": "none"
         },
         {
             "action": "default_action",
-            "default_action_name": "Previous Track",
+            "default_action_name": "Mute",
             "ending_position": "close",
             "macro": "",
+            "motion": "none",
+            "name": "Thumbs Up - Close Mute",
+            "path": "",
+            "starting_position": "thumbs up"
+        },
+        {
+            "action": "default_action",
+            "default_action_name": "Previous Track",
+            "ending_position": "thumbs up",
+            "macro": "",
             "motion": "left",
-            "name": "Sliding left Closed Fist",
+            "name": "Thumbs Up Sliding Left",
             "path": "",
             "starting_position": "none"
         },
@@ -193,50 +203,10 @@
         {
             "action": "default_action",
             "default_action_name": "Decrease Volume",
-            "ending_position": "thumbs down",
+            "ending_position": "thumbs up",
             "macro": "",
             "motion": "down",
-            "name": "Sliding down Thumbs down",
-            "path": "",
-            "starting_position": "none"
-        },
-        {
-            "action": "default_action",
-            "default_action_name": "Unmute",
-            "ending_position": "thumbs up",
-            "macro": "",
-            "motion": "left",
-            "name": "Sliding left Thumbs up",
-            "path": "",
-            "starting_position": "none"
-        },
-        {
-            "action": "default_action",
-            "default_action_name": "Unmute",
-            "ending_position": "thumbs up",
-            "macro": "",
-            "motion": "right",
-            "name": "Sliding right Thumbs up",
-            "path": "",
-            "starting_position": "none"
-        },
-        {
-            "action": "default_action",
-            "default_action_name": "Mute",
-            "ending_position": "thumbs down",
-            "macro": "",
-            "motion": "left",
-            "name": "Sliding left Thumbs down",
-            "path": "",
-            "starting_position": "none"
-        },
-        {
-            "action": "default_action",
-            "default_action_name": "Mute",
-            "ending_position": "thumbs down",
-            "macro": "",
-            "motion": "right",
-            "name": "Sliding right Thumbs down",
+            "name": "Thumbs Up Sliding Down",
             "path": "",
             "starting_position": "none"
         },
