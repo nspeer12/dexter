@@ -9,6 +9,7 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 
         var i = 0;
         devices.forEach(function(device) {
+            // console.log(device);
             var dev = document.createElement("option");
             dev.text = device.label
             dev.value = i.toString();
@@ -33,17 +34,20 @@ window.addEventListener('DOMContentLoaded', (event) =>{
 });
 
 function saveGeneralSettings()
-{
-    var dexter_on_startup = document.getElementById("dex-on-start").value;
-    var gesture_on_startup = document.getElementById("gest-on-start").value;
+{   
+    var name = document.getElementById("name").value;
+    var dexter_on_startup = document.getElementById("dex-on-start").checked;
+    var gesture_on_startup = document.getElementById("gest-on-start").checked;
 
     // index value in list
     var output_device = document.getElementById("output-device-list").value;
     var input_device = document.getElementById("input-device-list").value;
 
-    var camera_device = document.getElementById("camera-device").value;
+    var camera_device = document.getElementById("camera_device-list").value;
 
     var settings = {
+        "debug": "true",
+        "name" : name,
         "dexter_on_startup": dexter_on_startup,
         "gesture_on_startup": gesture_on_startup,
         "output_device": output_device,
@@ -51,7 +55,7 @@ function saveGeneralSettings()
         "camera_device": camera_device
     }
     
-    console.log(settings);
+    console.log(JSON.stringify(settings));
 
     var xhttp = new XMLHttpRequest();
     var url = 'http://localhost:8000/settings/';

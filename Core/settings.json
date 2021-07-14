@@ -1,8 +1,9 @@
 {
+    "camera_device": 5,
     "debug": true,
-    "dexter_on_startup": true,
+    "dexter_on_startup": false,
     "gesture_on_startup": false,
-    "input_device": 1,
-    "output_device": 6,
-    "camera_device": 0
+    "input_device": 0,
+    "name": "asdf",
+    "output_device": 7
 }
