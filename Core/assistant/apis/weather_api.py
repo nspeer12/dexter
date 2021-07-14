@@ -4,7 +4,7 @@ def weather_get (query:str, context):
     API_KEY = "4ba177824d974cc0a3a235847211106"
     #CITY = input("Enter City Name : ")
     #CITY = 'Orlando'
-    CITY = context
+    CITY = 'Orlando'
     # URL to obtain country list as JSON: API key and Zip Code are concatenated with the base URL
     URL = "https://api.weatherapi.com/v1/current.json?key=" + API_KEY + "&q=" + CITY + "&aqi=no";
 
@@ -37,4 +37,8 @@ def weather_get (query:str, context):
     print (f"Latitude: {latitude}")
     print (f"Wind (mph): {wind_mph}")
     #print (f"Conditions: {condition}")
-    return condition
+
+
+    response = f"The weather is {temp_f} degrees"
+    
+    return response

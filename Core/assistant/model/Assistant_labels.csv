@@ -6,13 +6,13 @@ decreaseVolume
 fullscreen
 goodbye
 greeting
+idk
 increaseVolume
 introduction
 math
 maximize
 minimize
 mute
-news
 openApplication
 openFile
 pause
@@ -28,4 +28,5 @@ switchApplications
 switchDesktop
 time
 unmute
+weather
 wiki

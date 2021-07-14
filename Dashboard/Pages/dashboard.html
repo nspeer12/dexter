@@ -32,16 +32,19 @@
                 <p id="cpu" class="caption" style="font-size: 20px">CPU: -</p>
             </span>
             <br>
+            <span class="menuitem entypo-chart-pie" style="font-size: 30px; margin-left: 10px">
+                <p id="gpu" class="caption" style="font-size: 20px">GPU: -</p>
+            </span>
+            <br>
             <span class="menuitem entypo-chart-area" style="font-size: 30px; margin-left: 10px">
                 <p id="ram" class="caption" style="font-size: 20px">
                     Memory: -
                 </p>
             </span>
-            <br>
-            <span class="menuitem entypo-chart-pie" style="font-size: 30px; margin-left: 10px">
-                <p id="gpu" class="caption" style="font-size: 20px">GPU: -</p>
-            </span>
             <div>
+                <span class="menuitem" style="font-size: 30px; margin-left: 10px">
+                <p id="core-status" class="caption" style="font-size: 20px">Core: Offline</p>
+                </span>
                 <button class="menuitem">
                     <span class="entypo-right-open" onclick="controlDexter(dexCmd)">
                     <p class="caption" id="startStopDexterButton" >
@@ -56,8 +59,10 @@
                     <span class="entypo-right-open" onclick="startCore()"/>
                     <p class="caption" id="startStopGestureButton">Start Core</p>
                 </button>
+                
             </div>
             <div class="hline" style="height:5rem;"></div>
+            <!--
             <div class="menu">
                 <button class="menuitem">
                     <span class="entypo-right-open"/>
@@ -89,8 +94,9 @@
                     <span class="entypo-right-open"/>
                     <p class="caption">Custom Path 3</p>
                 </button>
-            </div>
-        </div>
+            </div> -->
+
+        </div> 
         <div id="debugconsole">
             <textarea id="console" readonly></textarea>
             <div id="consoleBottom">
