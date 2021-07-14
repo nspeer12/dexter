@@ -1,4 +1,5 @@
-{ "settings": [
+{
+    "settings": [
         {
             "action": "default_action",
             "default_action_name": "Track",
@@ -84,7 +85,7 @@
             "default_action_name": "Zoom In",
             "ending_position": "open",
             "macro": "",
-            "motion": "none", 
+            "motion": "none",
             "name": "Zoom in 2 Fingers",
             "path": "",
             "starting_position": "ok"
@@ -229,7 +230,7 @@
             "path": "",
             "starting_position": "thumbs up"
         },
-                {
+        {
             "action": "default_action",
             "default_action_name": "Unmute",
             "ending_position": "thumbs up",
@@ -278,7 +279,7 @@
             "name": "Close to Thumbs Up",
             "path": "",
             "starting_position": "close"
-        },        
+        },
         {
             "action": "default_action",
             "default_action_name": "",
@@ -288,7 +289,7 @@
             "name": "Sliding up Spider Man",
             "path": "",
             "starting_position": "none"
-        },        
+        },
         {
             "action": "default_action",
             "default_action_name": "",
@@ -298,7 +299,7 @@
             "name": "Sliding down Spider Man",
             "path": "",
             "starting_position": "none"
-        },        
+        },
         {
             "action": "default_action",
             "default_action_name": "",
@@ -308,7 +309,7 @@
             "name": "Sliding left Spider Man",
             "path": "",
             "starting_position": "none"
-        },        
+        },
         {
             "action": "default_action",
             "default_action_name": "",
@@ -318,7 +319,7 @@
             "name": "Sliding right Spider Man",
             "path": "",
             "starting_position": "none"
-        },        
+        },
         {
             "action": "default_action",
             "default_action_name": "",
@@ -328,7 +329,7 @@
             "name": "Spider Man to Close",
             "path": "",
             "starting_position": "spider-man"
-        },        
+        },
         {
             "action": "default_action",
             "default_action_name": "",

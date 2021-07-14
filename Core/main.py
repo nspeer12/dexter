@@ -95,16 +95,16 @@ async def get_gestures():
 		res = jsonable_encoder(json.dumps(data))
 		return JSONResponse(content=res, media_type="application/json")
 
-@app.post('/voice-settings/')
-async def voice_settings(r: IntentList):
+@app.post('/intent-settings/')
+async def intnet_settings(r: IntentList):
+	print('here boi')
 	print(r)
 	return ''
 
 
 @app.get('/get-intents/')
 async def get_intents():
-	print(os.getcwd())
-	intent_path = os.path.join(os.getcwd(), 'assistant/model/intents-tmp.json')
+	intent_path = os.path.join(os.getcwd(), 'assistant/model/intents.json')
 
 	if os.path.exists(intent_path):
 		f = open(intent_path)
@@ -144,7 +144,7 @@ async def start_stop_dexter(cmd=None):
 			return 'dexter started'
 		else:
 			return 'dexter already started'
-			
+
 	elif cmd == 'stop':
 		if dexp:
 			dexp.terminate()

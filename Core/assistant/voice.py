@@ -6,6 +6,13 @@ import random
 import multiprocessing
 import simpleaudio as sa
 
+# get auth
+headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+payload = 'client_id=nspeer252@gmail.com&secret=t%G$blDdSgBeD7E0nQeQ'
+r = requests.post('https://api.replicastudios.com/auth', headers=headers, data=payload)
+token = r.json()['access_token']
+
+
 def get_voices():
 	root_url = 'https://api.replicastudios.com'
 
@@ -33,18 +40,6 @@ def voice_replica(text:str, debug=False):
 	start = time.time()
 
 	try:
-
-		# get auth
-		headers = {
-		  'Content-Type': 'application/x-www-form-urlencoded'
-		}
-		payload = 'client_id=nspeer252@gmail.com&secret=t%G$blDdSgBeD7E0nQeQ'
-
-		r = requests.post('https://api.replicastudios.com/auth', headers=headers, data=payload)
-
-		token = r.json()['access_token']
-
-
 		# get voice
 		headers = {
 		  'Authorization': 'Bearer {}'.format(token)
