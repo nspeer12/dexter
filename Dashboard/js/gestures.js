@@ -3,7 +3,7 @@ var userGestures;
 
 function populateGesturesTable() {
 
-    let functionTypesJson = `[{"function" : "default action"}, {"function" : "macro"}, {"function" : "script"}]`
+    let functionTypesJson = `[{"function" : "default_action"}, {"function" : "macro"}, {"function" : "script"}]`
     let functionTypes = JSON.parse(functionTypesJson);
 
     //Get our table 
@@ -102,7 +102,10 @@ function generateActionRow(gesture) {
             //Populate list items
             predefinedFunctions.forEach(predef => {
                 let selected = predef.name === gesture['default_action_name'] ? "selected" : "";
-                predefinedFunctionList += `<option ${selected} value="${predef.name}">${predef.name}</option>\n`
+                if (predef.name == "")
+                predefinedFunctionList += `<option ${selected} value="${predef.name}">Select a Function</option>\n`
+                else
+                    predefinedFunctionList += `<option ${selected} value="${predef.name}">${predef.name}</option>\n`
             });
             
             //Finish our list
@@ -110,9 +113,15 @@ function generateActionRow(gesture) {
             
             return `<td class="td-action">${predefinedFunctionList}</td>`;
         case 'macro':
-            return `<td class="td-action" onclick="startRecording(event)">${gesture["macro"]}</td>`;
+            if (gesture["macro"] == "")
+                return `<td class="td-action" onclick="startRecording(event)">Click to Start Recording</td>`;
+            else
+                return `<td class="td-action" onclick="startRecording(event)">${gesture["macro"]}</td>`
         case 'script':
-            return `<td class="td-action" onclick="getScriptPath(event)">${gesture["path"]}</td>`;
+            if (gesture["path"] == "")
+                return `<td class="td-action" onclick="getScriptPath(event)">Click to Choose File</td>`;
+            else
+                return `<td class="td-action" onclick="getScriptPath(event)">${gesture["path"]}</td>`;
         default:
             return `<td>Undefined Function Type</td>`;
     }
@@ -195,7 +204,7 @@ function startRecording(event)
     let td = event.srcElement;
     let tr = td.parentElement;
     currentMacroRow = tr;
-    tr.cells[2].innerHTML = "";
+    tr.cells[2].innerHTML = "Recording";
     macroPresses.length = 0;
 
     window.addEventListener("keydown", keyDownCallback);
@@ -236,10 +245,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     getGestures();
 
-    console.log("hello1");
-
     $(document).on("change", ".function-list", (event) => {
-        console.log("function")
         //Get the table cell of the script
         let select = event.originalEvent.target;
         let tableRow = select.parentElement.parentElement;
@@ -256,8 +262,6 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-
-    console.log("hello2");
 
     $(document).on("change",".predefined-list", (event) => {
         console.log("list changed")
