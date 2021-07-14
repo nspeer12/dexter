@@ -23,7 +23,7 @@ window.addEventListener('load', (event) =>{
   document.getElementById("settings-gestures").addEventListener('click', navItemClicked)
   document.getElementById("settings-voice").addEventListener('click', navItemClicked)
   document.getElementById("settings-privacy").addEventListener('click', navItemClicked)
-  document.getElementById("settings-about").addEventListener('click', navItemClicked)
+  // document.getElementById("settings-about").addEventListener('click', navItemClicked)
 
 });
 

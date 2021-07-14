@@ -22,15 +22,10 @@ window.addEventListener('load', (event) =>{
         });
     })
 
-    // document.getElementById("consolebutton").onclick=()=>{
-    //     var console = document.getElementById("console")
-    //     var consoletext = document.getElementById("consoleInput")
-    
-    //     var text = consoletext.value
-    //     consoletext.value = ""
-    
-    //     console.value += "LOG> " + text + "\n"    
-    // };
+    document.getElementById("settings-button").onclick => {
+        console.log('here');
+        //saveGeneralSettings();
+    }
 });
 
 function saveGeneralSettings()
@@ -42,7 +37,7 @@ function saveGeneralSettings()
     var output_device = document.getElementById("output-device-list").value;
     var input_device = document.getElementById("input-device-list").value;
 
-    var camera_device = document.getElementById("camera-input").value;
+    var camera_device = document.getElementById("camera-device").value;
 
     var settings = {
         "dexter_on_startup": dexter_on_startup,
