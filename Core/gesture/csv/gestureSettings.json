@@ -101,16 +101,6 @@
         },
         {
             "action": "default_action",
-            "default_action_name": "Switch App",
-            "ending_position": "4 fingers",
-            "macro": "",
-            "motion": "right",
-            "name": "Slide right 4 Fingers",
-            "path": "",
-            "starting_position": "none"
-        },
-        {
-            "action": "default_action",
             "default_action_name": "Maximize App",
             "ending_position": "open",
             "macro": "",

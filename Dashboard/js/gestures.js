@@ -62,7 +62,10 @@ function getGestures() {
 
 function generateActionRow(gesture) {
     let predefinedJson = `[
+        {"name":""},
+        {"name":"Track"},
         {"name":"Left Click"},
+        {"name":"Double Click"},
         {"name":"Right Click"},
         {"name":"Zoom In"},
         {"name":"Zoom Out"},
@@ -74,6 +77,10 @@ function generateActionRow(gesture) {
         {"name":"Switch Desktop"},
         {"name":"Slide App Left"},
         {"name":"Slide App Right"},
+        {"name":"Window Right"},
+        {"name":"Window Left"},
+        {"name":"Close Window"},
+        {"name":"Fullscreen"},
         {"name":"Maximize App"},
         {"name":"Minimize App"},
         {"name":"Play"},
