@@ -46,6 +46,10 @@
                 <p id="core-status" class="caption" style="font-size: 20px">Core: Offline</p>
                 </span>
                 <button class="menuitem">
+                    <span class="entypo-right-open" onclick="startCore()"/>
+                    <p class="caption" id="startStopCore">Start Core</p>
+                </button>
+                <button class="menuitem">
                     <span class="entypo-right-open" onclick="controlDexter(dexCmd)">
                     <p class="caption" id="startStopDexterButton" >
                         Start Dexter
@@ -54,10 +58,6 @@
                 <button class="menuitem">
                     <span class="entypo-right-open" onclick="controlGesture(gestCmd)"/>
                     <p class="caption" id="startStopGestureButton">Start Gesture</p>
-                </button>
-                <button class="menuitem">
-                    <span class="entypo-right-open" onclick="startCore()"/>
-                    <p class="caption" id="startStopGestureButton">Start Core</p>
                 </button>
                 
             </div>
