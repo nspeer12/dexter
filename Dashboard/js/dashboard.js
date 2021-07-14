@@ -112,7 +112,7 @@ start();
 
 setInterval(function() {
     diagnostics();
-  }, 2000);
+  }, 3000);
 
 setInterval(function() {
     clock();
@@ -168,9 +168,9 @@ function diagnostics() {
         percentageMem = Math.round(100 * data.used / data.total);
     });
 
-    si.graphics(function(data) {
-            percentageGPU = data.controllers[0].utilizationGpu;
-    });
+    // si.graphics(function(data) {
+    //         percentageGPU = data.controllers[0].utilizationGpu;
+    // });
 
     var tempPoll = cpuAverage();
 
