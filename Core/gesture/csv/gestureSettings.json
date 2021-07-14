@@ -321,7 +321,7 @@
             "starting_position": "spider-man"
         },
         {
-            "action": "default_action",
+            "action": "script",
             "default_action_name": "",
             "ending_position": "spider-man",
             "macro": "",

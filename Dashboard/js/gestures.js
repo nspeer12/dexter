@@ -238,7 +238,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     console.log("hello1");
 
-    $(".function-list").on("change", (event) => {
+    $(document).on("change", ".function-list", (event) => {
         console.log("function")
         //Get the table cell of the script
         let select = event.originalEvent.target;
@@ -253,14 +253,13 @@ window.addEventListener('DOMContentLoaded', () => {
                 gesture['action'] = selectedVal;
                 let newRow = generateActionRow(gesture);
                 tableRow.cells[2].outerHTML = newRow;
-                postUpdatedGestures();
             }
         });
     });
 
     console.log("hello2");
 
-    $(".predefined-list").on("change", (event) => {
+    $(document).on("change",".predefined-list", (event) => {
         console.log("list changed")
         //Get the table cell of the script
         let select = event.originalEvent.target;
