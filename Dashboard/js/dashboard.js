@@ -319,7 +319,16 @@ function updateButtons(status)
     {
         document.getElementById('startStopGestureButton').innerHTML = 'Start Gesture';
         gestCmd = "start";
-    }    
+    }
+
+    if (status["core"] == "online")
+    {
+        document.getElementById('core-status').innerHTML = 'Core: Online';
+    }
+    else
+    {
+        document.getElementById('core-status').innerHTML = 'Core: Offline';
+    }  
 }
 
 

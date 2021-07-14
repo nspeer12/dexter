@@ -33,10 +33,6 @@
                          "what is the derivative of 2 x ^ 2", "what's the √ 2"],
             "responses": []
         },
-        {"tag": "news",
-            "patterns": ["what is the news", "news"],
-            "responses": []
-        },
         {"tag": "play",
             "patterns": ["play", "play ram ranch", "play ariana grande", "play metallica on youtube"],
             "responses": []
@@ -135,6 +131,15 @@
         },
         {"tag": "print_chat_log",
             "patterns": ["print the chat log", "print our conversation", "print our current history", "print our conversation history"],
+            "responses": []
+        },
+        {"tag": "weather",
+            "patterns": ["what's the weather", "what's the weather in orlando", "what's the weather in florida", "what is the weather conditions today",
+                         "is it going to rain today", "do I need a rain coat today", "is it sunny today"],
+            "responses": []
+        },
+        {"tag": "idk",
+            "patterns": [""],
             "responses": []
         }
     ]

@@ -122,8 +122,9 @@ async def get_intents():
 
 @app.post('/train-assistant/')
 async def train_assistant():
-	os.chdir('assistant/model/')
-	from trainAssistant import train_assistant
+	# TODO: fix this
+	#os.chdir('assistant/model/')
+	from assistant.model.trainAssistant import train_assistant
 	train_assistant()
 	os.chdir('..')
 	os.chdir('..')
