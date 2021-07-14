@@ -61,7 +61,7 @@ async def status():
 	if gestp != None:
 		gest_status = "online"
 	
-	return Response(content=json.dumps({"dexter": dex_status, "gesture": gest_status}))
+	return Response(content=json.dumps({"core": "online", "dexter": dex_status, "gesture": gest_status}))
 
 
 @app.post('/settings/')
@@ -92,16 +92,16 @@ async def get_gestures():
 		res = jsonable_encoder(json.dumps(data))
 		return JSONResponse(content=res, media_type="application/json")
 
-@app.post('/voice-settings/')
-async def voice_settings(r: IntentList):
+@app.post('/intent-settings/')
+async def intnet_settings(r: IntentList):
+	print('here boi')
 	print(r)
 	return ''
 
 
 @app.get('/get-intents/')
 async def get_intents():
-	print(os.getcwd())
-	intent_path = os.path.join(os.getcwd(), 'assistant/model/intents-tmp.json')
+	intent_path = os.path.join(os.getcwd(), 'assistant/model/intents.json')
 
 	if os.path.exists(intent_path):
 		f = open(intent_path)
@@ -135,9 +135,12 @@ async def start_stop_dexter(cmd=None):
 
 	if cmd == 'start':
 		global dexp
-		dexp = multiprocessing.Process(target=launch_dexter, args=(settings,))
-		dexp.start()
-		return 'dexter started'
+		if not dexp:
+			dexp = multiprocessing.Process(target=launch_dexter, args=(settings,))
+			dexp.start()
+			return 'dexter started'
+		else:
+			return 'dexter already started'
 
 	elif cmd == 'stop':
 		if dexp:

@@ -186,12 +186,12 @@ class Dexter:
 
 		print('Listening...')
 
+		if self.beep_on_listen:
+					playsound('assistant/sounds/beep.wav')
+
 		with sr.Microphone(device_index=self.mic) as source:
 		
 			try:
-				if self.beep_on_listen:
-					playsound('assistant/sounds/beep.wav')
-
 				recorded_audio = self.recognizer.listen(source, timeout=self.timeout, phrase_time_limit=5)
 				
 				start = time.time()
@@ -231,7 +231,7 @@ class Dexter:
 				if self.debug:
 					print("Total Response Time: {}\n".format(time.time() - start))
 				
-				log_query(text, detection, res)
+				#log_query(text, detection, res)
 		
 		return
 
@@ -275,8 +275,6 @@ class Dexter:
 			
 			
 			return prediction, res
-
-
 
 
 def launch_dexter(settings):

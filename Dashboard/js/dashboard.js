@@ -5,6 +5,12 @@ const si = require('systeminformation');
 var percentageMem;
 var percentageGPU;
 var percentageCPU;
+var memGPU;
+var tempGPU;
+var fanCPU;
+var tempCPU;
+var clockCPU;
+var fps;
 
 var anim;
 var barNumber = 27;
@@ -168,9 +174,16 @@ function diagnostics() {
         percentageMem = Math.round(100 * data.used / data.total);
     });
 
-    // si.graphics(function(data) {
-    //         percentageGPU = data.controllers[0].utilizationGpu;
-    // });
+    si.graphics(function(data) {
+            percentageGPU = data.controllers[0].utilizationGpu;
+            memGPU = data.controllers[0].utilizationMemory;
+            tempGPU = data.controllers[0].temperatureGpu;
+            
+    });
+
+    si.cpu(function(data) {
+        clockCPU = data.main;
+    });
 
     var tempPoll = cpuAverage();
 
@@ -185,11 +198,23 @@ function diagnostics() {
     if (percentageCPU)
         document.getElementById("cpu").innerText = "CPU: " + percentageCPU + "%";
     
-    if (percentageMem)
-        document.getElementById("ram").innerText = "Memory: " + percentageMem + " %";
+    if (clockCPU)
+        document.getElementById("cpu-clock").innerText = "CPU Clock: " + clockCPU + "GHz";
+    
+        if (percentageMem)
+        document.getElementById("ram").innerText = "RAM: " + percentageMem + "%";
     
     if (percentageGPU)
-        document.getElementById("gpu").innerText = "GPU: " + percentageGPU + " %";
+        document.getElementById("gpu").innerText = "GPU: " + percentageGPU + "%";
+
+    if (memGPU)
+        document.getElementById("gpu-mem").innerText = "GPU Mem: " + memGPU + "%";
+    
+    if (tempGPU)
+        document.getElementById("gpu-temp").innerText = "GPU Temp: " + tempGPU + "°C";
+    
+    if (fps)
+        document.getElementById("gpu-temp").innerText = "FPS: " + fps + " %";
 }
 
 async function consoleAPI(input) {
@@ -257,9 +282,9 @@ window.addEventListener('load', (event) =>{
         height=${height}`);
     };
 
-    document.getElementById("computer_button").onclick=()=>{
+    /*document.getElementById("computer_button").onclick=()=>{
         require('electron').shell.openExternal("/");
-    };
+    };*/
 });
 
 
@@ -282,13 +307,20 @@ function getStatus()
     var url = new URL('http://127.0.0.1:8000/status/');
 
     xhttp.responseType = 'json';
-    xhttp.open("GET", url, true);
-    xhttp.send();
     xhttp.onload = function() {
         
         res = JSON.parse(JSON.stringify(xhttp.response));
+        console.log(res);
         updateButtons(res);
     };
+
+    xhttp.onerror = function() {
+        status = {"core": "offline", "dexter": "offline", "gesture": "offline"};
+        updateButtons(status);
+    }
+
+    xhttp.open("GET", url, true);
+    xhttp.send();
 
 }
 
@@ -335,6 +367,12 @@ function updateButtons(status)
 function controlDexter(data)
 {
 
+    console.log(dexCmd);
+    if (dexCmd == "stop")
+        document.getElementById('startStopDexterButton').innerHTML = "Stopping Dexter";
+    else
+     document.getElementById('startStopDexterButton').innerHTML = "Loading Dexter";
+
     var xhr = new XMLHttpRequest();
     var url = 'http://localhost:8000/dexter-control/?cmd=' + dexCmd;
     xhr.open("POST", url, true);
@@ -343,12 +381,18 @@ function controlDexter(data)
         data: data,
     }));
     
-    getStatus();
+    //getStatus();
 }
 
 
 function controlGesture(data)
 {
+    if (gestCmd == "stop")
+        document.getElementById('startStopGestureButton').innerHTML = "Stopping Gesture";
+    else
+        document.getElementById('startStopGestureButton').innerHTML = "Loading Gesture";
+
+
     var xhr = new XMLHttpRequest();
     var url = 'http://localhost:8000/gesture-control/?cmd=' + gestCmd;
     xhr.open("POST", url, true);
@@ -356,17 +400,6 @@ function controlGesture(data)
     xhr.send(JSON.stringify({
         data: data,
     }));
-
-    if (gestCmd == 'start')
-    {
-        gestCmd = 'stop';
-        document.getElementById('startStopGestureButton').innerHTML = 'Stop Gesture';
-    }
-    else if (gestCmd == 'stop')
-    {
-        gestCmd = 'start';
-        document.getElementById('startStopGestureButton').innerHTML = 'Start Gesture';
-    }
 }
 
 // pings Core server every 5 seconds to update status of processes

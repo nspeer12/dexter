@@ -8,61 +8,60 @@
         <script src="../js/voice.js" charset="utf-8"></script>
     </head>
     <body>
-        <form>
-            <div>
+        <div>
+            <section id="introduction">
+                <span>
+                    <h2 style="text-align:center">Voice Assistant</h2>
+                    <p>Teach Dexter new skills and enable him to do anything on your computer.</p>
+                </span>
+            </section>
 
+            <section id="CustomSkills">
+                <h2>Custom Skills</h2>
+                <button class="btn btn-primary" onclick="trainModel();">Train Model</button>
+                <button class="btn btn-secondary" onclick="addSkillDropDown();">Add Skill</button>
+                <div id="add-intent"></div>
+            </section>
+            <section id="add-intent-section">
+                <ul class="list-group" id="intent-list">
+                </ul>
+            </section>
+            <section id="Default Skills">
+                <h2>Default Skills</h2>
                 
-                
-                <section id="introduction">
-                    <span>
-                        <h2 style="text-align:center">Voice Assistant</h2>
-                        <p>Teach Dexter new skills and enable him to do anything on your computer.</p>
-                    </span>
-                </section>
-
-                <section id="CustomSkills">
-                    <h2>Custom Skills</h2>
-                    <button class="btn btn-primary" onclick="trainModel()">Train Model</button>
-                    <ul class="list-group" id="intent-list">
-                    </ul>
-                </section>
-                
-                <section id="Default Skills">
-                    <h2>Default Skills</h2>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <div class="media-body">
-                                <strong>Time</strong>
-                                <p>"Hey Dexter, what's the time?"</p>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="media-body">
-                                <strong>Weather</strong>
-                                <p>"Hey Dexter, is it going to rain today?"</p>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="media-body">
-                                <strong>Alarm</strong>
-                                <p>"Hey Dexter, set an alarm for 1:30pm"</p>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="media-body">
-                                <strong>Timer</strong>
-                                <p>"Hey Dexter, set a timer for 15 minutes"</p>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="media-body">
-                                <strong>Weather</strong>
-                                <p>"Hey Dexter, is it going to rain today?"</p>
-                            </div>
-                        </li>
-                    </ul>
-                </section>
-            </div>
-        </form>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="media-body">
+                            <strong>Time</strong>
+                            <p>"Hey Dexter, what's the time?"</p>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="media-body">
+                            <strong>Weather</strong>
+                            <p>"Hey Dexter, is it going to rain today?"</p>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="media-body">
+                            <strong>Alarm</strong>
+                            <p>"Hey Dexter, set an alarm for 1:30pm"</p>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="media-body">
+                            <strong>Timer</strong>
+                            <p>"Hey Dexter, set a timer for 15 minutes"</p>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="media-body">
+                            <strong>Weather</strong>
+                            <p>"Hey Dexter, is it going to rain today?"</p>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+        </div>
     </body>
 </html>

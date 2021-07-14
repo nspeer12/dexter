@@ -22,25 +22,14 @@
                     <div id="time_local" style="font-size: 15px; margin-top: 23px"></div>
                     <div id="time_day" style="font-size: 17px; margin-top: 10px">Tuesday</div>
                 </div>
+                
             </div>
-            <span class="menuitem entypo-cog" style="font-size: 30px; margin-left: 10px">
-                <p id="settings_button" class="caption" style="font-size: 20px">Settings</p>
-            </span>
-            <br>
-            <div class="hline" style="height:2rem;"></div>
-            <span class="menuitem entypo-gauge" style="font-size: 30px; margin-left: 10px">
-                <p id="cpu" class="caption" style="font-size: 20px">CPU: -</p>
-            </span>
-            <br>
-            <span class="menuitem entypo-chart-pie" style="font-size: 30px; margin-left: 10px">
-                <p id="gpu" class="caption" style="font-size: 20px">GPU: -</p>
-            </span>
-            <br>
-            <span class="menuitem entypo-chart-area" style="font-size: 30px; margin-left: 10px">
-                <p id="ram" class="caption" style="font-size: 20px">
-                    Memory: -
-                </p>
-            </span>
+            
+            <div class="hline" style="height:2.5rem;">
+                <span class="menuitem entypo-cog" style="font-size: 30px; margin-left: 10px">
+                    <p id="settings_button" class="caption" style="font-size: 20px">Settings</p>
+                </span>
+            </div>
             <div>
                 <span class="menuitem" style="font-size: 30px; margin-left: 10px">
                 <p id="core-status" class="caption" style="font-size: 20px">Core: Offline</p>
@@ -59,9 +48,31 @@
                     <span class="entypo-right-open" onclick="controlGesture(gestCmd)"/>
                     <p class="caption" id="startStopGestureButton">Start Gesture</p>
                 </button>
-                
             </div>
-            <div class="hline" style="height:5rem;"></div>
+
+            <div class="hline" style="height:7rem;"></div>
+                <span class="menuitem" style="font-size: 30px; margin-left: 10px">
+                    <p id="cpu" class="caption" style="font-size: 20px">CPU: -</p>
+                </span>
+                <span class="menuitem" style="font-size: 30px; margin-left: 10px">
+                    <p id="ram" class="caption" style="font-size: 20px">
+                        RAM: -
+                    </p>
+                </span>
+                <span class="menuitem" style="font-size: 30px; margin-left: 10px">
+                    <p id="gpu" class="caption" style="font-size: 20px">GPU: -</p>
+                </span>
+                <span class="menuitem" style="font-size: 30px; margin-left: 10px">
+                    <p id="gpu-mem" class="caption" style="font-size: 20px">GPU Mem: -</p>
+                </span>
+                <span class="menuitem" style="font-size: 30px; margin-left: 10px">
+                    <p id="gpu-temp" class="caption" style="font-size: 20px">GPU Temp: -</p>
+                </span>
+                <span class="menuitem" style="font-size: 30px; margin-left: 10px">
+                    <p id="fps" class="caption" style="font-size: 20px">FPS: -</p>
+                </span>
+                <br>
+                
             <!--
             <div class="menu">
                 <button class="menuitem">
