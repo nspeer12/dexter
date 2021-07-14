@@ -75,9 +75,6 @@ async def settings_update(r: GeneralSettings):
 async def gesture_settings(r:GestureSettingList):
 	print('updating gesture settings')
 	write_gesture_settings(r)
-
-	#TODO: reload settings
-
 	return Response(content=json.dumps({"message":"gesture settings accepted"}))
 
 
@@ -89,7 +86,7 @@ async def get_gestures():
 	if os.path.exists(intent_path):
 		f = open(intent_path)
 		data = json.load(f)
-		print(data)
+		# print(data)
 		
 		f.close()
 		res = jsonable_encoder(json.dumps(data))

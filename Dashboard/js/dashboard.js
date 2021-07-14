@@ -118,7 +118,7 @@ start();
 
 setInterval(function() {
     diagnostics();
-  }, 2000);
+  }, 3000);
 
 setInterval(function() {
     clock();

@@ -3,12 +3,12 @@ var userGestures;
 
 function populateGesturesTable() {
 
-    let functionTypesJson = `[{"function" : "default action"}, {"function" : "macro"}, {"function" : "script"}]`
+    let functionTypesJson = `[{"function" : "default_action"}, {"function" : "macro"}, {"function" : "script"}]`
     let functionTypes = JSON.parse(functionTypesJson);
 
     //Get our table 
     let tableBody = document.getElementById("gestures-table-body");
-
+    console.log(userGestures);
     //Populate each gesture to table
     userGestures.forEach(gesture => {
 
@@ -32,17 +32,17 @@ function populateGesturesTable() {
 
 function postUpdatedGestures() {
     var gestureSettings = {"settings": userGestures}
-
+    console.log("trying to update gesture")
     var xhttp = new XMLHttpRequest();
     var url = 'http://localhost:8000/gesture-settings/'
     xhttp.open("POST", url, true);
     xhttp.setRequestHeader('Content-Type', 'application/json');
-    
     xhttp.send(JSON.stringify(gestureSettings));
+    console.log(gestureSettings)
 }
 
 function getGestures() {
-
+    console.log("trying to get gesture")
     var xhttp = new XMLHttpRequest();
     var url = 'http://localhost:8000/get-gestures/';
     xhttp.open("GET", url, true);
@@ -54,15 +54,16 @@ function getGestures() {
         gestureDataJson = JSON.parse(xhttp.responseText);
         
         userGestures = JSON.parse(gestureDataJson)["settings"];
-
-        console.log(userGestures);
         populateGesturesTable();
     };
 }
 
 function generateActionRow(gesture) {
     let predefinedJson = `[
+        {"name":""},
+        {"name":"Track"},
         {"name":"Left Click"},
+        {"name":"Double Click"},
         {"name":"Right Click"},
         {"name":"Zoom In"},
         {"name":"Zoom Out"},
@@ -74,6 +75,10 @@ function generateActionRow(gesture) {
         {"name":"Switch Desktop"},
         {"name":"Slide App Left"},
         {"name":"Slide App Right"},
+        {"name":"Window Right"},
+        {"name":"Window Left"},
+        {"name":"Close Window"},
+        {"name":"Fullscreen"},
         {"name":"Maximize App"},
         {"name":"Minimize App"},
         {"name":"Play"},
@@ -97,7 +102,10 @@ function generateActionRow(gesture) {
             //Populate list items
             predefinedFunctions.forEach(predef => {
                 let selected = predef.name === gesture['default_action_name'] ? "selected" : "";
-                predefinedFunctionList += `<option ${selected} value="${predef.name}">${predef.name}</option>\n`
+                if (predef.name == "")
+                predefinedFunctionList += `<option ${selected} value="${predef.name}">Select a Function</option>\n`
+                else
+                    predefinedFunctionList += `<option ${selected} value="${predef.name}">${predef.name}</option>\n`
             });
             
             //Finish our list
@@ -105,9 +113,15 @@ function generateActionRow(gesture) {
             
             return `<td class="td-action">${predefinedFunctionList}</td>`;
         case 'macro':
-            return `<td class="td-action" onclick="startRecording(event)">${gesture["macro"]}</td>`;
+            if (gesture["macro"] == "")
+                return `<td class="td-action" onclick="startRecording(event)">Click to Start Recording</td>`;
+            else
+                return `<td class="td-action" onclick="startRecording(event)">${gesture["macro"]}</td>`
         case 'script':
-            return `<td class="td-action" onclick="getScriptPath(event)">${gesture["path"]}</td>`;
+            if (gesture["path"] == "")
+                return `<td class="td-action" onclick="getScriptPath(event)">Click to Choose File</td>`;
+            else
+                return `<td class="td-action" onclick="getScriptPath(event)">${gesture["path"]}</td>`;
         default:
             return `<td>Undefined Function Type</td>`;
     }
@@ -190,7 +204,7 @@ function startRecording(event)
     let td = event.srcElement;
     let tr = td.parentElement;
     currentMacroRow = tr;
-    tr.cells[2].innerHTML = "";
+    tr.cells[2].innerHTML = "Recording";
     macroPresses.length = 0;
 
     window.addEventListener("keydown", keyDownCallback);
@@ -230,10 +244,8 @@ function getScriptPath(event)
 window.addEventListener('DOMContentLoaded', () => {
 
     getGestures();
-    populateGesturesTable();
 
-    $(".function-list").on("change", (event) => {
-            
+    $(document).on("change", ".function-list", (event) => {
         //Get the table cell of the script
         let select = event.originalEvent.target;
         let tableRow = select.parentElement.parentElement;
@@ -247,13 +259,12 @@ window.addEventListener('DOMContentLoaded', () => {
                 gesture['action'] = selectedVal;
                 let newRow = generateActionRow(gesture);
                 tableRow.cells[2].outerHTML = newRow;
-                postUpdatedGestures();
             }
         });
-    })
+    });
 
-    $(".predefined-list").on("change", (event) => {
-            
+    $(document).on("change",".predefined-list", (event) => {
+        console.log("list changed")
         //Get the table cell of the script
         let select = event.originalEvent.target;
         let tableRow = select.parentElement.parentElement;
@@ -268,6 +279,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 postUpdatedGestures();
             }
         });
-    })
+    });
 
 });

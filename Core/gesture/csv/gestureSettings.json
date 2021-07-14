@@ -102,16 +102,6 @@
         },
         {
             "action": "default_action",
-            "default_action_name": "Switch App",
-            "ending_position": "4 fingers",
-            "macro": "",
-            "motion": "right",
-            "name": "Slide right 4 Fingers",
-            "path": "",
-            "starting_position": "none"
-        },
-        {
-            "action": "default_action",
             "default_action_name": "Maximize App",
             "ending_position": "open",
             "macro": "",
@@ -321,20 +311,20 @@
             "starting_position": "none"
         },
         {
-            "action": "default_action",
+            "action": "script",
             "default_action_name": "",
             "ending_position": "close",
             "macro": "",
             "motion": "none",
             "name": "Spider Man to Close",
-            "path": "",
+            "path": "D:\\Users\\goodm\\Desktop\\dexter\\Dashboard\\app.js",
             "starting_position": "spider-man"
         },
         {
-            "action": "default_action",
+            "action": "macro",
             "default_action_name": "",
             "ending_position": "spider-man",
-            "macro": "",
+            "macro": "control + shift + p",
             "motion": "none",
             "name": "Close to Spider Man",
             "path": "",
