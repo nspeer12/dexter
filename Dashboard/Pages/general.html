@@ -8,7 +8,7 @@
         <!-- Javascript -->
         <script src="../js/general.js" charset="utf-8"></script>
     </head>
-    <form id="settings-form" onsubmit="saveGeneralSettings();">
+    <form id="settings-form" onsubmit="event.preventDefault(); saveGeneralSettings();">
         <div>
         <h3>Preferences</h3>
             <label>Name</label>

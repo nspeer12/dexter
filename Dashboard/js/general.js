@@ -1,11 +1,31 @@
 
 window.addEventListener('DOMContentLoaded', (event) =>{
+
+    var userSettings;
+
+    var xhttp = new XMLHttpRequest();
+    var url = 'http://localhost:8000/get-settings/';
+    xhttp.open("GET", url, true);
+    xhttp.send();
+
+    xhttp.onload = function() {        
+        userSettings = JSON.parse(JSON.parse(xhttp.responseText));
+        // console.log(userSettings);
+        // console.log(userSettings["input_device"]);
+        document.getElementById("input-device-list").value = userSettings["input_device"];
+        document.getElementById("output-device-list").value = userSettings["output_device"];
+        document.getElementById("camera_device-list").value = userSettings["camera_device"];
+        document.getElementById("name").value = userSettings["name"];
+        document.getElementById("dex-on-start").checked = userSettings["dexter_on_startup"];
+        document.getElementById("gest-on-start").checked = userSettings["gesture_on_startup"];
+    };
+
+
     navigator.mediaDevices.enumerateDevices()
     .then(function(devices) {
-
-        var outputList = document.getElementById("output-device-list");
         var inputList = document.getElementById("input-device-list");
-        var cameraList = document.getElementById("camera_device-list")
+        var outputList = document.getElementById("output-device-list");
+        var cameraList = document.getElementById("camera_device-list");
 
         var i = 0;
         devices.forEach(function(device) {
@@ -58,7 +78,7 @@ function saveGeneralSettings()
     console.log(JSON.stringify(settings));
 
     var xhttp = new XMLHttpRequest();
-    var url = 'http://localhost:8000/settings/';
+    var url = 'http://localhost:8000/update-settings/';
     xhttp.open("POST", url, true);
     xhttp.setRequestHeader("Content-Type", "application/json")
     xhttp.send(JSON.stringify(settings));

@@ -63,12 +63,25 @@ async def status():
 	
 	return Response(content=json.dumps({"core": "online", "dexter": dex_status, "gesture": gest_status}))
 
+@app.get('/get-settings/')
+async def get_settings():
+	print(os.getcwd())
+	intent_path = os.path.join(os.getcwd(), 'settings.json')
 
-@app.post('/settings/')
+	if os.path.exists(intent_path):
+		f = open(intent_path)
+		data = json.load(f)
+		# print(data)
+		
+		f.close()
+		res = jsonable_encoder(json.dumps(data))
+		return JSONResponse(content=res, media_type="application/json")
+
+@app.post('/update-settings/')
 async def settings_update(r: GeneralSettings):
 	print('settings')
 	write_general_settings(r)
-	return Response(content=json.dumps({"test":"hi"}))
+	return Response(content=json.dumps({"message":"user settings accepted"}))
 
 
 @app.post('/gesture-settings/')
