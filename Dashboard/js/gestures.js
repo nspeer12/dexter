@@ -8,7 +8,7 @@ function populateGesturesTable() {
 
     //Get our table 
     let tableBody = document.getElementById("gestures-table-body");
-
+    console.log(userGestures);
     //Populate each gesture to table
     userGestures.forEach(gesture => {
 
@@ -32,17 +32,17 @@ function populateGesturesTable() {
 
 function postUpdatedGestures() {
     var gestureSettings = {"settings": userGestures}
-
+    console.log("trying to update gesture")
     var xhttp = new XMLHttpRequest();
     var url = 'http://localhost:8000/gesture-settings/'
     xhttp.open("POST", url, true);
     xhttp.setRequestHeader('Content-Type', 'application/json');
-    
     xhttp.send(JSON.stringify(gestureSettings));
+    console.log(gestureSettings)
 }
 
 function getGestures() {
-
+    console.log("trying to get gesture")
     var xhttp = new XMLHttpRequest();
     var url = 'http://localhost:8000/get-gestures/';
     xhttp.open("GET", url, true);
@@ -54,8 +54,6 @@ function getGestures() {
         gestureDataJson = JSON.parse(xhttp.responseText);
         
         userGestures = JSON.parse(gestureDataJson)["settings"];
-
-        console.log(userGestures);
         populateGesturesTable();
     };
 }
@@ -237,10 +235,11 @@ function getScriptPath(event)
 window.addEventListener('DOMContentLoaded', () => {
 
     getGestures();
-    populateGesturesTable();
+
+    console.log("hello1");
 
     $(".function-list").on("change", (event) => {
-            
+        console.log("function")
         //Get the table cell of the script
         let select = event.originalEvent.target;
         let tableRow = select.parentElement.parentElement;
@@ -257,10 +256,12 @@ window.addEventListener('DOMContentLoaded', () => {
                 postUpdatedGestures();
             }
         });
-    })
+    });
+
+    console.log("hello2");
 
     $(".predefined-list").on("change", (event) => {
-            
+        console.log("list changed")
         //Get the table cell of the script
         let select = event.originalEvent.target;
         let tableRow = select.parentElement.parentElement;
@@ -275,6 +276,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 postUpdatedGestures();
             }
         });
-    })
+    });
 
 });
