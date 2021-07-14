@@ -61,7 +61,7 @@ async def status():
 	if gestp != None:
 		gest_status = "online"
 	
-	return Response(content=json.dumps({"dexter": dex_status, "gesture": gest_status}))
+	return Response(content=json.dumps({"core": "online", "dexter": dex_status, "gesture": gest_status}))
 
 
 @app.post('/settings/')
@@ -69,10 +69,6 @@ async def settings_update(r: GeneralSettings):
 	print('settings')
 	write_general_settings(r)
 	return Response(content=json.dumps({"test":"hi"}))
-
-
-
-
 
 
 @app.post('/gesture-settings/')
@@ -142,10 +138,13 @@ async def start_stop_dexter(cmd=None):
 
 	if cmd == 'start':
 		global dexp
-		dexp = multiprocessing.Process(target=launch_dexter, args=(settings,))
-		dexp.start()
-		return 'dexter started'
-
+		if not dexp:
+			dexp = multiprocessing.Process(target=launch_dexter, args=(settings,))
+			dexp.start()
+			return 'dexter started'
+		else:
+			return 'dexter already started'
+			
 	elif cmd == 'stop':
 		if dexp:
 			dexp.terminate()

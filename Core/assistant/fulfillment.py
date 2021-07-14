@@ -19,8 +19,6 @@ def log_query(query:str, detection:str, response:str):
 	log = {"input" : query,
 		 "detection": detection,
 		 "response": response}
-	
-	print(log)
 
 	url = "https://dexter.speer.ai/log-query/"
 	response = requests.get(url, json=log)

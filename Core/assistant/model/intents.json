@@ -6,7 +6,7 @@
         "responses": ["Hello!", "Good to see you again!", "Hi there, how can I help?"]
         },
         {"tag": "introduction",
-        "patterns": ["who are you","what are you"],
+        "patterns": ["who are you","what is this"],
         "responses": ["I am Dexter"]
         },
         {"tag": "goodbye",
@@ -17,8 +17,8 @@
         "patterns": ["who was the first man on the moon?", "what is the capital of china", "what is the meaning of life",
                      "can you do a backflip?", "is AI good or evil", "what is the internet", "what is blockchain",
                      "what is cryptocurrency", "how does a computer work", "who was the fifth president of the united states",
-                     "what is your favorite food", "what is bitcoin"],
-        "responses": ["Sad to see you go :(", "Talk to you later", "Goodbye!"]
+                     "what is your favorite food", "what is bitcoin", "when will the world end", "what are humans", "what is AI?"],
+        "responses": []
         },
         {"tag": "wiki",
             "patterns": ["who is Gucci Mane","what is the capital of Bangledesh","who are the Chicago Bears","what is a blackhole",
@@ -34,7 +34,7 @@
             "responses": []
         },
         {"tag": "play",
-            "patterns": ["play", "play ram ranch", "play ariana grande", "play metallica on youtube"],
+            "patterns": ["play", "play ram ranch", "play ariana grande", "play metallica on youtube", "play avicii", "play music"],
             "responses": []
         },
         {"tag": "resume",
@@ -42,11 +42,11 @@
             "responses": []
         },
         {"tag": "pause",
-            "patterns": ["pause"],
+            "patterns": ["pause", "pause the music", "pause the video", "stop playing", "stop"],
             "responses": []
         },
         {"tag": "increaseVolume",
-            "patterns": ["increase volume", "increase sound"],
+            "patterns": ["increase volume", "increase sound", "volume up", "turn up the volume"],
             "responses": []
         },
         {"tag": "decreaseVolume",
@@ -66,27 +66,27 @@
             "responses": []
         },
         {"tag": "restart",
-            "patterns": ["reset", "restart"],
+            "patterns": ["reset", "restart", "restart my pc", "reboot my pc", "reboot"],
             "responses": []
         },
         {"tag": "shutDown",
-            "patterns": ["shut down", "turn off"],
+            "patterns": ["shut down", "turn off", "shutdown my pc"],
             "responses": []
         },
         {"tag": "sleep",
-            "patterns": ["sleep"],
+            "patterns": ["sleep", "go to sleep"],
             "responses": []
         },
         {"tag": "minimize",
-            "patterns": ["minimize"],
+            "patterns": ["minimize", "minimze this window"],
             "responses": []
         },
         {"tag": "maximize",
-            "patterns": ["maximize"],
+            "patterns": ["maximize", "maximize windows", "maximize this window"],
             "responses": []
         },
         {"tag": "restore",
-            "patterns": ["restore"],
+            "patterns": ["restore", "restore windows", "restore my windows"],
             "responses": []
         },
         {"tag": "switchApplications",
