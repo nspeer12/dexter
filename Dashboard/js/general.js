@@ -1,11 +1,11 @@
 
-window.addEventListener('load', (event) =>{
-
+window.addEventListener('DOMContentLoaded', (event) =>{
     navigator.mediaDevices.enumerateDevices()
     .then(function(devices) {
 
         var outputList = document.getElementById("output-device-list");
         var inputList = document.getElementById("input-device-list");
+        var cameraList = document.getElementById("camera_device-list")
 
         var i = 0;
         devices.forEach(function(device) {
@@ -19,13 +19,17 @@ window.addEventListener('load', (event) =>{
             else if(device.kind == "audiooutput") {
                 outputList.add(dev);
             }
+            else if (device.kind == "videoinput"){
+                cameraList.add(dev);
+            }
         });
     })
 
-    document.getElementById("settings-button").onclick => {
-        console.log('here');
-        //saveGeneralSettings();
-    }
+    // document.getElementById("settings-button").onclick => {
+    //     console.log('here');
+    //     //saveGeneralSettings();
+    // }
+
 });
 
 function saveGeneralSettings()

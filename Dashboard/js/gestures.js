@@ -2,7 +2,7 @@ var userGestures;
 
 
 function populateGesturesTable() {
-
+    console.log("populating");
     let functionTypesJson = `[{"function" : "default_action"}, {"function" : "macro"}, {"function" : "script"}]`
     let functionTypes = JSON.parse(functionTypesJson);
 

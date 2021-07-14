@@ -174,12 +174,12 @@ function diagnostics() {
         percentageMem = Math.round(100 * data.used / data.total);
     });
 
-    si.graphics(function(data) {
-            percentageGPU = data.controllers[0].utilizationGpu;
-            memGPU = data.controllers[0].utilizationMemory;
-            tempGPU = data.controllers[0].temperatureGpu;
+    // si.graphics(function(data) {
+    //         percentageGPU = data.controllers[0].utilizationGpu;
+    //         memGPU = data.controllers[0].utilizationMemory;
+    //         tempGPU = data.controllers[0].temperatureGpu;
             
-    });
+    // });
 
     si.cpu(function(data) {
         clockCPU = data.main;
