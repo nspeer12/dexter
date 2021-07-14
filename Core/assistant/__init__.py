@@ -78,7 +78,6 @@ class Dexter:
 			'goodbye' : goodbye,
 			'wiki' : fulfillment_api,
 			'math' : math,
-			'news' : news,
 			'play' : play,
 			'resume' : resume,
 			'pause' : pause,
@@ -105,6 +104,7 @@ class Dexter:
 			'convo' : fulfillment_api,
 			'print_chat_log' : print_chat_log,
 			'fullscreen' : fullscreen,
+			'idk' : idk,
 		}
 
 

@@ -280,55 +280,24 @@ function getStatus()
 {
     let xhttp= new XMLHttpRequest();
     var url = new URL('http://127.0.0.1:8000/status/');
-    
-    var status = {"core": "offline", "dexter": "offline", "gesture" : "offline"}
 
     xhttp.responseType = 'json';
-
-    xhttp.onload = function() {
-
-        if (this.status === 200)
-        {
-            res = JSON.parse(JSON.stringify(xhttp.response));
-            if (res != null)
-                status = res;
-        }
-        
-        updateButtons(status);
-    };
-
-    xhttp.onerror = function(e) {
-        status = {"core": "offline", "dexter": "offline", "gesture" : "offline"};
-        updateButtons(status)
-    }
-
     xhttp.open("GET", url, true);
     xhttp.send();
+    xhttp.onload = function() {
+        
+        res = JSON.parse(JSON.stringify(xhttp.response));
+        updateButtons(res);
+    };
 
 }
-
-// pings Core server every 5 seconds to update status of processes
-var checkStatus = window.setInterval(function() {
-    var status = getStatus();
-}, 5000)
-
 
 var dexCmd = 'start';
 var gestCmd = 'start';
 
+
 function updateButtons(status)
 {
-
-    console.log(status["core"])
-
-    if (status["core"] == "online")
-    {
-        document.getElementById("core-status").innerHTML = "Core: Online";
-    }
-    else
-    {
-        document.getElementById("core-status").innerHTML = "Core: Offline";
-    }
 
     if (status["dexter"] == "online")
     {
@@ -350,7 +319,16 @@ function updateButtons(status)
     {
         document.getElementById('startStopGestureButton').innerHTML = 'Start Gesture';
         gestCmd = "start";
-    }    
+    }
+
+    if (status["core"] == "online")
+    {
+        document.getElementById('core-status').innerHTML = 'Core: Online';
+    }
+    else
+    {
+        document.getElementById('core-status').innerHTML = 'Core: Offline';
+    }  
 }
 
 
@@ -391,3 +369,7 @@ function controlGesture(data)
     }
 }
 
+// pings Core server every 5 seconds to update status of processes
+var checkStatus = window.setInterval(function() {
+    var status = getStatus();
+}, 5000)

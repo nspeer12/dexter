@@ -118,7 +118,7 @@ class HandDetection():
         self.last_function_time = 0
         self.last_frame_time = 0
         self.shortdelay = 0.3 # in seconds
-        self.longdelay = 1.5 # in seconds
+        self.longdelay = 2.0 # in seconds
         self.waitToEraseDataDelay = 0.3 # in seconds
         self.isChanging = False
         self.xSize, self.ySize = pyautogui.size()
@@ -128,6 +128,7 @@ class HandDetection():
         self.mapping = {
             "Left Click" : leftClick,
             "Right Click" : rightClick,
+            "Double Click" : doubleClick,
             "Zoom In" : zoomIn,
             "Zoom Out" : zoomOut,
             "Scroll Up" : scrollUp,
@@ -148,6 +149,10 @@ class HandDetection():
             "Decrease Volume" : decreaseVolume,
             "Unmute" : unmute,
             "Mute" : mute,
+            "Window Right": windowRight,
+            "Window Left": windowLeft,
+            "Close Window": closeWindow,
+            "Fullscreen": fullscreen,
             "Track": self.track
         }
         t1 = threading.Thread(target=self.getCamera)

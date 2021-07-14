@@ -32,8 +32,6 @@ function populateGesturesTable() {
 
 function postUpdatedGestures() {
     var gestureSettings = {"settings": userGestures}
-   
-    console.log(gestureSettings)
 
     var xhttp = new XMLHttpRequest();
     var url = 'http://localhost:8000/gesture-settings/'
@@ -58,38 +56,8 @@ function getGestures() {
         userGestures = JSON.parse(gestureDataJson)["settings"];
 
         console.log(userGestures);
-        populateGesturesTable()
+        populateGesturesTable();
     };
-    
-    
-    
-    /*
-    let gestureDataJson = `[
-        {"starting_position" : "pointer", "ending_position" : "close", "motion": "none", "name": "lower index", "action": "macro", "default_action_name":"Left Click", "macro":"Alt+F4", "path": ""},
-        {"starting_position" : "bunny ears", "ending_position" : "close", "motion": "none", "name": "lower index and middle", "action": "script", "default_action_name":"Right Click", "macro":"", "path": "C:/script.py"},
-        {"starting_position" : "ok", "ending_position" : "open", "motion": "none", "name": "Zoom in 2 Fingers", "action": "default_action", "default_action_name":"Zoom In", "macro":"", "path": ""},
-        {"starting_position" : "open", "ending_position" : "ok", "motion": "none", "name": "Zoom out 2 Fingers", "action": "default_action", "default_action_name":"Zoom Out", "macro":"", "path": ""},
-        {"starting_position" : "none", "ending_position" : "3 fingers", "motion": "up", "name": "Slide up 3 Fingers", "action": "default_action", "default_action_name":"Scroll Up", "macro":"", "path": ""},
-        {"starting_position" : "none", "ending_position" : "3 fingers", "motion": "down", "name": "Slide down 3 Fingers", "action": "default_action", "default_action_name":"Scroll Down", "macro":"", "path": ""},
-        {"starting_position" : "none", "ending_position" : "3 fingers", "motion": "left", "name": "Slide left 3 Fingers", "action": "default_action", "default_action_name":"Go Back", "macro":"", "path": ""},
-        {"starting_position" : "none", "ending_position" : "3 fingers", "motion": "right", "name": "Slide right 3 Fingers", "action": "default_action", "default_action_name":"Go Forward", "macro":"", "path": ""},
-        {"starting_position" : "none", "ending_position" : "4 fingers", "motion": "right", "name": "Slide right 4 Fingers", "action": "default_action", "default_action_name":"Switch App", "macro":"", "path": ""},
-        {"starting_position" : "none", "ending_position" : "4 fingers", "motion": "up", "name": "slide up 4 Fingers", "action": "default_action", "default_action_name":"Switch Desktop", "macro":"", "path": ""},
-        {"starting_position" : "none", "ending_position" : "open", "motion": "left", "name": "Slide left 5 Fingers", "action": "default_action", "default_action_name":"Slide App Left", "macro":"", "path": ""},
-        {"starting_position" : "none", "ending_position" : "open", "motion": "right", "name": "Slide right 5 Fingers", "action": "default_action", "default_action_name":"Slide App Right", "macro":"", "path": ""},
-        {"starting_position" : "duck finger", "ending_position" : "open", "motion": "none", "name": "Zoom out 5 Fingers", "action": "default_action", "default_action_name":"Maximize App", "macro":"", "path": ""},
-        {"starting_position" : "open", "ending_position" : "duck finger", "motion": "none", "name": "Zoom in 5 Fingers", "action": "default_action", "default_action_name":"Minimize App", "macro":"", "path": ""},
-        {"starting_position" : "close", "ending_position" : "open", "motion": "none", "name": "Open Hand", "action": "default_action", "default_action_name":"Play", "macro":"", "path": ""},
-        {"starting_position" : "open", "ending_position" : "close", "motion": "none", "name": "Close Hand", "action": "default_action", "default_action_name":"Pause", "macro":"", "path": ""},
-        {"starting_position" : "none", "ending_position" : "close", "motion": "right", "name": "Sliding right Closed Fist", "action": "default_action", "default_action_name":"Next Track", "macro":"", "path": ""},
-        {"starting_position" : "none", "ending_position" : "close", "motion": "left", "name": "Sliding left Closed Fist", "action": "default_action", "default_action_name":"Previous Track", "macro":"", "path": ""},
-        {"starting_position" : "none", "ending_position" : "thumbs up", "motion": "up", "name": "Sliding up Thumbs up", "action": "default_action", "default_action_name":"Increase Volume", "macro":"", "path": ""},
-        {"starting_position" : "none", "ending_position" : "thumbs down", "motion": "down", "name": "Sliding down Thumbs down", "action": "default_action", "default_action_name":"Decrease Volume", "macro":"", "path": ""},
-        {"starting_position" : "none", "ending_position" : "thumbs up", "motion": "left", "name": "Sliding left Thumbs up", "action": "default_action", "default_action_name":"Unmute", "macro":"", "path": ""},
-        {"starting_position" : "none", "ending_position" : "thumbs up", "motion": "right", "name": "Sliding right Thumbs up", "action": "default_action", "default_action_name":"Unmute", "macro":"", "path": ""},
-        {"starting_position" : "none", "ending_position" : "thumbs down", "motion": "left", "name": "Sliding left Thumbs down", "action": "default_action", "default_action_name":"Mute", "macro":"", "path": ""},
-        {"starting_position" : "none", "ending_position" : "thumbs down", "motion": "right", "name": "Sliding right Thumbs down", "action": "default_action", "default_action_name":"Mute", "macro":"", "path": ""}]`
-    */    
 }
 
 function generateActionRow(gesture) {

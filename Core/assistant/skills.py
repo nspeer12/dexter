@@ -10,8 +10,7 @@ from assistant.apis.weather_api import weather_get
 
 import time
 import datetime
-
-
+import random
 import json
 import requests
 
@@ -181,4 +180,10 @@ def print_chat_log(query:str, context):
 def weather(query, context):
     ans = weather_get(query,"Orlando")
     return ans
+
+def idk(query, context):
+    responses = ["sorry, I could not understand you", "I am unable to comprehend that", 
+                 "I'm not sure what you are talking about", "Sorry I don't think I can help you with that yet."]
+
+    return random.choice(responses)
 
