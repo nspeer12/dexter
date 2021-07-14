@@ -217,7 +217,7 @@
             "motion": "down",
             "name": "Thumbs Up Sliding Down",
             "path": "",
-            "starting_position": "none"
+            "starting_position": "thumbs up"
         },
         {
             "action": "default_action",
