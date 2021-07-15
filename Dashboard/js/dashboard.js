@@ -280,7 +280,7 @@ window.addEventListener('load', (event) =>{
         enableRemoteModule=yes,
         fullscreen=false,
         transparent=true,
-        frame=false,
+        frame=true,
         width=${width},
         height=${height}`);
     };
