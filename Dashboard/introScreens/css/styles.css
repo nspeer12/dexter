@@ -2361,7 +2361,7 @@ opacity: 0;
   border-radius: 4px;
   outline: 0;
   margin-left: 60vh;
-  margin-top: 10vh;
+  margin-top: 7vh;
 }
 
 .form-control-photon-page2{
@@ -2374,6 +2374,7 @@ opacity: 0;
   border-radius: 4px;
   outline: 0;
   margin-left: 2vh;
+  margin-top: -1vh;
   
 }
 
@@ -2387,6 +2388,11 @@ opacity: 0;
 
 .icon-compass {
   margin-left: 47%;
+  font-size: 80px;
+  color: rgb(8, 4, 36);
+}
+.icon-mic{
+  margin-left: 48%;
   font-size: 80px;
   color: rgb(8, 4, 36);
 }
@@ -2418,9 +2424,9 @@ opacity: 0;
   margin-left: 2vh;
 }
 .gestureSection {
-  margin-left: 50vh;
-  margin-top: -21vh;
   margin-right: 20vh;
+  margin-left: -30vh;
+  margin-top: 15vh;
 }
 .gestureStuff{
   font-size: medium;
@@ -2442,7 +2448,27 @@ opacity: 0;
 
 .btn-large-page3 {
   margin-left: 40%;
-  margin-top: 33vh;
+  margin-top: 30vh;
+  padding: 3.2px 11.5rem !important;
+  font-size: 1.3rem !important;
+  font-weight: 1.3rem !important;
+}
+
+
+.audioSection {
+  margin-top: -32vh;
+  margin-left: 105vh;
+  margin-right: 30vh;
+}
+
+.videoSelect{
+  margin-left: 32vh;
+  margin-right: 115vh;
+}
+
+.btn-large-page4{
+  margin-left: 40%;
+  margin-top: 20vh;
   padding: 3.2px 11.5rem !important;
   font-size: 1.3rem !important;
   font-weight: 1.3rem !important;
