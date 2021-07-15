@@ -592,10 +592,11 @@ ul {
 }
 
 #arc_container {
+    margin: auto;
+    top: 50%;
+    left: 50%;
     position: fixed;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
+    margin-left: -100px;
 }
 
 .arc_reactor {
@@ -608,7 +609,6 @@ ul {
     height: 250px;
     border-radius: 50%;
     box-shadow: 0px 0px 50px 15px rgba(2, 255, 255, 0.3), inset 0px 0px 50px 15px rgba(2, 255, 255, 0.3);
-
 }
 
 .case_container {
@@ -925,6 +925,7 @@ ul {
 
 .hline {
     width: 200px;
+    height: 0;
     border-bottom: 1px solid rgba(2, 255, 255, 0.3);
 }
 

@@ -2,13 +2,18 @@
 <html>
     <head>
         <title>Photon</title>
+
+        <script src="../js/jquery-3.6.0.min.js"></script>
+        <script src="../js/voice.js" charset="utf-8"></script>
+        
         <!-- Stylesheets -->
         <link rel="stylesheet" href="../css/photon.min.css">
         <link rel="stylesheet" href="../css/voice.css">
-        <script src="../js/voice.js" charset="utf-8"></script>
     </head>
-    <body>
+    <form>
         <div>
+
+            
             <section id="introduction">
                 <span>
                     <h2 style="text-align:center">Voice Assistant</h2>
@@ -16,52 +21,30 @@
                 </span>
             </section>
 
-            <section id="CustomSkills">
+            <section id="custom-skills">
                 <h2>Custom Skills</h2>
-                <button class="btn btn-primary" onclick="trainModel();">Train Model</button>
-                <button class="btn btn-secondary" onclick="addSkillDropDown();">Add Skill</button>
-                <div id="add-intent"></div>
-            </section>
-            <section id="add-intent-section">
-                <ul class="list-group" id="intent-list">
-                </ul>
+                <div id="custom-skills-section">
+                    <table class="table-striped" id="custom-skills-table">
+                        <thead>
+                            <tr>
+                                <th>Skill Name</th>
+                                <th>Patterns</th>
+                                <th>Action Type</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="skills-table-body">
+                        </tbody>
+                    </table>
+                    <button id="add-skill-btn" class="btn btn-form">Add Skill</button>
+                    <button id="save-skills-btn" class="btn btn-form btn-primary">Save Skills</button>
+                </div>
             </section>
             <section id="Default Skills">
                 <h2>Default Skills</h2>
-                
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <div class="media-body">
-                            <strong>Time</strong>
-                            <p>"Hey Dexter, what's the time?"</p>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="media-body">
-                            <strong>Weather</strong>
-                            <p>"Hey Dexter, is it going to rain today?"</p>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="media-body">
-                            <strong>Alarm</strong>
-                            <p>"Hey Dexter, set an alarm for 1:30pm"</p>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="media-body">
-                            <strong>Timer</strong>
-                            <p>"Hey Dexter, set a timer for 15 minutes"</p>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="media-body">
-                            <strong>Weather</strong>
-                            <p>"Hey Dexter, is it going to rain today?"</p>
-                        </div>
-                    </li>
+                <ul class="list-group"  id="default-skills-list">
                 </ul>
             </section>
         </div>
-    </body>
+    </form>
 </html>
