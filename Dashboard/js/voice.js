@@ -6,13 +6,25 @@ var functionTypes;
 var currentMacroRow;
 var macroPresses = [];
 
-function postCustomGestures() {
+function postCustomIntents() {
 
     //TODO: yo this is where you convert the customIntents object to JSON data and post it to the endpoint
     console.log(customIntents);
 }
 
 function getDefaultSkills() {
+
+    var xhttp = new XMLHttpRequest();
+    var url = 'http://localhost:8000/get-intents/';
+    xhttp.open("GET", url);
+    xhttp.send();
+
+    xhttp.onload = function() {
+        var data = JSON.parse(xhttp.responseText);
+        intents = data["intents"];
+        console.log(intents);
+        populateIntents(intents);
+    }
 
     //TODO: yo this is where the default intents end point is called and you set the default intents string to this string
 	let defaultIntentsString = `{
@@ -441,7 +453,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     $("#save-skills-btn").on('click', (event)=>{
         event.preventDefault();  
-        postCustomGestures();
+        postCustomIntents();
     });
 
     $("#add-skill-btn").on('click', (event)=> {
