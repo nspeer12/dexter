@@ -15,27 +15,35 @@ import json
 import os
 from settings import *
 from typing import Optional
+import uvicorn
 
 
 from fastapi.middleware.cors import CORSMiddleware
 
+
+
+
+print("running main.py")
+print(os.getcwd())
+os.chdir('../Core')
+print(os.getcwd())
+
 app = FastAPI()
 
 origins = [
-    "http://localhost",
-    "http://localhost:3000",
+	"http://localhost",
+	"http://localhost:3000",
 ]
 
 app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+	CORSMiddleware,
+	allow_origins=origins,
+	allow_credentials=True,
+	allow_methods=["*"],
+	allow_headers=["*"],
 )
 
 settings = load_settings()
-
 
 # gesture process
 gestp = None
@@ -212,3 +220,6 @@ async def local_api(query:str):
 			return '400'
 	except Exception as ex:
 		return ex
+
+if __name__ == "__main__":
+	uvicorn.run(app, host="127.0.0.1", port=8000)

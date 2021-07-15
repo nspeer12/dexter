@@ -2,7 +2,6 @@
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const { countReset } = require('console')
-const spawn = require("child_process");
 var http = require('http');
 var express = require('express')
 
@@ -80,3 +79,33 @@ function startCore() {
     
 }
 */
+
+const spawn = require('child_process').spawn;
+
+const ls = spawn('python', ['../Core/main.py']);
+
+ls.stdout.on('data', (data) => {
+  console.log(`stdout: ${data}`);
+});
+
+ls.stderr.on('data', (data) => {
+    console.log(`stderr: ${data}`);
+  });
+  
+ls.on('close', (code) => {
+console.log(`child process exited with code ${code}`);
+});
+
+// const { exec } = require('child_process');
+  
+// // Counts the number of directory in 
+// // current working directory
+// exec('cd../Core python test.py', (error, stdout, stderr) => {
+//   if (error) {
+//     console.error(`exec error: ${error}`);
+//     return;
+//   }
+//   console.log(`stdout:${stdout}`);
+//   if (stderr!= "")
+//   console.error(`stderr: ${stderr}`);
+// });

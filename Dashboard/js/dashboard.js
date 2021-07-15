@@ -94,6 +94,9 @@ onchange = function(stream) {
 };
 
 function start(){
+
+    
+
     if(anim){
         window.cancelAnimationFrame(anim);
     }
