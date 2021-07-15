@@ -43,21 +43,6 @@ app.add_middleware(
 	allow_headers=["*"],
 )
 
-settings = load_settings()
-
-# gesture process
-gestp = None
-if settings.gesture_on_startup:
-	gestp = multiprocessing.Process(target=launch_gesture, args=(settings,))
-	gestp.start()
-
-#dexter process
-dexp = None
-if settings.dexter_on_startup:
-	dexp = multiprocessing.Process(target=launch_dexter, args=(settings,))
-	dexp.start()
-
-
 @app.get('/status/')
 async def status():
 	dex_status = "offline"
@@ -222,4 +207,17 @@ async def local_api(query:str):
 		return ex
 
 if __name__ == "__main__":
+	settings = load_settings()
+
+	# gesture process
+	gestp = None
+	if settings.gesture_on_startup:
+		gestp = multiprocessing.Process(target=launch_gesture, args=(settings,))
+		gestp.start()
+
+	#dexter process
+	dexp = None
+	if settings.dexter_on_startup:
+		dexp = multiprocessing.Process(target=launch_dexter, args=(settings,))
+		dexp.start()
 	uvicorn.run(app, host="127.0.0.1", port=8000)

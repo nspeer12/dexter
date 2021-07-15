@@ -1,5 +1,5 @@
 {
-    "camera_device": 5,
+    "camera_device": 0,
     "debug": true,
     "dexter_on_startup": true,
     "gesture_on_startup": false,
