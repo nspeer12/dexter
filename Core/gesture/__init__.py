@@ -452,3 +452,7 @@ class HandDetection():
 def launch_gesture(settings):
     gesture = HandDetection(cap_device=settings.camera_device)
     gesture.loop()
+
+# def launch_gesture():
+#     gesture = HandDetection(cap_device=0)
+#     gesture.loop()

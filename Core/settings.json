@@ -1,9 +1,9 @@
 {
     "camera_device": 0,
     "debug": true,
-    "dexter_on_startup": true,
+    "dexter_on_startup": false,
     "gesture_on_startup": false,
     "input_device": 0,
-    "name": "Poop",
-    "output_device": 7
+    "name": "Nick",
+    "output_device": 6
 }
