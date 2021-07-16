@@ -4,7 +4,7 @@
             "action": "default_action",
             "default_action_name": "Track",
             "ending_position": "pointer",
-            "macro": "",
+            "macro": "volumemute",
             "motion": "any",
             "name": "Pointer",
             "path": "",
@@ -17,7 +17,7 @@
             "macro": "",
             "motion": "none",
             "name": "Lower index",
-            "path": "",
+            "path": "C:\\Users\\nspee\\AppData\\Local\\Discord\\Update.exe",
             "starting_position": "pointer"
         },
         {
@@ -271,7 +271,7 @@
             "starting_position": "close"
         },
         {
-            "action": "default_action",
+            "action": "macro",
             "default_action_name": "",
             "ending_position": "spider-man",
             "macro": "",
@@ -324,7 +324,7 @@
             "action": "macro",
             "default_action_name": "",
             "ending_position": "spider-man",
-            "macro": "control + shift + p",
+            "macro": "control + shift + i",
             "motion": "none",
             "name": "Close to Spider Man",
             "path": "",

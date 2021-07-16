@@ -181,18 +181,15 @@ class Dexter:
 
 	def listen(self):
 
-		# TODO:
-		#  - lower volume when listening
-
-		print('Listening...')
-
-		if self.beep_on_listen:
-					playsound('assistant/sounds/beep.wav')
-
 		with sr.Microphone(device_index=self.mic) as source:
 		
 			try:
-				recorded_audio = self.recognizer.listen(source, timeout=self.timeout, phrase_time_limit=5)
+				print('Listening...')
+
+				if self.beep_on_listen:
+					playsound('assistant/sounds/beep.wav')
+				
+				recorded_audio = self.recognizer.listen(source, timeout=3, phrase_time_limit=5)
 				
 				start = time.time()
 				print("Recognizing")

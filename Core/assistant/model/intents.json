@@ -6,7 +6,7 @@
         "responses": ["Hello!", "Good to see you again!", "Hi there, how can I help?"]
         },
         {"tag": "introduction",
-        "patterns": ["who are you","what is this"],
+        "patterns": ["introduce yourself", "give me an introduction", "intro", "introduce", "who are you", "tell me about yourself"],
         "responses": ["I am Dexter"]
         },
         {"tag": "goodbye",
@@ -17,20 +17,23 @@
         "patterns": ["who was the first man on the moon?", "what is the capital of china", "what is the meaning of life",
                      "can you do a backflip?", "is AI good or evil", "what is the internet", "what is blockchain",
                      "what is cryptocurrency", "how does a computer work", "who was the fifth president of the united states",
-                     "what is your favorite food", "what is bitcoin", "when will the world end", "what are humans", "what is AI?"],
+                     "what is your favorite food", "what is bitcoin", "when will the world end", "what are humans", "what is AI?",
+                     "how many beers is too many", "how many drinks is too many", "what consists of a healthy diet",
+                     "how often should I exercise", "how do I get the length of an array in java", "how do I iterate a list in python",
+                     "when was america's birthday", "what is pizza made out of"],
         "responses": []
         },
         {"tag": "wiki",
             "patterns": ["who is Gucci Mane","what is the capital of Bangledesh","who are the Chicago Bears","what is a blackhole",
                          "what is Chicago", "what as the Seattle Fire", "where is Florida", "what's the history of Clevland",
-                         "What is quantum physics"],
+                         "What is quantum physics", "who is Abraham Lincoln"],
             "responses": [] 
         },
         {"tag": "math",
             "patterns": ["1 + 2", "3 / 4", "5 * 6", "7 - 8", "9 % 0","what is 1 + 2", "what is 3 / 4", "what is 5 * 6", "what is 7 - 8",
                          "what is 9 % 0", "what is seventy four times 9", "what is eighty two divided by sixity nine", "what is the square root of thirteen",
                          "can you tell me what 99 * 52 is", "what is the integral of x squared", "what is the derivative of y to the power of 3",
-                         "what is the derivative of 2 x ^ 2", "what's the √ 2"],
+                         "what is the derivative of 2 x ^ 2", "what's the √ 2", "what is the area of a triangle", "what is the area of a hexagon"],
             "responses": []
         },
         {"tag": "play",
