@@ -28,21 +28,26 @@ window.addEventListener('DOMContentLoaded', (event) =>{
         var cameraList = document.getElementById("camera_device-list");
 
         var i = 0;
+        var j = 0;
         devices.forEach(function(device) {
             // console.log(device);
             var dev = document.createElement("option");
             dev.text = device.label
-            dev.value = i.toString();
-            ++i;
+            
             if(device.kind == "audioinput") {
                 inputList.add(dev);
+                dev.value = i.toString();
             }
             else if(device.kind == "audiooutput") {
                 outputList.add(dev);
+                dev.value = i.toString();
             }
             else if (device.kind == "videoinput"){
                 cameraList.add(dev);
+                dev.value = j.toString();
+                ++j;
             }
+            ++i;
         });
     })
 
