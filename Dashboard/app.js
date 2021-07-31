@@ -82,7 +82,7 @@ function startCore() {
 
 const spawn = require('child_process').spawn;
 
-const ls = spawn('C:/Users/nspee/Anaconda3/envs/dexter/python', ['../Core/main.py']);
+const ls = spawn('python', ['../Core/main.py']);
 
 ls.stdout.on('data', (data) => {
   console.log(`stdout: ${data}`);
