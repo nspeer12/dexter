@@ -271,7 +271,7 @@
             "starting_position": "close"
         },
         {
-            "action": "macro",
+            "action": "default_action",
             "default_action_name": "",
             "ending_position": "spider-man",
             "macro": "",
@@ -311,7 +311,7 @@
             "starting_position": "none"
         },
         {
-            "action": "script",
+            "action": "default_action",
             "default_action_name": "",
             "ending_position": "close",
             "macro": "",
@@ -321,7 +321,7 @@
             "starting_position": "spider-man"
         },
         {
-            "action": "macro",
+            "action": "default_action",
             "default_action_name": "",
             "ending_position": "spider-man",
             "macro": "control + shift + i",

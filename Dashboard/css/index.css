@@ -496,7 +496,7 @@ body {
     width: 25vw;
     height: 25vh;
     position: absolute;
-    top: 0;
+    bottom: 2.3vh;
     right: 0;
     margin: 1vmin;
     border: outset;
