@@ -175,7 +175,7 @@ function getDefaultSkills() {
 
 function getCustomSkills() {
 
-    let functionTypesJson = `[{"function" : "default action"}, {"function" : "macro"}, {"function" : "script"}]`
+    let functionTypesJson = `[{"function" : "default action"}, {"function" : "macro"}, {"function" : "script"}, {"function" : "file"}, {"function" : "application"}]`
     functionTypes = JSON.parse(functionTypesJson);
 
     //TODO: yo this is where the custom intents end point is called and you set the custom intents string to this string
@@ -185,7 +185,7 @@ function getCustomSkills() {
             {"tag": "Custom Skill 1",
             "patterns": ["hey sexy", "howdy", "yerrr"],
             "action": "default_action", 
-            "default_action_name":"Increase Volume", 
+            "default_action_name":"", 
             "macro":"", 
             "path": ""
             }
@@ -223,28 +223,25 @@ function populateCustomSkillsTable() {
 
 function generateActionRow(skill) {
     let predefinedJson = `[
-        {"name":"Left Click"},
-        {"name":"Right Click"},
-        {"name":"Zoom In"},
-        {"name":"Zoom Out"},
-        {"name":"Scroll Up"},
-        {"name":"Scroll Down"},
-        {"name":"Go Back"},
-        {"name":"Go Forward"},
-        {"name":"Switch App"},
-        {"name":"Switch Desktop"},
-        {"name":"Slide App Left"},
-        {"name":"Slide App Right"},
-        {"name":"Maximize App"},
-        {"name":"Minimize App"},
-        {"name":"Play"},
+        {"name":"Greeting"},
+        {"name":"Introduction"},
+        {"name":"Goodbye"},
+        {"name":"Resume"},
         {"name":"Pause"},
-        {"name":"Next Track"},
-        {"name":"Previous Track"},
         {"name":"Increase Volume"},
         {"name":"Decrease Volume"},
+        {"name":"Mute"},
         {"name":"Unmute"},
-        {"name":"Mute"}]`;
+        {"name":"Shutdown"},
+        {"name":"Sleep"},
+        {"name":"Minimize"},
+        {"name":"Maximize"},
+        {"name":"Restore"},
+        {"name":"Switch Applications"},
+        {"name":"Switch Desktop"},
+        {"name":"Date"},
+        {"name":"Time"},
+        {"name":"Weather"}]`;
 
     //Get our predefined function names
     let predefinedFunctions = JSON.parse(predefinedJson);

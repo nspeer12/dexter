@@ -254,21 +254,29 @@ class Dexter:
 		bag = torch.from_numpy(np.array(bag))
 		
 		output = self.model.forward(bag.float())
-		print(torch.argmax(output))
+		# print(torch.argmax(output))
 		prediction = self.Assistant_labels[torch.argmax(output)]
-        
-		# TODO: prediction threshold
+		record = self.df.loc[(self.df["tag"] == prediction)]
 
-		if prediction in self.mappings.keys():
-	
-			function_to_run = self.mappings[prediction]
-
-			if self.debug:
-				print(prediction)
-
-			res = function_to_run(text, self.context)
+		if (len(record.iloc[0]) > 0):
+			if (record.iloc[0]["actionType"] == "default_action"):
+				print(record.iloc[0]["default_action_name"])
+				res = self.mappings[record.iloc[0]["default_action_name"]](text, self.context)
+			elif (record.iloc[0]["actionType"] == "macro"):
+				macroString = record.iloc[0]["macro"].split(" + ")
+				pyautogui.press(macroString)
+				res = "Executing Macro"
+			elif (record.iloc[0]["actionType"] == "script"):
+				print("script", record.iloc[0]["script"])
+				res = "Executing Script"
+			elif (record.iloc[0]["actionType"] == "file"):
+				print("file", record.iloc[0]["file"])
+				res = "Opening File"
+			elif (record.iloc[0]["actionType"] == "application"):
+				print("application", record.iloc[0]["application"])
+				res = "Opening Application"
 			
-			# record command and response
+
 			if self.record_history and isinstance(res, str) and isinstance(text, str):
 
 
@@ -278,9 +286,36 @@ class Dexter:
 
 				self.context += 'Human: ' + str(text) + '\n'
 				self.context += 'AI: ' + str(res) + '\n'
-			
-			
+
 			return prediction, res
+
+		
+			
+        
+		# # TODO: prediction threshold
+
+		# if prediction in self.mappings.keys():
+	
+		# 	function_to_run = self.mappings[prediction]
+
+		# 	if self.debug:
+		# 		print(prediction)
+
+		# 	res = function_to_run(text, self.context)
+			
+		# 	# record command and response
+		# 	if self.record_history and isinstance(res, str) and isinstance(text, str):
+
+
+		# 		self.query_history.append(text)
+
+		# 		self.response_history.append(res)
+
+		# 		self.context += 'Human: ' + str(text) + '\n'
+		# 		self.context += 'AI: ' + str(res) + '\n'
+			
+			
+		# 	return prediction, res
 
 
 def launch_dexter(settings):
