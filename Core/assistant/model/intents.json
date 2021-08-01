@@ -510,6 +510,21 @@
             "application": ""
         },
         {
+            "tag": "Type",
+            "patterns": [
+                "type arianda grande",
+                "type hello there",
+                "type what"
+            ],
+            "customizable": false,
+            "actionType": "default_action",
+            "default_action_name": "Type",
+            "macro": "",
+            "script": "",
+            "file_path": "",
+            "application": ""
+        },
+        {
             "tag": "idk",
             "patterns": [
                 ""
@@ -529,7 +544,7 @@
             ],
             "customizable": true,
             "actionType": "default_action",
-            "default_action_name": "Introduction",
+            "default_action_name": "Greeting",
             "macro": "",
             "script": "",
             "file_path": "",

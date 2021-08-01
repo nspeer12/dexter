@@ -275,9 +275,9 @@
             "ending_position": "spider-man",
             "motion": "up",
             "name": "Sliding up Spider Man",
-            "action": "default_action",
+            "action": "macro",
             "default_action_name": "",
-            "macro": "",
+            "macro": "1 + 2",
             "path": ""
         },
         {

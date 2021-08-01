@@ -20,77 +20,79 @@ function scale (number, inMin, inMax, outMin, outMax) {
 }
 
 onchange = function(stream) {
+    if (stream.__proto__ === MediaStream.prototype)
+    {
+        var context = new AudioContext();
+        var src = context.createMediaStreamSource(stream);
+        var analyser = context.createAnalyser();
 
-    var context = new AudioContext();
-    var src = context.createMediaStreamSource(stream);
-    var analyser = context.createAnalyser();
+        src.connect(analyser);
+        analyser.fftSize = 512;
+        analyser.smoothingTimeConstant = .8
 
-    src.connect(analyser);
-    analyser.fftSize = 512;
-    analyser.smoothingTimeConstant = .8
+        var bufferLength = analyser.frequencyBinCount;
+        var bufferByBar = Math.round(bufferLength/barNumber);
+        var dataArray = new Uint8Array(bufferLength);
 
-    var bufferLength = analyser.frequencyBinCount;
-    var bufferByBar = Math.round(bufferLength/barNumber);
-    var dataArray = new Uint8Array(bufferLength);
+        var list = document.getElementsByClassName("marks")[0]
+        var marks = list.getElementsByTagName("li");
+        var core = document.getElementsByClassName("core2")[0]
 
-    var list = document.getElementsByClassName("marks")[0]
-    var marks = list.getElementsByTagName("li");
-    var core = document.getElementsByClassName("core2")[0]
+        var visualizerMode = "circle";
 
-    var visualizerMode = "circle";
+        var arc = document.getElementsByClassName("semi_arc_3 e5_3")[0];
 
-    var arc = document.getElementsByClassName("semi_arc_3 e5_3")[0];
+        var arc = document.getElementById("arc");
 
-    var arc = document.getElementById("arc");
+        function renderFrame() {
+            anim = requestAnimationFrame(renderFrame);
+            analyser.getByteFrequencyData(dataArray);
 
-    function renderFrame() {
-        anim = requestAnimationFrame(renderFrame);
-        analyser.getByteFrequencyData(dataArray);
+            var intensity = 0
+            var visualizer = true;
 
-        var intensity = 0
-        var visualizer = true;
-
+            
+            if (visualizer == true)
+            {
+                for (var i = 0; i < marks.length; ++i) {
+                    
+                    intensity += dataArray[i];
+                    // nick's flat bar
+                    //marks[i].style.transform = "rotate(" + (i*6) + "deg)" + "translateY(" +  scale((dataArray[i] * 2 + dataArray[marks.length - i]) / 2, 1, 250, 150, 225) + "px);
         
-        if (visualizer == true)
-        {
-            for (var i = 0; i < marks.length; ++i) {
-                
-                intensity += dataArray[i];
-                // nick's flat bar
-                //marks[i].style.transform = "rotate(" + (i*6) + "deg)" + "translateY(" +  scale((dataArray[i] * 2 + dataArray[marks.length - i]) / 2, 1, 250, 150, 225) + "px);
-    
-                if (visualizerMode === "flat")
-                {
-                    marks[i].style.transform = "scaleY(" + ((dataArray[i] * 2) * 0.05)  + ")";
-                    marks[i].style.transform += "translateX(-35vw) "
-                    marks[i].style.transform += "translate(" +  (0, 27*i) + "px)";
-                    marks[i].style.transform += "translateZ(-30px)";
+                    if (visualizerMode === "flat")
+                    {
+                        marks[i].style.transform = "scaleY(" + ((dataArray[i] * 2) * 0.05)  + ")";
+                        marks[i].style.transform += "translateX(-35vw) "
+                        marks[i].style.transform += "translate(" +  (0, 27*i) + "px)";
+                        marks[i].style.transform += "translateZ(-30px)";
+                    }
+                    else if (visualizerMode == "circle")
+                    {
+                        marks[i].style.transform = "rotate(" + (i*6) + "deg)" + "translateY(" +  scale((dataArray[i] + dataArray[marks.length - i] * 0.8), 1, 250, 150, 220) + "px) scaleY(" + ((dataArray[i] * 2 + dataArray[marks.length - i]) * 0.022) + ")";
+                    }
                 }
-                else if (visualizerMode == "circle")
-                {
-                    marks[i].style.transform = "rotate(" + (i*6) + "deg)" + "translateY(" +  scale((dataArray[i] + dataArray[marks.length - i] * 0.8), 1, 250, 150, 220) + "px) scaleY(" + ((dataArray[i] * 2 + dataArray[marks.length - i]) * 0.022) + ")";
-                }
+
+                var scalefactor = 1 + intensity * .00005;
+                arc.style.transform = "scale(" + scalefactor + "," + scalefactor + ");";
             }
+            
 
-            var scalefactor = 1 + intensity * .00005;
-            arc.style.transform = "scale(" + scalefactor + "," + scalefactor + ");";
+            intensity /= marks.length
+
+            // for (var i = 0; i < marks.length; ++i) {
+            //     marks[i].style.transform = "rotate(" + (i*6) + "deg) translateY(" +  scale(intensity, 0, 255, 130, 200) + "px)"
+            // }
+
+            core.style.background = "rgba(2, " + scale(0 ,0, 255, 200, 255) +", " + scale(0,0, 2 * i % 255, 200, 255) +", 0.8)";
+
+            
+            
+            // core transformations
+            
         }
-        
-
-        intensity /= marks.length
-
-        // for (var i = 0; i < marks.length; ++i) {
-        //     marks[i].style.transform = "rotate(" + (i*6) + "deg) translateY(" +  scale(intensity, 0, 255, 130, 200) + "px)"
-        // }
-
-        core.style.background = "rgba(2, " + scale(0 ,0, 255, 200, 255) +", " + scale(0,0, 2 * i % 255, 200, 255) +", 0.8)";
-
-        
-        
-        // core transformations
-        
+        renderFrame();
     }
-    renderFrame();
 };
 
 function start(){
@@ -225,17 +227,18 @@ async function consoleAPI(input) {
     let xhttp= new XMLHttpRequest();
     var url = new URL('http://127.0.0.1:8000/api/');
     url.searchParams.set('query', input);
-    console.log(url);
+    // console.log(url);
     xhttp.responseType = 'json';
     xhttp.open("GET", url, true);
     xhttp.send();
     xhttp.onload = function() {
       let res = JSON.parse(xhttp.response);
-      console.log(res);
+    //   console.log(res);
       var cons = document.getElementById("console");
       var textres = res["data"];
-      textres.replace('"', '');
-      cons.value += "- " + res["data"] + "\n";
+    //   textres.replace('"', '');
+    //   console.log(res["data"]);
+      cons.value += "- " + res["data"][1] + "\n";
       
     };
 }
@@ -247,7 +250,7 @@ function consoleInput() {
 
     
     var text = consoletext.value;
-    console.log(text);
+    // console.log(text);
     consoletext.value = "";
 
     cons.value += "> " + text + "\n";
@@ -313,7 +316,7 @@ function getStatus()
     xhttp.onload = function() {
         
         res = JSON.parse(JSON.stringify(xhttp.response));
-        console.log(res);
+        // console.log(res);
         updateButtons(res);
     };
 
@@ -370,7 +373,7 @@ function updateButtons(status)
 function controlDexter(data)
 {
 
-    console.log(dexCmd);
+    // console.log(dexCmd);
     if (dexCmd == "stop")
         document.getElementById('startStopDexterButton').innerHTML = "Stopping Dexter";
     else

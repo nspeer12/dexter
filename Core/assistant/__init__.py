@@ -55,8 +55,6 @@ class Dexter:
 			self.settings_json = json.load(f)["intents"]
 			self.df = pd.DataFrame(self.settings_json)
 
-		print(self.df)
-
 		# read in csv for num features and classes
 		with open(FEATURES_PATH) as f:
 			reader = csv.reader(f)
@@ -114,6 +112,7 @@ class Dexter:
 			'Print Chat Log' : print_chat_log,
 			'Fullscreen' : fullscreen,
 			'idk' : idk,
+			"Type": type_
 		}
 
 
@@ -322,4 +321,9 @@ def launch_dexter(settings):
 
     dexter = Dexter(debug=settings.debug,
 					input_device=settings.input_device)
+    dexter.hotword()
+
+def launch_dexter():
+
+    dexter = Dexter()
     dexter.hotword()

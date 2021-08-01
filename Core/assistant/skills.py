@@ -187,3 +187,9 @@ def idk(query, context):
 
     return random.choice(responses)
 
+def type_(query, context):
+    text = query.replace("type ", "")
+    print(text)
+    pyautogui.write(text, interval=0.05)
+    return 'typing sir'
+
