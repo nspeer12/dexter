@@ -6,14 +6,23 @@ var functionTypes;
 var currentMacroRow;
 var macroPresses = [];
 
-function postCustomIntents() {
-
-    //TODO: yo this is where you convert the customIntents object to JSON data and post it to the endpoint
-    console.log(customIntents);
+function updateIntents() {
+    var totalIntent = defaultIntents.concat(customIntents);
+    var intentSettings = {"intents" : totalIntent};
+    // console.log("trying to update intent")
+    var xhttp = new XMLHttpRequest();
+    var url = 'http://localhost:8000/intent-settings/'
+    xhttp.open("POST", url);
+    xhttp.setRequestHeader('Content-Type', 'application/json');
+    xhttp.send(JSON.stringify(intentSettings));
+    // console.log(intentSettings)
+    // xhttp.onload = function() {
+    //     console.log(JSON.parse(xhttp.responseText));
+    // }
 }
 
 function getIntent() {
-    console.log("trying to get intents")
+    // console.log("trying to get intents")
     var xhttp = new XMLHttpRequest();
     var url = 'http://localhost:8000/get-intents/';
     xhttp.open("GET", url, true);
@@ -37,7 +46,7 @@ function getDefaultIntent(){
     {
         return intent.customizable == false;
     });
-    console.log(defaultIntents);
+    // console.log(defaultIntents);
 }
 
 function getCustomIntent() {
@@ -45,7 +54,7 @@ function getCustomIntent() {
     customIntents = userIntent.filter(function (intent){
         return intent.customizable == true
     });
-    console.log(customIntents)
+    // console.log(customIntents)
 }
 
 function populateDefaultSkillsTable() {
@@ -53,14 +62,14 @@ function populateDefaultSkillsTable() {
     defaultIntents.forEach(intent => {
         let tag = intent.tag.charAt(0).toUpperCase() + intent.tag.slice(1);
         let pattern = intent.patterns[0];
-
-        $("#default-skills-list").append(
-            `<li class="list-group-item">
-                <div class="media-body">
-                    <strong>${tag}</strong>
-                    <p>"${pattern}"</p>
-                </div>
-            </li>`);
+        if (intent["tag"] != "idk" && intent["tag"] != "Print Chat Log")
+            $("#default-skills-list").append(
+                `<li class="list-group-item">
+                    <div class="media-body">
+                        <strong>${tag}</strong>
+                        <p>"${pattern}"</p>
+                    </div>
+                </li>`);
     });
 }
 
@@ -100,6 +109,7 @@ function generateActionRow(skill) {
 
     switch(skill["actionType"]) {
         case 'default action':
+        case 'default_action':
             
             //Start our drop down list
             let predefinedFunctionList = `<select class="form-control drop-down predefined-list">\n`;
@@ -128,16 +138,17 @@ function generateActionRow(skill) {
             else
                 return `<td class="td-action script-skill">${skill["script"]}</td>`;
         case 'file':
-            if (skill["file"] == "")
+            if (skill["file_path"] == "")
                 return `<td class="td-action file-skill">Click to Choose File</td>`;
             else
-                return `<td class="td-action file-skill">${skill["file"]}</td>`;
+                return `<td class="td-action file-skill">${skill["file_path"]}</td>`;
         case 'application':
             if (skill["application"] == "")
                 return `<td class="td-action application-skill">Click to Choose Application</td>`;
             else
                 return `<td class="td-action application-skill">${skill["application"]}</td>`;
         default:
+            // console.log(skill)
             return `<td>Undefined Function Type</td>`;
     }
 }
@@ -247,7 +258,7 @@ window.addEventListener('DOMContentLoaded', () => {
         let span = e.target;
         let tr = span.parentElement.parentElement;
         intent = customIntents[tr.rowIndex - 1];
-        console.log(intent)
+        // console.log(intent)
 
         customIntents.splice(tr.rowIndex - 1, 1);
         tr.remove()
@@ -294,41 +305,87 @@ window.addEventListener('DOMContentLoaded', () => {
 
       $("#skills-table-body").on('click', '.script-skill', function(e){
 
-            //Get the table cell of the script
-            let td = e.target;
-            let tr = td.parentElement;
-            intent = customIntents[tr.rowIndex - 1];
-            
-            //Promise is resolved when user selects file
-            let promise = parent.getPath();
-            promise.then((result)=> {
-            
-                //Validate Input
-                if(result.filePaths.length >= 1)
-                {
-                    //Replace file path
-                    td.innerHTML  = result.filePaths[0];
+        //Get the table cell of the script
+        let td = e.target;
+        let tr = td.parentElement;
+        intent = customIntents[tr.rowIndex - 1];
+        
+        //Promise is resolved when user selects file
+        let promise = parent.getPath();
+        promise.then((result)=> {
+        
+            //Validate Input
+            if(result.filePaths.length >= 1)
+            {
+                //Replace file path
+                td.innerHTML  = result.filePaths[0];
 
-                    intent['path'] = result.filePaths[0];
-                }
-            });
-      });
+                intent['script'] = result.filePaths[0];
+            }
+        });
+    });
 
+      $("#skills-table-body").on('click', '.file-skill', function(e){
+
+        //Get the table cell of the script
+        let td = e.target;
+        let tr = td.parentElement;
+        intent = customIntents[tr.rowIndex - 1];
+        
+        //Promise is resolved when user selects file
+        let promise = parent.getPath();
+        promise.then((result)=> {
+        
+            //Validate Input
+            if(result.filePaths.length >= 1)
+            {
+                //Replace file path
+                td.innerHTML  = result.filePaths[0];
+
+                intent['file'] = result.filePaths[0];
+            }
+        });
+    });
+
+    $("#skills-table-body").on('click', '.application-skill', function(e){
+
+        //Get the table cell of the script
+        let td = e.target;
+        let tr = td.parentElement;
+        intent = customIntents[tr.rowIndex - 1];
+        
+        //Promise is resolved when user selects file
+        let promise = parent.getPath();
+        promise.then((result)=> {
+        
+            //Validate Input
+            if(result.filePaths.length >= 1)
+            {
+                //Replace file path
+                td.innerHTML  = result.filePaths[0];
+
+                intent['application'] = result.filePaths[0];
+            }
+        });
+    });
     $("#save-skills-btn").on('click', (event)=>{
-        event.preventDefault();  
-        postCustomIntents();
+        event.preventDefault();
+        updateIntents();
     });
 
     $("#add-skill-btn").on('click', (event)=> {
         event.preventDefault();  
 
         let intent = { 
-            tag: "",
-            patterns: [""],
-            action: "default_action", 
-            default_action_name:"", 
-            macro:"", 
-            path: ""
+            tag: "asdf",
+            patterns: ["asdf","hello"],
+            customizable : true,
+            actionType: "default_action",
+            default_action_name: "asdf", 
+            macro : "",
+            script : "",
+            file : "",
+            application : ""
         };
         customIntents.push(intent);
         appendIntentEntry(intent);   
