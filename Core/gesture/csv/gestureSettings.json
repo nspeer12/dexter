@@ -16,7 +16,7 @@
             "motion": "none",
             "name": "Lower index",
             "action": "default_action",
-            "default_action_name": "Left Click",
+            "default_action_name": "",
             "macro": "",
             "path": "C:\\Users\\nspee\\AppData\\Local\\Discord\\Update.exe"
         },
@@ -277,7 +277,7 @@
             "name": "Sliding up Spider Man",
             "action": "macro",
             "default_action_name": "",
-            "macro": "1 + 2",
+            "macro": "ctrl + k + 0",
             "path": ""
         },
         {
@@ -286,8 +286,8 @@
             "motion": "down",
             "name": "Sliding down Spider Man",
             "action": "default_action",
-            "default_action_name": "",
-            "macro": "",
+            "default_action_name": "Scroll Down",
+            "macro": "ctrl + k + j",
             "path": ""
         },
         {
@@ -295,10 +295,10 @@
             "ending_position": "spider-man",
             "motion": "left",
             "name": "Sliding left Spider Man",
-            "action": "default_action",
+            "action": "script",
             "default_action_name": "",
             "macro": "",
-            "path": ""
+            "path": "D:\\Users\\goodm\\Desktop\\dexter\\Core\\test.py"
         },
         {
             "starting_position": "none",

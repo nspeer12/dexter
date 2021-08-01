@@ -273,22 +273,27 @@ class HandDetection():
                         if (len(record) > 0):
                             if (record.iloc[0]["action"] == "default_action"):
                                 print("default_action",record.iloc[0]["name"],record.iloc[0]["default_action_name"])
-                                # print(type(record.iloc[0]["default_action_name"]))
-                                t1 = threading.Thread(target=self.mapping[record.iloc[0]["default_action_name"]])
-                                t1.start()
+                                if record.iloc[0]["default_action_name"] in self.mapping.keys():
+                                    # print(type(record.iloc[0]["default_action_name"]))
+                                    t1 = threading.Thread(target=self.mapping[record.iloc[0]["default_action_name"]])
+                                    t1.start()
+                                    self.last_function_time = time.time()
                             elif (record.iloc[0]["action"] == "macro"):
                                 print("macro",record.iloc[0]["macro"])
-                                self.macroString = record.iloc[0]["macro"]
-                                self.macroString = self.macroString.split(" + ")
-                                print(self.macroString)
-                                t1 = threading.Thread(target=self.macro)
-                                t1.start()
+                                if (record.iloc[0]["macro"] != ""):
+                                    self.macroString = record.iloc[0]["macro"]
+                                    self.macroString = self.macroString.split(" + ")
+                                    print(self.macroString)
+                                    t1 = threading.Thread(target=self.macro)
+                                    t1.start()
+                                    self.last_function_time = time.time()
                             elif (record.iloc[0]["action"] == "script"):
                                 print("script",record.iloc[0]["path"])
-                                self.scriptPath = record.iloc[0]["path"]
-                                t1 = threading.Thread(target=self.script)
-                                t1.start()
-                            self.last_function_time = time.time()
+                                if (record.iloc[0]["path"] != ""):
+                                    self.scriptPath = record.iloc[0]["path"]
+                                    t1 = threading.Thread(target=self.script)
+                                    t1.start()
+                                    self.last_function_time = time.time()
                             # print(threading.active_count())
                             # self.mapping[record.iloc[0]["default_action_name"]]()
                         # function_to_be_executed = self.df.loc[(self.df["starting_position"] == self.gesture_labels[self.old_gesture]) & ((self.df["ending_position"] == self.gesture_labels[new_prediction]) | (self.df["ending_position"] == "any"))]["name"]
@@ -323,10 +328,30 @@ class HandDetection():
                             self.yCord = max(min( ((self.ySize - 0) / (0.8-0.3))*(gesture_cords[0][1] - 0.8) + self.ySize , self.ySize),0)
                             t1 = threading.Thread(target=self.mapping[record.iloc[0]["default_action_name"]])
                             t1.start()
-                        else:
-                            t1 = threading.Thread(target=self.mapping[record.iloc[0]["default_action_name"]])
-                            t1.start()
-                            self.last_function_time = time.time()
+                        elif (record.iloc[0]["action"] == "default_action"):
+                            print("default_action",record.iloc[0]["name"],record.iloc[0]["default_action_name"])
+                            if record.iloc[0]["default_action_name"] in self.mapping.keys():
+                                # print(type(record.iloc[0]["default_action_name"]))
+                                t1 = threading.Thread(target=self.mapping[record.iloc[0]["default_action_name"]])
+                                t1.start()
+                                self.last_function_time = time.time()
+                        elif (record.iloc[0]["action"] == "macro"):
+                            print("macro",record.iloc[0]["macro"])
+                            if (record.iloc[0]["macro"] != ""):
+                                self.macroString = record.iloc[0]["macro"]
+                                self.macroString = self.macroString.split(" + ")
+                                print(self.macroString)
+                                t1 = threading.Thread(target=self.macro)
+                                t1.start()
+                                self.last_function_time = time.time()
+                        elif (record.iloc[0]["action"] == "script"):
+                            print("script",record.iloc[0]["path"])
+                            if (record.iloc[0]["path"] != ""):
+                                self.scriptPath = record.iloc[0]["path"]
+                                t1 = threading.Thread(target=self.script)
+                                t1.start()
+                                self.last_function_time = time.time()
+
                         # print(threading.active_count())
                     # print(current_predict_motion, self.gesture_labels[new_prediction])
 
