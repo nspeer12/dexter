@@ -153,6 +153,9 @@ function keyReleased(event)
 {
     let key = parseKey(event.key)
 
+    if (key == "control")
+        key = "ctrl";
+
     //The user has release the first key pressed so stop recording and post gestures
     if(macroPresses.length != 0 && macroPresses[0] === key)
     {
@@ -178,6 +181,9 @@ function keyPressed(event) {
     event.preventDefault();  
 
     let key = parseKey(event.key)
+
+    if (key == "control")
+        key = "ctrl";
 
     //Dont listen to repeat key events
     if(event.repeat || macroPresses.includes(key)) 

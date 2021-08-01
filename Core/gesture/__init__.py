@@ -33,7 +33,15 @@ class HandDetection():
         pyautogui.moveTo(self.xCord,self.yCord)
 
     def macro(self):
-        pyautogui.press(self.macroString)
+        pyautogui.PAUSE = 0.01
+        for string in self.macroString:
+            print(string, "down")
+            pyautogui.keyDown(string)
+        temp = self.macroString[::-1]
+        for string in temp:
+            print(string, "up")
+            pyautogui.keyUp(string)
+        # pyautogui.hotkey(self.macroString)
 
     def getCamera(self):
         # Load Camera
@@ -269,6 +277,7 @@ class HandDetection():
                                 print("macro",record.iloc[0]["macro"])
                                 self.macroString = record.iloc[0]["macro"]
                                 self.macroString = self.macroString.split(" + ")
+                                print(self.macroString)
                                 t1 = threading.Thread(target=self.macro)
                                 t1.start()
                             elif (record.iloc[0]["action"] == "script"):
@@ -414,4 +423,8 @@ class HandDetection():
 
 def launch_gesture(settings):
     gesture = HandDetection(cap_device=settings.camera_device)
+    gesture.loop()
+
+def launch_gesture():
+    gesture = HandDetection()
     gesture.loop()

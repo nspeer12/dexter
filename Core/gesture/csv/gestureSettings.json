@@ -325,9 +325,9 @@
             "ending_position": "spider-man",
             "motion": "none",
             "name": "Close to Spider Man",
-            "action": "default_action",
+            "action": "macro",
             "default_action_name": "",
-            "macro": "control + shift + i",
+            "macro": "ctrl + shift + i",
             "path": ""
         }
     ]
