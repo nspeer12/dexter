@@ -315,10 +315,10 @@
             "ending_position": "close",
             "motion": "none",
             "name": "Spider Man to Close",
-            "action": "default_action",
+            "action": "script",
             "default_action_name": "",
             "macro": "",
-            "path": "D:\\Users\\goodm\\Desktop\\dexter\\Dashboard\\app.js"
+            "path": "D:\\Users\\goodm\\Desktop\\dexter\\Core\\test.py"
         },
         {
             "starting_position": "close",

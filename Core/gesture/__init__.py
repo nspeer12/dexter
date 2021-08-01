@@ -35,13 +35,16 @@ class HandDetection():
     def macro(self):
         pyautogui.PAUSE = 0.01
         for string in self.macroString:
-            print(string, "down")
+            # print(string, "down")
             pyautogui.keyDown(string)
         temp = self.macroString[::-1]
         for string in temp:
-            print(string, "up")
+            # print(string, "up")
             pyautogui.keyUp(string)
         # pyautogui.hotkey(self.macroString)
+
+    def script(self):
+        exec(open(self.scriptPath).read())
 
     def getCamera(self):
         # Load Camera
@@ -282,6 +285,9 @@ class HandDetection():
                                 t1.start()
                             elif (record.iloc[0]["action"] == "script"):
                                 print("script",record.iloc[0]["path"])
+                                self.scriptPath = record.iloc[0]["path"]
+                                t1 = threading.Thread(target=self.script)
+                                t1.start()
                             self.last_function_time = time.time()
                             # print(threading.active_count())
                             # self.mapping[record.iloc[0]["default_action_name"]]()
