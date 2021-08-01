@@ -1,220 +1,81 @@
+var userIntent;
 var defaultIntents;
 var customIntents;
-var userGestures;
 var functionTypes;
 
 var currentMacroRow;
 var macroPresses = [];
 
-function postCustomIntents() {
-
-    //TODO: yo this is where you convert the customIntents object to JSON data and post it to the endpoint
-    console.log(customIntents);
+function updateIntents() {
+    var totalIntent = defaultIntents.concat(customIntents);
+    var intentSettings = {"intents" : totalIntent};
+    // console.log("trying to update intent")
+    var xhttp = new XMLHttpRequest();
+    var url = 'http://localhost:8000/intent-settings/'
+    xhttp.open("POST", url);
+    xhttp.setRequestHeader('Content-Type', 'application/json');
+    xhttp.send(JSON.stringify(intentSettings));
+    // console.log(intentSettings)
+    // xhttp.onload = function() {
+    //     console.log(JSON.parse(xhttp.responseText));
+    // }
 }
 
-function getDefaultSkills() {
-
+function getIntent() {
+    // console.log("trying to get intents")
     var xhttp = new XMLHttpRequest();
     var url = 'http://localhost:8000/get-intents/';
-    xhttp.open("GET", url);
+    xhttp.open("GET", url, true);
     xhttp.send();
 
+    var intentDatJson;
+
     xhttp.onload = function() {
-        var data = JSON.parse(xhttp.responseText);
-        intents = data["intents"];
-        console.log(intents);
-        populateIntents(intents);
+        intentDatJson= JSON.parse(xhttp.responseText);
+        userIntent = JSON.parse(intentDatJson)["intents"];
+        // console.log(userIntent);
+        getCustomIntent();
+        getDefaultIntent();
+        populateDefaultSkillsTable();
+        populateCustomSkillsTable();
     }
-
-    //TODO: yo this is where the default intents end point is called and you set the default intents string to this string
-	let defaultIntentsString = `{
-        "intents":
-        [
-            {"tag": "greeting",
-            "patterns": ["Hi", "How are you", "Is anyone there?", "Hello", "Good day", "Whats up", "Hey", "greetings"],
-            "responses": ["Hello!", "Good to see you again!", "Hi there, how can I help?"]
-            },
-            {"tag": "introduction",
-            "patterns": ["who are you","what are you"],
-            "responses": ["I am Dexter"]
-            },
-            {"tag": "goodbye",
-            "patterns": ["cya", "See you later", "Goodbye", "I am Leaving", "Have a Good day", "bye", "see ya"],
-            "responses": ["Sad to see you go :(", "Talk to you later", "Goodbye!"]
-            },
-            {"tag": "question",
-            "patterns": ["who was the first man on the moon?", "what is the capital of china", "what is the meaning of life",
-                         "can you do a backflip?", "is AI good or evil", "what is the internet", "what is blockchain",
-                         "what is cryptocurrency", "how does a computer work", "who was the fifth president of the united states",
-                         "what is your favorite food", "what is bitcoin"],
-            "responses": ["Sad to see you go :(", "Talk to you later", "Goodbye!"]
-            },
-            {"tag": "wiki",
-                "patterns": ["who is Gucci Mane","what is the capital of Bangledesh","who are the Chicago Bears","what is a blackhole",
-                             "what is Chicago", "what as the Seattle Fire", "where is Florida", "what's the history of Clevland",
-                             "What is quantum physics"],
-                "responses": [] 
-            },
-            {"tag": "math",
-                "patterns": ["1 + 2", "3 / 4", "5 * 6", "7 - 8", "9 % 0","what is 1 + 2", "what is 3 / 4", "what is 5 * 6", "what is 7 - 8",
-                             "what is 9 % 0", "what is seventy four times 9", "what is eighty two divided by sixity nine", "what is the square root of thirteen",
-                             "can you tell me what 99 * 52 is", "what is the integral of x squared", "what is the derivative of y to the power of 3",
-                             "what is the derivative of 2 x ^ 2", "what's the √ 2"],
-                "responses": []
-            },
-            {"tag": "news",
-                "patterns": ["what is the news", "news"],
-                "responses": []
-            },
-            {"tag": "play",
-                "patterns": ["play", "play ram ranch", "play ariana grande", "play metallica on youtube"],
-                "responses": []
-            },
-            {"tag": "resume",
-                "patterns": ["resume","continue"],
-                "responses": []
-            },
-            {"tag": "pause",
-                "patterns": ["pause"],
-                "responses": []
-            },
-            {"tag": "increaseVolume",
-                "patterns": ["increase volume", "increase sound"],
-                "responses": []
-            },
-            {"tag": "decreaseVolume",
-                "patterns": ["decrease volume", "decrease sound"],
-                "responses": []
-            },
-            {"tag": "mute",
-                "patterns": ["mute","sound off"],
-                "responses": []
-            },
-            {"tag": "unmute",
-                "patterns": ["unmute","sound on", "turn up", "let's turn up", "let's get lit"],
-                "responses": []
-            },
-            {"tag": "fullscreen",
-                "patterns": ["fullscreen", "full screen", "exit full screen", "exit fullscreen"],
-                "responses": []
-            },
-            {"tag": "restart",
-                "patterns": ["reset", "restart"],
-                "responses": []
-            },
-            {"tag": "shutDown",
-                "patterns": ["shut down", "turn off"],
-                "responses": []
-            },
-            {"tag": "sleep",
-                "patterns": ["sleep"],
-                "responses": []
-            },
-            {"tag": "minimize",
-                "patterns": ["minimize"],
-                "responses": []
-            },
-            {"tag": "maximize",
-                "patterns": ["maximize"],
-                "responses": []
-            },
-            {"tag": "restore",
-                "patterns": ["restore"],
-                "responses": []
-            },
-            {"tag": "switchApplications",
-                "patterns": ["switch applications", "switch app"],
-                "responses": []
-            },
-            {"tag": "switchDesktop",
-                "patterns": ["switch desktop"],
-                "responses": []
-            },
-            {"tag": "openApplication",
-                "patterns": ["open application named"],
-                "responses": []
-            },
-            {"tag": "openFile",
-                "patterns": ["open file named"],
-                "responses": []
-            },
-            {"tag": "date",
-                "patterns": ["what date is today?"],
-                "responses": []
-            },
-            {"tag": "time",
-                "patterns": ["what is the time?", "what time is it?"],
-                "responses": []
-            },
-            {"tag": "day",
-                "patterns": ["what is day today?", "what's the day of the week", "what day of the week is it", "what's today"],
-                "responses": []
-            },
-            {"tag": "bitcoin_price",
-                "patterns": ["what is the price of bitcoin", "how much does bitcoin cost"],
-                "responses": []
-            },
-            {"tag": "convo",
-                "patterns": ["what is your favorite sport", "who are you", "what are you", "what can you do", "are you intelligent",
-                             "what is your favorite movie", "what music do you listen to", "what is your favorite food", "can you tell me your secrets",
-                             "Would you rather sacrifice one adult to save two children, or two children to save five adults, and why?",
-                             "Do you know what humans are", "what do humans want in life", "do you know about life on earth",
-                             "can you tie your shoe or not", "are you human", "can you do things that people can do"],
-                "responses": []
-            },
-            {"tag": "print_chat_log",
-                "patterns": ["print the chat log", "print our conversation", "print our current history", "print our conversation history"],
-                "responses": []
-            }
-        ]
-    }`
-
-    defaultIntents = JSON.parse(defaultIntentsString);
-    defaultIntents = defaultIntents.intents;
 }
 
-function getCustomSkills() {
-
-    let functionTypesJson = `[{"function" : "default action"}, {"function" : "macro"}, {"function" : "script"}]`
-    functionTypes = JSON.parse(functionTypesJson);
-
-    //TODO: yo this is where the custom intents end point is called and you set the custom intents string to this string
-	let customIntentsString = `{
-        "intents":
-        [
-            {"tag": "Custom Skill 1",
-            "patterns": ["hey sexy", "howdy", "yerrr"],
-            "action": "default_action", 
-            "default_action_name":"Increase Volume", 
-            "macro":"", 
-            "path": ""
-            }
-        ]
-    }`
-
-    customIntents = JSON.parse(customIntentsString);
-    customIntents = customIntents.intents;
+function getDefaultIntent(){
+    defaultIntents = userIntent.filter(function (intent)
+    {
+        return intent.customizable == false;
+    });
+    // console.log(defaultIntents);
 }
 
+function getCustomIntent() {
+
+    customIntents = userIntent.filter(function (intent){
+        return intent.customizable == true
+    });
+    // console.log(customIntents)
+}
 
 function populateDefaultSkillsTable() {
 
     defaultIntents.forEach(intent => {
         let tag = intent.tag.charAt(0).toUpperCase() + intent.tag.slice(1);
         let pattern = intent.patterns[0];
-
-        $("#default-skills-list").append(
-            `<li class="list-group-item">
-                <div class="media-body">
-                    <strong>${tag}</strong>
-                    <p>"${pattern}"</p>
-                </div>
-            </li>`);
+        if (intent["tag"] != "idk" && intent["tag"] != "Print Chat Log")
+            $("#default-skills-list").append(
+                `<li class="list-group-item">
+                    <div class="media-body">
+                        <strong>${tag}</strong>
+                        <p>"${pattern}"</p>
+                    </div>
+                </li>`);
     });
 }
 
 function populateCustomSkillsTable() {
-
+    let functionTypesJson = `[{"function" : "default action"}, {"function" : "macro"}, {"function" : "script"}, {"function" : "file"}, {"function" : "application"}]`
+    functionTypes = JSON.parse(functionTypesJson);
     //Populate each gesture to table
     customIntents.forEach(intent => {
         appendIntentEntry(intent); 
@@ -223,35 +84,32 @@ function populateCustomSkillsTable() {
 
 function generateActionRow(skill) {
     let predefinedJson = `[
-        {"name":"Left Click"},
-        {"name":"Right Click"},
-        {"name":"Zoom In"},
-        {"name":"Zoom Out"},
-        {"name":"Scroll Up"},
-        {"name":"Scroll Down"},
-        {"name":"Go Back"},
-        {"name":"Go Forward"},
-        {"name":"Switch App"},
-        {"name":"Switch Desktop"},
-        {"name":"Slide App Left"},
-        {"name":"Slide App Right"},
-        {"name":"Maximize App"},
-        {"name":"Minimize App"},
-        {"name":"Play"},
+        {"name":"Greeting"},
+        {"name":"Introduction"},
+        {"name":"Goodbye"},
+        {"name":"Resume"},
         {"name":"Pause"},
-        {"name":"Next Track"},
-        {"name":"Previous Track"},
         {"name":"Increase Volume"},
         {"name":"Decrease Volume"},
+        {"name":"Mute"},
         {"name":"Unmute"},
-        {"name":"Mute"}]`;
+        {"name":"Shutdown"},
+        {"name":"Sleep"},
+        {"name":"Minimize"},
+        {"name":"Maximize"},
+        {"name":"Restore"},
+        {"name":"Switch Applications"},
+        {"name":"Switch Desktop"},
+        {"name":"Date"},
+        {"name":"Time"},
+        {"name":"Weather"}]`;
 
     //Get our predefined function names
     let predefinedFunctions = JSON.parse(predefinedJson);
 
-    switch(skill["action"]) {
-        case 'default_action':
+    switch(skill["actionType"]) {
         case 'default action':
+        case 'default_action':
             
             //Start our drop down list
             let predefinedFunctionList = `<select class="form-control drop-down predefined-list">\n`;
@@ -259,7 +117,10 @@ function generateActionRow(skill) {
             //Populate list items
             predefinedFunctions.forEach(predef => {
                 let selected = predef.name === skill['default_action_name'] ? "selected" : "";
-                predefinedFunctionList += `<option ${selected} value="${predef.name}">${predef.name}</option>\n`
+                if (predef.name == "")
+                    predefinedFunctionList += `<option ${selected} value="${predef.name}">Select a Function</option>\n`
+                else
+                    predefinedFunctionList += `<option ${selected} value="${predef.name}">${predef.name}</option>\n`
             });
             
             //Finish our list
@@ -267,10 +128,27 @@ function generateActionRow(skill) {
             
             return `<td class="td-action predef-skill">${predefinedFunctionList}</td>`;
         case 'macro':
-            return `<td class="td-action macro-skill">${skill["macro"]}</td>`;
+            if (skill["macro"] == "")
+                return `<td class="td-action macro-skill">Click to Start Recording</td>`;
+            else
+                return `<td class="td-action macro-skill">${skill["macro"]}</td>`;
         case 'script':
-            return `<td class="td-action script-skill">${skill["path"]}</td>`;
+            if (skill["script"] == "")
+                return `<td class="td-action script-skill">Click to Choose Script</td>`;
+            else
+                return `<td class="td-action script-skill">${skill["script"]}</td>`;
+        case 'file':
+            if (skill["file_path"] == "")
+                return `<td class="td-action file-skill">Click to Choose File</td>`;
+            else
+                return `<td class="td-action file-skill">${skill["file_path"]}</td>`;
+        case 'application':
+            if (skill["application"] == "")
+                return `<td class="td-action application-skill">Click to Choose Application</td>`;
+            else
+                return `<td class="td-action application-skill">${skill["application"]}</td>`;
         default:
+            // console.log(skill)
             return `<td>Undefined Function Type</td>`;
     }
 }
@@ -343,7 +221,7 @@ function appendIntentEntry(intent) {
 
     functionTypes.forEach(funcType => {
         //Add selected tag to current selected action
-        let selected = funcType.function === intent["action"] ? "selected" : "";
+        let selected = funcType.function === intent["actionType"] ? "selected" : "";
         functionList += `<option ${selected} value="${funcType.function}">${funcType.function}</option>\n`
     });
             
@@ -363,11 +241,7 @@ function appendIntentEntry(intent) {
 
 window.addEventListener('DOMContentLoaded', () => {
 
-    getDefaultSkills();
-    getCustomSkills();
-
-    populateDefaultSkillsTable();
-    populateCustomSkillsTable();
+    getIntent();
 
     $("#skills-table-body").on('change', '.function-list', function(e){
         let select = e.target;
@@ -375,7 +249,7 @@ window.addEventListener('DOMContentLoaded', () => {
         let intent = customIntents[tableRow.rowIndex - 1];
         let selectedVal = $(select).val();
     
-        intent['action'] = selectedVal;
+        intent['actionType'] = selectedVal;
         tableRow.cells[3].outerHTML = generateActionRow(intent);
       });
 
@@ -384,7 +258,7 @@ window.addEventListener('DOMContentLoaded', () => {
         let span = e.target;
         let tr = span.parentElement.parentElement;
         intent = customIntents[tr.rowIndex - 1];
-        console.log(intent)
+        // console.log(intent)
 
         customIntents.splice(tr.rowIndex - 1, 1);
         tr.remove()
@@ -431,41 +305,87 @@ window.addEventListener('DOMContentLoaded', () => {
 
       $("#skills-table-body").on('click', '.script-skill', function(e){
 
-            //Get the table cell of the script
-            let td = e.target;
-            let tr = td.parentElement;
-            intent = customIntents[tr.rowIndex - 1];
-            
-            //Promise is resolved when user selects file
-            let promise = parent.getPath();
-            promise.then((result)=> {
-            
-                //Validate Input
-                if(result.filePaths.length >= 1)
-                {
-                    //Replace file path
-                    td.innerHTML  = result.filePaths[0];
+        //Get the table cell of the script
+        let td = e.target;
+        let tr = td.parentElement;
+        intent = customIntents[tr.rowIndex - 1];
+        
+        //Promise is resolved when user selects file
+        let promise = parent.getPath();
+        promise.then((result)=> {
+        
+            //Validate Input
+            if(result.filePaths.length >= 1)
+            {
+                //Replace file path
+                td.innerHTML  = result.filePaths[0];
 
-                    intent['path'] = result.filePaths[0];
-                }
-            });
-      });
+                intent['script'] = result.filePaths[0];
+            }
+        });
+    });
 
+      $("#skills-table-body").on('click', '.file-skill', function(e){
+
+        //Get the table cell of the script
+        let td = e.target;
+        let tr = td.parentElement;
+        intent = customIntents[tr.rowIndex - 1];
+        
+        //Promise is resolved when user selects file
+        let promise = parent.getPath();
+        promise.then((result)=> {
+        
+            //Validate Input
+            if(result.filePaths.length >= 1)
+            {
+                //Replace file path
+                td.innerHTML  = result.filePaths[0];
+
+                intent['file'] = result.filePaths[0];
+            }
+        });
+    });
+
+    $("#skills-table-body").on('click', '.application-skill', function(e){
+
+        //Get the table cell of the script
+        let td = e.target;
+        let tr = td.parentElement;
+        intent = customIntents[tr.rowIndex - 1];
+        
+        //Promise is resolved when user selects file
+        let promise = parent.getPath();
+        promise.then((result)=> {
+        
+            //Validate Input
+            if(result.filePaths.length >= 1)
+            {
+                //Replace file path
+                td.innerHTML  = result.filePaths[0];
+
+                intent['application'] = result.filePaths[0];
+            }
+        });
+    });
     $("#save-skills-btn").on('click', (event)=>{
-        event.preventDefault();  
-        postCustomIntents();
+        event.preventDefault();
+        updateIntents();
     });
 
     $("#add-skill-btn").on('click', (event)=> {
         event.preventDefault();  
 
         let intent = { 
-            tag: "",
-            patterns: [""],
-            action: "default_action", 
-            default_action_name:"Increase Volume", 
-            macro:"", 
-            path: ""
+            tag: "asdf",
+            patterns: ["asdf","hello"],
+            customizable : true,
+            actionType: "default_action",
+            default_action_name: "asdf", 
+            macro : "",
+            script : "",
+            file : "",
+            application : ""
         };
         customIntents.push(intent);
         appendIntentEntry(intent);   

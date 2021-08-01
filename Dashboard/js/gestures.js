@@ -2,13 +2,13 @@ var userGestures;
 
 
 function populateGesturesTable() {
-    console.log("populating");
+    // console.log("populating");
     let functionTypesJson = `[{"function" : "default_action"}, {"function" : "macro"}, {"function" : "script"}]`
     let functionTypes = JSON.parse(functionTypesJson);
 
     //Get our table 
     let tableBody = document.getElementById("gestures-table-body");
-    console.log(userGestures);
+    // console.log(userGestures);
     //Populate each gesture to table
     userGestures.forEach(gesture => {
 
@@ -32,17 +32,17 @@ function populateGesturesTable() {
 
 function postUpdatedGestures() {
     var gestureSettings = {"settings": userGestures}
-    console.log("trying to update gesture")
+    // console.log("trying to update gesture")
     var xhttp = new XMLHttpRequest();
     var url = 'http://localhost:8000/gesture-settings/'
     xhttp.open("POST", url, true);
     xhttp.setRequestHeader('Content-Type', 'application/json');
     xhttp.send(JSON.stringify(gestureSettings));
-    console.log(gestureSettings)
+    // console.log(gestureSettings)
 }
 
 function getGestures() {
-    console.log("trying to get gesture")
+    // console.log("trying to get gesture")
     var xhttp = new XMLHttpRequest();
     var url = 'http://localhost:8000/get-gestures/';
     xhttp.open("GET", url, true);
@@ -103,7 +103,7 @@ function generateActionRow(gesture) {
             predefinedFunctions.forEach(predef => {
                 let selected = predef.name === gesture['default_action_name'] ? "selected" : "";
                 if (predef.name == "")
-                predefinedFunctionList += `<option ${selected} value="${predef.name}">Select a Function</option>\n`
+                    predefinedFunctionList += `<option ${selected} value="${predef.name}">Select a Function</option>\n`
                 else
                     predefinedFunctionList += `<option ${selected} value="${predef.name}">${predef.name}</option>\n`
             });
@@ -264,7 +264,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     $(document).on("change",".predefined-list", (event) => {
-        console.log("list changed")
+        // console.log("list changed")
         //Get the table cell of the script
         let select = event.originalEvent.target;
         let tableRow = select.parentElement.parentElement;

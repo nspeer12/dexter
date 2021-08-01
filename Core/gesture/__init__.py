@@ -23,44 +23,7 @@ import json
 from .model.gesture.gestureModel import NeuralNetG
 # from model.motion.motionModel import NeuralNetM
 
-
-
 pyautogui.PAUSE = 0.01
-# print(os.getcwd())
-
-# def mouseDown():
-#     print("mouse down")
-
-#     if sys.platform == 'win32':
-#         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,0,0)
-#     else:
-#         pyautogui.mouseDown()
-
-
-# def mouseUp():
-#     print("mouse up")
-
-#     if sys.platform == 'win32':
-#         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,0,0)
-#     else:
-#         pyautogui.mouseUp()
-
-
-# def zoomOut():
-#     print("zooming out")
-
-# def zoomIn():
-#     print("zooming in")
-#     pyautogui.hotkey('ctrl', '=')
-
-
-# def click():
-#     print('click')
-
-#     if sys.platform == 'win32':
-#         print('click on windows')
-#     else:
-#         pyautogui.click()
 
 class HandDetection():
 

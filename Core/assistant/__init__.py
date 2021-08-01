@@ -17,6 +17,7 @@ import numpy as np
 import pvporcupine
 import pyaudio
 import struct
+import pandas as pd
 
 # need to move path back
 import sys
@@ -45,6 +46,16 @@ class Dexter:
 		ASSISTANT_PATH = path.join(dir_name, "model/AssistantModel.pth")
 		FEATURES_PATH = path.join(dir_name, "model/Assistant_features.csv")
 		LABELS_PATH = path.join(dir_name, "model/Assistant_labels.csv")
+		INTENT_PATH = path.join(dir_name, "model/intents.json")
+
+		# read in intents.json as a dataframe
+		print("loading intents.json")
+
+		with open(INTENT_PATH) as f:
+			self.settings_json = json.load(f)["intents"]
+			self.df = pd.DataFrame(self.settings_json)
+
+		print(self.df)
 
 		# read in csv for num features and classes
 		with open(FEATURES_PATH) as f:
@@ -73,37 +84,35 @@ class Dexter:
 		
 
 		self.mappings = {
-			'greeting' : greeting,
-			'introduction' : introduction,
-			'goodbye' : goodbye,
-			'wiki' : fulfillment_api,
-			'math' : math,
-			'play' : play,
-			'resume' : resume,
-			'pause' : pause,
-			'increaseVolume' : increaseVolume,
-			'decreaseVolume' : decreaseVolume,
-			'mute' : mute,
-			'unmute' : unmute,
-			'reset' : reset,
-			'shutdown' : shutdown,
-			'sleep' : sleep,
-			'minimize' : minimize,
-			'maximize' : maximize,
-			'restore' : restore,
-			'switchApplications' : switchApplications,
-			'switchDesktop' : switchDesktop,
-			'openApplication' : openApplication,
-			'openFile' : openFile,
-			'date' : date,
-			'time' : get_time,
-			'day' : day,
-			'question' : fulfillment_api,
-      		'weather' : weather,
-			'bitcoin_price' : bitcoin_price,
-			'convo' : fulfillment_api,
-			'print_chat_log' : print_chat_log,
-			'fullscreen' : fullscreen,
+			'Greeting' : greeting,
+			'Introduction' : introduction,
+			'Goodbye' : goodbye,
+			'Wiki' : fulfillment_api,
+			'Math' : math,
+			'Play' : play,
+			'Resume' : resume,
+			'Pause' : pause,
+			'Increase Volume' : increaseVolume,
+			'Decrease Volume' : decreaseVolume,
+			'Mute' : mute,
+			'Unmute' : unmute,
+			'Reset' : reset,
+			'Shutdown' : shutdown,
+			'Sleep' : sleep,
+			'Minimize' : minimize,
+			'Maximize' : maximize,
+			'Restore' : restore,
+			'Switch Applications' : switchApplications,
+			'Switch Desktop' : switchDesktop,
+			'Date' : date,
+			'Time' : get_time,
+			'Day' : day,
+			'Question' : fulfillment_api,
+      		'Weather' : weather,
+			'Bitcoin Price' : bitcoin_price,
+			'Convo' : fulfillment_api,
+			'Print Chat Log' : print_chat_log,
+			'Fullscreen' : fullscreen,
 			'idk' : idk,
 		}
 
@@ -245,21 +254,29 @@ class Dexter:
 		bag = torch.from_numpy(np.array(bag))
 		
 		output = self.model.forward(bag.float())
-
+		# print(torch.argmax(output))
 		prediction = self.Assistant_labels[torch.argmax(output)]
-        
-		# TODO: prediction threshold
+		record = self.df.loc[(self.df["tag"] == prediction)]
 
-		if prediction in self.mappings.keys():
-	
-			function_to_run = self.mappings[prediction]
-
-			if self.debug:
-				print(prediction)
-
-			res = function_to_run(text, self.context)
+		if (len(record.iloc[0]) > 0):
+			if (record.iloc[0]["actionType"] == "default_action"):
+				print(record.iloc[0]["default_action_name"])
+				res = self.mappings[record.iloc[0]["default_action_name"]](text, self.context)
+			elif (record.iloc[0]["actionType"] == "macro"):
+				macroString = record.iloc[0]["macro"].split(" + ")
+				pyautogui.press(macroString)
+				res = "Executing Macro"
+			elif (record.iloc[0]["actionType"] == "script"):
+				print("script", record.iloc[0]["script"])
+				res = "Executing Script"
+			elif (record.iloc[0]["actionType"] == "file"):
+				print("file", record.iloc[0]["file"])
+				res = "Opening File"
+			elif (record.iloc[0]["actionType"] == "application"):
+				print("application", record.iloc[0]["application"])
+				res = "Opening Application"
 			
-			# record command and response
+
 			if self.record_history and isinstance(res, str) and isinstance(text, str):
 
 
@@ -269,9 +286,36 @@ class Dexter:
 
 				self.context += 'Human: ' + str(text) + '\n'
 				self.context += 'AI: ' + str(res) + '\n'
-			
-			
+
 			return prediction, res
+
+		
+			
+        
+		# # TODO: prediction threshold
+
+		# if prediction in self.mappings.keys():
+	
+		# 	function_to_run = self.mappings[prediction]
+
+		# 	if self.debug:
+		# 		print(prediction)
+
+		# 	res = function_to_run(text, self.context)
+			
+		# 	# record command and response
+		# 	if self.record_history and isinstance(res, str) and isinstance(text, str):
+
+
+		# 		self.query_history.append(text)
+
+		# 		self.response_history.append(res)
+
+		# 		self.context += 'Human: ' + str(text) + '\n'
+		# 		self.context += 'AI: ' + str(res) + '\n'
+			
+			
+		# 	return prediction, res
 
 
 def launch_dexter(settings):
