@@ -103,7 +103,7 @@ function generateActionRow(gesture) {
             predefinedFunctions.forEach(predef => {
                 let selected = predef.name === gesture['default_action_name'] ? "selected" : "";
                 if (predef.name == "")
-                predefinedFunctionList += `<option ${selected} value="${predef.name}">Select a Function</option>\n`
+                    predefinedFunctionList += `<option ${selected} value="${predef.name}">Select a Function</option>\n`
                 else
                     predefinedFunctionList += `<option ${selected} value="${predef.name}">${predef.name}</option>\n`
             });

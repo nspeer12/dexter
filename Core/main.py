@@ -87,10 +87,10 @@ async def gesture_settings(r:GestureSettingList):
 @app.get('/get-gestures/')
 async def get_gestures():
 	print(os.getcwd())
-	intent_path = os.path.join(os.getcwd(), 'gesture/csv/gestureSettings.json')
+	gesture_path = os.path.join(os.getcwd(), 'gesture/csv/gestureSettings.json')
 
-	if os.path.exists(intent_path):
-		f = open(intent_path)
+	if os.path.exists(gesture_path):
+		f = open(gesture_path)
 		data = json.load(f)
 		# print(data)
 		
@@ -114,8 +114,8 @@ async def get_intents():
 		data = json.load(f)
 		# print(data)
 		f.close()
-
-		return Response(content=json.dumps(data), media_type="application/json")
+		res = jsonable_encoder(json.dumps(data))
+		return Response(content=json.dumps(res), media_type="application/json")
 
 
 

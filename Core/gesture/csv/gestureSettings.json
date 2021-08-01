@@ -1,334 +1,334 @@
 {
     "settings": [
         {
-            "action": "default_action",
-            "default_action_name": "Track",
+            "starting_position": "none",
             "ending_position": "pointer",
-            "macro": "volumemute",
             "motion": "any",
             "name": "Pointer",
-            "path": "",
-            "starting_position": "none"
+            "action": "default_action",
+            "default_action_name": "Track",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Left Click",
+            "starting_position": "pointer",
             "ending_position": "close",
-            "macro": "",
             "motion": "none",
             "name": "Lower index",
-            "path": "C:\\Users\\nspee\\AppData\\Local\\Discord\\Update.exe",
-            "starting_position": "pointer"
+            "action": "default_action",
+            "default_action_name": "Left Click",
+            "macro": "",
+            "path": "C:\\Users\\nspee\\AppData\\Local\\Discord\\Update.exe"
         },
         {
-            "action": "default_action",
-            "default_action_name": "Double Click",
+            "starting_position": "bunny ears",
             "ending_position": "close",
-            "macro": "",
             "motion": "none",
             "name": "Lower index and middle",
-            "path": "",
-            "starting_position": "bunny ears"
+            "action": "default_action",
+            "default_action_name": "Double Click",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Right Click",
+            "starting_position": "3 fingers",
             "ending_position": "close",
-            "macro": "",
             "motion": "none",
             "name": "Lower index and middle and ring",
-            "path": "",
-            "starting_position": "3 fingers"
+            "action": "default_action",
+            "default_action_name": "Right Click",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Scroll Up",
+            "starting_position": "none",
             "ending_position": "bunny ears",
-            "macro": "",
             "motion": "up",
             "name": "Slide up 2 Fingers",
-            "path": "",
-            "starting_position": "none"
+            "action": "default_action",
+            "default_action_name": "Scroll Up",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Scroll Down",
+            "starting_position": "none",
             "ending_position": "bunny ears",
-            "macro": "",
             "motion": "down",
             "name": "Slide down 2 Fingers",
-            "path": "",
-            "starting_position": "none"
+            "action": "default_action",
+            "default_action_name": "Scroll Down",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Go Back",
+            "starting_position": "none",
             "ending_position": "bunny ears",
-            "macro": "",
             "motion": "left",
             "name": "Slide left 2 Fingers",
-            "path": "",
-            "starting_position": "none"
+            "action": "default_action",
+            "default_action_name": "Go Back",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Go Forward",
+            "starting_position": "none",
             "ending_position": "bunny ears",
-            "macro": "",
             "motion": "right",
             "name": "Slide right 2 Fingers",
-            "path": "",
-            "starting_position": "none"
+            "action": "default_action",
+            "default_action_name": "Go Forward",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Zoom In",
+            "starting_position": "ok",
             "ending_position": "open",
-            "macro": "",
             "motion": "none",
             "name": "Zoom in 2 Fingers",
-            "path": "",
-            "starting_position": "ok"
+            "action": "default_action",
+            "default_action_name": "Zoom In",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Zoom Out",
+            "starting_position": "open",
             "ending_position": "ok",
-            "macro": "",
             "motion": "none",
             "name": "Zoom out 2 Fingers",
-            "path": "",
-            "starting_position": "open"
+            "action": "default_action",
+            "default_action_name": "Zoom Out",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Maximize App",
+            "starting_position": "duck finger",
             "ending_position": "open",
-            "macro": "",
             "motion": "none",
             "name": "Zoom out 5 Fingers",
-            "path": "",
-            "starting_position": "duck finger"
+            "action": "default_action",
+            "default_action_name": "Maximize App",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Minimize App",
+            "starting_position": "open",
             "ending_position": "duck finger",
-            "macro": "",
             "motion": "none",
             "name": "Zoom in 5 Fingers",
-            "path": "",
-            "starting_position": "open"
+            "action": "default_action",
+            "default_action_name": "Minimize App",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Slide App Left",
+            "starting_position": "none",
             "ending_position": "open",
-            "macro": "",
             "motion": "left",
             "name": "Slide left 5 Fingers",
-            "path": "",
-            "starting_position": "none"
+            "action": "default_action",
+            "default_action_name": "Slide App Left",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Slide App Right",
+            "starting_position": "none",
             "ending_position": "open",
-            "macro": "",
             "motion": "right",
             "name": "Slide right 5 Fingers",
-            "path": "",
-            "starting_position": "none"
+            "action": "default_action",
+            "default_action_name": "Slide App Right",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Switch Desktop",
+            "starting_position": "none",
             "ending_position": "3 fingers",
-            "macro": "",
             "motion": "up",
             "name": "Slide up 3 Fingers",
-            "path": "",
-            "starting_position": "none"
+            "action": "default_action",
+            "default_action_name": "Switch Desktop",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Window Right",
+            "starting_position": "none",
             "ending_position": "4 fingers",
-            "macro": "",
             "motion": "right",
             "name": "Slide right 4 Fingers",
-            "path": "",
-            "starting_position": "none"
+            "action": "default_action",
+            "default_action_name": "Window Right",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Window Left",
+            "starting_position": "none",
             "ending_position": "4 fingers",
-            "macro": "",
             "motion": "left",
             "name": "Slide left 4 Fingers",
-            "path": "",
-            "starting_position": "none"
+            "action": "default_action",
+            "default_action_name": "Window Left",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Close Window",
+            "starting_position": "none",
             "ending_position": "4 fingers",
-            "macro": "",
             "motion": "down",
             "name": "Slide down 4 Fingers",
-            "path": "",
-            "starting_position": "none"
+            "action": "default_action",
+            "default_action_name": "Close Window",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Fullscreen",
+            "starting_position": "none",
             "ending_position": "4 fingers",
-            "macro": "",
             "motion": "up",
             "name": "Slide up 4 Fingers",
-            "path": "",
-            "starting_position": "none"
+            "action": "default_action",
+            "default_action_name": "Fullscreen",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Increase Volume",
+            "starting_position": "none",
             "ending_position": "thumbs up",
-            "macro": "",
             "motion": "up",
             "name": "Sliding up Thumbs up",
-            "path": "",
-            "starting_position": "none"
+            "action": "default_action",
+            "default_action_name": "Increase Volume",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Decrease Volume",
+            "starting_position": "thumbs up",
             "ending_position": "thumbs up",
-            "macro": "",
             "motion": "down",
             "name": "Thumbs Up Sliding Down",
-            "path": "",
-            "starting_position": "thumbs up"
+            "action": "default_action",
+            "default_action_name": "Decrease Volume",
+            "macro": "",
+            "path": ""
         },
         {
+            "starting_position": "thumbs up",
+            "ending_position": "thumbs down",
+            "motion": "none",
+            "name": "Thumbs Up - Close Mute",
             "action": "default_action",
             "default_action_name": "Mute",
-            "ending_position": "thumbs down",
             "macro": "",
-            "motion": "none",
-            "name": "Thumbs Up - Close Mute",
-            "path": "",
-            "starting_position": "thumbs up"
+            "path": ""
         },
         {
+            "starting_position": "thumbs down",
+            "ending_position": "thumbs up",
+            "motion": "none",
+            "name": "Thumbs Up - Close Mute",
             "action": "default_action",
             "default_action_name": "Unmute",
-            "ending_position": "thumbs up",
             "macro": "",
-            "motion": "none",
-            "name": "Thumbs Up - Close Mute",
-            "path": "",
-            "starting_position": "thumbs down"
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Next Track",
+            "starting_position": "none",
             "ending_position": "thumbs up",
-            "macro": "",
             "motion": "right",
             "name": "Thumbs Up Sliding Right",
-            "path": "",
-            "starting_position": "none"
+            "action": "default_action",
+            "default_action_name": "Next Track",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Previous Track",
+            "starting_position": "none",
             "ending_position": "thumbs up",
-            "macro": "",
             "motion": "left",
             "name": "Thumbs Up Sliding Left",
-            "path": "",
-            "starting_position": "none"
+            "action": "default_action",
+            "default_action_name": "Previous Track",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Pause",
+            "starting_position": "thumbs up",
             "ending_position": "close",
-            "macro": "",
             "motion": "none",
             "name": "Thumbs Up to Close",
-            "path": "",
-            "starting_position": "thumbs up"
+            "action": "default_action",
+            "default_action_name": "Pause",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "Play",
+            "starting_position": "close",
             "ending_position": "thumbs up",
-            "macro": "",
             "motion": "none",
             "name": "Close to Thumbs Up",
-            "path": "",
-            "starting_position": "close"
+            "action": "default_action",
+            "default_action_name": "Play",
+            "macro": "",
+            "path": ""
         },
         {
-            "action": "default_action",
-            "default_action_name": "",
+            "starting_position": "none",
             "ending_position": "spider-man",
-            "macro": "",
             "motion": "up",
             "name": "Sliding up Spider Man",
-            "path": "",
-            "starting_position": "none"
-        },
-        {
             "action": "default_action",
             "default_action_name": "",
-            "ending_position": "spider-man",
             "macro": "",
+            "path": ""
+        },
+        {
+            "starting_position": "none",
+            "ending_position": "spider-man",
             "motion": "down",
             "name": "Sliding down Spider Man",
-            "path": "",
-            "starting_position": "none"
-        },
-        {
             "action": "default_action",
             "default_action_name": "",
-            "ending_position": "spider-man",
             "macro": "",
+            "path": ""
+        },
+        {
+            "starting_position": "none",
+            "ending_position": "spider-man",
             "motion": "left",
             "name": "Sliding left Spider Man",
-            "path": "",
-            "starting_position": "none"
-        },
-        {
             "action": "default_action",
             "default_action_name": "",
-            "ending_position": "spider-man",
             "macro": "",
+            "path": ""
+        },
+        {
+            "starting_position": "none",
+            "ending_position": "spider-man",
             "motion": "right",
             "name": "Sliding right Spider Man",
-            "path": "",
-            "starting_position": "none"
-        },
-        {
             "action": "default_action",
             "default_action_name": "",
-            "ending_position": "close",
             "macro": "",
+            "path": ""
+        },
+        {
+            "starting_position": "spider-man",
+            "ending_position": "close",
             "motion": "none",
             "name": "Spider Man to Close",
-            "path": "D:\\Users\\goodm\\Desktop\\dexter\\Dashboard\\app.js",
-            "starting_position": "spider-man"
-        },
-        {
             "action": "default_action",
             "default_action_name": "",
+            "macro": "",
+            "path": "D:\\Users\\goodm\\Desktop\\dexter\\Dashboard\\app.js"
+        },
+        {
+            "starting_position": "close",
             "ending_position": "spider-man",
-            "macro": "control + shift + i",
             "motion": "none",
             "name": "Close to Spider Man",
-            "path": "",
-            "starting_position": "close"
+            "action": "default_action",
+            "default_action_name": "",
+            "macro": "control + shift + i",
+            "path": ""
         }
     ]
 }
