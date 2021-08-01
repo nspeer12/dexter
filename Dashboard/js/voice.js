@@ -42,9 +42,6 @@ function getDefaultIntent(){
 
 function getCustomIntent() {
 
-    let functionTypesJson = `[{"function" : "default action"}, {"function" : "macro"}, {"function" : "script"}, {"function" : "file"}, {"function" : "application"}]`
-    functionTypes = JSON.parse(functionTypesJson);
-
     customIntents = userIntent.filter(function (intent){
         return intent.customizable == true
     });
@@ -68,7 +65,8 @@ function populateDefaultSkillsTable() {
 }
 
 function populateCustomSkillsTable() {
-
+    let functionTypesJson = `[{"function" : "default action"}, {"function" : "macro"}, {"function" : "script"}, {"function" : "file"}, {"function" : "application"}]`
+    functionTypes = JSON.parse(functionTypesJson);
     //Populate each gesture to table
     customIntents.forEach(intent => {
         appendIntentEntry(intent); 
@@ -102,7 +100,6 @@ function generateActionRow(skill) {
 
     switch(skill["actionType"]) {
         case 'default action':
-        case 'default_action':
             
             //Start our drop down list
             let predefinedFunctionList = `<select class="form-control drop-down predefined-list">\n`;
@@ -110,7 +107,10 @@ function generateActionRow(skill) {
             //Populate list items
             predefinedFunctions.forEach(predef => {
                 let selected = predef.name === skill['default_action_name'] ? "selected" : "";
-                predefinedFunctionList += `<option ${selected} value="${predef.name}">${predef.name}</option>\n`
+                if (predef.name == "")
+                    predefinedFunctionList += `<option ${selected} value="${predef.name}">Select a Function</option>\n`
+                else
+                    predefinedFunctionList += `<option ${selected} value="${predef.name}">${predef.name}</option>\n`
             });
             
             //Finish our list
@@ -118,9 +118,25 @@ function generateActionRow(skill) {
             
             return `<td class="td-action predef-skill">${predefinedFunctionList}</td>`;
         case 'macro':
-            return `<td class="td-action macro-skill">${skill["macro"]}</td>`;
+            if (skill["macro"] == "")
+                return `<td class="td-action macro-skill">Click to Start Recording</td>`;
+            else
+                return `<td class="td-action macro-skill">${skill["macro"]}</td>`;
         case 'script':
-            return `<td class="td-action script-skill">${skill["path"]}</td>`;
+            if (skill["script"] == "")
+                return `<td class="td-action script-skill">Click to Choose Script</td>`;
+            else
+                return `<td class="td-action script-skill">${skill["script"]}</td>`;
+        case 'file':
+            if (skill["file"] == "")
+                return `<td class="td-action file-skill">Click to Choose File</td>`;
+            else
+                return `<td class="td-action file-skill">${skill["file"]}</td>`;
+        case 'application':
+            if (skill["application"] == "")
+                return `<td class="td-action application-skill">Click to Choose Application</td>`;
+            else
+                return `<td class="td-action application-skill">${skill["application"]}</td>`;
         default:
             return `<td>Undefined Function Type</td>`;
     }
@@ -194,7 +210,7 @@ function appendIntentEntry(intent) {
 
     functionTypes.forEach(funcType => {
         //Add selected tag to current selected action
-        let selected = funcType.function === intent["action"] ? "selected" : "";
+        let selected = funcType.function === intent["actionType"] ? "selected" : "";
         functionList += `<option ${selected} value="${funcType.function}">${funcType.function}</option>\n`
     });
             
@@ -222,7 +238,7 @@ window.addEventListener('DOMContentLoaded', () => {
         let intent = customIntents[tableRow.rowIndex - 1];
         let selectedVal = $(select).val();
     
-        intent['action'] = selectedVal;
+        intent['actionType'] = selectedVal;
         tableRow.cells[3].outerHTML = generateActionRow(intent);
       });
 
@@ -310,7 +326,7 @@ window.addEventListener('DOMContentLoaded', () => {
             tag: "",
             patterns: [""],
             action: "default_action", 
-            default_action_name:"Increase Volume", 
+            default_action_name:"", 
             macro:"", 
             path: ""
         };
