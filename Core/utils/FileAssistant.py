@@ -34,3 +34,5 @@ def search_file(filename, directory):
 #open_file("C:/dump/example.txt")
 #open_application("spotify")
 #search_file("example.txt", "C:/")
+# os.startfile('D:\\Users\\goodm\\Desktop\\dexter\\Core\\test.py')
+# os.startfile('C:\\Users\\goodm\\AppData\\Local\\Postman\\Postman.exe')

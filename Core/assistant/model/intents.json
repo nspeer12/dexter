@@ -558,7 +558,7 @@
             "customizable": true,
             "actionType": "macro",
             "default_action_name": "",
-            "macro": "1 + 2",
+            "macro": "ctrl + k + 0",
             "script": "",
             "file_path": "",
             "application": ""
@@ -572,7 +572,7 @@
             "actionType": "script",
             "default_action_name": "",
             "macro": "",
-            "script": "SCRIPT PATH",
+            "script": "D:\\Users\\goodm\\Desktop\\dexter\\Core\\test.py",
             "file_path": "",
             "application": ""
         },
@@ -586,7 +586,7 @@
             "default_action_name": "",
             "macro": "",
             "script": "",
-            "file_path": "FILE PATH",
+            "file_path": "D:\\Users\\goodm\\Desktop\\dexter\\Core\\hello.txt",
             "application": ""
         },
         {
@@ -600,7 +600,7 @@
             "macro": "",
             "script": "",
             "file_path": "",
-            "application": "APPLICATION PATH"
+            "application": "C:\\Users\\goodm\\AppData\\Roaming\\Zoom\\bin\\Zoom.exe"
         }
     ]
 }

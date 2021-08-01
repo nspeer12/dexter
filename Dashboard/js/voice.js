@@ -176,6 +176,9 @@ function keyReleased(event)
 {
     let key = parseKey(event.key)
 
+    if (key == "control")
+        key = "ctrl";
+
     //The user has release the first key pressed so stop recording and post gestures
     if(macroPresses.length != 0 && macroPresses[0] === key)
     {
@@ -194,6 +197,9 @@ function keyPressed(event) {
     //Prevent default actions like alt-tab
     event.preventDefault();  
     let key = parseKey(event.key);
+
+    if (key == "control")
+        key = "ctrl";
 
     //Dont listen to repeat key events
     if(event.repeat || macroPresses.includes(key)) 
@@ -269,7 +275,7 @@ window.addEventListener('DOMContentLoaded', () => {
           let td = e.target;
           let tr = td.parentElement;
           currentMacroRow = tr;
-          tr.cells[3].innerHTML = "";
+          tr.cells[3].innerHTML = "Recording";
           macroPresses.length = 0;
       
           window.addEventListener("keydown", keyDownCallback);
@@ -342,7 +348,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 //Replace file path
                 td.innerHTML  = result.filePaths[0];
 
-                intent['file'] = result.filePaths[0];
+                intent['file_path'] = result.filePaths[0];
             }
         });
     });
@@ -377,11 +383,11 @@ window.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();  
 
         let intent = { 
-            tag: "asdf",
-            patterns: ["asdf","hello"],
+            tag: "",
+            patterns: [""],
             customizable : true,
             actionType: "default_action",
-            default_action_name: "asdf", 
+            default_action_name: "", 
             macro : "",
             script : "",
             file : "",
@@ -392,3 +398,4 @@ window.addEventListener('DOMContentLoaded', () => {
     
     })
 });
+

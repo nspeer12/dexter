@@ -263,7 +263,11 @@ class Dexter:
 				res = self.mappings[record.iloc[0]["default_action_name"]](text, self.context)
 			elif (record.iloc[0]["actionType"] == "macro"):
 				macroString = record.iloc[0]["macro"].split(" + ")
-				pyautogui.press(macroString)
+				for string in macroString:
+					pyautogui.keyDown(string)
+				# temp = macroString[::-1]
+				for string in macroString:
+					pyautogui.keyUp(string)
 				res = "Executing Macro"
 			elif (record.iloc[0]["actionType"] == "script"):
 				print("script", record.iloc[0]["script"])
@@ -323,7 +327,7 @@ def launch_dexter(settings):
 					input_device=settings.input_device)
     dexter.hotword()
 
-def launch_dexter():
+# def launch_dexter():
 
-    dexter = Dexter()
-    dexter.hotword()
+#     dexter = Dexter()
+#     dexter.hotword()
