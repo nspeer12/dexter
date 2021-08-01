@@ -329,8 +329,3 @@ def launch_dexter(settings):
     dexter = Dexter(debug=settings.debug,
 					input_device=settings.input_device)
     dexter.hotword()
-
-# def launch_dexter():
-
-#     dexter = Dexter()
-#     dexter.hotword()
