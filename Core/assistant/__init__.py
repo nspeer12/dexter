@@ -31,11 +31,11 @@ from assistant.fulfillment import fulfillment_api, log_query
 
 class Dexter:
 
-	def __init__(self, debug=False, audio=True, input_device=1):
+	def __init__(self, debug=False, audio=True, input_device=1, arr=[]):
 		self.startup = time.time()
 		self.debug = debug
 		self.cwd = os.getcwd()
-
+		self.arr = arr
 		self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 		# Define CSV paths
@@ -139,6 +139,8 @@ class Dexter:
 
 			print('done adjusting')
 			self.beep_on_listen = True
+
+			self.arr[0] = 2
 
 
 
@@ -327,8 +329,7 @@ class Dexter:
 		# 	return prediction, res
 
 
-def launch_dexter(settings):
+def launch_dexter(settings,arr):
 
-    dexter = Dexter(debug=settings.debug,
-					input_device=settings.input_device)
+    dexter = Dexter(debug=settings.debug,input_device=settings.input_device,arr=arr)
     dexter.hotword()

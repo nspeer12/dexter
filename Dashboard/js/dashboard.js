@@ -342,6 +342,11 @@ function updateButtons(status)
         document.getElementById('startStopDexterButton').innerHTML = 'Stop Dexter';
         dexCmd = "stop";
     }
+    else if (status["dexter"] == "starting")
+    {
+        document.getElementById('startStopDexterButton').innerHTML = 'Loading Dexter';
+        dexCmd = "start";
+    }
     else
     {
         document.getElementById('startStopDexterButton').innerHTML = 'Start Dexter';
@@ -352,6 +357,11 @@ function updateButtons(status)
     {
         document.getElementById('startStopGestureButton').innerHTML = 'Stop Gesture';
         gestCmd = "stop";
+    }
+    else if (status["gesture"] == "starting")
+    {
+        document.getElementById('startStopGestureButton').innerHTML = 'Loading Gesture';
+        gestCmd = "start";
     }
     else
     {

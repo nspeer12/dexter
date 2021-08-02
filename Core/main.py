@@ -48,12 +48,25 @@ app.add_middleware(
 async def status():
 	dex_status = "offline"
 	gest_status = "offline"
-
-	if dexp != None:
-		dex_status = "online"
-	
-	if gestp != None:
+	if (gesArr[0] == 0):
+		gest_status = "offline"
+	elif (gesArr[0] == 1):
+		gest_status = "starting"
+	elif (gesArr[0] == 2):
 		gest_status = "online"
+
+	if (dexArr[0] == 0):
+		dex_status = "offline"
+	elif (dexArr[0] == 1):
+		dex_status = "starting"
+	elif (dexArr[0] == 2):
+		dex_status = "online"
+
+	# if dexp != None:
+	# 	dex_status = "online"
+	
+	# if gestp != None:
+	# 	gest_status = "online"
 	
 	return Response(content=json.dumps({"core": "online", "dexter": dex_status, "gesture": gest_status}))
 
@@ -82,7 +95,7 @@ async def settings_update(r: GeneralSettings):
 async def gesture_settings(r:GestureSettingList):
 	print('updating gesture settings')
 	write_gesture_settings(r)
-	arr[0] = 1
+	gesArr[1] = 1
 	return Response(content=json.dumps({"message":"gesture settings accepted"}))
 
 
@@ -149,8 +162,9 @@ async def start_stop_dexter(cmd=None):
 	if cmd == 'start':
 		global dexp
 		if not dexp:
-			dexp = multiprocessing.Process(target=launch_dexter, args=(settings,))
+			dexp = multiprocessing.Process(target=launch_dexter, args=(settings,dexArr))
 			dexp.start()
+			dexArr[0] = 1
 			print("dexter started")
 			return 'dexter started'
 		else:
@@ -161,6 +175,7 @@ async def start_stop_dexter(cmd=None):
 		if dexp:
 			dexp.terminate()
 			dexp = None
+			dexArr[0] = 0
 			print('dexter stopped')
 			return 'dexter stopped'
 		else:
@@ -177,9 +192,9 @@ async def start_stop_dexter(cmd=None):
 	if cmd == 'start':
 		
 		if gestp is None:
-			gestp = multiprocessing.Process(target=launch_gesture, args=(settings,arr))
+			gestp = multiprocessing.Process(target=launch_gesture, args=(settings,gesArr))
 			gestp.start()
-
+			gesArr[0] = 1
 			print('gesture started')
 			return 'gesture started'
 		else:
@@ -190,6 +205,7 @@ async def start_stop_dexter(cmd=None):
 		if gestp is not None:
 			gestp.terminate()
 			gestp = None
+			gesArr[0] = 0
 			print('gesture stopped')
 			return 'gesture stopped'
 		else:
@@ -218,25 +234,22 @@ async def local_api(query:str):
 	except Exception as ex:
 		return ex
 
-# @app.get('/test/')
-# async def test():
-# 	print(arr[:])
-# 	arr[0] = 1
-
 if __name__ == "__main__":
 	settings = load_settings()
-	global arr 
-	arr = Array('i', [0,0])
+	global gesArr
+	global dexArr
+	gesArr = Array('i', [0,0])
+	dexArr = Array('i', [0,0])
 
 	# gesture process
 	gestp = None
 	if settings.gesture_on_startup:
-		gestp = multiprocessing.Process(target=launch_gesture, args=(settings, arr))
+		gestp = multiprocessing.Process(target=launch_gesture, args=(settings, gesArr))
 		gestp.start()
 
 	#dexter process
 	dexp = None
 	if settings.dexter_on_startup:
-		dexp = multiprocessing.Process(target=launch_dexter, args=(settings,))
+		dexp = multiprocessing.Process(target=launch_dexter, args=(settings,dexArr))
 		dexp.start()
 	uvicorn.run(app, host="127.0.0.1", port=8000)

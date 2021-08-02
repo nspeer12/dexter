@@ -286,7 +286,7 @@
             "motion": "down",
             "name": "Sliding down Spider Man",
             "action": "default_action",
-            "default_action_name": "Scroll Up",
+            "default_action_name": "Scroll Down",
             "macro": "ctrl + k + j",
             "path": ""
         },

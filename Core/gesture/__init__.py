@@ -191,6 +191,7 @@ class HandDetection():
         # self.model2.eval()
         # print("loaded motion model")
         t1.join()
+        self.arr[0] = 2
 
 
     def loop(self):
@@ -429,9 +430,9 @@ class HandDetection():
                 #         writer = csv.writer(f)
                 #         writer.writerow(np.append([self.current_motion_to_record,left_or_right], np.array(self.point_history).flatten()))
 
-            if (self.arr[0] == 1):
+            if (self.arr[1] == 1):
                 print(self.arr[:])
-                self.arr[0] = 0
+                self.arr[1] = 0
                 t2 = threading.Thread(target=self.loadGestureSettings)
                 t2.start()
 
