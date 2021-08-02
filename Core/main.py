@@ -149,10 +149,12 @@ async def start_stop_dexter(cmd=None):
 	if cmd == 'start':
 		global dexp
 		if not dexp:
-			dexp = multiprocessing.Process(target=launch_dexter, args=(settings,arr))
+			dexp = multiprocessing.Process(target=launch_dexter, args=(settings,))
 			dexp.start()
+			print("dexter started")
 			return 'dexter started'
 		else:
+			print("dexter already started")
 			return 'dexter already started'
 
 	elif cmd == 'stop':
@@ -160,8 +162,10 @@ async def start_stop_dexter(cmd=None):
 			dexp.terminate()
 			dexp = None
 			print('dexter stopped')
+			return 'dexter stopped'
 		else:
 			print('dexter already stopped')
+			return 'dexter already stopped'
 
 
 @app.post('/gesture-control/')
@@ -173,23 +177,24 @@ async def start_stop_dexter(cmd=None):
 	if cmd == 'start':
 		
 		if gestp is None:
-			gestp = multiprocessing.Process(target=launch_gesture, args=(settings,))
+			gestp = multiprocessing.Process(target=launch_gesture, args=(settings,arr))
 			gestp.start()
 
 			print('gesture started')
-			return
+			return 'gesture started'
 		else:
 			print('gesture already started')
-			return
+			return 'gesture already started'
 
 	elif cmd == 'stop':
 		if gestp is not None:
 			gestp.terminate()
 			gestp = None
 			print('gesture stopped')
+			return 'gesture stopped'
 		else:
 			print('gesture not started')
-		return
+			return 'gesture started'
 
 	return 'cmd not recieved'
 

@@ -18,6 +18,11 @@ def train_assistant():
     batch_size = 10
     learning_rate = 0.001
 
+    # Dataset
+    dataset = assistantDataset()
+    dataloader = DataLoader(dataset=dataset, batch_size = batch_size, shuffle = True)
+    print("data loaded")
+
     # read in csv for num features and classes
     with open("Assistant_features.csv") as f:
         reader = csv.reader(f)
@@ -31,12 +36,9 @@ def train_assistant():
 
     # Extra Hyper Parameters
     num_classes = num_classes
+    # print(num_classes)
     num_features = num_features
-
-    # Dataset
-    dataset = assistantDataset()
-    dataloader = DataLoader(dataset=dataset, batch_size = batch_size, shuffle = True)
-    print("data loaded")
+    # print(num_features)
 
     # import model
     model = NeuralNet(num_features, num_classes).to(device)
