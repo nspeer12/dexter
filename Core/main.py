@@ -1,8 +1,7 @@
 import time
 from threading import *
 import multiprocessing
-from multiprocessing import Process, Manager
-from multiprocessing.managers import BaseManager
+from multiprocessing import Process, Array
 import time
 from fastapi import FastAPI, Request, Response
 from fastapi.responses import JSONResponse
@@ -83,6 +82,7 @@ async def settings_update(r: GeneralSettings):
 async def gesture_settings(r:GestureSettingList):
 	print('updating gesture settings')
 	write_gesture_settings(r)
+	arr[0] = 1
 	return Response(content=json.dumps({"message":"gesture settings accepted"}))
 
 
@@ -149,7 +149,7 @@ async def start_stop_dexter(cmd=None):
 	if cmd == 'start':
 		global dexp
 		if not dexp:
-			dexp = multiprocessing.Process(target=launch_dexter, args=(settings,))
+			dexp = multiprocessing.Process(target=launch_dexter, args=(settings,arr))
 			dexp.start()
 			return 'dexter started'
 		else:
@@ -213,13 +213,20 @@ async def local_api(query:str):
 	except Exception as ex:
 		return ex
 
+# @app.get('/test/')
+# async def test():
+# 	print(arr[:])
+# 	arr[0] = 1
+
 if __name__ == "__main__":
 	settings = load_settings()
+	global arr 
+	arr = Array('i', [0,0])
 
 	# gesture process
 	gestp = None
 	if settings.gesture_on_startup:
-		gestp = multiprocessing.Process(target=launch_gesture, args=(settings,))
+		gestp = multiprocessing.Process(target=launch_gesture, args=(settings, arr))
 		gestp.start()
 
 	#dexter process

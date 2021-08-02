@@ -62,7 +62,9 @@ class HandDetection():
             self.settings_json = json.load(f)['settings']
             self.df = pd.DataFrame(self.settings_json)
 
-    def __init__(self, cap_device=0):
+    def __init__(self, cap_device=0, arr=[]):
+
+        self.arr = arr
         # Camera Params
         self.cap_device = cap_device
         self.cap_width = 1280
@@ -426,7 +428,11 @@ class HandDetection():
                 #         writer = csv.writer(f)
                 #         writer.writerow(np.append([self.current_motion_to_record,left_or_right], np.array(self.point_history).flatten()))
 
-                
+            if (self.arr[0] == 1):
+                print(self.arr[:])
+                self.arr[0] = 0
+                t2 = threading.Thread(target=self.loadGestureSettings)
+                t2.start()
 
             if key == 27:  # ESC key
                 break
@@ -452,6 +458,6 @@ class HandDetection():
 
 
 
-def launch_gesture(settings):
-    gesture = HandDetection(cap_device=settings.camera_device)
+def launch_gesture(settings, arr):
+    gesture = HandDetection(cap_device=settings.camera_device, arr=arr)
     gesture.loop()
