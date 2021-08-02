@@ -1,8 +1,8 @@
 {
     "camera_device": 0,
     "debug": true,
-    "dexter_on_startup": true,
-    "gesture_on_startup": false,
+    "dexter_on_startup": false,
+    "gesture_on_startup": true,
     "input_device": 0,
     "name": "George",
     "output_device": 7

@@ -44,7 +44,8 @@ class HandDetection():
         # pyautogui.hotkey(self.macroString)
 
     def script(self):
-        exec(open(self.scriptPath).read())
+        if os.path.exists(self.scriptPath):
+            exec(open(self.scriptPath).read())
 
     def getCamera(self):
         # Load Camera

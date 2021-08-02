@@ -271,16 +271,19 @@ class Dexter:
 				res = "Executing Macro"
 			elif (record.iloc[0]["actionType"] == "script"):
 				print("script", record.iloc[0]["script"])
-				exec(open(record.iloc[0]["script"]).read())
-				res = "Executing Script"
+				if os.path.exists(record.iloc[0]["script"]):
+					exec(open(record.iloc[0]["script"]).read())
+					res = "Executing Script"
 			elif (record.iloc[0]["actionType"] == "file"):
 				print("file", record.iloc[0]["file_path"])
-				os.startfile(record.iloc[0]["file_path"])
-				res = "Opening File"
+				if os.path.exists(record.iloc[0]["file_path"]):
+					os.startfile(record.iloc[0]["file_path"])
+					res = "Opening File"
 			elif (record.iloc[0]["actionType"] == "application"):
 				print("application", record.iloc[0]["application"])
-				os.startfile(record.iloc[0]["application"])
-				res = "Opening Application"
+				if os.path.exists(record.iloc[0]["application"]):
+					os.startfile(record.iloc[0]["application"])
+					res = "Opening Application"
 			
 
 			if self.record_history and isinstance(res, str) and isinstance(text, str):
