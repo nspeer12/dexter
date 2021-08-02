@@ -372,7 +372,7 @@ function updateButtons(status)
 
 function controlDexter(data)
 {
-
+    console.log(data);
     // console.log(dexCmd);
     if (dexCmd == "stop")
         document.getElementById('startStopDexterButton').innerHTML = "Stopping Dexter";
@@ -393,6 +393,7 @@ function controlDexter(data)
 
 function controlGesture(data)
 {
+    console.log(data);
     if (gestCmd == "stop")
         document.getElementById('startStopGestureButton').innerHTML = "Stopping Gesture";
     else

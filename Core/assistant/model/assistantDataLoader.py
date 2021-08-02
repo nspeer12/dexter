@@ -84,7 +84,7 @@ class assistantDataset(Dataset):
     def __len__(self):
         return self.n_samples
 
-dataset = assistantDataset()
+# dataset = assistantDataset()
 # first_data = dataset[0]
 # features, labels = first_data
 # print(features, labels)

@@ -7,14 +7,53 @@ var currentMacroRow;
 var macroPresses = [];
 
 function updateIntents() {
+    let savebtn = document.getElementById("save-skills-btn");
+    savebtn.innerHTML = "Training";
+
     var totalIntent = defaultIntents.concat(customIntents);
     var intentSettings = {"intents" : totalIntent};
-    // console.log("trying to update intent")
+    // UPDATE INTENTS
     var xhttp = new XMLHttpRequest();
     var url = 'http://localhost:8000/intent-settings/'
-    xhttp.open("POST", url);
+    xhttp.open("POST", url, false);
     xhttp.setRequestHeader('Content-Type', 'application/json');
     xhttp.send(JSON.stringify(intentSettings));
+
+    // STOP DEXTER
+    var xhr = new XMLHttpRequest();
+    var url = 'http://localhost:8000/dexter-control/?cmd=' + "stop";
+    xhr.open("POST", url, false);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        data: "stop",
+    }));
+
+    
+    var x2 = new XMLHttpRequest();
+    var url = 'http://localhost:8000/train-assistant/';
+    x2.open("POST", url, false);
+    x2.setRequestHeader('Content-Type', 'application/json');
+    x2.send();
+    
+    savebtn.innerHTML = "Save";
+    var xhr = new XMLHttpRequest();
+    var url = 'http://localhost:8000/dexter-control/?cmd=' + "start";
+    xhr.open("POST", url, false);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        data: "start",
+    }));
+    
+    
+
+    // // Train Dexter
+    // var xhr = new XMLHttpRequest();
+    // var url = 'http://localhost:8000/train-assistant/';
+    // xhr.open("POST", url, true);
+    // xhr.setRequestHeader('Content-Type', 'application/json');
+    // xhr.send();
+
+
     // console.log(intentSettings)
     // xhttp.onload = function() {
     //     console.log(JSON.parse(xhttp.responseText));

@@ -540,7 +540,7 @@
         {
             "tag": "Test Default",
             "patterns": [
-                "default"
+                "car"
             ],
             "customizable": true,
             "actionType": "default_action",

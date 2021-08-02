@@ -16,6 +16,8 @@ import os
 from settings import *
 from typing import Optional
 import uvicorn
+import sys
+import os
 
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -102,6 +104,9 @@ async def get_gestures():
 async def intnet_settings(r: IntentList):
 	print('updating intent settings')
 	write_intent_settings(r)
+	# stop dexter
+	# train dexter
+	# restart dexter
 	return Response(content=json.dumps({"message":"intent settings accepted"}))
 
 
@@ -122,8 +127,10 @@ async def get_intents():
 @app.post('/train-assistant/')
 async def train_assistant():
 	# TODO: fix this
-	#os.chdir('assistant/model/')
+	print("training Assistant")
+	sys.path.append('assistant/model')
 	from assistant.model.trainAssistant import train_assistant
+	os.chdir('./assistant/model')
 	train_assistant()
 	os.chdir('..')
 	os.chdir('..')
