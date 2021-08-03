@@ -601,19 +601,6 @@
             "script": "",
             "file_path": "",
             "application": "C:\\Users\\goodm\\AppData\\Roaming\\Zoom\\bin\\Zoom.exe"
-        },
-        {
-            "tag": "test",
-            "patterns": [
-                "test"
-            ],
-            "customizable": true,
-            "actionType": "default_action",
-            "default_action_name": "Introduction",
-            "macro": "",
-            "script": "",
-            "file_path": "",
-            "application": ""
         }
     ]
 }

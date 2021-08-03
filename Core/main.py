@@ -246,10 +246,13 @@ if __name__ == "__main__":
 	if settings.gesture_on_startup:
 		gestp = multiprocessing.Process(target=launch_gesture, args=(settings, gesArr))
 		gestp.start()
+		gesArr[0] = 1
 
 	#dexter process
 	dexp = None
 	if settings.dexter_on_startup:
 		dexp = multiprocessing.Process(target=launch_dexter, args=(settings,dexArr))
 		dexp.start()
+		dexArr[0] = 1
+		
 	uvicorn.run(app, host="127.0.0.1", port=8000)
